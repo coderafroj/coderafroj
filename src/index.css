@@ -341,3 +341,226 @@
     /* Prevents iOS zoom on focus */
   }
 }
+
+/* App-Like Transitions */
+.app-transition {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-scale {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-scale:active {
+  transform: scale(0.97);
+}
+
+/* Native-like Page Transitions */
+.page-slide-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.page-slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.page-slide-exit-active {
+  transform: translateX(-20%);
+  opacity: 0;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Smooth Modal Animations */
+.modal-backdrop-enter {
+  opacity: 0;
+}
+
+.modal-backdrop-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-out;
+}
+
+.modal-backdrop-exit {
+  opacity: 1;
+}
+
+.modal-backdrop-exit-active {
+  opacity: 0;
+  transition: opacity 150ms ease-in;
+}
+
+.modal-content-enter {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+}
+
+.modal-content-enter-active {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.modal-content-exit {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-content-exit-active {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hardware Acceleration for Smooth Animations */
+.hw-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Ripple Effect for Buttons */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* Elastic Bounce Animation */
+@keyframes elastic-bounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.elastic-bounce {
+  animation: elastic-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Smooth Hover Lift */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Professional Loading Spinner */
+@keyframes professional-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.professional-spinner {
+  animation: professional-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Fade Slide Up Animation */
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-up {
+  animation: fade-slide-up 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Stagger Animation Delays */
+.stagger-1 {
+  animation-delay: 0.05s;
+}
+
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+
+.stagger-5 {
+  animation-delay: 0.25s;
+}
+
+/* Professional Skeleton Loading */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      #161b22 0%,
+      #1c2128 50%,
+      #161b22 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}

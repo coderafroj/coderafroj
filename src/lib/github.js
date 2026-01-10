@@ -86,6 +86,12 @@ export class GitHubAPI {
                 updated_at: repo.updated_at,
                 language: repo.language,
                 stargazers_count: repo.stargazers_count,
+                forks_count: repo.forks_count,
+                watchers_count: repo.watchers_count,
+                open_issues_count: repo.open_issues_count,
+                topics: repo.topics || [],
+                size: repo.size,
+                default_branch: repo.default_branch || 'main',
             }));
         } catch (error) {
             throw new Error(error.message || 'Failed to fetch repositories');
@@ -162,6 +168,100 @@ export class GitHubAPI {
             });
         } catch (error) {
             throw new Error(error.message || 'Failed to upload file');
+        }
+    }
+
+    /**
+     * Get repository contents (files/folders)
+     */
+    async getRepoContents(owner, repo, path = '') {
+        if (!this.octokit) {
+            throw new Error('Not authenticated');
+        }
+
+        try {
+            const { data } = await this.octokit.repos.getContent({
+                owner,
+                repo,
+                path,
+            });
+
+            // Ensure data is always an array
+            const contents = Array.isArray(data) ? data : [data];
+
+            return contents.map((item) => ({
+                name: item.name,
+                path: item.path,
+                type: item.type, // 'file' or 'dir'
+                size: item.size,
+                sha: item.sha,
+                url: item.html_url,
+                download_url: item.download_url,
+            }));
+        } catch (error) {
+            throw new Error(error.message || 'Failed to fetch repository contents');
+        }
+    }
+
+    /**
+     * Get file content from repository
+     */
+    async getFileContent(owner, repo, path) {
+        if (!this.octokit) {
+            throw new Error('Not authenticated');
+        }
+
+        try {
+            const { data } = await this.octokit.repos.getContent({
+                owner,
+                repo,
+                path,
+            });
+
+            if (data.type !== 'file') {
+                throw new Error('Path is not a file');
+            }
+
+            // Decode base64 content
+            const content = atob(data.content);
+
+            return {
+                name: data.name,
+                path: data.path,
+                size: data.size,
+                content: content,
+                encoding: data.encoding,
+                sha: data.sha,
+                download_url: data.download_url,
+            };
+        } catch (error) {
+            throw new Error(error.message || 'Failed to fetch file content');
+        }
+    }
+
+    /**
+     * Get repository README
+     */
+    async getRepoReadme(owner, repo) {
+        if (!this.octokit) {
+            throw new Error('Not authenticated');
+        }
+
+        try {
+            const { data } = await this.octokit.repos.getReadme({
+                owner,
+                repo,
+            });
+
+            return {
+                name: data.name,
+                path: data.path,
+                content: atob(data.content),
+                download_url: data.download_url,
+            };
+        } catch (error) {
+            // README not found is not critical
+            return null;
         }
     }
 

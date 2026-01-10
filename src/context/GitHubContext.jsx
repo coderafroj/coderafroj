@@ -10,6 +10,8 @@ export function GitHubProvider({ children }) {
     const [user, setUser] = useState(null);
     const [repos, setRepos] = useState([]);
     const [selectedRepo, setSelectedRepo] = useState(null);
+    const [repoContents, setRepoContents] = useState([]);
+    const [currentPath, setCurrentPath] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [mounted, setMounted] = useState(false);
@@ -135,6 +137,48 @@ export function GitHubProvider({ children }) {
         }
     };
 
+    const fetchRepoContents = async (owner, repo, path = '') => {
+        if (!githubAPI.isAuthenticated()) {
+            setError('Not authenticated');
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const contents = await githubAPI.getRepoContents(owner, repo, path);
+            setRepoContents(contents);
+            setCurrentPath(path);
+        } catch (err) {
+            const errorMessage = err.message || 'Failed to fetch repository contents';
+            setError(errorMessage);
+            throw new Error(errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const fetchFileContent = async (owner, repo, path) => {
+        if (!githubAPI.isAuthenticated()) {
+            throw new Error('Not authenticated');
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const fileContent = await githubAPI.getFileContent(owner, repo, path);
+            return fileContent;
+        } catch (err) {
+            const errorMessage = err.message || 'Failed to fetch file content';
+            setError(errorMessage);
+            throw new Error(errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const clearError = () => {
         setError(null);
     };
@@ -152,6 +196,8 @@ export function GitHubProvider({ children }) {
                 user,
                 repos,
                 selectedRepo,
+                repoContents,
+                currentPath,
                 isAuthenticated,
                 isLoading,
                 error,
@@ -161,6 +207,8 @@ export function GitHubProvider({ children }) {
                 createRepo,
                 selectRepo,
                 uploadFile,
+                fetchRepoContents,
+                fetchFileContent,
                 clearError,
             }}
         >

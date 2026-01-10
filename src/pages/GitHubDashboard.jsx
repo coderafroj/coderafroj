@@ -3,6 +3,7 @@ import { useGitHub } from '../context/GitHubContext';
 import GitHubAuth from '../components/GitHub/GitHubAuth';
 import GitHubRepoList from '../components/GitHub/GitHubRepoList';
 import GitHubFileUploader from '../components/GitHub/GitHubFileUploader';
+import GitHubFileBrowser from '../components/GitHub/GitHubFileBrowser';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, LogOut, Layout, Settings, Activity } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -22,6 +23,7 @@ const GitHubDashboard = () => {
     } = useGitHub();
 
     const [activeTab, setActiveTab] = useState('repos');
+    const [activeRepoTab, setActiveRepoTab] = useState('files'); // files or upload
 
     if (!isAuthenticated) {
         return (
@@ -161,12 +163,48 @@ const GitHubDashboard = () => {
                                         isLoading={isLoading}
                                     />
                                 ) : (
-                                    <GitHubFileUploader
-                                        selectedRepo={selectedRepo}
-                                        onUpload={uploadFile}
-                                        isUploading={isLoading}
-                                        onBack={() => selectRepo(null)}
-                                    />
+                                    <>
+                                        {/* Repository Action Tabs */}
+                                        <div className="flex gap-2 mb-6 overflow-x-auto">
+                                            <Button
+                                                onClick={() => setActiveRepoTab('files')}
+                                                className={`px-4 h-10 flex items-center gap-2 rounded-xl transition-all text-xs font-bold uppercase tracking-wider whitespace-nowrap ${activeRepoTab === 'files'
+                                                    ? 'bg-primary/20 text-white border border-primary/30'
+                                                    : 'bg-[#21262d] text-slate-400 hover:text-white border border-[#30363d]'
+                                                    }`}
+                                            >
+                                                Browse Files
+                                            </Button>
+                                            <Button
+                                                onClick={() => setActiveRepoTab('upload')}
+                                                className={`px-4 h-10 flex items-center gap-2 rounded-xl transition-all text-xs font-bold uppercase tracking-wider whitespace-nowrap ${activeRepoTab === 'upload'
+                                                    ? 'bg-primary/20 text-white border border-primary/30'
+                                                    : 'bg-[#21262d] text-slate-400 hover:text-white border border-[#30363d]'
+                                                    }`}
+                                            >
+                                                Upload Files
+                                            </Button>
+                                        </div>
+
+                                        {/* Tab Content */}
+                                        <AnimatePresence mode="wait">
+                                            {activeRepoTab === 'files' ? (
+                                                <GitHubFileBrowser
+                                                    key="file-browser"
+                                                    repository={selectedRepo}
+                                                    onBack={() => selectRepo(null)}
+                                                />
+                                            ) : (
+                                                <GitHubFileUploader
+                                                    key="file-uploader"
+                                                    selectedRepo={selectedRepo}
+                                                    onUpload={uploadFile}
+                                                    isUploading={isLoading}
+                                                    onBack={() => selectRepo(null)}
+                                                />
+                                            )}
+                                        </AnimatePresence>
+                                    </>
                                 )}
                             </motion.div>
                         )}
