@@ -35,6 +35,12 @@ const GitHubDashboard = () => {
         );
     }
 
+    const navigationTabs = [
+        { id: 'repos', icon: <Layout className="w-4 h-4" />, label: 'Repositories' },
+        { id: 'activity', icon: <Activity className="w-4 h-4" />, label: 'Live Activity' },
+        { id: 'settings', icon: <Settings className="w-4 h-4" />, label: 'Settings' }
+    ];
+
     return (
         <div className="min-h-screen pb-20 pt-10 px-4 max-w-7xl mx-auto relative">
             {/* Background elements */}
@@ -43,9 +49,14 @@ const GitHubDashboard = () => {
                 <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/4" />
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
-                {/* Sidebar */}
-                <aside className="w-full lg:w-80 space-y-4">
+            {/* Mobile menu is handled by main Navbar - no duplicate needed here */}
+
+
+            {/* Mobile menu removed - main Navbar handles mobile navigation */}
+
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+                {/* Desktop Sidebar */}
+                <aside className="hidden lg:block w-80 space-y-4 flex-shrink-0">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -71,11 +82,7 @@ const GitHubDashboard = () => {
                         </div>
 
                         <div className="mt-6 space-y-1.5 relative z-10">
-                            {[
-                                { id: 'repos', icon: <Layout className="w-4 h-4" />, label: 'Repositories' },
-                                { id: 'activity', icon: <Activity className="w-4 h-4" />, label: 'Live Activity' },
-                                { id: 'settings', icon: <Settings className="w-4 h-4" />, label: 'Settings' }
-                            ].map((tab) => (
+                            {navigationTabs.map((tab) => (
                                 <Button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
@@ -101,7 +108,7 @@ const GitHubDashboard = () => {
                         </div>
                     </motion.div>
 
-                    {/* Stats quick-view */}
+                    {/* Desktop Stats quick-view */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -132,14 +139,14 @@ const GitHubDashboard = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="space-y-8"
+                                className="space-y-6 md:space-y-8"
                             >
                                 <div className="flex items-center justify-between mb-4">
                                     <div>
-                                        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase leading-none">
+                                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-white tracking-tighter uppercase leading-none">
                                             MISSION <span className="text-primary italic">CONTROL</span>
                                         </h1>
-                                        <p className="text-[10px] text-slate-400 font-mono mt-3 uppercase tracking-widest border-l-2 border-primary pl-3">
+                                        <p className="text-[10px] text-slate-400 font-mono mt-2 md:mt-3 uppercase tracking-widest border-l-2 border-primary pl-3">
                                             Synchronized with @{user.login.toLowerCase()}
                                         </p>
                                     </div>
@@ -170,11 +177,11 @@ const GitHubDashboard = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="obsidian-card p-20 flex flex-col items-center justify-center rounded-3xl border-dashed border-white/5"
+                                className="obsidian-card p-12 md:p-20 flex flex-col items-center justify-center rounded-3xl border-dashed border-white/5"
                             >
                                 <Activity className="w-12 h-12 text-primary/30 mb-6" />
                                 <h3 className="text-lg font-bold text-white uppercase tracking-widest">Activity Feed</h3>
-                                <p className="text-dim-text text-xs mt-2 font-mono">Real-time sync and push monitoring active.</p>
+                                <p className="text-dim-text text-xs mt-2 font-mono text-center">Real-time sync and push monitoring active.</p>
                             </motion.div>
                         )}
 
@@ -184,15 +191,34 @@ const GitHubDashboard = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="obsidian-card p-20 flex flex-col items-center justify-center rounded-3xl border-dashed border-white/5"
+                                className="obsidian-card p-12 md:p-20 flex flex-col items-center justify-center rounded-3xl border-dashed border-white/5"
                             >
                                 <Settings className="w-12 h-12 text-primary/30 mb-6" />
                                 <h3 className="text-lg font-bold text-white uppercase tracking-widest">Sync Settings</h3>
-                                <p className="text-dim-text text-xs mt-2 font-mono">Fine-tune your GitHub integration experience.</p>
+                                <p className="text-dim-text text-xs mt-2 font-mono text-center">Fine-tune your GitHub integration experience.</p>
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </main>
+            </div>
+
+            {/* Mobile Bottom Tab Bar - Fixed at bottom on mobile */}
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0d1117] border-t border-[#30363d] z-30">
+                <div className="flex items-center justify-around px-4 py-3">
+                    {navigationTabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-all ${activeTab === tab.id
+                                ? 'text-primary bg-primary/10'
+                                : 'text-slate-400 hover:text-white'
+                                }`}
+                        >
+                            {tab.icon}
+                            <span className="text-[9px] font-bold uppercase tracking-wider">{tab.label.split(' ')[0]}</span>
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     );
