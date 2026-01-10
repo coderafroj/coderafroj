@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-dark: #02040a;
+    /* GitHub-style deep black */
+    --bg-obsidian: #010204;
+    --primary: #2f81f7;
+    /* GitHub-style blue */
+    --primary-glow: #58a6ff;
+    --secondary: #db61a2;
+    --secondary-glow: #f778ba;
+    --accent: #bc8cff;
+    --accent-glow: #d2a8ff;
+    --cyber-blue: #3fb950;
+    /* GitHub-style green for success/positive accents */
+    --cyber-purple: #8957e5;
+    --text-main: #f0f6fc;
+    --text-muted: #8b949e;
+    --dim-text: #484f58;
+    --border-main: rgba(48, 54, 61, 0.5);
+    --glass-bg: rgba(13, 17, 23, 0.7);
+  }
+
+  body {
+    @apply bg-[#0d1117] text-[#f0f6fc] font-sans transition-colors duration-500;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(47, 129, 247, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(137, 87, 229, 0.05) 0px, transparent 50%);
+  }
+
+  ::selection {
+    @apply bg-blue-500/40 text-white;
+  }
+}
+
+/* Cyber-Nexus Background System */
+.nexus-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-color: var(--bg-dark);
+}
+
+.nexus-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 100%);
+}
+
+.nexus-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+  filter: blur(80px);
+}
+
+/* Glass & Obsidian Surfaces */
+.obsidian-card {
+  @apply bg-[#161b22]/80 backdrop-blur-2xl border border-[#30363d] shadow-xl;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.obsidian-card:hover {
+  @apply border-[#8b949e]/40 bg-[#1c2128] shadow-blue-500/5;
+}
+
+.glass-panel {
+  @apply bg-[#0d1117]/60 backdrop-blur-xl border border-[#30363d]/50;
+}
+
+.github-card {
+  @apply bg-[#0d1117] border border-[#30363d] rounded-lg p-4 transition-all;
+}
+
+.github-card:hover {
+  @apply border-[#8b949e]/50;
+}
+
+/* Typography & Effects */
+.text-gradient {
+  @apply bg-gradient-to-br from-white via-slate-200 to-slate-400 bg-clip-text text-transparent;
+}
+
+.text-cyber-blue {
+  @apply bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent;
+}
+
+.text-cyber-purple {
+  @apply bg-gradient-to-r from-purple-400 via-pink-500 to-rose-500 bg-clip-text text-transparent;
+}
+
+.primary-glow {
+  @apply drop-shadow-[0_0_8px_rgba(99,102,241,0.5)];
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
+}
+
+/* Markdown Aesthetics */
+.nexus-markdown {
+  @apply font-sans;
+}
+
+.nexus-markdown h1 {
+  @apply text-4xl md:text-5xl font-black text-white mt-16 mb-8 tracking-tighter uppercase border-b border-white/5 pb-4;
+}
+
+.nexus-markdown h2 {
+  @apply text-2xl md:text-3xl font-black text-white mt-12 mb-6 tracking-tight uppercase;
+}
+
+.nexus-markdown h3 {
+  @apply text-xl font-bold text-slate-200 mt-8 mb-4 tracking-wide;
+}
+
+.nexus-markdown p {
+  @apply text-slate-400 leading-relaxed mb-6 opacity-80;
+}
+
+.nexus-markdown pre {
+  @apply bg-black/60 p-8 rounded-[2rem] border border-white/5 my-10 overflow-x-auto shadow-2xl;
+}
+
+.nexus-markdown code {
+  @apply bg-white/5 px-2 py-0.5 rounded text-indigo-400 font-mono text-[0.8em];
+}
+
+.nexus-markdown ul,
+.nexus-markdown ol {
+  @apply my-6 space-y-3 pl-6;
+}
+
+.nexus-markdown li {
+  @apply text-slate-400 opacity-80;
+}
+
+.nexus-markdown blockquote {
+  @apply border-l-4 border-indigo-500 bg-indigo-500/5 px-8 py-6 rounded-r-3xl my-10 text-slate-300 italic font-mono text-sm;
+}
+
+.nexus-markdown a {
+  @apply text-indigo-400 hover:text-indigo-300 underline underline-offset-4 decoration-indigo-500/30 transition-colors;
+}
+
+/* Animation Utilities */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.nexus-grid-pulse {
+  animation: pulse-soft 10s ease-in-out infinite;
+}
+
+/* Scroll Visibility Classes */
+.nav-hidden {
+  transform: translate(-50%, -150%);
+}
+
+.nav-visible {
+  transform: translate(-50%, 0);
+}
+
+/* Premium Button Gradient */
+.btn-cyber {
+  @apply relative overflow-hidden transition-all active:scale-95;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.btn-cyber::after {
+  content: '';
+  @apply absolute inset-0 bg-white/10 opacity-0 transition-opacity;
+}
+
+.btn-cyber:hover::after {
+  @apply opacity-100;
+}
