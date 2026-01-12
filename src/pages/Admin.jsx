@@ -403,7 +403,7 @@ const Admin = () => {
                                                 </div>
                                             )}
 
-                                            {activeTab === 'chapter' && (
+                                            {activeTab === 'chapter' ? (
                                                 <div className="space-y-3">
                                                     <label className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">CORE_CONTENT_MATRIX</label>
                                                     {previewMode ? (
@@ -437,7 +437,7 @@ const Admin = () => {
                                                         </div>
                                                     )}
                                                 </div>
-                                            ) : (
+                                            ) : activeTab !== 'notes' && (
                                                 <>
                                                     {(activeTab === 'project' || activeTab === 'blog') && (
                                                         <div className="space-y-3">
