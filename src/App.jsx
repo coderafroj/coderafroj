@@ -13,6 +13,8 @@ import Tutorials from './pages/Tutorials';
 import TutorialView from './pages/TutorialView';
 import Register from './pages/Register';
 import GitHubDashboard from './pages/GitHubDashboard';
+import Notes from './pages/Notes';
+import NoteView from './pages/NoteView';
 import './App.css';
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/notes" element={<Notes />} />
+              <Route path="/notes/:id" element={<NoteView />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/login" element={<Login />} />
               <Route path="/tutorials" element={<Tutorials />} />
