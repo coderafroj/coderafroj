@@ -15,7 +15,7 @@ const Navbar = () => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             setScrolled(currentScrollY > 20);
-            
+
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
                 setVisible(false);
             } else {
@@ -49,8 +49,8 @@ const Navbar = () => {
                         <Terminal className="text-primary-glow group-hover:text-white" size={16} />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-sm font-black tracking-tighter text-white leading-none">NEXUS</span>
-                        <span className="text-[7px] font-mono text-primary-glow tracking-[0.2em]">CORE__v2.0</span>
+                        <span className="text-sm font-black tracking-tighter text-white leading-none">CODERAFROJ</span>
+                        <span className="text-[7px] font-mono text-primary-glow tracking-[0.2em]">OFFICIAL</span>
                     </div>
                 </Link>
 
@@ -85,8 +85,8 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                <button 
-                    className="md:hidden p-2 text-slate-400 hover:text-white transition-colors" 
+                <button
+                    className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
                     onClick={() => setIsOpen(!isOpen)}
                     aria-label="Toggle Menu"
                 >

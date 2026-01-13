@@ -62,8 +62,9 @@ const GitHubDashboard = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="obsidian-card p-5 rounded-2xl border-[#30363d]/50 relative overflow-hidden group"
+                        className="p-5 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl relative overflow-hidden group shadow-2xl shadow-primary/5"
                     >
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                         <div className="flex items-center gap-4 relative z-10">
                             <div className="relative">
                                 <img
@@ -145,12 +146,15 @@ const GitHubDashboard = () => {
                             >
                                 <div className="flex items-center justify-between mb-4">
                                     <div>
-                                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-white tracking-tighter uppercase leading-none">
-                                            MISSION <span className="text-primary italic">CONTROL</span>
+                                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-white tracking-tighter uppercase leading-none drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                                            COMMAND <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500 italic">CENTER</span>
                                         </h1>
-                                        <p className="text-[10px] text-slate-400 font-mono mt-2 md:mt-3 uppercase tracking-widest border-l-2 border-primary pl-3">
-                                            Synchronized with @{user.login.toLowerCase()}
-                                        </p>
+                                        <div className="flex items-center gap-3 mt-3">
+                                            <div className="h-px w-8 bg-primary/50" />
+                                            <p className="text-[10px] text-primary font-mono uppercase tracking-widest">
+                                                System Synchronized • @{user.login.toLowerCase()}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -258,7 +262,7 @@ const GitHubDashboard = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

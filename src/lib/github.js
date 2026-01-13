@@ -139,40 +139,82 @@ export class GitHubAPI {
         }
 
         try {
-            // Check if file exists
-            console.log('Checking if file exists at path:', path);
-            let sha;
-            try {
-                const { data } = await this.octokit.repos.getContent({
-                    owner,
-                    repo,
-                    path,
-                });
-                if (data && 'sha' in data) {
-                    sha = data.sha;
-                    console.log('File exists, updating (SHA: ' + sha + ')');
-                }
-            } catch (error) {
-                // File doesn't exist, which is fine for new uploads
-                if (error.status !== 404) {
-                    throw error;
-                }
-                console.log('File does not exist, creating new file...');
-            }
+            console.log('Starting upload via Git Data API (v3)...');
 
-            // Create or update file
-            console.log('Starting file upload to GitHub...');
-            await this.octokit.repos.createOrUpdateFileContents({
+            // 1. Get default branch
+            const { data: repoData } = await this.octokit.repos.get({ owner, repo });
+            const defaultBranch = repoData.default_branch;
+            console.log(`Target branch: ${defaultBranch}`);
+
+            // 2. Get reference to HEAD
+            const { data: refData } = await this.octokit.git.getRef({
                 owner,
                 repo,
-                path,
-                message,
-                content,
-                sha,
+                ref: `heads/${defaultBranch}`,
             });
-            console.log('File upload completed successfully.');
+            const latestCommitSha = refData.object.sha;
+            console.log(`Latest commit: ${latestCommitSha}`);
+
+            // 3. Get the commit to get the tree
+            const { data: commitData } = await this.octokit.git.getCommit({
+                owner,
+                repo,
+                commit_sha: latestCommitSha,
+            });
+            const baseTreeSha = commitData.tree.sha;
+
+            // 4. Create Blob
+            console.log('Creating content blob...');
+            const { data: blobData } = await this.octokit.git.createBlob({
+                owner,
+                repo,
+                content: content,
+                encoding: 'base64',
+            });
+            const blobSha = blobData.sha;
+            console.log(`Blob created: ${blobSha}`);
+
+            // 5. Create Tree
+            console.log('Creating new tree...');
+            const { data: treeData } = await this.octokit.git.createTree({
+                owner,
+                repo,
+                base_tree: baseTreeSha,
+                tree: [
+                    {
+                        path: path,
+                        mode: '100644', // normal file
+                        type: 'blob',
+                        sha: blobSha,
+                    },
+                ],
+            });
+            const newTreeSha = treeData.sha;
+
+            // 6. Create Commit
+            console.log('Creating commit...');
+            const { data: newCommitData } = await this.octokit.git.createCommit({
+                owner,
+                repo,
+                message: message,
+                tree: newTreeSha,
+                parents: [latestCommitSha],
+            });
+            const newCommitSha = newCommitData.sha;
+
+            // 7. Update Ref
+            console.log('Updating reference (Pushing)...');
+            await this.octokit.git.updateRef({
+                owner,
+                repo,
+                ref: `heads/${defaultBranch}`,
+                sha: newCommitSha,
+            });
+            console.log('Upload successfully completed via Git Data API.');
+
         } catch (error) {
-            throw new Error(error.message || 'Failed to upload file');
+            console.error('Git Data API Error:', error);
+            throw new Error(error.message || 'Failed to upload file via Git Data API');
         }
     }
 
