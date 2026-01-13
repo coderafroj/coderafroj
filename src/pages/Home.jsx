@@ -20,12 +20,12 @@ const Home = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                             </span>
-                            Nexus Protocol <span className="text-white/40 ml-1">v2.0.4-LTS</span>
+                            CODERAFROJ SYSTEM <span className="text-white/40 ml-1">v2.0.4-LTS</span>
                         </div>
 
                         <h1 className="text-6xl md:text-[7rem] font-black tracking-tighter leading-[0.85] text-white">
-                            CRAFT THE <br />
-                            <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">CODEBASE.</span>
+                            WELCOME TO <br />
+                            <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">CODERAFROJ.</span>
                         </h1>
 
                         <p className="text-xl text-slate-400 max-w-xl leading-relaxed font-light">
@@ -111,7 +111,7 @@ const Home = () => {
                                 GITHUB <span className="text-primary italic">MISSION</span> CONTROL
                             </h2>
                             <p className="text-xl text-slate-400 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-                                Seamlessly manage your repositories, monitor live deployments, and push code directly from the Nexus dashboard.
+                                Seamlessly manage your repositories, monitor live deployments, and push code directly from the Coderafroj dashboard.
                             </p>
                             <div className="flex flex-wrap justify-center lg:justify-start gap-5">
                                 <Link to="/github" className="w-full sm:w-auto">
