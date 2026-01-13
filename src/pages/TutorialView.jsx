@@ -70,7 +70,7 @@ const TutorialView = () => {
                 <div className="mb-12">
                     <div className="flex items-center gap-2 text-accent-glow font-mono text-[8px] tracking-[0.4em] uppercase mb-4 opacity-70">
                         <Terminal size={10} />
-                        Nexus_Module
+                        Coderafroj_Module
                     </div>
                     <h1 className="text-2xl font-black text-white leading-tight uppercase tracking-tighter">
                         {tutorial?.title}
@@ -128,7 +128,7 @@ const TutorialView = () => {
                             className="fixed inset-y-0 left-0 w-[85%] max-w-sm obsidian-card z-[60] p-10 lg:hidden rounded-none border-t-0 border-b-0 border-l-0"
                         >
                             <div className="flex justify-between items-center mb-12">
-                                <h2 className="text-xl font-black text-white tracking-tighter uppercase">Nexus Nodes</h2>
+                                <h2 className="text-xl font-black text-white tracking-tighter uppercase">Coderafroj Nodes</h2>
                                 <button onClick={() => setIsSidebarOpen(false)} className="text-dim-text hover:text-white transition-colors p-2 rounded-xl bg-white/5"><X size={20} /></button>
                             </div>
                             <div className="space-y-2">
@@ -186,7 +186,7 @@ const TutorialView = () => {
                             </div>
                         </header>
 
-                        <div className="markdown-content nexus-markdown prose-lg prose-invert max-w-none">
+                        <div className="markdown-content coderafroj-markdown prose-lg prose-invert max-w-none">
                             <ReactMarkdown>
                                 {currentChapter?.content || "TRANSMISSION_ERROR: NO_DATA_DETECTED"}
                             </ReactMarkdown>

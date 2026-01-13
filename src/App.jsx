@@ -16,6 +16,7 @@ import GitHubDashboard from './pages/GitHubDashboard';
 import Notes from './pages/Notes';
 import NoteView from './pages/NoteView';
 import NoteEditor from './pages/NoteEditor';
+import MobileTabBar from './components/layout/MobileTabBar';
 import './App.css';
 
 function App() {
@@ -23,10 +24,10 @@ function App() {
     <HelmetProvider>
       <GitHubProvider>
         <div className="min-h-screen flex flex-col relative overflow-hidden">
-          {/* Cyber-Nexus Background Architecture */}
-          <div className="nexus-bg">
-            <div className="nexus-grid" />
-            <div className="nexus-mesh" />
+          {/* Cyber-Coderafroj Background Architecture */}
+          <div className="coderafroj-bg">
+            <div className="coderafroj-grid" />
+            <div className="coderafroj-mesh" />
           </div>
 
           <Navbar />
@@ -49,6 +50,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <MobileTabBar />
         </div>
       </GitHubProvider>
     </HelmetProvider>

@@ -12,8 +12,8 @@ import ReactMarkdown from 'react-markdown';
 const Admin = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('notes');
-    const [previewMode, setPreviewMode] = useState(false); // For split-view toggle
+    const [activeTab, setActiveTab] = useState('dashboard');
+    const [previewMode, setPreviewMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [editingId, setEditingId] = useState(null);
 
@@ -62,7 +62,7 @@ const Admin = () => {
     }, [navigate]);
 
     const deleteItem = async (col, id) => {
-        if (!window.confirm("Terminate this artifact from the nexus?")) return;
+        if (!window.confirm("Terminate this artifact from the coderafroj?")) return;
         try {
             const { deleteDoc, doc } = await import('firebase/firestore');
             await deleteDoc(doc(db, col, id));
@@ -84,7 +84,7 @@ const Admin = () => {
         setLink(item.link || '');
         setContent(item.content || '');
         setCategory(item.category || 'Programming');
-        
+
         // Set active tab based on collection
         if (col === 'notes') setActiveTab('notes');
         else if (col === 'projects') setActiveTab('project');
@@ -115,7 +115,7 @@ const Admin = () => {
         setSubmitStatus(editMode ? 'UPDATING...' : 'SYNCING...');
         try {
             const { updateDoc, doc: firestoreDoc } = await import('firebase/firestore');
-            
+
             if (editMode && editingId) {
                 // Update existing item
                 let collectionName = '';
@@ -127,7 +127,7 @@ const Admin = () => {
 
                 const docRef = firestoreDoc(db, collectionName, editingId);
                 const updateData = {};
-                
+
                 if (activeTab === 'notes') {
                     updateData.title = title;
                     updateData.description = desc;
@@ -189,7 +189,7 @@ const Admin = () => {
                 }
                 setSubmitStatus('DEPLOYED');
             }
-            
+
             await fetchData();
             setTitle(''); setDesc(''); setTags(''); setContent(''); setLink(''); setImage('');
             setTimeout(() => setSubmitStatus(''), 3000);
@@ -202,7 +202,7 @@ const Admin = () => {
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="text-primary-glow font-mono animate-pulse tracking-widest">BOOTING NEXUS_OS...</div>
+            <div className="text-primary-glow font-mono animate-pulse tracking-widest">BOOTING CODERAFROJ_OS...</div>
         </div>
     );
 
@@ -233,12 +233,13 @@ const Admin = () => {
                     {/* Sidebar Nav */}
                     <nav className="lg:col-span-2 space-y-3">
                         {[
+                            { id: 'dashboard', icon: <LayoutDashboard size={18} />, label: 'OVERVIEW' },
                             { id: 'notes', icon: <FileText size={18} />, label: 'NOTES' },
                             { id: 'project', icon: <Terminal size={18} />, label: 'PROJECTS' },
                             { id: 'blog', icon: <Sparkles size={18} />, label: 'BLOG' },
                             { id: 'tutorial', icon: <Book size={18} />, label: 'MODULES' },
                             { id: 'chapter', icon: <Layers size={18} />, label: 'CONTENT' },
-                            { id: 'manage', icon: <LayoutDashboard size={18} />, label: 'REGISTRY' }
+                            { id: 'manage', icon: <FileText size={18} />, label: 'REGISTRY' }
                         ].map(tab => (
                             <button
                                 key={tab.id}
@@ -260,13 +261,62 @@ const Admin = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 1.02 }}
                                 transition={{ duration: 0.4 }}
-                                className="obsidian-card p-10 rounded-[2.5rem] relative overflow-hidden"
+                                className="obsidian-card p-6 md:p-10 rounded-[2.5rem] relative overflow-hidden"
                             >
-                                {activeTab === 'manage' ? (
+                                {activeTab === 'dashboard' ? (
+                                    <div className="space-y-12">
+                                        <header>
+                                            <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase">Command center</h2>
+                                            <p className="text-dim-text text-sm">Welcome back. The coderafroj systems are fully operational.</p>
+                                        </header>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            {[
+                                                { label: 'Total Notes', count: notes.length, icon: <FileText />, color: 'primary' },
+                                                { label: 'Active Projects', count: projects.length, icon: <Terminal />, color: 'secondary' },
+                                                { label: 'Log Transmissions', count: posts.length, icon: <Sparkles />, color: 'accent' },
+                                            ].map((stat, i) => (
+                                                <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-all group">
+                                                    <div className={`w-12 h-12 rounded-2xl bg-${stat.color}/10 flex items-center justify-center text-${stat.color}-glow mb-6 group-hover:scale-110 transition-transform`}>
+                                                        {stat.icon}
+                                                    </div>
+                                                    <p className="text-white/40 text-[10px] font-mono tracking-[0.2em] uppercase mb-1">{stat.label}</p>
+                                                    <p className="text-4xl font-black text-white">{stat.count}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <section className="space-y-6">
+                                            <h3 className="text-[10px] font-mono tracking-[0.4em] uppercase text-primary-glow">Quick deploy protocols</h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <button onClick={() => navigate('/admin/notes/new')} className="flex items-center justify-between p-6 bg-primary/10 border border-primary/20 rounded-2xl hover:bg-primary/20 transition-all group">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="p-3 bg-primary/20 rounded-xl text-primary-glow"><PlusCircle size={20} /></div>
+                                                        <div className="text-left">
+                                                            <p className="text-white font-bold tracking-tight">Compose Note</p>
+                                                            <p className="text-white/40 text-[10px] font-mono">NEW_KNOWLEDGE_NODE</p>
+                                                        </div>
+                                                    </div>
+                                                    <Terminal size={16} className="text-primary/30 group-hover:translate-x-1 transition-transform" />
+                                                </button>
+                                                <button onClick={() => setActiveTab('project')} className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="p-3 bg-white/10 rounded-xl text-white/40"><Code size={20} /></div>
+                                                        <div className="text-left">
+                                                            <p className="text-white font-bold tracking-tight">Deploy Project</p>
+                                                            <p className="text-white/40 text-[10px] font-mono">NEW_ASSET_LINK</p>
+                                                        </div>
+                                                    </div>
+                                                    <Terminal size={16} className="text-white/10 group-hover:translate-x-1 transition-transform" />
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                ) : activeTab === 'manage' ? (
                                     <div className="space-y-16">
                                         <header>
                                             <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase">Central registry</h2>
-                                            <p className="text-dim-text text-sm">Managing all deployed digital assets across the nexus.</p>
+                                            <p className="text-dim-text text-sm">Managing all deployed digital assets across the coderafroj.</p>
                                         </header>
 
                                         {[
@@ -347,7 +397,7 @@ const Admin = () => {
                                                             </div>
                                                         </label>
                                                         {previewMode ? (
-                                                            <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[400px] overflow-y-auto nexus-markdown">
+                                                            <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[400px] overflow-y-auto coderafroj-markdown">
                                                                 <ReactMarkdown className="markdown-content prose prose-invert max-w-none">
                                                                     {content || "*CONTENT_EMPTY*"}
                                                                 </ReactMarkdown>
@@ -392,7 +442,7 @@ const Admin = () => {
                                                     <div className="space-y-3">
                                                         <label className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">TARGET_MODULE</label>
                                                         <select value={tutorialId} onChange={e => setTutorialId(e.target.value)} required className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white focus:outline-none focus:border-primary/50 appearance-none cursor-pointer">
-                                                            <option value="" disabled className="bg-bg-dark">SELECT_NEXUS_NODE</option>
+                                                            <option value="" disabled className="bg-bg-dark">SELECT_CODERAFROJ_NODE</option>
                                                             {tutorials.map(t => <option key={t.id} value={t.id} className="bg-bg-card">{t.title}</option>)}
                                                         </select>
                                                     </div>
@@ -407,7 +457,7 @@ const Admin = () => {
                                                 <div className="space-y-3">
                                                     <label className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">CORE_CONTENT_MATRIX</label>
                                                     {previewMode ? (
-                                                        <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[500px] overflow-y-auto nexus-markdown">
+                                                        <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[500px] overflow-y-auto coderafroj-markdown">
                                                             <ReactMarkdown className="markdown-content prose prose-invert max-w-none">
                                                                 {content || "*CONTENT_MATRIX_EMPTY*"}
                                                             </ReactMarkdown>
@@ -442,7 +492,7 @@ const Admin = () => {
                                                     {(activeTab === 'project' || activeTab === 'blog') && (
                                                         <div className="space-y-3">
                                                             <label className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">IMAGE_VECTOR_URL</label>
-                                                            <Input value={image} onChange={e => setImage(e.target.value)} placeholder="https://nexus.cdn/vector.png" className="bg-white/5 border-white/10 p-5 rounded-2xl" />
+                                                            <Input value={image} onChange={e => setImage(e.target.value)} placeholder="https://coderafroj.cdn/vector.png" className="bg-white/5 border-white/10 p-5 rounded-2xl" />
                                                         </div>
                                                     )}
                                                     <div className="space-y-3">

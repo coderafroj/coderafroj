@@ -20,7 +20,7 @@ const NoteView = () => {
         try {
             const docRef = doc(db, 'notes', id);
             const docSnap = await getDoc(docRef);
-            
+
             if (docSnap.exists()) {
                 setNote({
                     id: docSnap.id,
@@ -95,7 +95,7 @@ const NoteView = () => {
                                 day: 'numeric'
                             })}
                         </span>
-                        
+
                         {note.tags && note.tags.length > 0 && (
                             <div className="flex items-center gap-2">
                                 <Tag size={16} />
@@ -121,7 +121,7 @@ const NoteView = () => {
                     transition={{ delay: 0.1 }}
                     className="obsidian-card p-10 rounded-3xl border border-[#30363d]"
                 >
-                    <div className="nexus-markdown prose prose-invert max-w-none">
+                    <div className="coderafroj-markdown prose prose-invert max-w-none">
                         <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
                     </div>
                 </motion.div>

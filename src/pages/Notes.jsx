@@ -94,11 +94,10 @@ const Notes = () => {
                     <div className="flex flex-wrap gap-3 justify-center">
                         <button
                             onClick={() => setSelectedTag('all')}
-                            className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
-                                selectedTag === 'all'
+                            className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${selectedTag === 'all'
                                     ? 'bg-primary text-white'
                                     : 'bg-[#161b22] text-slate-400 hover:text-white border border-[#30363d]'
-                            }`}
+                                }`}
                         >
                             ALL
                         </button>
@@ -106,11 +105,10 @@ const Notes = () => {
                             <button
                                 key={tag}
                                 onClick={() => setSelectedTag(tag)}
-                                className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
-                                    selectedTag === tag
+                                className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${selectedTag === tag
                                         ? 'bg-primary text-white'
                                         : 'bg-[#161b22] text-slate-400 hover:text-white border border-[#30363d]'
-                                }`}
+                                    }`}
                             >
                                 {tag.toUpperCase()}
                             </button>
@@ -129,22 +127,26 @@ const Notes = () => {
                         >
                             <Link
                                 to={`/notes/${note.id}`}
-                                className="block obsidian-card p-6 rounded-2xl border border-[#30363d] hover:border-primary/50 transition-all group h-full"
+                                className="block obsidian-card p-6 rounded-[2rem] border border-[#30363d] hover:border-primary/50 hover:card-glow-blue transition-all duration-500 group h-full relative overflow-hidden"
                             >
+                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                                    <Sparkles size={16} className="text-primary-glow" />
+                                </div>
+
                                 {note.image && (
-                                    <div className="mb-4 rounded-xl overflow-hidden">
+                                    <div className="mb-6 rounded-2xl overflow-hidden border border-white/5">
                                         <img
                                             src={note.image}
                                             alt={note.title}
-                                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                                            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                                         />
                                     </div>
                                 )}
-                                
+
                                 <h3 className="text-xl font-black text-white mb-3 group-hover:text-primary transition-colors">
                                     {note.title}
                                 </h3>
-                                
+
                                 <p className="text-slate-400 text-sm mb-4 line-clamp-3">
                                     {note.description}
                                 </p>

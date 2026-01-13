@@ -52,7 +52,7 @@ const Projects = () => {
                         transition={{ delay: 0.1 }}
                         className="text-6xl md:text-[7rem] font-black text-white tracking-tighter mb-10 uppercase leading-none"
                     >
-                        THE <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">NEXUS</span>
+                        THE <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">CODERAFROJ</span>
                     </motion.h1>
 
                     <motion.p

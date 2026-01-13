@@ -61,7 +61,7 @@ const Register = () => {
                         <Cpu size={12} className="text-primary-glow" />
                         <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-dim-text uppercase">Root_Initialization</span>
                     </div>
-                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-2">Nexus Core Init</h1>
+                    <h1 className="text-3xl font-black text-white tracking-tighter uppercase mb-2">Coderafroj Core Init</h1>
                     <p className="text-dim-text text-xs font-mono uppercase tracking-widest opacity-60">Create Master Root Account</p>
                 </div>
 

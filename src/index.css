@@ -39,15 +39,15 @@
   }
 }
 
-/* Cyber-Nexus Background System */
-.nexus-bg {
+/* Cyber-Coderafroj Background System */
+.coderafroj-bg {
   position: fixed;
   inset: 0;
   z-index: -10;
   background-color: var(--bg-dark);
 }
 
-.nexus-grid {
+.coderafroj-grid {
   position: absolute;
   inset: 0;
   background-image:
@@ -57,7 +57,7 @@
   mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 100%);
 }
 
-.nexus-mesh {
+.coderafroj-mesh {
   position: absolute;
   inset: 0;
   background:
@@ -96,15 +96,25 @@
 }
 
 .text-cyber-blue {
-  @apply bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-500 bg-clip-text text-transparent;
+  filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
 }
 
 .text-cyber-purple {
-  @apply bg-gradient-to-r from-purple-400 via-pink-500 to-rose-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 bg-clip-text text-transparent;
+  filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.3));
 }
 
 .primary-glow {
-  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+  filter: drop-shadow(0 0 12px rgba(47, 129, 247, 0.5));
+}
+
+.card-glow-blue {
+  box-shadow: 0 0 40px -15px rgba(47, 129, 247, 0.2);
+}
+
+.border-gradient-blue {
+  border-image: linear-gradient(135deg, rgba(47, 129, 247, 0.5), transparent) 1;
 }
 
 /* Custom Scrollbar */
@@ -121,48 +131,48 @@
 }
 
 /* Markdown Aesthetics */
-.nexus-markdown {
+.coderafroj-markdown {
   @apply font-sans;
 }
 
-.nexus-markdown h1 {
+.coderafroj-markdown h1 {
   @apply text-4xl md:text-5xl font-black text-white mt-16 mb-8 tracking-tighter uppercase border-b border-white/5 pb-4;
 }
 
-.nexus-markdown h2 {
+.coderafroj-markdown h2 {
   @apply text-2xl md:text-3xl font-black text-white mt-12 mb-6 tracking-tight uppercase;
 }
 
-.nexus-markdown h3 {
+.coderafroj-markdown h3 {
   @apply text-xl font-bold text-slate-200 mt-8 mb-4 tracking-wide;
 }
 
-.nexus-markdown p {
+.coderafroj-markdown p {
   @apply text-slate-400 leading-relaxed mb-6 opacity-80;
 }
 
-.nexus-markdown pre {
+.coderafroj-markdown pre {
   @apply bg-black/60 p-8 rounded-[2rem] border border-white/5 my-10 overflow-x-auto shadow-2xl;
 }
 
-.nexus-markdown code {
+.coderafroj-markdown code {
   @apply bg-white/5 px-2 py-0.5 rounded text-indigo-400 font-mono text-[0.8em];
 }
 
-.nexus-markdown ul,
-.nexus-markdown ol {
+.coderafroj-markdown ul,
+.coderafroj-markdown ol {
   @apply my-6 space-y-3 pl-6;
 }
 
-.nexus-markdown li {
+.coderafroj-markdown li {
   @apply text-slate-400 opacity-80;
 }
 
-.nexus-markdown blockquote {
+.coderafroj-markdown blockquote {
   @apply border-l-4 border-indigo-500 bg-indigo-500/5 px-8 py-6 rounded-r-3xl my-10 text-slate-300 italic font-mono text-sm;
 }
 
-.nexus-markdown a {
+.coderafroj-markdown a {
   @apply text-indigo-400 hover:text-indigo-300 underline underline-offset-4 decoration-indigo-500/30 transition-colors;
 }
 
@@ -195,7 +205,7 @@
   }
 }
 
-.nexus-grid-pulse {
+.coderafroj-grid-pulse {
   animation: pulse-soft 10s ease-in-out infinite;
 }
 

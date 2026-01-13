@@ -17,7 +17,7 @@ const Footer = () => {
                                 <Terminal size={18} className="text-primary-glow" />
                             </div>
                             <span className="text-2xl font-black text-white tracking-tighter uppercase leading-none italic">
-                                NEXUS<span className="text-primary">CORE</span>
+                                CODERAFROJ<span className="text-primary">CORE</span>
                             </span>
                         </div>
                         <p className="text-slate-400 text-sm max-w-sm leading-relaxed font-light">
@@ -60,7 +60,7 @@ const Footer = () => {
 
                 <div className="pt-10 border-t border-[#30363d]/50 flex flex-col md:flex-row justify-between items-center gap-8">
                     <div className="text-[9px] font-mono text-slate-500 tracking-[0.2em] uppercase">
-                        &copy; {currentYear} // Nexus Protocol // Build Version 2.0.4
+                        &copy; {currentYear} // Coderafroj Protocol // Build Version 2.0.4
                     </div>
 
                     <div className="flex items-center gap-3 text-[10px] font-mono font-bold tracking-[0.2em] text-slate-400 uppercase bg-[#21262d] px-6 py-2.5 rounded-full border border-[#30363d] shadow-2xl">

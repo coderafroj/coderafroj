@@ -69,7 +69,7 @@ const Login = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="OPERATOR@NEXUS"
+                            placeholder="OPERATOR@CODERAFROJ"
                             className="bg-white/5 border-white/10 focus:border-accent/40 rounded-2xl h-14 px-6 font-mono text-xs uppercase"
                             required
                         />

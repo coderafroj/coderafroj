@@ -1,7 +1,7 @@
 export const projects = [
     {
         id: 1,
-        title: "Neon Nexus Dashboard",
+        title: "Neon Coderafroj Dashboard",
         description: "A high-performance analytics dashboard for crypto trading with real-time data visualization.",
         tags: ["React", "D3.js", "Firebase", "Tailwind"],
         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2000",
