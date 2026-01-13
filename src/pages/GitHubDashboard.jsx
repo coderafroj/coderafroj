@@ -124,10 +124,10 @@ const GitHubDashboard = () => {
                         <div className="w-px bg-[#30363d]/50" />
                         <div className="flex-1 text-center">
                             <p className="text-[9px] uppercase tracking-widest text-slate-400 mb-1">Status</p>
-                            <p className="text-[10px] font-bold text-green-500 flex items-center justify-center gap-2 h-6">
+                            <div className="text-[10px] font-bold text-green-500 flex items-center justify-center gap-2 h-6">
                                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                                 ACTIVE
-                            </p>
+                            </div>
                         </div>
                     </motion.div>
                 </aside>

@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import GitHubDashboard from './pages/GitHubDashboard';
 import Notes from './pages/Notes';
 import NoteView from './pages/NoteView';
+import NoteEditor from './pages/NoteEditor';
 import './App.css';
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/notes/:id" element={<NoteView />} />
+              <Route path="/admin/notes/new" element={<NoteEditor />} />
+              <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/login" element={<Login />} />
               <Route path="/tutorials" element={<Tutorials />} />

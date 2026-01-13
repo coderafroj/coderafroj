@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, File, X, CheckCircle, AlertCircle, Loader2, ArrowLeft, Send, FileText, Image, FileCode, Archive, Film } from 'lucide-react';
+import { Upload, File as FileIcon, X, CheckCircle, AlertCircle, Loader2, ArrowLeft, Send, FileText, Image, FileCode, Archive, Film } from 'lucide-react';
 import { Input, Textarea } from '../ui/Input';
 import { Button } from '../ui/Button';
 
@@ -12,8 +12,12 @@ const GitHubFileUploader = ({ selectedRepo, onUpload, isUploading, onBack }) => 
     const [uploadError, setUploadError] = useState('');
     const fileInputRef = useRef(null);
 
-    // Max file size: 100MB
-    const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
+    const [isCompressing, setIsCompressing] = useState(false);
+
+    // Max file size for *direct* upload: 25MB (safety for base64)
+    // Max file size allowed to *attempt* compression: 150MB (arbitrary, browser limits apply)
+    const MAX_DIRECT_SIZE = 25 * 1024 * 1024;
+    const MAX_FILE_SIZE = 150 * 1024 * 1024;
 
     const handleDrag = (e) => {
         e.preventDefault();
@@ -34,7 +38,7 @@ const GitHubFileUploader = ({ selectedRepo, onUpload, isUploading, onBack }) => 
         }
 
         if (file.size > MAX_FILE_SIZE) {
-            setUploadError(`File size exceeds 100MB limit. Your file is ${formatFileSize(file.size)}`);
+            setUploadError(`File is too large (${formatFileSize(file.size)}). Max limit is ${formatFileSize(MAX_FILE_SIZE)}.`);
             return false;
         }
 
@@ -65,20 +69,58 @@ const GitHubFileUploader = ({ selectedRepo, onUpload, isUploading, onBack }) => 
         }
     };
 
+    const compressFile = async (originalFile) => {
+        setIsCompressing(true);
+        try {
+            const JSZip = (await import('jszip')).default;
+            const zip = new JSZip();
+            zip.file(originalFile.name, originalFile);
+            const content = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+            const zipFile = new File([content], `${originalFile.name}.zip`, { type: 'application/zip' });
+            return zipFile;
+        } catch (err) {
+            throw new Error('Compression failed: ' + err.message);
+        } finally {
+            setIsCompressing(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!file || !path || !message) return;
 
         if (!validateFile(file)) return;
 
+        let fileToUpload = file;
+        let pathToUpload = path;
+
         try {
             setUploadError('');
-            await onUpload(file, path, message);
+
+            // If file is large, compress it
+            if (file.size > MAX_DIRECT_SIZE) {
+                // Check if already zip
+                if (!file.name.endsWith('.zip') && !file.name.endsWith('.rar') && !file.name.endsWith('.7z')) {
+                    fileToUpload = await compressFile(file);
+                    pathToUpload = path.endsWith('.zip') ? path : `${path}.zip`;
+                    setMessage(message + ` (Compressed from ${formatFileSize(file.size)})`);
+                }
+            }
+
+            // Final size check
+            // GitHub API limit is 100MB, but base64 adds 33%. Safe limit is ~75MB.
+            // Let's check 70MB to be safe.
+            if (fileToUpload.size > 70 * 1024 * 1024) {
+                throw new Error(`File is too large even after compression (${formatFileSize(fileToUpload.size)}). GitHub API limit is ~70MB for base64 uploads.`);
+            }
+
+            await onUpload(fileToUpload, pathToUpload, message);
             setFile(null);
             setPath('');
             setMessage('');
         } catch (err) {
             setUploadError(err.message || 'Upload failed. Please try again.');
+            setIsCompressing(false); // Ensure state reset
         }
     };
 
@@ -104,7 +146,7 @@ const GitHubFileUploader = ({ selectedRepo, onUpload, isUploading, onBack }) => 
         if (videoExts.includes(ext)) return <Film className="w-6 h-6 md:w-7 md:h-7 text-purple-500" />;
         if (docExts.includes(ext)) return <FileText className="w-6 h-6 md:w-7 md:h-7 text-red-500" />;
 
-        return <File className="w-6 h-6 md:w-7 md:h-7 text-green-500" />;
+        return <FileIcon className="w-6 h-6 md:w-7 md:h-7 text-green-500" />;
     };
 
     const getFileTypeColor = (fileName) => {
@@ -302,14 +344,18 @@ const GitHubFileUploader = ({ selectedRepo, onUpload, isUploading, onBack }) => 
                     {/* Submit Button - Mobile Optimized */}
                     <Button
                         type="submit"
-                        disabled={isUploading || !file || !path || !message || !!uploadError}
+                        disabled={isUploading || isCompressing || !file || !path || !message || !!uploadError}
                         className="w-full h-12 md:h-14 bg-primary hover:bg-primary-glow text-white font-black tracking-widest uppercase text-xs md:text-sm rounded-xl shadow-xl shadow-primary/10 flex items-center justify-center gap-3 md:gap-4 group transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95"
                     >
-                        {isUploading ? (
+                        {isUploading || isCompressing ? (
                             <>
                                 <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
-                                <span className="hidden sm:inline">COMMITTING TO GITHUB...</span>
-                                <span className="sm:hidden">UPLOADING...</span>
+                                <span className="hidden sm:inline">
+                                    {isCompressing ? 'COMPRESSING...' : 'COMMITTING TO GITHUB...'}
+                                </span>
+                                <span className="sm:hidden">
+                                    {isCompressing ? 'ZIPPING...' : 'UPLOADING...'}
+                                </span>
                             </>
                         ) : (
                             <>

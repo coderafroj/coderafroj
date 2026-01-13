@@ -140,6 +140,7 @@ export class GitHubAPI {
 
         try {
             // Check if file exists
+            console.log('Checking if file exists at path:', path);
             let sha;
             try {
                 const { data } = await this.octokit.repos.getContent({
@@ -149,15 +150,18 @@ export class GitHubAPI {
                 });
                 if (data && 'sha' in data) {
                     sha = data.sha;
+                    console.log('File exists, updating (SHA: ' + sha + ')');
                 }
             } catch (error) {
                 // File doesn't exist, which is fine for new uploads
                 if (error.status !== 404) {
                     throw error;
                 }
+                console.log('File does not exist, creating new file...');
             }
 
             // Create or update file
+            console.log('Starting file upload to GitHub...');
             await this.octokit.repos.createOrUpdateFileContents({
                 owner,
                 repo,
@@ -166,6 +170,7 @@ export class GitHubAPI {
                 content,
                 sha,
             });
+            console.log('File upload completed successfully.');
         } catch (error) {
             throw new Error(error.message || 'Failed to upload file');
         }

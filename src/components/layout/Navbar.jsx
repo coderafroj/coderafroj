@@ -31,7 +31,6 @@ const Navbar = () => {
         { name: 'Protocol', path: '/', icon: <Terminal size={14} /> },
         { name: 'Projects', path: '/projects', icon: <Code size={14} /> },
         { name: 'Notes', path: '/notes', icon: <BookOpen size={14} /> },
-        { name: 'Archive', path: '/tutorials', icon: <BookOpen size={14} /> },
         { name: 'Signals', path: '/blog', icon: <Sparkles size={14} /> },
         { name: 'Control', path: '/github', icon: <Github size={14} /> },
     ];

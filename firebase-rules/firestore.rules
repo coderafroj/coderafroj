@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+    
+    match /notes/{noteId} {
+      // Public can read published notes
+      allow read: if resource.data.status == 'published';
+      // Admin can read/write all notes
+      allow read, write: if isAdmin();
+      
+      match /versions/{versionId} {
+        allow read: if isAdmin();
+        allow write: if isAdmin();
+      }
+    }
+    
+    match /drafts/{noteId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
