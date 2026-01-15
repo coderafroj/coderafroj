@@ -21,5 +21,12 @@ service cloud.firestore {
     match /drafts/{noteId} {
       allow read, write: if isAdmin();
     }
+
+    match /feedback/{feedbackId} {
+      // Anyone can send feedback
+      allow create: if true;
+      // Only admin can read or manage feedback
+      allow read, update, delete: if isAdmin();
+    }
   }
 }
