@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 const SEO = ({ title, description, image, url }) => {
     const siteTitle = 'Coderafroj';
     const defaultDescription = 'Full-Stack Developer & Security Enthusiast extracting order from chaos.';
-    const defaultImage = 'https://coderafroj.com/og-image.png'; // Replace with actual URL
-    const siteUrl = 'https://coderafroj.com';
+    const defaultImage = 'https://coderafroj.vercel.app/assets/AFROJ.png'; // Replace with actual URL
+    const siteUrl = 'https://coderafroj.vercel.app';
 
     return (
         <Helmet>

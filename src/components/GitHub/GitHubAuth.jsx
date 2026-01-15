@@ -3,10 +3,11 @@ import { useGitHub } from '../../context/GitHubContext';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Key, AlertCircle, ExternalLink } from 'lucide-react';
+import { Github, Key, AlertCircle, ExternalLink, Eye, EyeOff } from 'lucide-react';
 
 const GitHubAuth = () => {
     const [token, setToken] = useState('');
+    const [showToken, setShowToken] = useState(false);
     const { login, isLoading, error, clearError } = useGitHub();
 
     const handleSubmit = async (e) => {
@@ -21,52 +22,65 @@ const GitHubAuth = () => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="max-w-md w-full mx-auto"
         >
-            <div className="obsidian-card p-8 rounded-2xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="obsidian-card p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 {/* Glow Effects */}
-                <div className="absolute -top-24 -left-24 w-48 h-48 bg-6366f1/20 blur-[100px] rounded-full group-hover:bg-[#6366f1]/30 transition-colors" />
-                <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[#8b5cf6]/20 blur-[100px] rounded-full group-hover:bg-[#8b5cf6]/30 transition-colors" />
+                <div className="absolute -top-32 -left-32 w-64 h-64 bg-primary/10 blur-[120px] rounded-full group-hover:bg-primary/20 transition-all duration-1000" />
+                <div className="absolute bottom-[-100px] right-[-100px] w-64 h-64 bg-accent/10 blur-[120px] rounded-full opacity-50" />
 
                 <div className="relative z-10">
-                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mb-6 mx-auto border border-white/10 group-hover:border-[#6366f1]/50 transition-colors">
-                        <Github className="w-8 h-8 text-white" />
-                    </div>
+                    <motion.div
+                        initial={{ rotate: -10 }}
+                        animate={{ rotate: 0 }}
+                        className="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center mb-8 mx-auto border border-white/10 group-hover:border-primary/50 transition-all duration-500 shadow-xl"
+                    >
+                        <Github className="w-10 h-10 text-white group-hover:text-primary-glow transition-all" />
+                    </motion.div>
 
-                    <h2 className="text-3xl font-black text-center mb-2 tracking-tighter text-white uppercase">
-                        GitHub <span className="text-[#6366f1]">Control</span>
+                    <h2 className="text-4xl font-black text-center mb-2 tracking-tighter text-white uppercase italic">
+                        Node <span className="text-primary-glow not-italic">Sync</span>
                     </h2>
-                    <p className="text-[#94a3b8] text-center mb-8 text-sm">
-                        Enter your Personal Access Token to unlock repository management and file uploads.
+                    <p className="text-slate-400 text-center mb-10 text-xs font-light tracking-wide uppercase">
+                        Authorize Transmission Protocol
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest text-[#64748b] ml-1 flex items-center gap-2">
-                                <Key className="w-3 h-3" />
-                                Personal Access Token
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-1 flex items-center gap-2">
+                                <Key className="w-3 h-3 text-primary-glow" />
+                                Access_Cipher
                             </label>
-                            <Input
-                                type="password"
-                                placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxx"
-                                value={token}
-                                onChange={(e) => {
-                                    setToken(e.target.value);
-                                    if (error) clearError();
-                                }}
-                                className="bg-black/40 border-white/5 focus:border-[#6366f1]/50 h-12"
-                            />
+                            <div className="relative">
+                                <Input
+                                    type={showToken ? "text" : "password"}
+                                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxx"
+                                    value={token}
+                                    onChange={(e) => {
+                                        setToken(e.target.value);
+                                        if (error) clearError();
+                                    }}
+                                    className="bg-black/60 border-white/5 focus:border-primary/50 h-14 pr-12 rounded-2xl font-mono text-sm tracking-widest text-white"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowToken(!showToken)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors p-1"
+                                >
+                                    {showToken ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                            </div>
                         </div>
 
                         <AnimatePresence>
                             {error && (
                                 <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-lg border border-red-400/20"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="flex items-center gap-3 text-red-500 text-[10px] font-black uppercase tracking-widest bg-red-500/5 p-4 rounded-2xl border border-red-500/20"
                                 >
                                     <AlertCircle className="w-4 h-4 shrink-0" />
                                     <span>{error}</span>
@@ -77,20 +91,20 @@ const GitHubAuth = () => {
                         <Button
                             type="submit"
                             disabled={isLoading || !token.trim()}
-                            className="w-full h-12 bg-[#6366f1] hover:bg-[#818cf8] text-white font-bold tracking-widest uppercase text-xs shadow-lg shadow-[#6366f1]/20"
+                            className="w-full h-14 bg-white text-black hover:bg-primary hover:text-white font-black tracking-[0.3em] uppercase text-[10px] rounded-2xl shadow-2xl transition-all active:scale-95"
                         >
-                            {isLoading ? 'Authenticating...' : 'Secure Authorization'}
+                            {isLoading ? 'Decrypting...' : 'Establish Connection'}
                         </Button>
                     </form>
 
-                    <div className="mt-8 pt-6 border-t border-white/5 text-center">
+                    <div className="mt-10 pt-8 border-t border-white/5 text-center">
                         <a
                             href="https://github.com/settings/tokens/new?scopes=repo,user"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xs text-[#64748b] hover:text-[#6366f1] transition-colors flex items-center justify-center gap-1 font-mono"
+                            className="text-[9px] text-slate-500 hover:text-primary-glow underline underline-offset-8 decoration-white/10 transition-all font-black tracking-widest flex items-center justify-center gap-2 uppercase"
                         >
-                            Need a token?
+                            Request Access Key
                             <ExternalLink className="w-3 h-3" />
                         </a>
                     </div>
@@ -101,3 +115,4 @@ const GitHubAuth = () => {
 };
 
 export default GitHubAuth;
+

@@ -113,6 +113,10 @@ export function GitHubProvider({ children }) {
     };
 
     const uploadFile = async (file, path, message) => {
+        return uploadFiles([{ file, path }], message);
+    };
+
+    const uploadFiles = async (fileList, message) => {
         if (!githubAPI.isAuthenticated()) {
             throw new Error('Not authenticated');
         }
@@ -125,11 +129,17 @@ export function GitHubProvider({ children }) {
         setError(null);
 
         try {
-            const base64Content = await GitHubAPI.fileToBase64(file);
+            const filesWithContent = await Promise.all(
+                fileList.map(async (item) => ({
+                    path: item.path,
+                    content: await GitHubAPI.fileToBase64(item.file)
+                }))
+            );
+
             const [owner, repoName] = selectedRepo.full_name.split('/');
-            await githubAPI.uploadFile(owner, repoName, path, base64Content, message);
+            await githubAPI.uploadFiles(owner, repoName, filesWithContent, message);
         } catch (err) {
-            const errorMessage = err.message || 'Failed to upload file';
+            const errorMessage = err.message || 'Failed to upload files';
             setError(errorMessage);
             throw new Error(errorMessage);
         } finally {
@@ -207,6 +217,7 @@ export function GitHubProvider({ children }) {
                 createRepo,
                 selectRepo,
                 uploadFile,
+                uploadFiles,
                 fetchRepoContents,
                 fetchFileContent,
                 clearError,

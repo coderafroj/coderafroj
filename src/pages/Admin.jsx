@@ -5,9 +5,10 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
-import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2 } from 'lucide-react';
+import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import { staticNotes } from '../data/computerNotes';
 
 const Admin = () => {
     const [user, setUser] = useState(null);
@@ -265,58 +266,99 @@ const Admin = () => {
                             >
                                 {activeTab === 'dashboard' ? (
                                     <div className="space-y-12">
-                                        <header>
-                                            <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase">Command center</h2>
-                                            <p className="text-dim-text text-sm">Welcome back. The coderafroj systems are fully operational.</p>
+                                        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                                            <div>
+                                                <h2 className="text-4xl font-black text-white tracking-tight mb-2 uppercase italic">Neural Command</h2>
+                                                <p className="text-dim-text text-sm flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-primary animate-ping" />
+                                                    All systems nominal. Neuro-Link established.
+                                                </p>
+                                            </div>
+                                            <div className="flex gap-4">
+                                                <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-mono text-slate-500">
+                                                    LATENCY: <span className="text-primary-glow">12ms</span>
+                                                </div>
+                                                <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-mono text-slate-500">
+                                                    UPTIME: <span className="text-primary-glow">99.9%</span>
+                                                </div>
+                                            </div>
                                         </header>
 
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                             {[
-                                                { label: 'Total Notes', count: notes.length, icon: <FileText />, color: 'primary' },
-                                                { label: 'Active Projects', count: projects.length, icon: <Terminal />, color: 'secondary' },
-                                                { label: 'Log Transmissions', count: posts.length, icon: <Sparkles />, color: 'accent' },
+                                                { label: 'Knowledge Nodes', count: notes.length + staticNotes.length, icon: <FileText />, color: 'primary' },
+                                                { label: 'Active Protocols', count: projects.length, icon: <Terminal />, color: 'secondary' },
+                                                { label: 'Signal Logs', count: posts.length, icon: <Sparkles />, color: 'accent' },
                                             ].map((stat, i) => (
-                                                <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-3xl hover:border-white/10 transition-all group">
+                                                <div key={i} className="bg-white/5 border border-white/5 p-8 rounded-3xl hover:border-primary/20 transition-all group relative overflow-hidden">
+                                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
+                                                        <Zap size={64} className="text-primary-glow" />
+                                                    </div>
                                                     <div className={`w-12 h-12 rounded-2xl bg-${stat.color}/10 flex items-center justify-center text-${stat.color}-glow mb-6 group-hover:scale-110 transition-transform`}>
                                                         {stat.icon}
                                                     </div>
                                                     <p className="text-white/40 text-[10px] font-mono tracking-[0.2em] uppercase mb-1">{stat.label}</p>
-                                                    <p className="text-4xl font-black text-white">{stat.count}</p>
+                                                    <div className="flex items-end gap-2">
+                                                        <p className="text-4xl font-black text-white">{stat.count}</p>
+                                                        {stat.label === 'Knowledge Nodes' && (
+                                                            <span className="text-[10px] text-primary/40 font-mono mb-2">({staticNotes.length} STATIC)</span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
 
                                         <section className="space-y-6">
-                                            <h3 className="text-[10px] font-mono tracking-[0.4em] uppercase text-primary-glow">Quick deploy protocols</h3>
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-[10px] font-mono tracking-[0.4em] uppercase text-primary-glow flex items-center gap-3">
+                                                    <Layers size={14} /> Quick deploy protocols
+                                                </h3>
+                                            </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <button onClick={() => navigate('/admin/notes/new')} className="flex items-center justify-between p-6 bg-primary/10 border border-primary/20 rounded-2xl hover:bg-primary/20 transition-all group">
+                                                <button onClick={() => navigate('/admin/notes/new')} className="flex items-center justify-between p-6 bg-primary/10 border border-primary/20 rounded-2xl hover:bg-primary/20 transition-all group relative overflow-hidden">
+                                                    <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
                                                     <div className="flex items-center gap-4">
                                                         <div className="p-3 bg-primary/20 rounded-xl text-primary-glow"><PlusCircle size={20} /></div>
                                                         <div className="text-left">
                                                             <p className="text-white font-bold tracking-tight">Compose Note</p>
-                                                            <p className="text-white/40 text-[10px] font-mono">NEW_KNOWLEDGE_NODE</p>
+                                                            <p className="text-white/40 text-[10px] font-mono tracking-widest">ENCRYPT_KNOWLEDGE_V2</p>
                                                         </div>
                                                     </div>
-                                                    <Terminal size={16} className="text-primary/30 group-hover:translate-x-1 transition-transform" />
+                                                    <ArrowRight size={16} className="text-primary/30 group-hover:translate-x-1 transition-transform" />
                                                 </button>
-                                                <button onClick={() => setActiveTab('project')} className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
+                                                <button onClick={() => setActiveTab('project')} className="flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group relative overflow-hidden">
+                                                    <div className="absolute top-0 left-0 w-1 h-full bg-white/20" />
                                                     <div className="flex items-center gap-4">
                                                         <div className="p-3 bg-white/10 rounded-xl text-white/40"><Code size={20} /></div>
                                                         <div className="text-left">
                                                             <p className="text-white font-bold tracking-tight">Deploy Project</p>
-                                                            <p className="text-white/40 text-[10px] font-mono">NEW_ASSET_LINK</p>
+                                                            <p className="text-white/40 text-[10px] font-mono tracking-widest">INIT_UPLINK_NODE</p>
                                                         </div>
                                                     </div>
-                                                    <Terminal size={16} className="text-white/10 group-hover:translate-x-1 transition-transform" />
+                                                    <ArrowRight size={16} className="text-white/10 group-hover:translate-x-1 transition-transform" />
                                                 </button>
                                             </div>
                                         </section>
                                     </div>
                                 ) : activeTab === 'manage' ? (
                                     <div className="space-y-16">
-                                        <header>
-                                            <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase">Central registry</h2>
-                                            <p className="text-dim-text text-sm">Managing all deployed digital assets across the coderafroj.</p>
+                                        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                                            <div>
+                                                <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase italic">Registry Database</h2>
+                                                <p className="text-dim-text text-sm">Managing all deployed digital assets across the coderafroj.</p>
+                                            </div>
+                                            <div className="relative w-full md:w-80">
+                                                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search assets..."
+                                                    onChange={(e) => {
+                                                        const term = e.target.value.toLowerCase();
+                                                        // We'll filter the UI here
+                                                    }}
+                                                    className="w-full bg-[#0d1117] border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:border-primary/50 outline-none transition-all"
+                                                />
+                                            </div>
                                         </header>
 
                                         {[

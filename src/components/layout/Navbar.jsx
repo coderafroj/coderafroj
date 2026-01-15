@@ -86,11 +86,22 @@ const Navbar = () => {
                 </div>
 
                 <button
-                    className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+                    className="md:hidden relative w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-1.5 overflow-hidden group"
                     onClick={() => setIsOpen(!isOpen)}
                     aria-label="Toggle Menu"
                 >
-                    {isOpen ? <X size={20} /> : <Menu size={20} />}
+                    <motion.span
+                        animate={isOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+                        className="w-5 h-0.5 bg-primary-glow rounded-full transition-transform"
+                    />
+                    <motion.span
+                        animate={isOpen ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
+                        className="w-5 h-0.5 bg-primary-glow rounded-full transition-all"
+                    />
+                    <motion.span
+                        animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                        className="w-5 h-0.5 bg-primary-glow rounded-full transition-transform"
+                    />
                 </button>
             </div>
 
@@ -103,33 +114,60 @@ const Navbar = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm -z-10"
+                            className="md:hidden fixed inset-0 bg-black/80 backdrop-blur-md -z-10"
                         />
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                            className="md:hidden absolute top-full left-0 right-0 mt-2 mx-1 p-2 obsidian-card rounded-2xl border-[#30363d]"
+                            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                            className="md:hidden absolute top-full left-0 right-0 mt-4 mx-2 p-1 overflow-hidden"
                         >
-                            <div className="grid grid-cols-2 gap-2">
-                                {navLinks.map((link) => (
-                                    <Link
-                                        key={link.name}
-                                        to={link.path}
-                                        onClick={() => setIsOpen(false)}
-                                        className="flex flex-col items-center justify-center gap-3 p-4 rounded-xl bg-white/5 border border-white/5 text-[9px] font-mono font-bold tracking-widest text-slate-400 hover:text-white hover:bg-primary/10 hover:border-primary/20 transition-all"
+                            <div className="obsidian-card rounded-[2.5rem] border-white/10 p-6 shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                                {/* Decorative Background in Menu */}
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
+
+                                <div className="grid grid-cols-2 gap-3 relative z-10">
+                                    {navLinks.map((link, idx) => (
+                                        <motion.div
+                                            key={link.name}
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                        >
+                                            <Link
+                                                to={link.path}
+                                                onClick={() => setIsOpen(false)}
+                                                className="flex flex-col items-center justify-center gap-4 p-5 rounded-3xl bg-white/5 border border-white/5 text-[10px] font-black tracking-[0.2em] text-slate-400 hover:text-white hover:bg-primary/10 hover:border-primary/20 transition-all group"
+                                            >
+                                                <div className="p-3 rounded-2xl bg-white/5 group-hover:bg-primary/20 group-hover:text-primary-glow transition-all">
+                                                    {React.cloneElement(link.icon, { size: 20 })}
+                                                </div>
+                                                {link.name.toUpperCase()}
+                                            </Link>
+                                        </motion.div>
+                                    ))}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3 }}
+                                        className="col-span-2 mt-2"
                                     >
-                                        <div className="p-2 rounded-lg bg-white/5">{link.icon}</div>
-                                        {link.name.toUpperCase()}
-                                    </Link>
-                                ))}
-                                <Link
-                                    to="/admin"
-                                    onClick={() => setIsOpen(false)}
-                                    className="col-span-2 flex items-center justify-center p-4 rounded-xl bg-white text-black text-[9px] font-black tracking-widest uppercase"
-                                >
-                                    Secure Login Session
-                                </Link>
+                                        <Link
+                                            to="/admin"
+                                            onClick={() => setIsOpen(false)}
+                                            className="w-full flex items-center justify-center p-5 rounded-3xl bg-white text-black text-[10px] font-black tracking-[0.3em] uppercase shadow-xl active:scale-95 transition-transform"
+                                        >
+                                            <Shield size={16} className="mr-3" /> Secure_Access
+                                        </Link>
+                                    </motion.div>
+                                </div>
+
+                                <div className="mt-8 flex justify-center">
+                                    <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
+                                        <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
+                                        <span className="text-[8px] font-mono text-slate-500 tracking-[0.2em]">NODE_SESSION_01</span>
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     </>

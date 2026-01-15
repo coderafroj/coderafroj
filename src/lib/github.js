@@ -131,20 +131,19 @@ export class GitHubAPI {
     }
 
     /**
-     * Upload file to repository
+     * Upload files to repository (supports multiple files in one commit)
      */
-    async uploadFile(owner, repo, path, content, message) {
+    async uploadFiles(owner, repo, files, message) {
         if (!this.octokit) {
             throw new Error('Not authenticated');
         }
 
         try {
-            console.log('Starting upload via Git Data API (v3)...');
+            console.log(`Starting upload of ${files.length} files via Git Data API...`);
 
-            // 1. Get default branch
+            // 1. Get default branch/ref
             const { data: repoData } = await this.octokit.repos.get({ owner, repo });
             const defaultBranch = repoData.default_branch;
-            console.log(`Target branch: ${defaultBranch}`);
 
             // 2. Get reference to HEAD
             const { data: refData } = await this.octokit.git.getRef({
@@ -153,9 +152,8 @@ export class GitHubAPI {
                 ref: `heads/${defaultBranch}`,
             });
             const latestCommitSha = refData.object.sha;
-            console.log(`Latest commit: ${latestCommitSha}`);
 
-            // 3. Get the commit to get the tree
+            // 3. Get the latest commit to get its tree
             const { data: commitData } = await this.octokit.git.getCommit({
                 owner,
                 repo,
@@ -163,31 +161,32 @@ export class GitHubAPI {
             });
             const baseTreeSha = commitData.tree.sha;
 
-            // 4. Create Blob
-            console.log('Creating content blob...');
-            const { data: blobData } = await this.octokit.git.createBlob({
-                owner,
-                repo,
-                content: content,
-                encoding: 'base64',
-            });
-            const blobSha = blobData.sha;
-            console.log(`Blob created: ${blobSha}`);
+            // 4. Create Blobs for all files
+            console.log('Creating blobs...');
+            const treeItems = await Promise.all(
+                files.map(async (file) => {
+                    const { data: blobData } = await this.octokit.git.createBlob({
+                        owner,
+                        repo,
+                        content: file.content,
+                        encoding: 'base64',
+                    });
+                    return {
+                        path: file.path,
+                        mode: '100644', // normal file
+                        type: 'blob',
+                        sha: blobData.sha,
+                    };
+                })
+            );
 
-            // 5. Create Tree
+            // 5. Create new Tree
             console.log('Creating new tree...');
             const { data: treeData } = await this.octokit.git.createTree({
                 owner,
                 repo,
                 base_tree: baseTreeSha,
-                tree: [
-                    {
-                        path: path,
-                        mode: '100644', // normal file
-                        type: 'blob',
-                        sha: blobSha,
-                    },
-                ],
+                tree: treeItems,
             });
             const newTreeSha = treeData.sha;
 
@@ -203,19 +202,30 @@ export class GitHubAPI {
             const newCommitSha = newCommitData.sha;
 
             // 7. Update Ref
-            console.log('Updating reference (Pushing)...');
+            console.log('Updating reference...');
             await this.octokit.git.updateRef({
                 owner,
                 repo,
                 ref: `heads/${defaultBranch}`,
                 sha: newCommitSha,
             });
-            console.log('Upload successfully completed via Git Data API.');
 
+            console.log('Upload successfully completed.');
+            return { commitSha: newCommitSha };
         } catch (error) {
-            console.error('Git Data API Error:', error);
-            throw new Error(error.message || 'Failed to upload file via Git Data API');
+            console.error('Multi-upload error:', error);
+            if (error.status === 401 || error.message.includes('Bad credentials')) {
+                throw new Error('Invalid or expired GitHub token. Please re-authenticate.');
+            }
+            throw new Error(error.message || 'Failed to upload files to GitHub');
         }
+    }
+
+    /**
+     * Upload single file (legacy/helper)
+     */
+    async uploadFile(owner, repo, path, content, message) {
+        return this.uploadFiles(owner, repo, [{ path, content }], message);
     }
 
     /**

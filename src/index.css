@@ -574,3 +574,158 @@
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
 }
+
+/* 3D and Depth Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.card-3d {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateZ(10px);
+}
+
+/* Learning Card Variations */
+.learning-card {
+  @apply bg-black/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 transition-all duration-500 overflow-hidden relative;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+}
+
+.learning-card::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700;
+}
+
+.learning-card-shadow {
+  @apply absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-accent/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[2.5rem];
+}
+
+/* 3D Object Simulation */
+.object-3d {
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+  animation: float-3d 8s ease-in-out infinite;
+}
+
+@keyframes float-3d {
+
+  0%,
+  100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg);
+  }
+
+  33% {
+    transform: translateY(-30px) rotateX(10deg) rotateY(-10deg);
+  }
+
+  66% {
+    transform: translateY(-15px) rotateX(-10deg) rotateY(20deg);
+  }
+}
+
+/* Status Badge Pulse */
+.status-pulse {
+  @apply relative flex h-2.5 w-2.5;
+}
+
+.status-pulse::before {
+  content: '';
+  @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75;
+}
+
+.status-pulse::after {
+  content: '';
+  @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-primary;
+}
+
+/* Ultra Thin Grid for Learning */
+.grid-learning {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Premium Markdown Typography */
+.premium-markdown h1 {
+  @apply text-4xl md:text-5xl font-black text-white tracking-tighter mb-10 pb-4 border-b border-white/10 uppercase italic;
+}
+
+.premium-markdown h2 {
+  @apply text-2xl md:text-3xl font-bold text-primary-glow tracking-tight mt-12 mb-6 flex items-center gap-3;
+}
+
+.premium-markdown h2::before {
+  content: '>';
+  @apply text-primary font-mono text-xl;
+}
+
+.premium-markdown h3 {
+  @apply text-xl font-bold text-white tracking-tight mt-8 mb-4;
+}
+
+.premium-markdown p {
+  @apply text-slate-300 leading-relaxed mb-6 font-light;
+}
+
+.premium-markdown ul {
+  @apply space-y-3 mb-8 ml-4;
+}
+
+.premium-markdown li {
+  @apply flex items-start gap-3 text-slate-400;
+}
+
+.premium-markdown li::before {
+  content: '•';
+  @apply text-primary font-bold mt-1;
+}
+
+.premium-markdown blockquote {
+  @apply border-l-4 border-primary bg-primary/5 p-6 rounded-r-2xl italic text-slate-300 mb-8;
+}
+
+.premium-markdown table {
+  @apply w-full border-collapse mb-8 bg-white/5 rounded-2xl overflow-hidden;
+}
+
+.premium-markdown th {
+  @apply bg-white/10 p-4 text-left font-bold text-primary;
+}
+
+.premium-markdown td {
+  @apply p-4 border-t border-white/5 text-slate-400;
+}
+
+.premium-markdown strong {
+  @apply text-white font-bold px-1 bg-white/5 rounded;
+}
+
+/* Digital Grid Background */
+.digital-grid {
+  position: relative;
+  background-color: #030014;
+}
+
+.digital-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(47, 129, 247, 0.05) 0%, transparent 100%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  pointer-events: none;
+}
