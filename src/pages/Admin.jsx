@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, orderBy } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
-import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search } from 'lucide-react';
+import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search, MessageSquare, Trash2, Mail, User, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { staticNotes } from '../data/computerNotes';
@@ -33,6 +33,7 @@ const Admin = () => {
     const [projects, setProjects] = useState([]);
     const [posts, setPosts] = useState([]);
     const [notes, setNotes] = useState([]);
+    const [feedback, setFeedback] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
@@ -46,6 +47,17 @@ const Admin = () => {
         setPosts(postSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         const notesSnap = await getDocs(collection(db, 'notes'));
         setNotes(notesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        try {
+            const fQ = query(collection(db, 'feedback'), orderBy('timestamp', 'desc'));
+            const fSnap = await getDocs(fQ);
+            setFeedback(fSnap.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                timestamp: doc.data().timestamp?.toDate()
+            })));
+        } catch (e) {
+            console.log("Feedback fetch error:", e);
+        }
     };
 
     useEffect(() => {
@@ -240,6 +252,7 @@ const Admin = () => {
                             { id: 'blog', icon: <Sparkles size={18} />, label: 'BLOG' },
                             { id: 'tutorial', icon: <Book size={18} />, label: 'MODULES' },
                             { id: 'chapter', icon: <Layers size={18} />, label: 'CONTENT' },
+                            { id: 'feedback', icon: <MessageSquare size={18} />, label: 'FEEDBACK' },
                             { id: 'manage', icon: <FileText size={18} />, label: 'REGISTRY' }
                         ].map(tab => (
                             <button
@@ -339,6 +352,62 @@ const Admin = () => {
                                                 </button>
                                             </div>
                                         </section>
+                                    </div>
+                                ) : activeTab === 'feedback' ? (
+                                    <div className="space-y-10">
+                                        <header>
+                                            <h2 className="text-3xl font-black text-white tracking-tight mb-2 uppercase italic">Incoming Transmission</h2>
+                                            <p className="text-dim-text text-sm">Reviewing secure messages from the neural link.</p>
+                                        </header>
+
+                                        <div className="grid gap-4">
+                                            {feedback.length === 0 ? (
+                                                <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/5">
+                                                    <MessageSquare size={40} className="mx-auto mb-4 text-white/20" />
+                                                    <p className="text-white/40 font-mono text-xs tracking-widest uppercase">No Active Transmissions</p>
+                                                </div>
+                                            ) : (
+                                                feedback.map((msg) => (
+                                                    <div key={msg.id} className="relative group bg-white/5 border border-white/5 p-6 rounded-3xl hover:border-primary/30 transition-all overflow-hidden">
+                                                        <div className="absolute top-0 left-0 w-1 h-full bg-primary/0 group-hover:bg-primary transition-all" />
+
+                                                        <div className="flex flex-col md:flex-row gap-6 justify-between items-start mb-6">
+                                                            <div className="flex items-center gap-4">
+                                                                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary-glow">
+                                                                    <User size={20} />
+                                                                </div>
+                                                                <div>
+                                                                    <h3 className="text-white font-bold text-lg">{msg.name}</h3>
+                                                                    <div className="flex items-center gap-2 text-dim-text text-xs font-mono mt-1">
+                                                                        <Mail size={12} /> {msg.email}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="px-3 py-1 bg-white/5 rounded-lg text-[10px] font-mono text-slate-500 uppercase flex items-center gap-2">
+                                                                    <Clock size={12} />
+                                                                    {msg.timestamp?.toLocaleString() || 'Unknown Time'}
+                                                                </span>
+                                                                <button
+                                                                    onClick={() => deleteItem('feedback', msg.id)}
+                                                                    className="p-2 hover:bg-red-500/10 text-slate-600 hover:text-red-500 rounded-lg transition-colors"
+                                                                    title="Terminate Transmission"
+                                                                >
+                                                                    <Trash2 size={16} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="bg-[#0d1117] p-5 rounded-2xl border border-white/5 relative">
+                                                            <MessageSquare size={16} className="absolute top-5 left-5 text-white/10" />
+                                                            <p className="text-slate-300 text-sm leading-relaxed pl-8 font-light italic">
+                                                                "{msg.message}"
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
                                     </div>
                                 ) : activeTab === 'manage' ? (
                                     <div className="space-y-16">
