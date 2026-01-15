@@ -1,5 +1,6 @@
 import { Github, Twitter, Linkedin, Heart, Terminal, Cpu, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/coderafroj.png';
 
 const Footer = () => {
@@ -40,7 +41,8 @@ const Footer = () => {
                             System_Nodes
                         </h4>
                         <ul className="space-y-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                            <li><a href="/" className="hover:text-primary transition-colors">Protocol</a></li>
+                            <li><Link to="/" className="hover:text-primary transition-colors">Protocol</Link></li>
+                            <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
                             <li><a href="/projects" className="hover:text-primary transition-colors">Codex</a></li>
                             <li><a href="/tutorials" className="hover:text-primary transition-colors">Academy</a></li>
                             <li><a href="/blog" className="hover:text-primary transition-colors">Signals</a></li>

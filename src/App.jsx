@@ -16,6 +16,7 @@ import GitHubDashboard from './pages/GitHubDashboard';
 import Notes from './pages/Notes';
 import NoteView from './pages/NoteView';
 import NoteEditor from './pages/NoteEditor';
+import Contact from './pages/Contact';
 import MobileTabBar from './components/layout/MobileTabBar';
 import './App.css';
 
@@ -47,6 +48,7 @@ function App() {
               <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialView />} />
               <Route path="/register" element={<Register />} />
               <Route path="/github" element={<GitHubDashboard />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </main>
           <Footer />

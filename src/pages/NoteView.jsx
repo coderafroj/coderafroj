@@ -80,7 +80,7 @@ const NoteView = () => {
     }
 
     return (
-        <div className="min-h-screen digital-grid pt-32 px-6 pb-40">
+        <div className="min-h-screen digital-grid pt-24 md:pt-32 px-4 md:px-6 pb-32 md:pb-40">
             <div className="max-w-5xl mx-auto relative">
                 {/* Visual Glows */}
                 <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
@@ -92,10 +92,10 @@ const NoteView = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         onClick={() => navigate('/notes')}
-                        className="flex items-center gap-2 text-slate-500 hover:text-primary transition-all group mb-12"
+                        className="flex items-center gap-2 text-slate-500 hover:text-primary transition-all group mb-8 md:mb-12"
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-mono text-[10px] font-black tracking-[0.3em] uppercase">Return to Terminal</span>
+                        <span className="font-mono text-[9px] md:text-[10px] font-black tracking-[0.3em] uppercase">Return to Terminal</span>
                     </motion.button>
 
                     <div className="grid lg:grid-cols-[1fr_350px] gap-12 items-end">
@@ -113,7 +113,7 @@ const NoteView = () => {
                                     <Clock size={14} /> 5 Min Read
                                 </span>
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none uppercase italic mb-8">
+                            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] md:leading-none uppercase italic mb-6 md:mb-8">
                                 {note.title}
                             </h1>
                             <div className="flex items-center gap-4 text-slate-500 font-mono text-xs">
@@ -159,7 +159,7 @@ const NoteView = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="space-y-12"
+                        className="space-y-8 md:space-y-12"
                     >
                         {note.image && (
                             <div className="relative group perspective-1000">
@@ -175,7 +175,7 @@ const NoteView = () => {
                             </div>
                         )}
 
-                        <div className="premium-markdown obsidian-card p-10 md:p-16 rounded-[3rem] border-white/5 bg-black/40 backdrop-blur-3xl shadow-2xl">
+                        <div className="premium-markdown obsidian-card p-6 md:p-16 rounded-[2rem] md:rounded-[3rem] border-white/5 bg-black/40 backdrop-blur-3xl shadow-2xl">
                             <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
                         </div>
 

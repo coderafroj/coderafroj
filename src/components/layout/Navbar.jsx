@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code, Terminal, BookOpen, Shield, Sparkles, Github } from 'lucide-react';
+import { Menu, X, Code, Terminal, BookOpen, Shield, Sparkles, Github, Mail } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../assets/logo/coderafroj.png';
 
@@ -34,6 +34,7 @@ const Navbar = () => {
         { name: 'Notes', path: '/notes', icon: <BookOpen size={14} /> },
         { name: 'Signals', path: '/blog', icon: <Sparkles size={14} /> },
         { name: 'Control', path: '/github', icon: <Github size={14} /> },
+        { name: 'Contact', path: '/contact', icon: <Mail size={14} /> },
     ];
 
     return (
