@@ -1284,5 +1284,234 @@ Kuch code sirf specific situations mein run karne ke liye.
 #endif
 \`\`\`
         `
+    },
+    {
+        id: 'pc-maintenance-troubleshooting',
+        slug: 'pc-maintenance-troubleshooting',
+        title: 'PC Maintenance & Troubleshooting: The Hardware Guide',
+        description: 'Complete guide to PC assembly, disassembly, hardware components, and troubleshooting.',
+        tags: ['Hardware', 'Maintenance', 'Troubleshooting'],
+        category: 'Hardware & Maintenance',
+        image: 'https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
+# PC Maintenance & Troubleshooting
+
+Computer hardware ko samajhna aur maintain karna ek essential skill hai.
+
+## 1. Opening the PC & Identification
+PC cabinet (case) ko open karne se pehle power off karein aur cables unplug karein.
+- **Side Panel**: Screws remove karke side panel halka slide karein.
+- **Identification of Blocks**:
+    - **SMPS (Power Supply)**: Top-left ya bottom-left corner mein bada box.
+    - **Motherboard**: Badi circuit board jispar sab kuch laga hota hai.
+    - **Storage (HDD/SSD)**: Front racks mein fix hote hain.
+    - **RAM Slots**: Processor ke paas lambe slots.
+
+## 2. Assembling & Disassembling
+**Disassembling (Kholna)**:
+1. Power cords remove karein.
+2. Sabse pehle Add-on cards (GPU/WiFi) remove karein.
+3. Power cables (24-pin, 4-pin CPU) unplug karein.
+4. SATA cables aur Front panel connectors (USB, Power btn) hatayein.
+5. Motherboard screws khol kar board bahar nikalein.
+
+**Assembling (Jodna)**:
+Iska ulta process follow karein. Dhyan rahe ki processor dhire se socket mein fit ho.
+
+## 3. Basic Device Configuration
+- **Monitor**: HDMI/VGA cable se GPU ya Motherboard port par connect karein.
+- **Printer**: USB se connect karein aur Drivers install karein. "Devices & Printers" mein jaakar Default set karein.
+- **Sound/Video Card**: PCIe slots mein lagayein aur screws se tight karein. Drivers update zaroor karein.
+
+## 4. Components of Motherboard
+Motherboard computer ki readh ki haddi (backbone) hai.
+- **Processor Socket**: Jahan CPU lagta hai (LGA/AM4 etc).
+- **RAM Slots (DIMM)**: Random Access Memory ke liye.
+- **Chipset**: Traffic control karne wala hub (Northbridge/Southbridge).
+- **BIOS/CMOS Battery**: Date aur time save rakhne ke liye chota cell.
+
+## 5. Ports, Slots & Connectors
+- **Ports (External)**:
+    - **USB (Type-A/C)**: Universal connection.
+    - **HDMI/DisplayPort**: Video output.
+    - **Ethernet (RJ45)**: Internet cable.
+    - **Audio Jacks**: Mic (Pink) aur Speaker (Green).
+- **Slots (Internal)**:
+    - **PCIe x16**: Graphics Card ke liye.
+    - **M.2 Slot**: Fast NVMe SSD ke liye.
+- **Connectors**:
+    - **SATA**: Hard disk aur DVD drive ke liye.
+    - **24-pin ATX**: Main power cable.
+
+## 6. Storage Devices
+- **Primary Storage (RAM/ROM)**: Fast lekin temporary (Volatile). Bina iske PC start nahi hoga.
+- **Secondary Storage (HDD/SSD)**: Permanent storage.
+    - **HDD**: Purani, sasti, lekin slow (Rotating disks).
+    - **SSD**: Nayi, mehngi, lekin super fast (Flash memory).
+
+## 7. Troubleshooting Tips
+- **PC Start nahi ho raha**: Power cable check karein, SMPS fan ghum raha hai ya nahi dekhein.
+- **No Display**: RAM nikal kar eraser se saaf karke wapas lagayein.
+- **Blue Screen (BSOD)**: Driver issue ya Hardware fault ho sakta hai. Restart karke check karein.
+- **Overheating**: CPU fan par dhool (dust) ho sakti hai, thermal paste change karein.
+        `
+    },
+    {
+        id: 'internet-web-technology',
+        slug: 'internet-web-technology',
+        title: 'Internet Mastery: Web, Security & Ethics',
+        description: 'Internet ki duniya, security threats, emails, aur cyber laws ka detailed overview.',
+        tags: ['Internet', 'Security', 'Networking'],
+        category: 'Internet & Networking',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
+# Internet & Web Technology
+
+**Internet**: Networks ka network. Ye duniya bhar ke computers ko connect karta hai taaki information share ho sake.
+
+## 1. Key Definitions
+- **WWW (World Wide Web)**: Internet par maujood saare webpages ka collection.
+- **URL (Uniform Resource Locator)**: Kisi bhi website ka address. (Ex: \`https://google.com\`).
+- **Web Browser**: Wo software jo internet chalane ke kaam aata hai (Chrome, Edge, Firefox).
+- **IP Address**: Har computer ka internet par ek unique number (Pehchan). (Ex: \`192.168.1.1\`).
+- **Domain Name**: IP address yaad rakhna mushkil hai, isliye hum naam use karte hain (Ex: \`facebook.com\`).
+- **ISP (Internet Service Provider)**: Wo company jo internet deti hai (Jio, Airtel).
+
+## 2. Internet Services
+- **Search Engines**: Information dhundhne ke liye (Google, Bing).
+- **Email**: Electronic chitti. Fast aur professional.
+- **Intranet**: Ek private network jo sirf organization ke andar chalta hai.
+- **Extranet**: Intranet ka wo hissa jo bahar ke kuch logon (partners) ke liye khula ho.
+
+## 3. Email (Electronic Mail)
+- **Advantages**: Free, Instant, Global access, Record keeping.
+- **Disadvantages**: Spam/Junk mails, Internet zaroori hai, Virus aa sakte hain.
+- **Address Format**: \`username@domain.com\` (Ex: \`student@university.edu\`).
+
+## 4. Internet Security & Cyber Crimes
+Internet par suraksha bahut zaroori hai.
+- **Hacker**: Wo expert jo depth mein system jaanta hai.
+    - *White Hat*: Achhe hackers jo security tight karte hain.
+    - *Black Hat*: Bure hackers jo chori ya nuksan karte hain.
+- **Cracker**: Jo sirf tod-fod (security break) karte hain bina kisi permission ke.
+- **Cyber Crimes**: Internet par hone wale apradh.
+    - **Phishing**: Fake email bhejkar password churana.
+    - **Identity Theft**: Kisi aur ki pehchan use karna.
+    - **Cyber Stalking**: Kisi ko online pareshan karna.
+
+## 5. Net Etiquette (Internet Tameez)
+- Kisi ko abusive language na use karein.
+- **ALL CAPS** mein type na karein (Iska matlab chillana hota hai).
+- Privacy ki respect karein. Doosron ki photos bina pooche share na karein.
+
+## 6. Impact on Society
+- **Education**: Online classes (Zoom), YouTube learning, eBooks.
+- **Research**: Google Scholar, infinite knowledge access.
+- **Social**: Facebook/Insta se connection, lekin real-life interaction kamm ho gaya hai.
+        `
+    },
+    {
+        id: 'word-processing-mastery',
+        slug: 'word-processing-mastery',
+        title: 'Microsoft Word: The Complete Documentation Guide',
+        description: 'Word Processing concepts, formatting, mail-merge, tables, aur advanced features ka detailed guide.',
+        tags: ['Word', 'Office', 'Documentation'],
+        category: 'Office Automation',
+        image: 'https://images.unsplash.com/photo-1585241936939-be05368a5bc3?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-19'),
+        content: `
+# Word Processing (MS Word)
+
+**Word Processing** ka matlab hai computer par text likhna, edit karna, aur format karna.
+
+## 1. Introduction
+Pehle hum Typewriter use karte the, jisme galti sudharna mushkil tha. Word Processors ne ise aasan bana diya.
+- **Common Software**:
+    - **Microsoft Word**: Sabse popular aur powerful.
+    - **WordPad**: Basic features ke sath (Windows mein free).
+    - **Notepad**: Sirf plain text ke liye.
+    - **Google Docs**: Online collaboration ke liye.
+
+## 2. Features of MS Word
+- **Creating**: Naya document banana.
+- **Editing**: Text add karna, delete karna, copy-paste karna.
+- **Formatting**: Text ko sundar dikhana (Bold, Italic, Color).
+- **Graphics**: Images aur charts lagana.
+
+## 3. Toolbars (The Interface)
+- **Standard Toolbar**: Common kaam jaise New, Open, Save, Print, Cut, Copy, Paste ke icons yahan hote hain.
+- **Formatting Toolbar**: Text ka look badalne ke liye (Font Style, Size, Bold, Center Alignment).
+- **Drawing Toolbar**: Shapes, Lines, Arrows aur Colors ke liye.
+
+## 4. Document Formatting
+- **Text**: Font face (Arial, Times New Roman), Size (12, 14), Color.
+- **Paragraph**: Alignment (Left, Right, Center, Justify), Line Spacing.
+- **Header & Footer**: Page ke upar (Header) ya neeche (Footer) content jo har page par repeat ho (Ex: Page Number, Chapter Name).
+    - *Insert -> Header/Footer*.
+
+## 5. Advanced Features
+- **Find & Replace**: Pure document mein koi word dhundhna (Find) aur use dusre word se badalna (Replace). (Shortcut: \`Ctrl + H\`).
+- **Spell Check**: Grammatical aur Spelling mistakes dhoondhna. Red line = Spelling Error, Blue/Green = Grammar Error. (Shortcut: \`F7\`).
+- **Thesaurus**: Synonyms (paryaywachi) dhoondhne ke liye dictionary.
+
+## 6. Pictures & Tables
+- **Inserting Pictures**: Apne document ko visual banane ke liye images add karna.
+- **Working with Tables**: Data ko Rows aur Columns mein dikhana.
+    - *Insert -> Table*.
+    - Cells ko merge ya split bhi kar sakte hain.
+
+## 7. Mail Merge (Mass Mailing)
+Ek hi letter hajaron logon ko alag-alag naam aur address ke sath bhejne ka tareeka.
+1. **Main Document**: Jo letter likhna hai.
+2. **Data Source**: Logon ki list (Naam, Address).
+3. **Merge**: Word in dono ko mila kar sabke liye alag letter bana deta hai.
+        `
+    },
+    {
+        id: 'powerpoint-presentation-guide',
+        slug: 'powerpoint-presentation-guide',
+        title: 'PowerPoint Mastery: Creating Impactful Slides',
+        description: 'Presentation banana, Animations, Transitions, aur Slide Views ka masterclass.',
+        tags: ['PowerPoint', 'Presentation', 'Office'],
+        category: 'Office Automation',
+        image: 'https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-19'),
+        content: `
+# PowerPoint Presentation (PPT)
+
+Ideas ko visuals aur text ke zariye logon ke samne prastut karna **Presentation** kehlata hai.
+
+## 1. Creating a Presentation
+- **Auto-Content Wizard**: (Purane versions mein) Ye aapse topic puchta tha aur bana-banaya template deta tha.
+- **Blank Presentation**: Scratch se start karna.
+- **Design Template**: Bani-banayi designs use karna.
+
+## 2. Views in PowerPoint
+Apni slides ko alag-alag tarike se dekhne ke liye:
+- **Normal View**: Editing ke liye (Slide + Outline).
+- **Slide Sorter View**: Saari slides choti hokar ek screen par dikhti hain. Order change karne ke liye best hai.
+- **Slide Show View**: Full screen presentation (Shortcut: \`F5\`).
+- **Notes Page View**: Slide ke neeche speaker ke liye notes likhne ki jagah.
+
+## 3. Formatting & Enhancements
+- **Text**: Font, Size, Color change karna.
+- **Bullets**: Points ko list mein dikhana.
+- **ClipArt & WordArt**:
+    - *ClipArt*: Bani-banayi images.
+    - *WordArt*: Stylish text effects.
+- **Graph/Charts**: Data ko visual form mein dikhana.
+
+## 4. Animation & Transitions
+- **Slide Transition**: Jab ek slide jaati hai aur dusri aati hai, tab jo effect aata hai (Ex: Fade, Wipe).
+- **Custom Animation**: Slide ke andar ke objects (Text, Image) kaise aayenge (Ex: Fly In, Bounce).
+- **Setting Timings**: Har slide kitni der rukegi, ye automatic set karna.
+
+## 5. Final Output
+- **Handouts**: Audience ko dene ke liye slides ka printout (Ek page par 3-6 slides).
+- **Speaker Notes**: Sirf apke padhne ke liye points.
+- **Saving**: \`.pptx\` format mein save karein.
+        `
     }
 ];
