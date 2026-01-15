@@ -1513,5 +1513,74 @@ Apni slides ko alag-alag tarike se dekhne ke liye:
 - **Speaker Notes**: Sirf apke padhne ke liye points.
 - **Saving**: \`.pptx\` format mein save karein.
         `
+    },
+    {
+        id: 'excel-spreadsheet-mastery',
+        slug: 'excel-spreadsheet-mastery',
+        title: 'Excel Spreadsheet Mastery: Data & Analysis',
+        description: 'Excel mein data entry, formulas, charts, macros, aur advanced formatting ka complete roadmap.',
+        tags: ['Excel', 'Data Analysis', 'Office'],
+        category: 'Office Automation',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-20'),
+        content: `
+# Spreadsheet (Microsoft Excel)
+
+**Spreadsheet** ek electronic worksheet hai jo data ko Rows aur Columns mein organize karti hai. Iska use calculation aur data analysis ke liye hota hai.
+
+## 1. Definition & Advantages
+- **Definition**: Ek bada grid jisme boxes (Cells) hote hain. Har cell mein text, number ya formula aa sakta hai.
+- **Advantages**:
+    - Automatic Calculations (Formula badalte hi result badal jata hai).
+    - Data Sorting aur Filtering.
+    - Graphical Representation (Charts).
+    - Large Data Handling.
+
+## 2. Working on Spreadsheets
+- **Workbook & Worksheet**: 
+    - Workbook ek file hai (Book).
+    - Worksheet us book ka ek page hai. Default 3 sheets hoti hain (Sheet1, Sheet2, Sheet3).
+- **Cell Referencing**: Har cell ka ek pata (Address) hota hai.
+    - **Relative**: \`A1\` (Formula copy karne par address badal jata hai).
+    - **Absolute**: \`$A$1\` (Formula copy karne par address fix rehta hai).
+    - **Mixed**: \`$A1\` ya \`A$1\` (Ek cheez fix, ek relative).
+- **Range**: Cells ka group (Ex: \`A1:B10\`).
+
+## 3. Data Entry & Formatting
+- **Data Types**: Text (Labels), Numbers (Values), Date & Time.
+- **Entering Data**: Cell par click karein aur type karein.
+- **Formatting**:
+    - **Merge & Center**: Heading banane ke liye cells ko jodna.
+    - **Wrap Text**: Lambe text ko ek hi cell mein fit karna (multiple lines).
+    - **Conditional Formatting**: Values ke hisab se color badalna (Ex: Marks < 33 to Red).
+
+## 4. Functions (Formulas)
+Excel ka dimaag uske formulas hain. Formula hamesha \`=\` se shuru hota hai.
+- **Mathematical**: \`SUM()\`, \`AVERAGE()\`, \`MAX()\`, \`MIN()\`, \`ROUND()\`.
+- **Text**: \`UPPER()\` (Capital), \`LOWER()\`, \`CONCATENATE()\` (Join strings).
+- **Date/Time**: \`NOW()\` (Current Time), \`TODAY()\` (Aaj ki date).
+- **Logical**: \`IF()\` (Condition check).
+    - Ex: \`=IF(A1>33, "Pass", "Fail")\`.
+
+## 5. Advanced Features
+- **Macros**: Repetitive kaam ko record karke ek click mein karna. 
+    - *View -> Macros -> Record Macro*.
+- **Database Handling**:
+    - Start mein Heading (Field Name) honi chahiye.
+    - **Sort**: Data ko A-Z ya Z-A lagana.
+    - **Filter**: Sirf specific data dekhna.
+- **Protecting Worksheet**: File ko password se lock karna taaki koi edit na kar sake.
+    - *Review -> Protect Sheet*.
+
+## 6. Graphs & Printing
+- **Charts/Graphs**: Data ko visual banana.
+    - **Column Chart**: Comparison ke liye.
+    - **Pie Chart**: Percentage dikhane ke liye (Hissa).
+    - **Line Chart**: Trend dikhane ke liye (Kaise badha/ghata).
+- **Printing**:
+    - **Page Setup**: Margins aur Orientation (Portrait/Landscape) set karna.
+    - **Print Area**: Sirf select kiya hua hissa print karna.
+    - **Header/Footer**: Page ke upar/neeche date ya page number lagana.
+        `
     }
 ];
