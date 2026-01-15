@@ -121,17 +121,20 @@ const Notes = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-2 justify-center">
+                    <div className="flex overflow-x-auto pb-4 gap-3 no-scrollbar mask-gradient-x px-4 md:px-0">
                         {['all', ...allTags].map((tag, idx) => (
                             <button
                                 key={tag}
                                 onClick={() => setSelectedTag(tag)}
-                                className={`px-6 py-2 rounded-xl text-[10px] font-black tracking-[0.2em] transition-all duration-300 border ${selectedTag === tag
-                                        ? 'bg-primary border-primary text-white shadow-[0_0_20px_rgba(47,129,247,0.3)] scale-105'
-                                        : 'bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
-                                    }`}
+                                className={`
+                                    whitespace-nowrap px-6 py-2.5 rounded-full text-[11px] font-bold tracking-wider transition-all duration-300 border backdrop-blur-md
+                                    ${selectedTag === tag
+                                        ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg shadow-primary/25 scale-105 border-transparent'
+                                        : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:border-white/20 hover:text-white'
+                                    }
+                                `}
                             >
-                                {tag.toUpperCase()}
+                                {tag.toUpperCase().replace(/_/g, ' ')}
                             </button>
                         ))}
                     </div>
