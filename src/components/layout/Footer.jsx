@@ -1,5 +1,6 @@
 import { Github, Twitter, Linkedin, Heart, Terminal, Cpu, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
+import logo from '../../assets/logo/coderafroj.png';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -12,13 +13,21 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
                     <div className="col-span-1 md:col-span-2 space-y-8">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center border border-primary/20">
-                                <Terminal size={18} className="text-primary-glow" />
+                        <div className="flex items-center gap-4">
+                            <div className="relative group">
+                                <div className="absolute -inset-1 bg-primary/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500" />
+                                <img
+                                    src={logo}
+                                    alt="CODERAFROJ"
+                                    className="h-10 md:h-12 w-auto relative z-10 brightness-110 drop-shadow-[0_0_8px_rgba(47,129,247,0.3)]"
+                                />
                             </div>
-                            <span className="text-2xl font-black text-white tracking-tighter uppercase leading-none italic">
-                                CODERAFROJ<span className="text-primary">CORE</span>
-                            </span>
+                            <div className="flex flex-col">
+                                <span className="text-xl font-black text-white tracking-tighter uppercase leading-none italic font-mono">
+                                    CODER<span className="text-primary">AFROJ</span>
+                                </span>
+                                <span className="text-[7px] font-mono text-slate-500 tracking-[0.4em] uppercase">Protocol_Core_V2</span>
+                            </div>
                         </div>
                         <p className="text-slate-400 text-sm max-w-sm leading-relaxed font-light">
                             Architecting decentralized digital landscapes and high-fidelity neural experiences. Engineering the technical frontier through pure logic and craft.

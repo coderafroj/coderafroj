@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Code, Terminal, BookOpen, Shield, Sparkles, Github } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
+import logo from '../../assets/logo/coderafroj.png';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -44,13 +45,18 @@ const Navbar = () => {
                 : 'bg-transparent py-4 border-transparent'
         )}>
             <div className="mx-auto px-6 flex justify-between items-center">
-                <Link to="/" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary transition-all duration-300">
-                        <Terminal className="text-primary-glow group-hover:text-white" size={16} />
+                <Link to="/" className="flex items-center gap-3 group">
+                    <div className="relative">
+                        <div className="absolute -inset-1 bg-primary/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500" />
+                        <img
+                            src={logo}
+                            alt="CODERAFROJ"
+                            className="h-9 md:h-11 w-auto relative z-10 brightness-110 drop-shadow-[0_0_8px_rgba(47,129,247,0.3)] group-hover:drop-shadow-[0_0_12px_rgba(47,129,247,0.5)] transition-all"
+                        />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-sm font-black tracking-tighter text-white leading-none">CODERAFROJ</span>
-                        <span className="text-[7px] font-mono text-primary-glow tracking-[0.2em]">OFFICIAL</span>
+                        <span className="text-sm font-black tracking-widest text-white leading-none font-mono">CODE<span className="text-primary">RAFROJ</span></span>
+                        <span className="text-[6px] font-mono text-slate-500 tracking-[0.4em] uppercase">Digital_Architect</span>
                     </div>
                 </Link>
 

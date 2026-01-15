@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://coderafroj.vercel.app/</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/projects</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/notes</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/blog</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/tutorials</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/github</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Dynamic Notes -->
+  <url><loc>https://coderafroj.vercel.app/notes/computer-definition</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-language-introduction</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-tokens-variables</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-operators-deep-dive</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-control-structures</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-arrays-and-pointers</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-strings-mastery</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/c-storage-classes</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/operating-system-deep-dive</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/computer-virus-and-defense</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/dos-mastery</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/windows-master-guide</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/computing-environments</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/computer-languages-types</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/program-execution-process</loc><priority>0.7</priority></url>
+  <url><loc>https://coderafroj.vercel.app/notes/algorithms-flowcharts-logic</loc><priority>0.7</priority></url>
+</urlset>

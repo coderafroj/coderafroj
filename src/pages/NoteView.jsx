@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Tag, Clock, Sparkles } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { staticNotes } from '../data/computerNotes';
@@ -38,11 +38,11 @@ const NoteView = () => {
                     createdAt: docSnap.data().createdAt?.toDate()
                 });
             } else {
-                navigate('/notes');
+                // Keep note null to show the not found state
+                console.warn(`Note with id ${id} not found.`);
             }
         } catch (error) {
             console.error('Error fetching note:', error);
-            navigate('/notes');
         } finally {
             setLoading(false);
         }
@@ -59,7 +59,25 @@ const NoteView = () => {
         );
     }
 
-    if (!note) return null;
+    if (!note) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#030014] px-6 text-center">
+                <div className="p-12 obsidian-card rounded-[3rem] border-white/5 max-w-lg w-full">
+                    <AlertCircle className="w-16 h-16 text-primary mx-auto mb-6 opacity-50" />
+                    <h2 className="text-3xl font-black text-white mb-4 uppercase tracking-tighter italic">Sector Not Found</h2>
+                    <p className="text-slate-500 font-mono text-xs uppercase tracking-[0.2em] mb-8 leading-relaxed">
+                        The knowledge node you're looking for (ID: {id}) does not exist or has been relocated within the archive.
+                    </p>
+                    <button
+                        onClick={() => navigate('/notes')}
+                        className="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-2xl"
+                    >
+                        Return to Archive
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen digital-grid pt-32 px-6 pb-40">
