@@ -697,7 +697,7 @@
 }
 
 .premium-markdown pre {
-  @apply bg-black/60 p-5 md:p-8 rounded-2xl md:rounded-[2rem] border border-white/10 my-8 overflow-x-auto shadow-2xl;
+  @apply bg-black/60 p-3 md:p-8 rounded-2xl md:rounded-[2rem] border border-white/10 my-8 overflow-x-auto shadow-2xl;
   max-width: 100%;
 }
 
@@ -713,11 +713,11 @@
 }
 
 .premium-markdown th {
-  @apply bg-white/10 p-4 text-left font-black text-primary-glow uppercase tracking-widest text-[10px] md:text-xs;
+  @apply bg-white/10 p-2 md:p-4 text-left font-black text-primary-glow uppercase tracking-widest text-[10px] md:text-xs;
 }
 
 .premium-markdown td {
-  @apply p-4 border-t border-white/5 text-slate-400 font-medium;
+  @apply p-2 md:p-4 border-t border-white/5 text-slate-400 font-medium;
 }
 
 .premium-markdown strong {

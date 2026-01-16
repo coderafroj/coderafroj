@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle, Github, Linkedin, Instagram } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { staticNotes } from '../data/computerNotes';
@@ -80,8 +80,8 @@ const NoteView = () => {
     }
 
     return (
-        <div className="min-h-screen digital-grid pt-24 md:pt-32 px-4 md:px-6 pb-32 md:pb-40">
-            <div className="max-w-5xl mx-auto relative">
+        <div className="min-h-screen digital-grid pt-24 md:pt-32 px-3 md:px-6 pb-32 md:pb-40">
+            <div className="max-w-[90%] mx-auto relative">
                 {/* Visual Glows */}
                 <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
@@ -175,18 +175,24 @@ const NoteView = () => {
                             </div>
                         )}
 
-                        <div className="premium-markdown obsidian-card p-6 md:p-16 rounded-[2rem] md:rounded-[3rem] border-white/5 bg-black/40 backdrop-blur-3xl shadow-2xl">
+                        <div className="premium-markdown obsidian-card p-4 md:p-16 rounded-[2rem] md:rounded-[3rem] border-white/5 bg-black/40 backdrop-blur-3xl shadow-2xl">
                             <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
                         </div>
 
                         {/* Social Share / Interaction */}
                         <div className="flex justify-center pt-12 border-t border-white/5">
                             <div className="flex items-center gap-8 py-4 px-10 bg-white/5 rounded-full border border-white/10">
-                                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Share Protocol:</span>
+                                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Connect:</span>
                                 <div className="flex gap-6">
-                                    {['TW', 'GH', 'LK'].map(soc => (
-                                        <button key={soc} className="text-white font-black hover:text-primary transition-colors text-xs">{soc}</button>
-                                    ))}
+                                    <a href="https://www.instagram.com/coder_afroj" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#E1306C] transition-colors">
+                                        <Instagram size={20} />
+                                    </a>
+                                    <a href="https://github.com/coderafroj" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#333] transition-colors">
+                                        <Github size={20} />
+                                    </a>
+                                    <a href="https://in.linkedin.com/in/c-o-d-e-r-a-f-r-o-j-6a626729a" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#0077b5] transition-colors">
+                                        <Linkedin size={20} />
+                                    </a>
                                 </div>
                             </div>
                         </div>

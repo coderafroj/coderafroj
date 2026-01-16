@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin, Heart, Terminal, Cpu, Globe } from 'lucide-react';
+import { Github, Twitter, Linkedin, Heart, Terminal, Cpu, Globe, Instagram } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo/coderafroj.png';
@@ -55,18 +55,25 @@ const Footer = () => {
                             EXTERNAL_LINK
                         </h4>
                         <div className="flex gap-4">
-                            {[Github, Twitter, Linkedin].map((Icon, i) => (
+                            {[
+                                { Icon: Github, href: "https://github.com/coderafroj", color: "hover:text-[#333]" },
+                                { Icon: Instagram, href: "https://www.instagram.com/coder_afroj", color: "hover:text-[#E1306C]" },
+                                { Icon: Linkedin, href: "https://in.linkedin.com/in/c-o-d-e-r-a-f-r-o-j-6a626729a", color: "hover:text-[#0077b5]" }
+                            ].map(({ Icon, href, color }, i) => (
                                 <motion.a
                                     key={i}
                                     whileHover={{ y: -5, scale: 1.05 }}
-                                    href="#"
-                                    className="w-11 h-11 rounded-xl bg-[#21262d] flex items-center justify-center text-slate-400 hover:text-white hover:bg-primary/20 transition-all border border-[#30363d] hover:border-primary/50 shadow-lg shadow-black/20"
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`w-11 h-11 rounded-xl bg-[#21262d] flex items-center justify-center text-slate-400 ${color} hover:bg-white transition-all border border-[#30363d] hover:border-transparent shadow-lg shadow-black/20`}
                                 >
                                     <Icon size={18} />
                                 </motion.a>
                             ))}
                         </div>
                     </div>
+
                 </div>
 
                 <div className="pt-10 border-t border-[#30363d]/50 flex flex-col md:flex-row justify-between items-center gap-8">
@@ -94,4 +101,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
