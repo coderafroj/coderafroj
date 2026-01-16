@@ -660,23 +660,28 @@
 /* Premium Markdown Typography - Optimized for Readability */
 .premium-markdown h1 {
   @apply text-3xl md:text-5xl font-black text-white tracking-tighter mb-8 md:mb-10 pb-4 border-b border-white/10 uppercase italic leading-tight;
+  overflow-wrap: anywhere;
 }
 
 .premium-markdown h2 {
   @apply text-xl md:text-3xl font-black text-primary-glow tracking-tight mt-10 md:mt-12 mb-5 flex items-center gap-3 uppercase;
+  overflow-wrap: anywhere;
 }
 
 .premium-markdown h2::before {
   content: '>';
   @apply text-primary font-mono text-lg md:text-xl;
+  flex-shrink: 0;
 }
 
 .premium-markdown h3 {
   @apply text-lg md:text-xl font-bold text-white tracking-tight mt-8 mb-4 uppercase;
+  overflow-wrap: anywhere;
 }
 
 .premium-markdown p {
   @apply text-slate-300 leading-relaxed mb-6 font-normal text-sm md:text-base opacity-90;
+  overflow-wrap: anywhere;
 }
 
 .premium-markdown ul {
@@ -685,11 +690,13 @@
 
 .premium-markdown li {
   @apply flex items-start gap-3 text-slate-400 text-sm md:text-base;
+  overflow-wrap: anywhere;
 }
 
 .premium-markdown li::before {
   content: '•';
   @apply text-primary font-bold mt-0.5;
+  flex-shrink: 0;
 }
 
 .premium-markdown blockquote {
