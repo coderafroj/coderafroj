@@ -48,9 +48,12 @@ const Notes = () => {
     const allTags = [...new Set(notes.flatMap(note => note.tags || []))];
 
     const filteredNotes = notes.filter(note => {
-        const matchesSearch = note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            note.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            note.content?.toLowerCase().includes(searchTerm.toLowerCase());
+        const searchWords = searchTerm.toLowerCase().split(/\s+/).filter(w => w);
+        const matchesSearch = searchWords.length === 0 || searchWords.every(word =>
+            note.title.toLowerCase().includes(word) ||
+            note.description.toLowerCase().includes(word) ||
+            note.content?.toLowerCase().includes(word)
+        );
         const matchesTag = selectedTag === 'all' || note.tags?.includes(selectedTag);
         return matchesSearch && matchesTag;
     });

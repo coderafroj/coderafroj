@@ -1582,5 +1582,1186 @@ Excel ka dimaag uske formulas hain. Formula hamesha \`=\` se shuru hota hai.
     - **Print Area**: Sirf select kiya hua hissa print karna.
     - **Header/Footer**: Page ke upar/neeche date ya page number lagana.
         `
-    }
+    },
+    {
+        id: 'iot-fundamentals-vision',
+        slug: 'iot-fundamentals-vision',
+        title: 'IoT Fundamentals & The Smart Vision',
+        description: 'Internet of Things ka core concept, M2M vs IoT, aur Smart Objects ki classification.',
+        tags: ['IoT', 'Basics', 'M2M', 'Future Tech'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# Internet of Things (IoT): The Global Vision
+
+**Internet of Things (IoT)** sirf devices ko connect karna nahi hai, balki ek aisa "Ecosystem" hai jahan har physical object internet ka ek endpoint ban jata hai.
+
+### 🌟 M1: The Basic Definition
+IoT ka matlab hai: "A network of physical objects embedded with sensors, software, and other technologies for the purpose of connecting and exchanging data with other devices and systems over the internet."
+
+### 🆚 M2M (Machine to Machine) vs IoT
+| Feature | M2M (Machine to Machine) | IoT (Internet of Things) |
+|---------|--------------------------|--------------------------|
+| **Connectivity** | Point-to-point (Isolated) | Network-based (Cloud) |
+| **Communication** | Closed system (Proprietary) | Open standards (IP-based) |
+| **Scalability** | Limited | Massive (Trillions) |
+
+\`\`\`mermaid
+graph LR
+    subgraph M2M
+    D1[Device A] --- D2[Device B]
+    end
+    subgraph IoT
+    D3[Device] --- C[Cloud/Internet] --- D4[App/User]
+    end
+\`\`\`
+
+---
+
+### 🧱 Framework Equations (Raj Kamal)
+IoT ko mathematical terms mein aise samjhein:
+1. **Basic**: \`Physical Object + Controller + Sensors + Actuators + Internet = IoT\`
+2. **Enterprise**: \`Gather + Enrich + Stream + Manage + Acquire + Analyse = IoT\`
+
+- **Enrich**: Data ko gateway par clean aur transcode karna.
+- **Stream**: Message queue se data distribute karna.
+        `
+    },
+    {
+        id: 'iot-architecture-frameworks',
+        slug: 'iot-architecture-frameworks',
+        title: 'IoT Architecture & Standard Models',
+        description: 'CISCO 7-Layer, IEEE P2413, aur multi-tiered architectures ka deep-dive.',
+        tags: ['Architecture', 'IoT', 'CISCO', 'Standards'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT Architecture: Multi-Layered Frameworks
+
+IoT architecture complex hoti hai kyunki isme hardware aur cloud dono ko merge karna padta hai.
+
+## 🏢 1. CISCO IoT Reference Model (7 Layers)
+CISCO ne IoT ko 7 layers mein divide kiya hai:
+
+\`\`\`mermaid
+graph BT
+    L1[Layer 1: Physical Devices] --- L2[Layer 2: Connectivity]
+    L2 --- L3[Layer 3: Edge Computing]
+    L3 --- L4[Layer 4: Data Accumulation]
+    L4 --- L5[Layer 5: Data Abstraction]
+    L5 --- L6[Layer 6: Application]
+    L6 --- L7[Layer 7: Collaboration & Processes]
+\`\`\`
+
+- **Edge Computing (Layer 3)**: Data ko cloud par bhejne se pehle filter karna.
+- **Data Abstraction (Layer 5)**: Alag-alag sources se aaye data ko ek format mein lana.
+
+---
+
+## 🏗️ 2. IEEE P2413 Standard
+Yeh global "Blueprint" hai jo interoperability (alag devices ka saath kaam karna) solve karta hai.
+
+### 🛡️ The Quadruple Trust
+IEEE focus karta hai:
+- **Protection**: Physical damage se bachao.
+- **Security**: Data encryption aur safety.
+- **Privacy**: User ki identity chupa ke rakhna.
+- **Safety**: Physically kisi ko nuksaan na ho (like in robots).
+        `
+    },
+    {
+        id: 'iot-protocols-communication',
+        slug: 'iot-protocols-communication',
+        title: 'IoT Protocols: Networking & Standards',
+        description: 'IPv6, 6LoWPAN, CoAP, aur MQTT protocols ka technical analysis.',
+        tags: ['Protocols', 'CoAP', 'MQTT', '6LoWPAN'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT Protocols: The Language of Things
+
+## 🌉 1. 6LoWPAN (Adaptation Layer)
+**IPv6 over Low-Power Wireless Personal Area Networks.**
+127-byte ke frames par 128-bit IPv6 chalana mushkil tha. 6LoWPAN ise solve karta hai:
+- **Header Compression**: IP header ko 40 bytes se 2-3 bytes tak lana.
+- **Fragmentation**: Large packets ko chote "Fragments" mein todna.
+
+---
+
+## 🚀 2. CoAP: The HTTP for IoT
+CoAP (Constrained Application Protocol) binary format use karta hai.
+
+| Feature | HTTP | CoAP |
+|---------|------|------|
+| **Transport** | TCP (Heavy) | UDP (Light) |
+| **Format** | Text | Binary |
+
+---
+
+## 📡 3. MQTT: Publish/Subscribe
+\`\`\`mermaid
+sequenceDiagram
+    participant S as Sensor
+    participant B as MQTT Broker
+    participant D as Admin Panel
+    S->>B: Publish (/temperature : 30C)
+    B->>D: Notify Subscriber
+\`\`\`
+
+- **QoS Level 1**: Kam se kam ek baar data pahunchna chahiye.
+- **QoS Level 2**: Exact ek baar data pahunchna chahiye (No duplicates).
+        `
+    },
+    {
+        id: 'iot-hardware-mcu-units',
+        slug: 'iot-hardware-mcu-units',
+        title: 'IoT Hardware: MCU & Sensor Units',
+        description: 'ADC, PWM, GPIO, Timers aur Wireless Sensor Network (WSN) topologies.',
+        tags: ['Hardware', 'WSN', 'MCU', 'Sensors'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT Hardware: Under the Hood
+
+## 🧠 1. Microcontroller Functional Units
+Ek IoT MCU (ESP32/Arduino) mein yeh units hote hain:
+- **ADC**: Analog sensor data (voltage) ko digital mein badalna.
+- **PWM**: Motor speed ya Light dimming ke liye pulses bhejna.
+- **Timers**: Exact waqt par interrupt generate karna.
+
+---
+
+## 🛰️ 2. Wireless Sensor Networks (WSN)
+WSN ek group hai sensors ka jo environment sensing karte hain.
+
+\`\`\`mermaid
+graph TD
+    N1((Node)) --- N2((Node))
+    N2 --- G[Sink/Gateway]
+    N3((Node)) --- G
+    N1 --- N4((Node))
+    N4 --- G
+\`\`\`
+
+### 🏷️ RFID (Tracking)
+- **Passive**: Reader se power leta hai (No battery).
+- **Active**: Apni battery hoti hai (Long range up to 100m).
+        `
+    },
+    {
+        id: 'iot-service-discovery-logic',
+        slug: 'iot-service-discovery-logic',
+        title: 'IoT Logic: Discovery & Session Initiation',
+        description: 'Discovery protocols (mDNS, DNS-SD), CoRE Resource Directory aur SIP.',
+        tags: ['Discovery', 'mDNS', 'SIP', 'CoRE'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT Logic: Discovery & Sessions
+
+## 🔍 1. Service Discovery
+Devices ko ek dusre ko find karne ke liye discovery chahiye.
+- **mDNS**: Bina server ke hostnames resolve karna.
+- **DNS-SD**: "Printer" ya "Sensor" service ko network par identify karna.
+
+## 📚 2. CoRE Resource Directory (RD)
+Constrained environments ke liye:
+1. **Registration**: Device apna "Type" aur "Address" RD ko batata hai.
+2. **Lookup**: Client RD se puchta hai ki "Temperature sensor kahan hai?".
+
+---
+
+## 📞 3. SIP (Session Initiation)
+SIP sessions banata hai, modify karta hai aur khatam karta hai. IoT mein webcam streaming ya real-time calls ke liye use hota hai.
+        `
+    },
+    {
+        id: 'iot-data-processing',
+        slug: 'iot-data-processing',
+        title: 'Data Processing & Analytics in IoT',
+        description: 'OLTP vs OLAP, NoSQL vs SQL, aur real-time data streaming logic.',
+        tags: ['Data', 'Analytics', 'NoSQL', 'Big Data'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# Data Analytics: Processing the Flood
+
+IoT trillions of records generate karta hai. Iska processing do tarah ka hota hai:
+
+## 📊 1. OLTP vs OLAP
+- **OLTP (Online Transaction Processing)**: Immediate updates (e.g., current temp).
+- **OLAP (Online Analytical Processing)**: Purana data analyze karke patterns nikalna (e.g., past 1 year usage).
+
+## 🗄️ 2. NoSQL for IoT
+Standard SQL databases (MySQL) IoT ke high speed data ko handle nahi kar sakte.
+- **Key-Value Stores**: Redis, Cassandra.
+- **Document Stores**: MongoDB (Unstructured sensor metadata ke liye).
+
+---
+
+## 📈 3. Real-time Streaming
+Data ko 'At Rest' store karne ke bajaye 'In Motion' analyze karna (e.g., Apache Kafka/Spark).
+\`\`\`mermaid
+graph LR
+    S[Sensors] --> Q[Message Queue]
+    Q --> P[Stream Processor]
+    P --> D[Dashboard]
+    P --> DB[Long-term DB]
+\`\`\`
+        `
+    },
+    {
+        id: 'iot-cloud-computing',
+        slug: 'iot-cloud-computing',
+        title: 'IoT Cloud Computing & Platforms (PaaS)',
+        description: 'AWS IoT, IBM BlueMix, aur Azure IoT Hub. Cloud Computing ka connectivity model.',
+        tags: ['Cloud', 'Cloud Computing', 'AWS', 'PaaS', 'Connectivity'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT on Cloud: Scaling the Edge
+
+Cloud platforms (PaaS) humein storage, computing aur device management dete hain.
+
+## ☁️ 1. Main Components
+- **Device Shadows**: Device offline hone par bhi uska "Last state" cloud par save rehta hai.
+- **Rules Engine**: Agar sensor value > 100, toh alert bhej do!
+- **Device Gateway**: Multitude of protocols ko handle karna.
+
+## 🏢 2. Major Platforms
+1. **AWS IoT**: Highly scalable, Lambda integrated.
+2. **IBM Watson IoT**: Cognitive (AI) abilities ke saath.
+3. **Microsoft Azure IoT**: Enterprise management ke liye best.
+
+---
+
+## 🔀 3. Connectivity Models (Raj Kamal)
+1. **D2D (Device to Device)**: Direct communication.
+2. **D2G (Device to Gateway)**: Bridge ke zariye.
+3. **D2C (Device to Cloud)**: Direct MQTT connection.
+        `
+    },
+    {
+        id: 'iot-security-solutions',
+        slug: 'iot-security-solutions',
+        title: 'IoT Security, Privacy & Vulnerabilities',
+        description: 'DTLS, IPsec, aur "Quadruple Trust" implementation patterns.',
+        tags: ['Security', 'DTLS', 'Privacy', 'Encryption'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IoT Security: The Silent Guardian
+
+IoT devices hacked hone ka khatra sabse zyada hai.
+
+## 🛡️ 1. Secure Communication Protocols
+- **DTLS (Datagram TLS)**: UDP par data encrypt karne ke liye (CoAP ke saath).
+- **IPsec**: Network layer par tunnel banana.
+- **TLS**: TCP base connections (MQTT over SSL).
+
+## 🔐 2. Privacy Techniques
+- **Data Anonymization**: User ka naam aur location reveal na hone dena.
+- **Pseudonymization**: Temporary IDs ka use karna.
+
+---
+
+## ☣️ 3. Vulnerabilities
+1. **Physical Attack**: Device ko churana ya reset karna.
+2. **Eavesdropping**: Data packtes ko beech mein read karna.
+3. **DoS (Denial of Service)**: Network ko overload karna.
+
+\`\`\`mermaid
+graph TD
+    T[Threats] --> P[Physical]
+    T --> N[Network]
+    T --> A[Application]
+    subgraph Defenses
+    D[Encryption]
+    I[Identity Management]
+    E[End-to-End Security]
+    end
+\`\`\`
+        `
+    },
+    {
+        id: 'iot-business-iiot',
+        slug: 'iot-business-iiot',
+        title: 'Industrial IoT (IIoT) & Business Models',
+        description: 'Industry 4.0, Predictive maintenance, Asset tracking aur M2M billing logic.',
+        tags: ['IIoT', 'Industrial IoT', 'Business', 'Industry 4.0'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# IIoT: Industry 4.0 Transformation
+
+**Industrial IoT (IIoT)** factories ko smart banata hai.
+
+## 🏭 1. Industry 4.0 Pillars
+- **Interoperability**: Sab machines ek dusre se baat karein.
+- **Digital Twins**: Physical machine ka digital copy jo cloud pe simulate ho sake.
+- **Decentralized Decisions**: Machines khud small decisions le sakein.
+
+## 💰 2. Business Revenue Models
+1. **Product as a Service**: Machine bechne ke bajaye usage (hours) par paise lena.
+2. **Predictive Maintenance**: Machine kharab hone se pehle engineer bhej dena (Cost saving).
+
+---
+
+## 📦 3. Asset Tracking (SCOVARS)
+**Supply Chain Order Verification and Resource System.**
+Real-time tracking ki madad se inventory aur loss ko 90% tak kam kiya ja sakta hai.
+        `
+    },
+    {
+        id: 'iot-case-studies-advanced',
+        slug: 'iot-case-studies-advanced',
+        title: 'Advanced IoT Case Studies',
+        description: 'Smart Farming, Smart Cities, aur E-Health ki implementation details.',
+        tags: ['Case Study', 'Smart Cities', 'Agriculture', 'Health'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
+# Real World IoT Case Studies
+
+## 🚜 1. Smart Farming (Precision Agriculture)
+- **Soil Sensors**: Mitti ka NPK levels (Nitrogen, Phosphorus, Potassium) check karna.
+- **Precision Irrigation**: Sirf usi tree ko pani dena jise zaroorat hai.
+
+## 🏥 2. E-Health (Remote Care)
+Wearable monitors jo heart-beat pattern analyze karte hain. Agar pattern abnormal hai:
+1. Trigger Emergency Alert.
+2. GPS location family aur doctor ko bhejna.
+
+---
+
+## 🏙️ 3. Smart City (Integrated Services)
+- **Smart Parking**: App se slot book karna.
+- **Waste Management**: Bin levels track karke optimal route banana kachre ki gaadi ke liye.
+
+\`\`\`mermaid
+graph TD
+    SC[Smart City] --> P[Infrastructure]
+    SC --> G[Governance]
+    SC --> E[Environment]
+    P --> Lighting
+    P --> Transport
+    E --> Waste
+    E --> AirQuality
+```
+            `
+    },
+        {
+        id: 'python-basics-syntax',
+        slug: 'python-basics-syntax',
+        title: 'Python Masterclass: Syntax & Fundamentals',
+        description: 'Python intro, setup, variables, aur data types ka deep technical overview.',
+        tags: ['Python', 'Basics', 'Variables', 'Data Types'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
+# Python Masterclass: Segment 1
+
+Python ek ** High - level **, ** Interpreted **, aur ** Dynamic ** programming language hai.Iska syntax itna simple hai ki ye english jaisa lagta hai.
+
+### 🌟 Python Philosophy(Zen of Python)
+    - Simple is better than complex.
+- Readability counts.
+
+### 🏗️ Python Internal Flow
+Python code kaise run hota hai ?
+
+\`\`\`mermaid
+graph LR
+    C[Source Code .py] --> B[Bytecode .pyc]
+    B --> P[PVM: Python Virtual Machine]
+    P --> R[Output]
+\`\`\`
+
+---
+
+### 🧱 Variables & Memory Logic
+Python mein variables sirf "Labels" hote hain jo objects ki taraf point karte hain.
+
+\`\`\`python
+# Dynamic Typing
+x = 10      # x is an integer
+x = "Afroj" # now x is a string
+\`\`\`
+
+**Variables rules in Hinglish:**
+- Number se shuru nahi ho sakta.
+- Sirf alpha-numeric characters (A-z, 0-9, aur _) allowed hain.
+- Case-sensitive (age aur Age alag hain).
+        `
+    },
+{
+    id: 'python-strings-mastery',
+        slug: 'python-strings-mastery',
+            title: 'Python Masterclass: Strings & Formatting',
+                description: 'Slicing, modern f-strings, escape characters aur advanced string methods.',
+                    tags: ['Python', 'Strings', 'f-strings', 'Slicing'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Mastering Python Strings
+
+Strings are sequences of characters. Python mein strings **Immutable** (badli nahi ja sakti) hoti hain.
+
+### ✂️ Slicing Logic
+String ka ek hissa nikalne ke liye indexing use hoti hai.
+
+\`\`\`python
+msg = "PythonRocks"
+# [start : stop : step]
+print(msg[0:6])   # Python
+print(msg[::-1])  # skcoRnohtyP (Reverse)
+\`\`\`
+
+---
+
+### 🎨 String Formatting (f-strings)
+Modern Python (3.6+) mein f-strings sabse best hain.
+
+\`\`\`python
+name = "Afroj"
+ver = 3.12
+print(f"Babu, I am using Python {ver} - {name.upper()}")
+\`\`\`
+
+---
+
+### 🛠️ Common Methods
+- \`.strip()\`: Faltu spaces hatana.
+- \`.replace("A", "B")\`: Purane character ko naye se badalna.
+- \`.split(",")\`: String ko list mein todna.
+
+\`\`\`mermaid
+graph TD
+    S[String] --> M1[Upper/Lower]
+    S --> M2[Slicing]
+    S --> M3[Search/Find]
+    S --> M4[Replace]
+\`\`\`
+        `
+},
+{
+    id: 'python-data-structures-lists',
+        slug: 'python-data-structures-lists',
+            title: 'Python Masterclass: Lists & Tuples',
+                description: 'Sequence types, Mutability vs Immutability aur operations.',
+                    tags: ['Python', 'Lists', 'Tuples', 'Data Structures'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Lists vs Tuples (The Real Difference)
+
+Dono hi collections store karne ke kaam aate hain, par logic alag hai.
+
+### 📋 Lists (Mutable)
+Lists dynamic hoti hain. Aap items add ya remove kar sakte hain.
+- \`.append()\`: End mein add karna.
+- \`.pop()\`: Last element nikalna.
+
+### 🔒 Tuples (Immutable)
+Tuples lock hote hain. Ek baar ban gaye toh change nahi honge. Fixed data ke liye best hain.
+
+| Feature | List \`[]\` | Tuple \`()\` |
+|---------|----------|-----------|
+| **Type** | Mutable | Immutable |
+| **Speed** | Thoda Slow | Fast |
+| **Memory** | Zyada | Kam |
+
+\`\`\`mermaid
+graph TD
+    DS[Sequence Types] --> L[Lists: Changing Data]
+    DS --> T[Tuples: Secure/Lock Data]
+\`\`\`
+
+---
+
+### 🧩 Nested Sequences
+Aap list ke andar list bhi rakh sakte hain:
+\`\`\`python
+matrix = [[1, 2], [3, 4]]
+print(matrix[0][1]) # 2
+\`\`\`
+        `
+},
+{
+    id: 'python-sets-dictionaries',
+        slug: 'python-sets-dictionaries',
+            title: 'Python Masterclass: Sets & Dictionaries',
+                description: 'Mapping types, Unique collections aur Hash Table logic.',
+                    tags: ['Python', 'Dictionaries', 'Sets', 'Hashing'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Dictionaries & Sets: The Powerhouses
+
+### 📖 Dictionaries (Key-Value)
+Ye Hash Tables par work karte hain, isliye search bahut fast hota hai.
+
+\`\`\`python
+user = {
+    "name": "Afroj",
+    "role": "Admin",
+    "status": "Online"
+}
+print(user["role"]) # Admin
+\`\`\`
+
+---
+
+### 🧊 Sets (Unique Only)
+Sets mein duplicate values allow nahi hoti. Mathematics ke Set operations yahan directly use hote hain.
+
+\`\`\`python
+s1 = {1, 2, 3}
+s2 = {3, 4, 5}
+print(s1.intersection(s2)) # {3}
+\`\`\`
+
+\`\`\`mermaid
+graph LR
+    D{Data Structure} --> U[Set: No Duplicates]
+    D --> K[Dictionary: Key-Mapping]
+\`\`\`
+
+---
+
+### 🧠 Interview Tip:
+Dictionaries order follow karti hain (Python 3.7+), pehle ye unordered hoti thin!
+        `
+},
+{
+    id: 'python-control-flow-loops',
+        slug: 'python-control-flow-loops',
+            title: 'Python Masterclass: Control Flow & Loops',
+                description: 'Logic building with If-Else, Match-Case, aur powerful loops.',
+                    tags: ['Python', 'Logic', 'Loops', 'Match-Case'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Python Control Flow: Decisions & Repetition
+
+Computer ko decisions lena sikhana hi real logic hai.
+
+### 🚦 If...Else Decisions
+Python indentation use karta hai (No curly braces \`{}\`!).
+
+\`\`\`python
+if age > 18:
+    print("Welcome Babu!")
+else:
+    print("Wait for access.")
+\`\`\`
+
+---
+
+### 🔄 Loops: For & While
+- **For Loop**: Jab humein pata ho kitni baar repeat karna hai.
+- **While Loop**: Jab tak condition true rahe, repeat karte raho.
+
+\`\`\`python
+for i in range(5):
+    print(f"Transmission {i}")
+\`\`\`
+
+---
+
+### 🆕 Match-Case (Python 3.10+)
+Ye traditional Switch-Case ka modern version hai.
+
+\`\`\`mermaid
+graph TD
+    IN[Input Value] --> C{Match Case}
+    C --> V1[Case 1]
+    C --> V2[Case 2]
+    C --> VO[Case _: Default]
+\`\`\`
+
+\`\`\`python
+status = 404
+match status:
+    case 200: print("Sync Successful")
+    case 404: print("Node Not Found")
+    case _: print("General Error")
+\`\`\`
+        `
+},
+{
+    id: 'python-advanced-functions',
+        slug: 'python-advanced-functions',
+            title: 'Python Masterclass: Functions & Functional Logic',
+                description: 'Args/Kwargs, Lambda, Map, Filter, aur powerful iterators.',
+                    tags: ['Python', 'Functions', 'Lambda', 'Functional Programming'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Python Functions: The Logic Blocks
+
+Functions code reusable banane mein madad karte hain.
+
+### 🍱 Args & Kwargs (Flexibility)
+Agar aapko nahi pata kitne arguments aayenge:
+- \`*args\`: Non-keyword arguments (as tuple).
+- \`**kwargs\`: Keyword arguments (as dictionary).
+
+\`\`\`python
+def system_log(*args, **kwargs):
+    print(f"User: {kwargs.get('user')}")
+    for log in args:
+        print(f"EVENT: {log}")
+\`\`\`
+
+---
+
+### ⚡ Lambda & Functional Tools
+Chote, one-liner functions ke liye Lambda use hota hai.
+
+\`\`\`mermaid
+graph LR
+    L[Lambda Input] --> O[Operation] --> R[Output]
+\`\`\`
+
+\`\`\`python
+nums = [1, 2, 3, 4]
+squares = list(map(lambda x: x**2, nums)) # [1, 4, 9, 16]
+\`\`\`
+        `
+},
+{
+    id: 'python-standard-libraries',
+        slug: 'python-standard-libraries',
+            title: 'Python Masterclass: Advanced Modules & PIP',
+                description: 'RegEx, JSON, Math, aur standard library mastery.',
+                    tags: ['Python', 'Modules', 'RegEx', 'JSON'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Python Standard Library: The Power Tools
+
+Python "Batteries Included" language hai, iska matlab iske paas har kaam ke liye module hai.
+
+### 🔍 RegEx (Search Patterns)
+Complex text search ke liye \`re\` module best hai.
+\`\`\`python
+import re
+txt = "Login at 10:30 AM"
+res = re.findall(r"\\d+:\\d+", txt) # ['10:30']
+\`\`\`
+
+---
+
+### 📦 JSON & API Handling
+Web services se data handle karne ke liye.
+- \`json.dumps()\`: Python object to JSON string.
+- \`json.loads()\`: JSON string to Python object.
+
+---
+
+### 🛠️ PIP: Package Manager
+External libraries install karne ke liye.
+\`\`\`bash
+pip install pandas numpy requests
+\`\`\`
+        `
+},
+{
+    id: 'python-error-handling-files',
+        slug: 'python-error-handling-files',
+            title: 'Python Masterclass: Error Handling & File I/O',
+                description: 'Try-Except sequences, File streaming aur custom exceptions.',
+                    tags: ['Python', 'Exceptions', 'File I/O', 'Debugging'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Robust Python: Handling the Unexpected
+
+Crash recovery ke liye Error Handling zaroori hai.
+
+### 🛡️ Try...Except Block
+\`\`\`mermaid
+graph TD
+    T[Try Block] --> S{Error?}
+    S -- Yes --> E[Except Block]
+    S -- No --> F[Finally/Else]
+\`\`\`
+
+\`\`\`python
+try:
+    res = 10 / 0
+except ZeroDivisionError:
+    print("Babu, zero se divide mat karo!")
+finally:
+    print("Process Complete")
+\`\`\`
+
+---
+
+### 📂 File Handling
+Files read aur write karne ka pro way:
+\`\`\`python
+with open("data.txt", "w") as f:
+    f.write("System Log: Online")
+# 'with' use karne se file automatically close ho jati hai.
+\`\`\`
+        `
+},
+{
+    id: 'python-oop-essentials',
+        slug: 'python-oop-essentials',
+            title: 'Python Masterclass: OOP Essentials',
+                description: 'Classes, Objects, __init__ method aur self parameter logic.',
+                    tags: ['Python', 'OOP', 'Classes', 'Objects'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Object-Oriented Programming (OOP) in Python
+
+OOP real-world entities ko simulate karne mein madad karta hai.
+
+### 🏗️ Class & Object
+- **Class**: Blueprint (e.g., Car ka design).
+- **Object**: Actual entity (e.g., Wo Red Car).
+
+\`\`\`python
+class Coderafroj:
+    def __init__(self, role):
+        self.role = role # self points to the current object
+    
+    def greet(self):
+        print(f"Welcome {self.role}")
+
+user1 = Coderafroj("Admin")
+user1.greet()
+\`\`\`
+
+---
+
+### 🧱 The \`__init__\` Method
+Ye "Constructor" hota hai jo object bante hi automatically call hota hai.
+        `
+},
+{
+    id: 'python-advanced-oop',
+        slug: 'python-advanced-oop',
+            title: 'Python Masterclass: Advanced OOP Patterns',
+                description: 'Inheritance, Polymorphism, Encapsulation aur Inner Classes.',
+                    tags: ['Python', 'OOP', 'Inheritance', 'Advanced'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Advanced OOP: The Architecture Pillars
+
+### 🧬 1. Inheritance (Virasat)
+Ek class ki properties dusri class mein le jana.
+\`\`\`python
+class Device:
+    def power_on(self): print("On")
+
+class Phone(Device): # Inheriting Device
+    def call(self): print("Calling...")
+\`\`\`
+
+---
+
+### 🎭 2. Polymorphism (One thing, Many forms)
+Alag-alag classes mein same method name hona.
+
+\`\`\`mermaid
+graph TD
+    A[Animal MakeSound] --> D[Dog: Woof]
+    A --> C[Cat: Meow]
+\`\`\`
+
+---
+
+### 🔒 3. Encapsulation (Privacy)
+Data ko hide karna using underscore (e.g., \`__wallet\`).
+        `
+},
+{
+    id: 'python-numpy-core',
+        slug: 'python-numpy-core',
+            title: 'Python Masterclass: NumPy Core (Scientific I)',
+                description: 'Arrays, Broadcasting, aur Vectorized Operations NumPy mein.',
+                    tags: ['Python', 'NumPy', 'Arrays', 'Performance'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# NumPy: Numerical Python Foundations
+
+NumPy libraries ko arrays handle karne ke liye optimized banati hai using **Vectorized** operations.
+
+### ⚡ Why NumPy?
+Standard Python lists slow hoti hain (Homogeneous data nahi hota). NumPy arrays C-language ki speed pe run karte hain.
+
+\`\`\`python
+import numpy as np
+arr = np.array([1, 2, 3, 4])
+arr *= 2 # Vectorized Multiplication: [2, 4, 6, 8]
+\`\`\`
+
+---
+
+### 🥪 Broadcasting Logic
+Jab alag shape ke arrays par operation karna ho:
+\`\`\`mermaid
+graph LR
+    A[Array 1x3] --> plus[+]
+    S[Scalar 1x1] --> plus
+    plus --> R[Broadcasted Result]
+\`\`\`
+        `
+},
+{
+    id: 'python-scipy-stats',
+        slug: 'python-scipy-stats',
+            title: 'Python Masterclass: SciPy & Statistics (Scientific II)',
+                description: 'Optimization, integration, aur stats functions using SciPy.',
+                    tags: ['Python', 'SciPy', 'Science', 'Statistics'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# SciPy: Scientific Tools for Engineers
+
+SciPy NumPy ke upar build kiya gaya hai for complex scientific computing.
+
+### 🧪 Optimization
+\`\`\`python
+from scipy.optimize import minimize
+# Equation minimize karne ke liye use hota hai.
+\`\`\`
+
+---
+
+### 📊 Stats Mastery
+Mean, Median, Mode aur Normal Distribution functions:
+- \`scipy.stats.norm\`: Bell curve handle karne ke liye.
+
+\`\`\`mermaid
+graph TD
+    Data --> Mean
+    Data --> StdDev[Standard Deviation]
+    Data --> Var[Variance]
+\`\`\`
+        `
+},
+{
+    id: 'python-pandas-wrangling',
+        slug: 'python-pandas-wrangling',
+            title: 'Python Masterclass: Pandas & Data Wrangling',
+                description: 'DataFrames, Series, Cleaning aur Data transformation.',
+                    tags: ['Python', 'Pandas', 'Data Analysis', 'Cleaning'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Pandas: The Data Scientist's Swiss Army Knife
+
+Pandas data ko structure karne (DataFrames) mein help karta hai.
+
+### 📊 DataFrames Setup
+Ye ek excel sheet ya table jaisa hota hai (Rows aur Columns).
+
+\`\`\`python
+import pandas as pd
+df = pd.read_csv("data.csv")
+print(df.head()) # Top 5 rows dekhne ke liye
+\`\`\`
+
+---
+
+### 🧹 Cleaning Logic
+Agar data mein empty values hon:
+- \`df.dropna()\`: Empty rows hatana.
+- \`df.fillna(0)\`: Empty ko 0 se bharna.
+
+\`\`\`mermaid
+graph LR
+    R[Raw Data] --> P[Pandas] --> C[Cleaned Table]
+\`\`\`
+        `
+},
+{
+    id: 'python-matplotlib-visuals',
+        slug: 'python-matplotlib-visuals',
+            title: 'Python Masterclass: Matplotlib Foundations',
+                description: 'Plotting, subplots, aur custom styling with Matplotlib.',
+                    tags: ['Python', 'Matplotlib', 'Visuals', 'Charts'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Matplotlib: Visualizing Logic
+
+Data ko graphs mein badalna zaroori hai insight pane ke liye.
+
+### 📈 Simple Line Plot
+\`\`\`python
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3], [10, 20, 30])
+plt.xlabel("X-Axis")
+plt.ylabel("Y-Value")
+plt.show()
+\`\`\`
+
+---
+
+### 📐 Subplots Logic
+Ek hi window mein multiple graphs dikhana:
+\`\`\`python
+plt.subplot(1, 2, 1) # 1 row, 2 columns, graph 1
+plt.plot(x, y)
+\`\`\`
+
+\`\`\`mermaid
+graph TD
+    D[Data] --> L[Line Plot]
+    D --> S[Scatter Plot]
+    D --> B[Bar Chart]
+\`\`\`
+        `
+},
+{
+    id: 'python-advanced-visuals',
+        slug: 'python-advanced-visuals',
+            title: 'Python Masterclass: Advanced Data Visuals',
+                description: 'Scatter plots, Histograms, Pie Charts aur 3D visualizations.',
+                    tags: ['Python', 'Visualization', 'Charts', '3D'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Advanced Visuals: Beyond the Basics
+
+Complex data ko behtar samjhane ke liye advanced charts use hote hain.
+
+### ☄️ Scatter Plots
+Point wise correlation dekhne ke liye.
+\`\`\`python
+plt.scatter(height, weight)
+\`\`\`
+
+---
+
+### 🥧 Pie & Histograms
+- **Histogram**: Frequency distribution dekhne ke liye (e.g., age groups).
+- **Pie**: Part-to-whole comparison.
+
+---
+
+### 🧊 3D Visualization
+\`\`\`python
+from mpl_toolkits import mplot3d
+ax = plt.axes(projection='3d')
+ax.plot3D(x, y, z)
+\`\`\`
+
+\`\`\`mermaid
+graph TD
+    V[Vis Type] --> C1[Scatter: Correlation]
+    V --> C2[Histogram: Frequency]
+    V --> C3[Pie: Allocation]
+\`\`\`
+        `
+},
+{
+    id: 'python-dsa-ds',
+        slug: 'python-dsa-ds',
+            title: 'Python Masterclass: DSA I (Data Structures)',
+                description: 'Stacks, Queues, Linked Lists, aur Hash Tables Python mein.',
+                    tags: ['Python', 'DSA', 'Stacks', 'Queues'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Data Structures: Organizing Efficiency
+
+### 📚 Stacks (LIFO)
+Last In First Out.
+\`\`\`python
+stack = []
+stack.append(1) # Push
+stack.pop()      # Pop
+\`\`\`
+
+---
+
+### ⏳ Queues (FIFO)
+First In First Out. Python mein \`collections.deque\` use karna best hai.
+\`\`\`python
+from collections import deque
+q = deque(["User1", "User2"])
+q.popleft() # User1 out
+\`\`\`
+
+---
+
+### 🔗 Linked Lists
+Nodes aur Pointers ka concept.
+\`\`\`mermaid
+graph LR
+    H[Head] --> N1[Node 1] --> N2[Node 2] --> NULL
+\`\`\`
+        `
+},
+{
+    id: 'python-dsa-algorithms',
+        slug: 'python-dsa-algorithms',
+            title: 'Python Masterclass: DSA II (Sorting & Searching)',
+                description: 'Binary Search, Quick Sort, aur Merge Sort algorithms.',
+                    tags: ['Python', 'DSA', 'Sorting', 'Algorithms'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Sorting & Searching: The Speed King
+
+### 🔎 Binary Search
+Sorted collection mein data dhundhne ka fastest tarika ($O(\\log n)$).
+
+\`\`\`mermaid
+graph TD
+    M[Find Mid] --> L{Mid == Target?}
+    L -- Yes --> R[Found]
+    L -- No --> S{Target < Mid?}
+    S -- Yes --> Left[Search Left Half]
+    S -- No --> Right[Search Right Half]
+\`\`\`
+
+---
+
+### 🌪️ Sorting Algorithms
+- **Quick Sort**: Divide and Conquer.
+- **Merge Sort**: Stable sort for large data.
+        `
+},
+{
+    id: 'python-dsa-trees-graphs',
+        slug: 'python-dsa-trees-graphs',
+            title: 'Python Masterclass: DSA III (Trees & Graphs)',
+                description: 'Binary Trees, BST, aur Graph Traversal (BFS/DFS).',
+                    tags: ['Python', 'DSA', 'Trees', 'Graphs'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Trees & Graphs: Complex Relationships
+
+### 🌳 Binary Search Tree (BST)
+Choti values left mein, badi values right mein.
+
+\`\`\`mermaid
+graph TD
+    10 --> 5
+    10 --> 15
+    5 --> 2
+    5 --> 7
+\`\`\`
+
+---
+
+### 🕸️ Graphs
+Nodes (Vertices) aur Edges (Connections).
+- **BFS**: Level by level search.
+- **DFS**: Depth mein search karna.
+        `
+},
+{
+    id: 'python-databases-mysql',
+        slug: 'python-databases-mysql',
+            title: 'Python Masterclass: MySQL & Databases',
+                description: 'CRUD operations, Joins, aur Table management with Python.',
+                    tags: ['Python', 'MySQL', 'Database', 'SQL'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# Relational Databases: Python + MySQL
+
+Structured data ko store karne ke liye SQL best hai.
+
+### 🐬 Connector Setup
+\`\`\`python
+import mysql.connector
+db = mysql.connector.connect(host="localhost", user="root", password="...")
+cursor = db.cursor()
+\`\`\`
+
+---
+
+### 🔨 CRUD Operations
+- **Create**: \`INSERT INTO users ...\`
+- **Read**: \`SELECT * FROM users\`
+- **Update**: \`UPDATE users SET ...\`
+- **Delete**: \`DELETE FROM users ...\`
+
+\`\`\`mermaid
+graph LR
+    P[Python] --> C[Connector] --> M[MySQL Engine]
+    M --> Output
+\`\`\`
+        `
+},
+{
+    id: 'python-databases-nosql',
+        slug: 'python-databases-nosql',
+            title: 'Python Masterclass: NoSQL & MongoDB',
+                description: 'Collections, Queries, aur Scalability with MongoDB.',
+                    tags: ['Python', 'NoSQL', 'MongoDB', 'Big Data'],
+                        category: 'Python Masterclass',
+                            image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+                                createdAt: new Date('2024-01-18'),
+                                    content: `
+# NoSQL: Handling Unstructured Data
+
+MongoDB documents (JSON style) use karta hai, isliye scaling asaan hai.
+
+### 🍃 PyMongo Usage
+\`\`\`python
+from pymongo import MongoClient
+client = MongoClient("mongodb://localhost:27017")
+db = client['Afridb']
+collection = db['users']
+\`\`\`
+
+---
+
+### 🔍 Querying
+\`\`\`python
+res = collection.find({"role": "Admin"})
+for user in res:
+    print(user['name'])
+\`\`\`
+
+\`\`\`mermaid
+graph TD
+    D[Document] --> C[Collection] --> DB[Database]
+\`\`\`
+        `
+}
 ];
