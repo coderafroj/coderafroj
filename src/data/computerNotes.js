@@ -1,4 +1,4 @@
-export const staticNotes = [
+﻿export const staticNotes = [
     {
         id: 'computer-definition',
         slug: 'computer-definition',
@@ -1957,10 +1957,10 @@ graph TD
     P --> Transport
     E --> Waste
     E --> AirQuality
-```
+\`\`\`
             `
     },
-        {
+    {
         id: 'python-basics-syntax',
         slug: 'python-basics-syntax',
         title: 'Python Masterclass: Syntax & Fundamentals',
@@ -1972,10 +1972,10 @@ graph TD
         content: `
 # Python Masterclass: Segment 1
 
-Python ek ** High - level **, ** Interpreted **, aur ** Dynamic ** programming language hai.Iska syntax itna simple hai ki ye english jaisa lagta hai.
+Python ek **High-level**, **Interpreted**, aur **Dynamic** programming language hai. Iska syntax itna simple hai ki ye english jaisa lagta hai.
 
-### 🌟 Python Philosophy(Zen of Python)
-    - Simple is better than complex.
+### 🌟 Python Philosophy (Zen of Python)
+- Simple is better than complex.
 - Readability counts.
 
 ### 🏗️ Python Internal Flow
@@ -2005,16 +2005,16 @@ x = "Afroj" # now x is a string
 - Case-sensitive (age aur Age alag hain).
         `
     },
-{
-    id: 'python-strings-mastery',
+    {
+        id: 'python-strings-mastery',
         slug: 'python-strings-mastery',
-            title: 'Python Masterclass: Strings & Formatting',
-                description: 'Slicing, modern f-strings, escape characters aur advanced string methods.',
-                    tags: ['Python', 'Strings', 'f-strings', 'Slicing'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Strings & Formatting',
+        description: 'Slicing, modern f-strings, escape characters aur advanced string methods.',
+        tags: ['Python', 'Strings', 'f-strings', 'Slicing'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Mastering Python Strings
 
 Strings are sequences of characters. Python mein strings **Immutable** (badli nahi ja sakti) hoti hain.
@@ -2055,17 +2055,17 @@ graph TD
     S --> M4[Replace]
 \`\`\`
         `
-},
-{
-    id: 'python-data-structures-lists',
+    },
+    {
+        id: 'python-data-structures-lists',
         slug: 'python-data-structures-lists',
-            title: 'Python Masterclass: Lists & Tuples',
-                description: 'Sequence types, Mutability vs Immutability aur operations.',
-                    tags: ['Python', 'Lists', 'Tuples', 'Data Structures'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Lists & Tuples',
+        description: 'Sequence types, Mutability vs Immutability aur operations.',
+        tags: ['Python', 'Lists', 'Tuples', 'Data Structures'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Lists vs Tuples (The Real Difference)
 
 Dono hi collections store karne ke kaam aate hain, par logic alag hai.
@@ -2099,17 +2099,17 @@ matrix = [[1, 2], [3, 4]]
 print(matrix[0][1]) # 2
 \`\`\`
         `
-},
-{
-    id: 'python-sets-dictionaries',
+    },
+    {
+        id: 'python-sets-dictionaries',
         slug: 'python-sets-dictionaries',
-            title: 'Python Masterclass: Sets & Dictionaries',
-                description: 'Mapping types, Unique collections aur Hash Table logic.',
-                    tags: ['Python', 'Dictionaries', 'Sets', 'Hashing'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Sets & Dictionaries',
+        description: 'Mapping types, Unique collections aur Hash Table logic.',
+        tags: ['Python', 'Dictionaries', 'Sets', 'Hashing'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Dictionaries & Sets: The Powerhouses
 
 ### 📖 Dictionaries (Key-Value)
@@ -2150,13 +2150,13 @@ Dictionaries order follow karti hain (Python 3.7+), pehle ye unordered hoti thin
 {
     id: 'python-control-flow-loops',
         slug: 'python-control-flow-loops',
-            title: 'Python Masterclass: Control Flow & Loops',
-                description: 'Logic building with If-Else, Match-Case, aur powerful loops.',
-                    tags: ['Python', 'Logic', 'Loops', 'Match-Case'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Control Flow & Loops',
+        description: 'Logic building with If-Else, Match-Case, aur powerful loops.',
+        tags: ['Python', 'Logic', 'Loops', 'Match-Case'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Python Control Flow: Decisions & Repetition
 
 Computer ko decisions lena sikhana hi real logic hai.
@@ -2207,13 +2207,13 @@ match status:
 {
     id: 'python-advanced-functions',
         slug: 'python-advanced-functions',
-            title: 'Python Masterclass: Functions & Functional Logic',
-                description: 'Args/Kwargs, Lambda, Map, Filter, aur powerful iterators.',
-                    tags: ['Python', 'Functions', 'Lambda', 'Functional Programming'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Functions & Functional Logic',
+        description: 'Args/Kwargs, Lambda, Map, Filter, aur powerful iterators.',
+        tags: ['Python', 'Functions', 'Lambda', 'Functional Programming'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Python Functions: The Logic Blocks
 
 Functions code reusable banane mein madad karte hain.
@@ -2249,13 +2249,13 @@ squares = list(map(lambda x: x**2, nums)) # [1, 4, 9, 16]
 {
     id: 'python-standard-libraries',
         slug: 'python-standard-libraries',
-            title: 'Python Masterclass: Advanced Modules & PIP',
-                description: 'RegEx, JSON, Math, aur standard library mastery.',
-                    tags: ['Python', 'Modules', 'RegEx', 'JSON'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Advanced Modules & PIP',
+        description: 'RegEx, JSON, Math, aur standard library mastery.',
+        tags: ['Python', 'Modules', 'RegEx', 'JSON'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Python Standard Library: The Power Tools
 
 Python "Batteries Included" language hai, iska matlab iske paas har kaam ke liye module hai.
@@ -2287,13 +2287,13 @@ pip install pandas numpy requests
 {
     id: 'python-error-handling-files',
         slug: 'python-error-handling-files',
-            title: 'Python Masterclass: Error Handling & File I/O',
-                description: 'Try-Except sequences, File streaming aur custom exceptions.',
-                    tags: ['Python', 'Exceptions', 'File I/O', 'Debugging'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Error Handling & File I/O',
+        description: 'Try-Except sequences, File streaming aur custom exceptions.',
+        tags: ['Python', 'Exceptions', 'File I/O', 'Debugging'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Robust Python: Handling the Unexpected
 
 Crash recovery ke liye Error Handling zaroori hai.
@@ -2329,13 +2329,13 @@ with open("data.txt", "w") as f:
 {
     id: 'python-oop-essentials',
         slug: 'python-oop-essentials',
-            title: 'Python Masterclass: OOP Essentials',
-                description: 'Classes, Objects, __init__ method aur self parameter logic.',
-                    tags: ['Python', 'OOP', 'Classes', 'Objects'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: OOP Essentials',
+        description: 'Classes, Objects, __init__ method aur self parameter logic.',
+        tags: ['Python', 'OOP', 'Classes', 'Objects'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Object-Oriented Programming (OOP) in Python
 
 OOP real-world entities ko simulate karne mein madad karta hai.
@@ -2365,13 +2365,13 @@ Ye "Constructor" hota hai jo object bante hi automatically call hota hai.
 {
     id: 'python-advanced-oop',
         slug: 'python-advanced-oop',
-            title: 'Python Masterclass: Advanced OOP Patterns',
-                description: 'Inheritance, Polymorphism, Encapsulation aur Inner Classes.',
-                    tags: ['Python', 'OOP', 'Inheritance', 'Advanced'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Advanced OOP Patterns',
+        description: 'Inheritance, Polymorphism, Encapsulation aur Inner Classes.',
+        tags: ['Python', 'OOP', 'Inheritance', 'Advanced'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Advanced OOP: The Architecture Pillars
 
 ### 🧬 1. Inheritance (Virasat)
@@ -2404,13 +2404,13 @@ Data ko hide karna using underscore (e.g., \`__wallet\`).
 {
     id: 'python-numpy-core',
         slug: 'python-numpy-core',
-            title: 'Python Masterclass: NumPy Core (Scientific I)',
-                description: 'Arrays, Broadcasting, aur Vectorized Operations NumPy mein.',
-                    tags: ['Python', 'NumPy', 'Arrays', 'Performance'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: NumPy Core (Scientific I)',
+        description: 'Arrays, Broadcasting, aur Vectorized Operations NumPy mein.',
+        tags: ['Python', 'NumPy', 'Arrays', 'Performance'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # NumPy: Numerical Python Foundations
 
 NumPy libraries ko arrays handle karne ke liye optimized banati hai using **Vectorized** operations.
@@ -2439,13 +2439,13 @@ graph LR
 {
     id: 'python-scipy-stats',
         slug: 'python-scipy-stats',
-            title: 'Python Masterclass: SciPy & Statistics (Scientific II)',
-                description: 'Optimization, integration, aur stats functions using SciPy.',
-                    tags: ['Python', 'SciPy', 'Science', 'Statistics'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: SciPy & Statistics (Scientific II)',
+        description: 'Optimization, integration, aur stats functions using SciPy.',
+        tags: ['Python', 'SciPy', 'Science', 'Statistics'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # SciPy: Scientific Tools for Engineers
 
 SciPy NumPy ke upar build kiya gaya hai for complex scientific computing.
@@ -2473,13 +2473,13 @@ graph TD
 {
     id: 'python-pandas-wrangling',
         slug: 'python-pandas-wrangling',
-            title: 'Python Masterclass: Pandas & Data Wrangling',
-                description: 'DataFrames, Series, Cleaning aur Data transformation.',
-                    tags: ['Python', 'Pandas', 'Data Analysis', 'Cleaning'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Pandas & Data Wrangling',
+        description: 'DataFrames, Series, Cleaning aur Data transformation.',
+        tags: ['Python', 'Pandas', 'Data Analysis', 'Cleaning'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Pandas: The Data Scientist's Swiss Army Knife
 
 Pandas data ko structure karne (DataFrames) mein help karta hai.
@@ -2509,13 +2509,13 @@ graph LR
 {
     id: 'python-matplotlib-visuals',
         slug: 'python-matplotlib-visuals',
-            title: 'Python Masterclass: Matplotlib Foundations',
-                description: 'Plotting, subplots, aur custom styling with Matplotlib.',
-                    tags: ['Python', 'Matplotlib', 'Visuals', 'Charts'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Matplotlib Foundations',
+        description: 'Plotting, subplots, aur custom styling with Matplotlib.',
+        tags: ['Python', 'Matplotlib', 'Visuals', 'Charts'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Matplotlib: Visualizing Logic
 
 Data ko graphs mein badalna zaroori hai insight pane ke liye.
@@ -2549,13 +2549,13 @@ graph TD
 {
     id: 'python-advanced-visuals',
         slug: 'python-advanced-visuals',
-            title: 'Python Masterclass: Advanced Data Visuals',
-                description: 'Scatter plots, Histograms, Pie Charts aur 3D visualizations.',
-                    tags: ['Python', 'Visualization', 'Charts', '3D'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: Advanced Data Visuals',
+        description: 'Scatter plots, Histograms, Pie Charts aur 3D visualizations.',
+        tags: ['Python', 'Visualization', 'Charts', '3D'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Advanced Visuals: Beyond the Basics
 
 Complex data ko behtar samjhane ke liye advanced charts use hote hain.
@@ -2592,13 +2592,13 @@ graph TD
 {
     id: 'python-dsa-ds',
         slug: 'python-dsa-ds',
-            title: 'Python Masterclass: DSA I (Data Structures)',
-                description: 'Stacks, Queues, Linked Lists, aur Hash Tables Python mein.',
-                    tags: ['Python', 'DSA', 'Stacks', 'Queues'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: DSA I (Data Structures)',
+        description: 'Stacks, Queues, Linked Lists, aur Hash Tables Python mein.',
+        tags: ['Python', 'DSA', 'Stacks', 'Queues'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Data Structures: Organizing Efficiency
 
 ### 📚 Stacks (LIFO)
@@ -2632,13 +2632,13 @@ graph LR
 {
     id: 'python-dsa-algorithms',
         slug: 'python-dsa-algorithms',
-            title: 'Python Masterclass: DSA II (Sorting & Searching)',
-                description: 'Binary Search, Quick Sort, aur Merge Sort algorithms.',
-                    tags: ['Python', 'DSA', 'Sorting', 'Algorithms'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: DSA II (Sorting & Searching)',
+        description: 'Binary Search, Quick Sort, aur Merge Sort algorithms.',
+        tags: ['Python', 'DSA', 'Sorting', 'Algorithms'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Sorting & Searching: The Speed King
 
 ### 🔎 Binary Search
@@ -2663,13 +2663,13 @@ graph TD
 {
     id: 'python-dsa-trees-graphs',
         slug: 'python-dsa-trees-graphs',
-            title: 'Python Masterclass: DSA III (Trees & Graphs)',
-                description: 'Binary Trees, BST, aur Graph Traversal (BFS/DFS).',
-                    tags: ['Python', 'DSA', 'Trees', 'Graphs'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: DSA III (Trees & Graphs)',
+        description: 'Binary Trees, BST, aur Graph Traversal (BFS/DFS).',
+        tags: ['Python', 'DSA', 'Trees', 'Graphs'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1543286386-713bcd53cfcc?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Trees & Graphs: Complex Relationships
 
 ### 🌳 Binary Search Tree (BST)
@@ -2694,13 +2694,13 @@ Nodes (Vertices) aur Edges (Connections).
 {
     id: 'python-databases-mysql',
         slug: 'python-databases-mysql',
-            title: 'Python Masterclass: MySQL & Databases',
-                description: 'CRUD operations, Joins, aur Table management with Python.',
-                    tags: ['Python', 'MySQL', 'Database', 'SQL'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: MySQL & Databases',
+        description: 'CRUD operations, Joins, aur Table management with Python.',
+        tags: ['Python', 'MySQL', 'Database', 'SQL'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # Relational Databases: Python + MySQL
 
 Structured data ko store karne ke liye SQL best hai.
@@ -2730,13 +2730,13 @@ graph LR
 {
     id: 'python-databases-nosql',
         slug: 'python-databases-nosql',
-            title: 'Python Masterclass: NoSQL & MongoDB',
-                description: 'Collections, Queries, aur Scalability with MongoDB.',
-                    tags: ['Python', 'NoSQL', 'MongoDB', 'Big Data'],
-                        category: 'Python Masterclass',
-                            image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
-                                createdAt: new Date('2024-01-18'),
-                                    content: `
+        title: 'Python Masterclass: NoSQL & MongoDB',
+        description: 'Collections, Queries, aur Scalability with MongoDB.',
+        tags: ['Python', 'NoSQL', 'MongoDB', 'Big Data'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-18'),
+        content: `
 # NoSQL: Handling Unstructured Data
 
 MongoDB documents (JSON style) use karta hai, isliye scaling asaan hai.
@@ -2765,3 +2765,7 @@ graph TD
         `
 }
 ];
+
+
+
+
