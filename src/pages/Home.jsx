@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../components/SEO';
 import { motion } from 'framer-motion';
 import {
     Terminal, Code, Cpu, Shield, ArrowRight, Github,
@@ -22,6 +23,7 @@ const Home = () => {
 
     return (
         <div className="relative min-h-screen bg-[#02040a] selection:bg-primary/30 selection:text-white overflow-hidden">
+            <SEO />
             {/* 3D Background System */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />

@@ -7,6 +7,7 @@ import GitHubFileBrowser from '../components/GitHub/GitHubFileBrowser';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, LogOut, Layout, Settings, Activity } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import SEO from '../components/SEO';
 
 const GitHubDashboard = () => {
     const {
@@ -46,6 +47,11 @@ const GitHubDashboard = () => {
 
     return (
         <div className="min-h-screen pb-20 pt-10 px-4 max-w-7xl mx-auto relative">
+            <SEO
+                title="GitHub Command Center"
+                description="Manage your repositories, view live activity, and sync files directly with GitHub using the Coderafroj Command Center."
+                url="/github"
+            />
             {/* Background elements - more organic glow */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full opacity-50" />

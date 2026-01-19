@@ -4,6 +4,7 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { BookOpen, Calendar, Tag, Sparkles, Search, Command, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 import { staticNotes } from '../data/computerNotes';
 
@@ -71,6 +72,11 @@ const Notes = () => {
 
     return (
         <div className="min-h-screen digital-grid pt-24 md:pt-32 px-4 md:px-6 pb-32 md:pb-40">
+            <SEO
+                title="Computer Science Notes & Architecture"
+                description="Access the core data repository for Computer Science, Architecture, and Digital Security concepts. High-quality notes and tutorials."
+                url="/notes"
+            />
             <div className="max-w-7xl mx-auto relative">
                 {/* Visual Background Elements */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/10 via-transparent to-transparent opacity-50 blur-[120px] pointer-events-none" />

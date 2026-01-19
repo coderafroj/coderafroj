@@ -4,6 +4,7 @@ import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import ProjectCard from '../components/ProjectCard';
 import { Sparkles, Terminal } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -35,6 +36,11 @@ const Projects = () => {
 
     return (
         <div className="pt-40 pb-32 min-h-screen px-6">
+            <SEO
+                title="Projects & Portfolio"
+                description="Index of deployed architectural systems and neural experiments established within the session."
+                url="/projects"
+            />
             <div className="max-w-7xl mx-auto">
                 <header className="mb-24 text-center">
                     <motion.div

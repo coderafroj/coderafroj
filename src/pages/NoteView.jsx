@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle, Github, Linkedin, Instagram } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import SEO from '../components/SEO';
 
 import { staticNotes } from '../data/computerNotes';
 
@@ -81,6 +82,18 @@ const NoteView = () => {
 
     return (
         <div className="min-h-screen digital-grid pt-24 md:pt-32 pb-32 md:pb-40">
+            {note && (
+                <SEO
+                    title={note.title}
+                    description={note.description}
+                    image={note.image}
+                    url={`/notes/${note.id}`}
+                    keywords={note.tags?.join(', ')}
+                    type="article"
+                    date={note.createdAt?.toISOString()}
+                    author="Coderafroj"
+                />
+            )}
             <div className="w-full max-w-7xl mx-auto relative px-4 md:px-6">
                 {/* Visual Glows */}
                 <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
