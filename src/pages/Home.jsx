@@ -326,9 +326,11 @@ const Home = () => {
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                                    <button className="w-full py-3 bg-white text-black rounded-xl font-black text-[10px] uppercase tracking-widest shadow-2xl">
-                                        Inspect Design
-                                    </button>
+                                    <Link to={`/design/${project.id}`} className="w-full">
+                                        <button className="w-full py-3 bg-white text-black rounded-xl font-black text-[10px] uppercase tracking-widest shadow-2xl">
+                                            Inspect Design
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="space-y-4">

@@ -1,6 +1,7 @@
 import { Card } from './ui/Card';
 import { ExternalLink, Sparkles, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const ProjectCard = ({ project }) => {
     return (
@@ -45,18 +46,25 @@ const ProjectCard = ({ project }) => {
                 </div>
 
                 <div className="flex items-center gap-4 mt-auto">
-                    <a href={project.liveLink || project.link} target="_blank" rel="noopener noreferrer" className="flex-1">
-                        <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary-glow hover:text-white transition-all duration-500 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                            <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
-                                {project.category === "Design Piece" ? (
-                                    <>Order Design <Sparkles size={14} /></>
-                                ) : (
-                                    <>View Module <ExternalLink size={14} /></>
-                                )}
-                            </span>
-                        </button>
-                    </a>
+                    {project.category === "Design Piece" ? (
+                        <Link to={`/design/${project.id}`} className="flex-1">
+                            <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary-glow hover:text-white transition-all duration-500 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                                <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
+                                    Order Design <Sparkles size={14} />
+                                </span>
+                            </button>
+                        </Link>
+                    ) : (
+                        <a href={project.liveLink || project.link} target="_blank" rel="noopener noreferrer" className="flex-1">
+                            <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary-glow hover:text-white transition-all duration-500 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                                <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
+                                    View Module <ExternalLink size={14} />
+                                </span>
+                            </button>
+                        </a>
+                    )}
                 </div>
             </div>
         </Card>

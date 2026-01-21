@@ -18,6 +18,7 @@ import NoteView from './pages/NoteView';
 import NoteEditor from './pages/NoteEditor';
 import Contact from './pages/Contact';
 import MobileTabBar from './components/layout/MobileTabBar';
+import DesignViewer from './pages/DesignViewer';
 import './App.css';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/github" element={<GitHubDashboard />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/design/:id" element={<DesignViewer />} />
             </Routes>
           </main>
           <Footer />
