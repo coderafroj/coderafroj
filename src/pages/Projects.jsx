@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import ProjectCard from '../components/ProjectCard';
 import { Sparkles, Terminal } from 'lucide-react';
 import SEO from '../components/SEO';
+import { projects as localProjects } from '../data/projects';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -15,9 +16,14 @@ const Projects = () => {
         const fetchProjects = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'projects'));
-                setProjects(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                const firebaseProjects = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                // Merge local and firebase projects, ensuring no duplicates if IDs overlap
+                const merged = [...localProjects, ...firebaseProjects.filter(fp => !localProjects.find(lp => lp.id === fp.id))];
+                setProjects(merged);
             } catch (err) {
                 console.error("Link Failure:", err);
+                // Fallback to local only on error
+                setProjects(localProjects);
             } finally {
                 setLoading(false);
             }

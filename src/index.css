@@ -759,3 +759,42 @@
     scrollbar-width: none;
   }
 }
+/* Premium Design Style Utilities */
+.glass-glow {
+  @apply relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem];
+  box-shadow: 0 0 40px -10px rgba(47, 129, 247, 0.2);
+}
+
+.glass-glow::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 1.5rem;
+}
+
+.bento-item {
+  @apply glass-glow p-8 flex flex-col justify-between transition-all duration-500 hover:scale-[1.02] hover:border-white/20;
+}
+
+.text-reveal-mask {
+  mask-image: linear-gradient(to bottom, white 50%, transparent 100%);
+}
+
+.floating-3d {
+  transform-style: preserve-3d;
+  animation: float-3d 5s ease-in-out infinite;
+}
+
+@keyframes float-3d {
+  0%, 100% { transform: translateY(0) rotateX(0); }
+  50% { transform: translateY(-10px) rotateX(5deg); }
+}
+
+.glow-line {
+  @apply h-[1px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent;
+}

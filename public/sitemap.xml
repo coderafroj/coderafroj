@@ -361,24 +361,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://coderafroj.vercel.app/notes/python-strings-mastery</loc>
-    <lastmod>2026-01-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://coderafroj.vercel.app/notes/python-data-structures-lists</loc>
-    <lastmod>2026-01-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://coderafroj.vercel.app/notes/python-sets-dictionaries</loc>
-    <lastmod>2026-01-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://coderafroj.vercel.app/notes/python-control-flow-loops</loc>
     <lastmod>2026-01-19</lastmod>
     <changefreq>monthly</changefreq>
@@ -470,6 +452,30 @@
   </url>
   <url>
     <loc>https://coderafroj.vercel.app/notes/python-databases-nosql</loc>
+    <lastmod>2026-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/notes/python-strings-mastery</loc>
+    <lastmod>2026-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/notes/python-lists-tuples</loc>
+    <lastmod>2026-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/notes/python-dict-sets</loc>
+    <lastmod>2026-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://coderafroj.vercel.app/notes/python-bool-arrays</loc>
     <lastmod>2026-01-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

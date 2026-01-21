@@ -46,10 +46,14 @@ const ProjectCard = ({ project }) => {
 
                 <div className="flex items-center gap-4 mt-auto">
                     <a href={project.liveLink || project.link} target="_blank" rel="noopener noreferrer" className="flex-1">
-                        <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary hover:text-white transition-all duration-500 overflow-hidden">
+                        <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary-glow hover:text-white transition-all duration-500 overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                             <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
-                                <ExternalLink size={14} /> View Module
+                                {project.category === "Design Piece" ? (
+                                    <>Order Design <Sparkles size={14} /></>
+                                ) : (
+                                    <>View Module <ExternalLink size={14} /></>
+                                )}
                             </span>
                         </button>
                     </a>
