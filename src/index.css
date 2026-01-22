@@ -70,7 +70,7 @@
 
 /* Glass & Obsidian Surfaces */
 .obsidian-card {
-  @apply bg-[#030014]/60 backdrop-blur-3xl border border-white/5 shadow-[0_20px_50px_rgba(0, 0, 0, 0.5)];
+  @apply bg-[#030014]/60 backdrop-blur-3xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)];
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
