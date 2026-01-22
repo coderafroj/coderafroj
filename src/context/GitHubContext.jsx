@@ -129,12 +129,20 @@ export function GitHubProvider({ children }) {
         setError(null);
 
         try {
-            const filesWithContent = await Promise.all(
-                fileList.map(async (item) => ({
-                    path: item.path,
-                    content: await GitHubAPI.fileToBase64(item.file)
-                }))
-            );
+            // Processing in smaller chunks to avoid memory spikes
+            const filesWithContent = [];
+            const CHUNK_SIZE = 5; // Process 5 files at a time
+
+            for (let i = 0; i < fileList.length; i += CHUNK_SIZE) {
+                const chunk = fileList.slice(i, i + CHUNK_SIZE);
+                const processedChunk = await Promise.all(
+                    chunk.map(async (item) => ({
+                        path: item.path,
+                        content: await GitHubAPI.fileToBase64(item.file)
+                    }))
+                );
+                filesWithContent.push(...processedChunk);
+            }
 
             const [owner, repoName] = selectedRepo.full_name.split('/');
             await githubAPI.uploadFiles(owner, repoName, filesWithContent, message);

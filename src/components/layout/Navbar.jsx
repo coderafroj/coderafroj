@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code, Terminal, BookOpen, Shield, Sparkles, Github, Mail } from 'lucide-react';
+import { Menu, X, Code, Terminal, BookOpen, Shield, Sparkles, Github, Mail, Palette } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../assets/logo/coderafroj.png';
 

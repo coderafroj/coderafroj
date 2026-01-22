@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Loader2, GitBranch, Lock, Globe, ChevronRight, Star, GitFork, Eye, AlertCircle, Calendar, HardDrive, TrendingUp } from 'lucide-react';
+import { Search, Plus, Loader2, GitBranch, Lock, Globe, ChevronRight, Star, GitFork, Eye, AlertCircle, Calendar, HardDrive, TrendingUp, Github, ArrowRight } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 
@@ -168,74 +168,75 @@ const GitHubRepoList = ({ repos, onRefresh, onCreateRepo, onSelectRepo, isLoadin
                 )}
             </AnimatePresence>
 
-            {/* Repository Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {isLoading && repos.length === 0 ? (
-                    Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="obsidian-card h-64 rounded-[2rem] animate-pulse bg-white/2 border-white/5" />
+            {/* Repositories Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {isLoading ? (
+                    Array(6).fill(0).map((_, i) => (
+                        <div key={i} className="obsidian-card h-48 rounded-[2rem] border-white/5 skeleton" />
                     ))
-                ) : (
-                    filteredAndSortedRepos.map((repo, i) => (
+                ) : filteredAndSortedRepos.length > 0 ? (
+                    filteredAndSortedRepos.map((repo, index) => (
                         <motion.div
-                            layout
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: i * 0.05 }}
                             key={repo.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
                             onClick={() => onSelectRepo(repo)}
-                            className="obsidian-card group cursor-pointer p-8 rounded-[2.5rem] border-white/5 bg-white/2 hover:border-primary/40 hover:bg-white/5 transition-all active:scale-[0.98] relative overflow-hidden flex flex-col justify-between h-72"
+                            className="obsidian-card p-6 rounded-[2.5rem] border-white/5 group hover:border-primary/30 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between h-56"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[50px] rounded-full group-hover:bg-primary/10 transition-colors" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                             <div className="relative z-10">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="p-3 bg-white/5 rounded-2xl border border-white/10 group-hover:border-primary/50 group-hover:text-primary transition-all">
-                                        <GitBranch className="w-5 h-5" />
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="p-3 bg-white/5 rounded-2xl group-hover:bg-primary/20 transition-colors duration-500">
+                                        <Github className={`w-6 h-6 ${repo.private ? 'text-amber-400' : 'text-primary'}`} />
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h3 className="text-lg font-black text-white truncate group-hover:text-primary transition-colors leading-none tracking-tighter uppercase">
-                                                {repo.name}
-                                            </h3>
-                                            {repo.private ? <Lock className="w-3 h-3 text-slate-500" /> : <Globe className="w-3 h-3 text-slate-500" />}
+                                    <div className="flex gap-2">
+                                        {repo.private && (
+                                            <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded text-[8px] font-black uppercase text-amber-500 tracking-widest">
+                                                Private
+                                            </span>
+                                        )}
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-white/5 border border-white/10 rounded text-[8px] font-black uppercase text-slate-400 tracking-widest">
+                                            <Star className="w-2.5 h-2.5 text-yellow-500" />
+                                            {repo.stargazers_count}
                                         </div>
-                                        <p className="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Protocol Identity</p>
                                     </div>
                                 </div>
-
-                                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-6 font-medium italic opacity-70 group-hover:opacity-100 transition-opacity">
-                                    {repo.description || 'No data description provided for this protocol entry.'}
+                                <h3 className="text-sm font-black text-white uppercase tracking-wider mb-2 group-hover:text-primary transition-colors truncate">
+                                    {repo.name}
+                                </h3>
+                                <p className="text-[10px] text-slate-500 font-bold line-clamp-2 leading-relaxed h-10">
+                                    {repo.description || "Secure data storage node within the matrix."}
                                 </p>
                             </div>
 
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-yellow-500 transition-colors">
-                                        <Star className="w-4 h-4" />
-                                        <span className="text-xs font-black">{repo.stargazers_count || 0}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-green-500 transition-colors">
-                                        <GitFork className="w-4 h-4" />
-                                        <span className="text-xs font-black">{repo.forks_count || 0}</span>
-                                    </div>
-                                    <div className="h-4 w-px bg-white/10" />
+                            <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
+                                <div className="flex items-center gap-2">
                                     {repo.language && (
                                         <div className="flex items-center gap-2">
-                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: languageColors[repo.language] || '#858585' }} />
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{repo.language}</span>
+                                            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(47,129,247,0.5)]" />
+                                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{repo.language}</span>
                                         </div>
                                     )}
                                 </div>
-
-                                <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">
-                                        Cycle: {new Date(repo.updated_at).toLocaleDateString()}
+                                <div className="flex items-center gap-4">
+                                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest hidden sm:block">
+                                        {new Date(repo.updated_at).toLocaleDateString()}
                                     </span>
-                                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-primary transform group-hover:translate-x-1 transition-all" />
+                                    <div className="flex items-center gap-1.5 text-slate-600 group-hover:text-primary transition-colors">
+                                        <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-all" />
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
                     ))
+                ) : (
+                    <div className="col-span-full py-20 text-center obsidian-card rounded-[3rem] border-white/5 border-dashed bg-white/2">
+                        <Github className="w-16 h-16 text-slate-800 mx-auto mb-4" />
+                        <h3 className="text-lg font-black text-white uppercase tracking-widest mb-2">No Archives Found</h3>
+                        <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">The specified search query returned null.</p>
+                    </div>
                 )}
             </div>
         </div>

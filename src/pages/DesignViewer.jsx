@@ -7,20 +7,56 @@ import {
     Smartphone, Monitor, Zap, Shield, Cpu, ExternalLink,
     Square, Circle, Triangle, Layers
 } from 'lucide-react';
+import { projects as localProjects } from '../data/projects';
 
 const DesignViewer = () => {
     const { id } = useParams();
 
+    const project = localProjects.find(p => p.id === id || String(p.id) === id);
+    const hasComponent = ['1', '2', '3', '4', '5', '6'].includes(id);
+
     const renderDesign = () => {
-        switch (id) {
-            case '1': return <GlassDashboard />;
-            case '2': return <BentoLayout />;
-            case '3': return <CyberLanding />;
-            case '4': return <NeumorphicPlayer />;
-            case '5': return <AuroraVisual />;
-            case '6': return <Interactive3D />;
-            default: return <div className="text-center text-slate-500 font-mono py-20">DESIGN_PROTOCOL_NOT_FOUND</div>;
+        if (hasComponent) {
+            switch (id) {
+                case '1': return <GlassDashboard />;
+                case '2': return <BentoLayout />;
+                case '3': return <CyberLanding />;
+                case '4': return <NeumorphicPlayer />;
+                case '5': return <AuroraVisual />;
+                case '6': return <Interactive3D />;
+                default: break;
+            }
         }
+
+        if (project && project.image) {
+            return (
+                <div className="w-full h-full min-h-[600px] flex items-center justify-center bg-[#0d1117] relative group">
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        className="max-w-full max-h-[800px] object-contain shadow-2xl transition-transform duration-1000 group-hover:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-10 left-10 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
+                        <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase mb-2">{project.title}</h2>
+                        <div className="flex gap-2">
+                            {project.tags?.map(tag => (
+                                <span key={tag} className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg text-[10px] text-primary-glow font-mono font-bold border border-white/5">
+                                    {tag.toUpperCase()}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[500px] space-y-6">
+                <Layout size={48} className="text-slate-800 animate-pulse" />
+                <div className="text-center text-slate-500 font-mono text-xs tracking-[0.5em]">PROTOCOL_SEQUENCE_MISMATCH</div>
+            </div>
+        );
     };
 
     return (

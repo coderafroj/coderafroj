@@ -5,7 +5,7 @@ import GitHubRepoList from '../components/GitHub/GitHubRepoList';
 import GitHubFileUploader from '../components/GitHub/GitHubFileUploader';
 import GitHubFileBrowser from '../components/GitHub/GitHubFileBrowser';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, LogOut, Layout, Settings, Activity } from 'lucide-react';
+import { Github, LogOut, Layout, Settings, Activity, Menu, X as CloseIcon } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import SEO from '../components/SEO';
 
@@ -26,6 +26,7 @@ const GitHubDashboard = () => {
 
     const [activeTab, setActiveTab] = useState('repos');
     const [activeRepoTab, setActiveRepoTab] = useState('files'); // files or upload
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     if (!isAuthenticated) {
         return (
@@ -54,19 +55,33 @@ const GitHubDashboard = () => {
             />
             {/* Background elements - more organic glow */}
             <div className="fixed inset-0 pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full opacity-50" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-accent/10 blur-[150px] rounded-full opacity-50" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#0d1117]" />
-                <div className="coderafroj-grid coderafroj-grid-pulse opacity-20" />
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/5 blur-[150px] rounded-full opacity-30" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-accent/5 blur-[150px] rounded-full opacity-30" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#030014]" />
+                <div className="coderafroj-grid coderafroj-grid-pulse opacity-10" />
+            </div>
+
+            {/* Mobile Header */}
+            <div className="lg:hidden flex items-center justify-between mb-8 relative z-20">
+                <div className="flex items-center gap-3">
+                    <img src={user.avatar_url} alt={user.login} className="w-10 h-10 rounded-xl border border-white/10" />
+                    <h2 className="text-lg font-black text-white uppercase tracking-tighter italic">@{user.login}</h2>
+                </div>
+                <Button
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    className="p-3 bg-white/5 border border-white/10 rounded-xl"
+                >
+                    {isSidebarOpen ? <CloseIcon className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+                </Button>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start relative z-10">
-                {/* Desktop Sidebar */}
-                <aside className="hidden lg:block w-72 space-y-4 flex-shrink-0 sticky top-10">
+                {/* Desktop/Mobile Sidebar */}
+                <aside className={`${isSidebarOpen ? 'block fixed inset-0 z-50 p-6 bg-black/90 backdrop-blur-2xl' : 'hidden'} lg:block lg:relative lg:inset-auto lg:p-0 lg:bg-transparent lg:backdrop-blur-none w-full lg:w-72 space-y-4 flex-shrink-0 lg:sticky lg:top-10 transition-all duration-300`}>
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={false}
                         animate={{ opacity: 1, x: 0 }}
-                        className="obsidian-card p-6 rounded-[2.5rem] border-white/5 bg-black/40 backdrop-blur-3xl relative overflow-hidden group shadow-2xl"
+                        className="obsidian-card p-6 rounded-[2.5rem] border-white/5 bg-black/40 backdrop-blur-3xl relative overflow-hidden group shadow-2xl h-full lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
@@ -90,7 +105,10 @@ const GitHubDashboard = () => {
                             {navigationTabs.map((tab) => (
                                 <Button
                                     key={tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
+                                    onClick={() => {
+                                        setActiveTab(tab.id);
+                                        setIsSidebarOpen(false);
+                                    }}
                                     className={`w-full h-12 flex items-center justify-start gap-4 px-5 rounded-2xl transition-all text-[11px] font-bold uppercase tracking-widest ${activeTab === tab.id
                                         ? 'bg-primary/20 text-white border border-primary/30 shadow-lg shadow-primary/10'
                                         : 'bg-transparent text-slate-500 hover:text-white hover:bg-white/5 border border-transparent'
@@ -189,7 +207,7 @@ const GitHubDashboard = () => {
                                                     : 'bg-transparent text-slate-500 hover:text-white hover:bg-white/5'
                                                     }`}
                                             >
-                                                <span>Protocol_Files</span>
+                                                <span>All Files</span>
                                             </Button>
                                             <Button
                                                 onClick={() => setActiveRepoTab('upload')}
@@ -198,7 +216,7 @@ const GitHubDashboard = () => {
                                                     : 'bg-transparent text-slate-500 hover:text-white hover:bg-white/5'
                                                     }`}
                                             >
-                                                <span>Transmission_Core</span>
+                                                <span>Upload Files</span>
                                             </Button>
                                         </div>
 
@@ -209,12 +227,25 @@ const GitHubDashboard = () => {
                                                     key="file-browser"
                                                     repository={selectedRepo}
                                                     onBack={() => selectRepo(null)}
+                                                    onUpload={() => setActiveRepoTab('upload')}
                                                 />
                                             ) : (
                                                 <GitHubFileUploader
                                                     key="file-uploader"
                                                     selectedRepo={selectedRepo}
-                                                    onUploadFiles={uploadFiles}
+                                                    onUploadFiles={async (files, message) => {
+                                                        await uploadFiles(files, message);
+                                                        setActiveRepoTab('files');
+                                                        // Refresh contents for current path
+                                                        const [owner, repo] = selectedRepo.full_name.split('/');
+                                                        const { fetchRepoContents } = (await import('../context/GitHubContext')).useGitHub(); // Just use from context
+                                                        // Wait, we already have it in context, but need to call it.
+                                                        // Actually, we can just use the provided fetchRepos or similar if available, 
+                                                        // but we need to refresh the FILE browser.
+                                                        // The FileBrowser uses fetchRepoContents on mount and currentPath.
+                                                        // Since we are switching tabs, the FileBrowser will remount and fetch anyway? 
+                                                        // Yes, because of key="file-browser".
+                                                    }}
                                                     isUploading={isLoading}
                                                     onBack={() => selectRepo(null)}
                                                 />

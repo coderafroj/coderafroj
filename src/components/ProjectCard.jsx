@@ -26,7 +26,7 @@ const ProjectCard = ({ project }) => {
             <div className="p-8 flex flex-col flex-grow relative z-20">
                 <div className="flex items-center gap-2 mb-4 opacity-50">
                     <Terminal size={12} className="text-primary-glow" />
-                    <span className="text-[10px] font-mono tracking-widest">OBJ_ID: {project.id?.slice(0, 8)}</span>
+                    <span className="text-[10px] font-mono tracking-widest">OBJ_ID: {String(project.id).slice(0, 8)}</span>
                 </div>
 
                 <h3 className="text-2xl font-black text-white mb-3 tracking-tighter group-hover:text-primary-glow transition-colors duration-500 line-clamp-1">
@@ -48,10 +48,10 @@ const ProjectCard = ({ project }) => {
                 <div className="flex items-center gap-4 mt-auto">
                     {project.category === "Design Piece" ? (
                         <Link to={`/design/${project.id}`} className="flex-1">
-                            <button className="w-full group/btn relative px-6 py-3 bg-white text-black rounded-xl font-black tracking-widest text-[10px] hover:bg-primary-glow hover:text-white transition-all duration-500 overflow-hidden">
+                            <button className="w-full group/btn relative px-6 py-3 bg-primary text-white rounded-xl font-black tracking-widest text-[10px] hover:bg-white hover:text-black transition-all duration-500 overflow-hidden shadow-lg shadow-primary/20">
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                                 <span className="relative z-10 flex items-center justify-center gap-2 uppercase">
-                                    Order Design <Sparkles size={14} />
+                                    Explore Concept <Sparkles size={14} />
                                 </span>
                             </button>
                         </Link>

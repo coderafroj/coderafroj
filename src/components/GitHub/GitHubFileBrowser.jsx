@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowLeft, Folder, File, FileText, FileCode, Image as ImageIcon,
-    Film, Archive, Download, Eye, ChevronRight, Search, X, Loader2
+    Film, Archive, Download, Eye, ChevronRight, Search, X, Loader2, Plus, FolderPlus, UploadCloud
 } from 'lucide-react';
 import { useGitHub } from '../../context/GitHubContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
-const GitHubFileBrowser = ({ repository, onBack }) => {
-    const { fetchRepoContents, fetchFileContent, repoContents, currentPath, isLoading } = useGitHub();
+const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
+    const { fetchRepoContents, fetchFileContent, repoContents, currentPath, isLoading, token } = useGitHub();
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState('name'); // name, size, type
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileContent, setFileContent] = useState(null);
     const [viewingFile, setViewingFile] = useState(false);
+    const [isCreatingFolder, setIsCreatingFolder] = useState(false);
+    const [newFolderName, setNewFolderName] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
 
     const [owner, repo] = repository.full_name.split('/');
 
@@ -51,6 +54,39 @@ const GitHubFileBrowser = ({ repository, onBack }) => {
         const pathParts = currentPath.split('/').filter(Boolean);
         const newPath = pathParts.slice(0, index + 1).join('/');
         loadContents(newPath);
+    };
+
+    const handleCreateFolder = async () => {
+        if (!newFolderName.trim()) return;
+        setIsCreating(true);
+        try {
+            const folderPath = currentPath ? `${currentPath}/${newFolderName}` : newFolderName;
+            // GitHub doesn't have empty folders, create a .gitkeep
+            const [ownerName, repoName] = repository.full_name.split('/');
+
+            // We need a way to upload a single file with base64 content
+            // The context has uploadFiles which takes a list.
+            const dummyFile = new File([''], '.gitkeep', { type: 'text/plain' });
+            await fetch(`https://api.github.com/repos/${repository.full_name}/contents/${folderPath}/.gitkeep`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`, // Assuming token is here or get from context
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: `Create folder: ${newFolderName}`,
+                    content: '', // empty content
+                })
+            });
+            // Re-fetch contents
+            await loadContents(currentPath);
+            setIsCreatingFolder(false);
+            setNewFolderName('');
+        } catch (err) {
+            console.error('Failed to create folder:', err);
+        } finally {
+            setIsCreating(false);
+        }
     };
 
     const getFileIcon = (item) => {
@@ -219,35 +255,54 @@ const GitHubFileBrowser = ({ repository, onBack }) => {
             className="space-y-6"
         >
             {/* Header */}
-            <div className="flex items-center gap-3 md:gap-4">
-                <Button
-                    onClick={onBack}
-                    className="p-2 w-10 h-10 md:w-11 md:h-11 bg-[#21262d] hover:bg-[#30363d] rounded-xl border border-[#30363d] flex items-center justify-center transition-all active:scale-95 flex-shrink-0"
-                >
-                    <ArrowLeft className="w-5 h-5 text-white" />
-                </Button>
-                <div className="overflow-hidden flex-1">
-                    <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-white tracking-tighter uppercase leading-none truncate">
-                        <span className="text-primary italic">Files</span> Browser
-                    </h2>
-                    <p className="text-[10px] md:text-xs text-slate-400 font-mono mt-1 uppercase tracking-widest truncate">
-                        {repository.name}
-                    </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3 md:gap-4 w-full sm:w-auto">
+                    <Button
+                        onClick={onBack}
+                        className="p-2 w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 flex items-center justify-center transition-all active:scale-95 flex-shrink-0"
+                    >
+                        <ArrowLeft className="w-5 h-5 text-white" />
+                    </Button>
+                    <div className="overflow-hidden flex-1">
+                        <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-white tracking-tighter uppercase leading-none truncate">
+                            Files <span className="text-primary italic">Browser</span>
+                        </h2>
+                        <p className="text-[10px] md:text-xs text-slate-500 font-mono mt-1 uppercase tracking-widest truncate">
+                            {repository.full_name}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar pb-1">
+                    <Button
+                        onClick={() => setIsCreatingFolder(true)}
+                        className="flex-1 sm:flex-none h-10 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all active:scale-95 whitespace-nowrap"
+                    >
+                        <FolderPlus className="w-4 h-4 text-blue-400" />
+                        <span>New Folder</span>
+                    </Button>
+                    <Button
+                        onClick={onUpload}
+                        className="flex-1 sm:flex-none h-10 px-4 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-xl text-[10px] font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-2 transition-all active:scale-95 whitespace-nowrap"
+                    >
+                        <UploadCloud className="w-4 h-4" />
+                        <span>Upload</span>
+                    </Button>
                 </div>
             </div>
 
             {/* Breadcrumb */}
-            <div className="obsidian-card p-3 md:p-4 rounded-xl border-[#30363d]/50">
-                <div className="flex items-center gap-2 text-xs md:text-sm overflow-x-auto">
+            <div className="obsidian-card p-3 md:p-4 rounded-2xl border-white/5 bg-white/2">
+                <div className="flex items-center gap-2 text-xs md:text-sm overflow-x-auto no-scrollbar scroll-smooth">
                     <button
                         onClick={() => loadContents('')}
-                        className="text-primary hover:text-primary-glow font-mono font-bold transition-colors flex-shrink-0"
+                        className="text-primary hover:text-primary-glow font-mono font-black transition-colors flex-shrink-0 flex items-center gap-1.5"
                     >
+                        <Folder className="w-3.5 h-3.5" />
                         {repository.name}
                     </button>
                     {pathParts.map((part, index) => (
                         <React.Fragment key={index}>
-                            <ChevronRight className="w-4 h-4 text-slate-600 flex-shrink-0" />
+                            <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
                             <button
                                 onClick={() => handleBreadcrumbClick(index)}
                                 className="text-slate-400 hover:text-white font-mono transition-colors flex-shrink-0"
@@ -260,20 +315,20 @@ const GitHubFileBrowser = ({ repository, onBack }) => {
             </div>
 
             {/* Search and Controls */}
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <div className="relative flex-1 group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
                     <Input
                         placeholder="Search files..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="pl-12 h-11 bg-[#0d1117] border-[#30363d] focus:border-primary/50 rounded-xl text-sm"
+                        className="pl-12 h-12 bg-white/2 border-white/5 focus:border-primary/50 rounded-2xl text-sm"
                     />
                 </div>
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="h-11 px-4 bg-[#21262d] border border-[#30363d] rounded-xl text-white text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-[#30363d] transition-colors"
+                    className="h-12 px-4 bg-white/5 border border-white/10 rounded-2xl text-white text-xs font-black uppercase tracking-widest cursor-pointer hover:bg-white/10 transition-colors outline-none"
                 >
                     <option value="name">Sort by Name</option>
                     <option value="size">Sort by Size</option>
@@ -281,7 +336,7 @@ const GitHubFileBrowser = ({ repository, onBack }) => {
             </div>
 
             {/* File List */}
-            <div className="obsidian-card rounded-2xl border-[#30363d]/50 overflow-hidden">
+            <div className="obsidian-card rounded-[2rem] border-white/5 overflow-hidden">
                 {isLoading ? (
                     <div className="flex items-center justify-center py-20">
                         <Loader2 className="w-8 h-8 text-primary animate-spin" />
@@ -327,6 +382,62 @@ const GitHubFileBrowser = ({ repository, onBack }) => {
             {/* File Preview Modal */}
             <AnimatePresence>
                 {viewingFile && <FilePreview />}
+            </AnimatePresence>
+
+            {/* Create Folder Modal */}
+            <AnimatePresence>
+                {isCreatingFolder && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                        onClick={() => setIsCreatingFolder(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="obsidian-card max-w-md w-full p-6 rounded-3xl border border-white/10"
+                        >
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="p-3 bg-blue-500/10 rounded-2xl">
+                                    <FolderPlus className="w-6 h-6 text-blue-400" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white uppercase tracking-tight">Create Folder</h3>
+                                    <p className="text-xs text-slate-400 font-mono uppercase tracking-widest">In: {currentPath || 'Root'}</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <Input
+                                    placeholder="Enter folder name..."
+                                    value={newFolderName}
+                                    onChange={(e) => setNewFolderName(e.target.value)}
+                                    autoFocus
+                                    className="bg-black/40 border-white/10 focus:border-blue-400/50 h-12 rounded-2xl"
+                                />
+                                <div className="flex gap-3">
+                                    <Button
+                                        onClick={() => setIsCreatingFolder(false)}
+                                        className="flex-1 h-12 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-bold text-xs uppercase tracking-widest"
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        onClick={handleCreateFolder}
+                                        disabled={!newFolderName.trim() || isCreating}
+                                        className="flex-2 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 disabled:opacity-50"
+                                    >
+                                        {isCreating ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Create Folder'}
+                                    </Button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
             </AnimatePresence>
         </motion.div>
     );

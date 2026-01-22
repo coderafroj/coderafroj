@@ -58,5 +58,21 @@ export const projects = [
         liveLink: "#",
         githubLink: "#",
         category: "Design Piece"
+    },
+    {
+        id: "fintech-01",
+        title: "Fintech Elite Dashboard",
+        description: "High-performance financial interface with glassmorphism layering and real-time visualization nodes.",
+        tags: ["Fintech", "Glassmorphism", "UI/UX"],
+        image: "/src/assets/designs/fintech-dashboard.png",
+        category: "Design Piece"
+    },
+    {
+        id: "travel-01",
+        title: "Luxury Odyssey App",
+        description: "Premium travel concierge experience focusing on elegant typography and immersive visual storytelling.",
+        tags: ["Luxury", "Travel", "Mobile UI"],
+        image: "/src/assets/designs/luxury-travel.png",
+        category: "Design Piece"
     }
 ];

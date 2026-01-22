@@ -70,12 +70,12 @@
 
 /* Glass & Obsidian Surfaces */
 .obsidian-card {
-  @apply bg-[#161b22]/80 backdrop-blur-2xl border border-[#30363d] shadow-xl;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  @apply bg-[#030014]/60 backdrop-blur-3xl border border-white/5 shadow-[0_20px_50px_rgba(0, 0, 0, 0.5)];
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .obsidian-card:hover {
-  @apply border-[#8b949e]/40 bg-[#1c2128] shadow-blue-500/5;
+  @apply border-primary/30 bg-[#05001a]/80 shadow-primary/10;
 }
 
 .glass-panel {
@@ -83,11 +83,11 @@
 }
 
 .github-card {
-  @apply bg-[#0d1117] border border-[#30363d] rounded-lg p-4 transition-all;
+  @apply bg-[#030014] border border-white/5 rounded-[2rem] p-6 transition-all shadow-2xl;
 }
 
 .github-card:hover {
-  @apply border-[#8b949e]/50;
+  @apply border-primary/40 bg-[#05001a];
 }
 
 /* Typography & Effects */
@@ -130,50 +130,68 @@
   @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
 }
 
-/* Markdown Aesthetics */
-.coderafroj-markdown {
-  @apply font-sans;
+/* Premium Markdown Styling */
+.premium-markdown {
+  @apply text-slate-300 leading-[1.8] font-light md:leading-[2];
 }
 
-.coderafroj-markdown h1 {
-  @apply text-4xl md:text-5xl font-black text-white mt-16 mb-8 tracking-tighter uppercase border-b border-white/5 pb-4;
+.premium-markdown h1 {
+  @apply text-3xl md:text-5xl font-black text-white mb-8 tracking-tighter uppercase italic leading-none;
 }
 
-.coderafroj-markdown h2 {
-  @apply text-2xl md:text-3xl font-black text-white mt-12 mb-6 tracking-tight uppercase;
+.premium-markdown h2 {
+  @apply text-2xl md:text-4xl font-black text-white mt-16 mb-6 tracking-tight uppercase italic flex items-center gap-4;
 }
 
-.coderafroj-markdown h3 {
-  @apply text-xl font-bold text-slate-200 mt-8 mb-4 tracking-wide;
+.premium-markdown h2::before {
+  content: '';
+  @apply w-1.5 h-8 bg-primary rounded-full;
 }
 
-.coderafroj-markdown p {
-  @apply text-slate-400 leading-relaxed mb-6 opacity-80;
+.premium-markdown h3 {
+  @apply text-xl md:text-2xl font-black text-white/90 mt-12 mb-4 tracking-wide uppercase italic;
 }
 
-.coderafroj-markdown pre {
-  @apply bg-black/60 p-8 rounded-[2rem] border border-white/5 my-10 overflow-x-auto shadow-2xl;
+.premium-markdown p {
+  @apply mb-8 text-sm md:text-base selection:bg-primary/30;
 }
 
-.coderafroj-markdown code {
-  @apply bg-white/5 px-2 py-0.5 rounded text-indigo-400 font-mono text-[0.8em];
+.premium-markdown strong {
+  @apply text-white font-black bg-white/5 px-1.5 py-0.5 rounded-md border border-white/5;
 }
 
-.coderafroj-markdown ul,
-.coderafroj-markdown ol {
-  @apply my-6 space-y-3 pl-6;
+.premium-markdown ul,
+.premium-markdown ol {
+  @apply mb-10 space-y-4 ml-2;
 }
 
-.coderafroj-markdown li {
-  @apply text-slate-400 opacity-80;
+.premium-markdown li {
+  @apply relative pl-8 text-sm md:text-base;
 }
 
-.coderafroj-markdown blockquote {
-  @apply border-l-4 border-indigo-500 bg-indigo-500/5 px-8 py-6 rounded-r-3xl my-10 text-slate-300 italic font-mono text-sm;
+.premium-markdown li::before {
+  content: '→';
+  @apply absolute left-0 text-primary font-black opacity-50;
 }
 
-.coderafroj-markdown a {
-  @apply text-indigo-400 hover:text-indigo-300 underline underline-offset-4 decoration-indigo-500/30 transition-colors;
+.premium-markdown code:not(pre code) {
+  @apply bg-primary/10 text-primary-glow px-2 py-0.5 rounded-lg font-mono text-[0.85em] border border-primary/20 font-bold;
+}
+
+.premium-markdown pre {
+  @apply bg-[#05001a] border border-white/5 rounded-[2rem] p-6 md:p-10 mb-10 overflow-x-auto shadow-2xl shadow-black;
+}
+
+.premium-markdown pre code {
+  @apply bg-transparent p-0 border-none font-mono text-sm leading-relaxed;
+}
+
+.premium-markdown blockquote {
+  @apply border-l-4 border-primary bg-primary/5 p-8 my-10 rounded-2xl italic text-slate-400 font-medium;
+}
+
+.premium-markdown hr {
+  @apply border-white/5 my-16;
 }
 
 /* Animation Utilities */
@@ -759,6 +777,7 @@
     scrollbar-width: none;
   }
 }
+
 /* Premium Design Style Utilities */
 .glass-glow {
   @apply relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem];
@@ -791,10 +810,49 @@
 }
 
 @keyframes float-3d {
-  0%, 100% { transform: translateY(0) rotateX(0); }
-  50% { transform: translateY(-10px) rotateX(5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotateX(0);
+  }
+
+  50% {
+    transform: translateY(-10px) rotateX(5deg);
+  }
 }
 
 .glow-line {
   @apply h-[1px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent;
+}
+
+/* UI Showcase Premium Styles */
+.design-card-glass {
+  @apply relative overflow-hidden bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[2.5rem] transition-all duration-700;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.design-card-glass:hover {
+  @apply border-white/20 bg-white/[0.07] -translate-y-2;
+  box-shadow:
+    0 40px 80px -20px rgba(47, 129, 247, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.design-card-glass::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none;
+}
+
+.shine-effect {
+  @apply absolute -inset-full bg-gradient-to-r from-transparent via-white/10 to-transparent -rotate-45 transition-all duration-1000 group-hover:left-full;
+}
+
+.text-glow-primary {
+  text-shadow: 0 0 20px rgba(47, 129, 247, 0.5);
+}
+
+.glass-pill {
+  @apply px-4 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-mono text-white/70 uppercase tracking-widest;
 }

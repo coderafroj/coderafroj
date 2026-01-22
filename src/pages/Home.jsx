@@ -42,9 +42,10 @@ const Home = () => {
             </div>
 
             {/* Hero Section: The Agency Launchpad */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-48 md:pb-32">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-12">
+            {/* Hero Section: The Agency Launchpad */}
+            <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+                <div className="flex flex-col items-center justify-center text-center lg:text-left lg:block">
+                    <div className="space-y-12 max-w-4xl mx-auto lg:mx-0">
                         {/* Agency Status */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
@@ -61,13 +62,13 @@ const Home = () => {
                             transition={{ duration: 0.8 }}
                             className="space-y-6"
                         >
-                            <h1 className="text-6xl md:text-[8rem] font-black tracking-tighter leading-[0.8] uppercase text-white">
-                                DESIGN <br />
-                                <span className="text-primary-glow drop-shadow-[0_0_80px_rgba(47,129,247,0.5)]">MASTERED.</span>
+                            <h1 className="text-5xl md:text-[8rem] lg:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase text-white">
+                                <span className="block mb-2">DESIGN</span>
+                                <span className="text-reveal-gradient drop-shadow-[0_0_80px_rgba(47,129,247,0.4)]">MASTERED.</span>
                             </h1>
-                            <p className="text-lg md:text-2xl text-slate-400 font-light max-w-xl leading-relaxed tracking-wide">
+                            <p className="text-sm md:text-2xl text-slate-400 font-light max-w-2xl mx-auto lg:mx-0 leading-relaxed tracking-wide">
                                 We craft <span className="text-white font-bold uppercase italic border-b-2 border-primary">Breathtaking</span> digital experiences.
-                                High-end design meets elite engineering to elevate your brand to the next dimension.
+                                Elite engineering meets high-end design to elevate your brand to the next dimension.
                             </p>
                         </motion.div>
 
@@ -75,59 +76,62 @@ const Home = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="flex flex-wrap gap-6"
+                            className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6"
                         >
                             <Link to="/contact">
-                                <button className="group relative px-12 py-6 bg-primary text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95 overflow-hidden">
+                                <button className="group relative px-8 md:px-12 py-4 md:py-6 bg-primary text-white rounded-2xl md:rounded-[2.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95 overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     <span className="relative z-10 flex items-center gap-3">
-                                        Start Project <Zap size={18} fill="currentColor" />
+                                        Start Project <Zap size={16} fill="currentColor" />
                                     </span>
                                 </button>
                             </Link>
+
                             <Link to="/projects">
-                                <button className="relative group px-12 py-6 obsidian-card rounded-[2rem] text-white font-black text-sm uppercase tracking-[0.2em] transition-all hover:border-primary/50 hover:bg-primary/5 active:scale-95 flex items-center gap-3 overflow-hidden shadow-2xl">
-                                    View Works
-                                    <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                                <button className="glass-premium-button group">
+                                    <div className="shimmer" />
+                                    <span className="relative z-10 flex items-center gap-3">
+                                        UI Showcase <Palette size={16} className="text-primary group-hover:rotate-12 transition-transform" />
+                                    </span>
                                 </button>
                             </Link>
                         </motion.div>
-                    </div>
 
-                    {/* Integrated Search Command - Now Secondary */}
-                    <div className="relative group lg:mt-0 mt-12">
+                        {/* Search Bar - More Responsive Spacing */}
                         <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="obsidian-card p-8 rounded-[3rem] border-white/5 relative overflow-hidden"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="relative group max-w-md mx-auto lg:mx-0 pt-8"
                         >
-                            <div className="absolute top-0 right-0 p-6 opacity-20">
-                                <Terminal size={48} className="text-primary" />
-                            </div>
-                            <h3 className="text-xl font-black text-white italic uppercase mb-4 tracking-tighter">Knowledge Base</h3>
-                            <p className="text-sm text-slate-500 mb-8 font-mono">Execute queries on our core documentation system.</p>
-
-                            <form onSubmit={handleSearch} className="relative">
-                                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <div className="relative flex items-center bg-[#0d1117]/80 backdrop-blur-3xl border border-white/10 rounded-2xl p-1 shadow-2xl focus-within:border-primary/50 transition-all">
-                                    <div className="pl-4 text-slate-500">
-                                        <Search size={16} />
-                                    </div>
-                                    <input
-                                        type="text"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        placeholder="Architecture, SEO, Security..."
-                                        className="flex-1 bg-transparent border-none outline-none px-4 py-3 text-white placeholder-slate-600 font-mono text-xs tracking-widest"
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-2 bg-white/5 border border-white/5 hover:bg-white/10 text-white rounded-xl text-[9px] font-black uppercase tracking-[0.2em] transition-all"
-                                    >
-                                        Run
-                                    </button>
+                            <div className="obsidian-card p-6 rounded-[2.5rem] border-white/5 relative overflow-hidden backdrop-blur-3xl">
+                                <div className="absolute top-0 right-0 p-4 opacity-10">
+                                    <Terminal size={32} className="text-primary" />
                                 </div>
-                            </form>
+                                <h3 className="text-xs font-black text-white italic uppercase mb-2 tracking-widest text-left">Knowledge Base</h3>
+
+                                <form onSubmit={handleSearch} className="relative mt-4">
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <div className="relative flex items-center bg-[#0d1117]/60 border border-white/10 rounded-xl p-1 shadow-2xl focus-within:border-primary/50 transition-all">
+                                        <div className="pl-3 text-slate-600">
+                                            <Search size={14} />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            placeholder="Find notes, tutorials..."
+                                            className="flex-1 bg-transparent border-none outline-none px-3 py-2 text-white placeholder-slate-600 font-mono text-[10px] tracking-widest"
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="px-4 py-1.5 bg-white/5 border border-white/5 hover:bg-white/10 text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
+                                        >
+                                            Search
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </motion.div>
                     </div>
                 </div>
@@ -309,40 +313,60 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {projects.filter(p => p.category === "Design Piece").map((project, i) => (
                         <motion.div
                             key={project.id}
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="bento-item group cursor-pointer"
+                            transition={{
+                                delay: i * 0.1,
+                                duration: 0.8,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            className="design-card-glass group cursor-pointer p-6"
                         >
-                            <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 border border-white/5">
+                            <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/5 bg-[#0d1117]">
                                 <img
                                     src={project.image}
                                     alt={project.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-all duration-[1.2s] group-hover:scale-110 group-hover:rotate-1 brightness-75 group-hover:brightness-100"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                                    <Link to={`/design/${project.id}`} className="w-full">
-                                        <button className="w-full py-3 bg-white text-black rounded-xl font-black text-[10px] uppercase tracking-widest shadow-2xl">
-                                            Inspect Design
+                                <div className="shine-effect" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                                    <Link to={`/design/${project.id}`} className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                        <button className="px-8 py-3 bg-white text-black rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl hover:bg-primary hover:text-white transition-colors">
+                                            Launch Visualizer
                                         </button>
                                     </Link>
                                 </div>
                             </div>
-                            <div className="space-y-4">
-                                <div className="flex gap-2">
+
+                            <div className="space-y-6">
+                                <div className="flex flex-wrap gap-2">
                                     {project.tags.map((tag, idx) => (
-                                        <span key={idx} className="text-[8px] font-mono text-primary-glow uppercase tracking-widest px-2 py-0.5 bg-primary/10 rounded-md border border-primary/20">
+                                        <span key={idx} className="glass-pill">
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
-                                <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter">{project.title}</h3>
-                                <p className="text-xs text-slate-400 font-light leading-relaxed line-clamp-2">{project.description}</p>
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2 group/title">
+                                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter group-hover/title:text-primary-glow transition-colors">{project.title}</h3>
+                                        <ArrowRight size={18} className="text-primary opacity-0 -translate-x-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 transition-all" />
+                                    </div>
+                                    <p className="text-[11px] text-slate-400 font-light leading-relaxed line-clamp-2 uppercase tracking-wider">{project.description}</p>
+                                </div>
+
+                                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <span className="text-[8px] font-mono text-slate-600 uppercase tracking-widest">Protocol_v2.0</span>
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3].map(dot => (
+                                            <div key={dot} className="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary/60 transition-colors" />
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

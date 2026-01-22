@@ -161,24 +161,33 @@ export class GitHubAPI {
             });
             const baseTreeSha = commitData.tree.sha;
 
-            // 4. Create Blobs for all files
-            console.log('Creating blobs...');
-            const treeItems = await Promise.all(
-                files.map(async (file) => {
-                    const { data: blobData } = await this.octokit.git.createBlob({
-                        owner,
-                        repo,
-                        content: file.content,
-                        encoding: 'base64',
-                    });
-                    return {
-                        path: file.path,
-                        mode: '100644', // normal file
-                        type: 'blob',
-                        sha: blobData.sha,
-                    };
-                })
-            );
+            // 4. Create Blobs for all files (Process in chunks to avoid overwhelming API)
+            console.log(`Creating blobs for ${files.length} files...`);
+            const treeItems = [];
+            const BLOB_CHUNK_SIZE = 5;
+
+            for (let i = 0; i < files.length; i += BLOB_CHUNK_SIZE) {
+                const chunk = files.slice(i, i + BLOB_CHUNK_SIZE);
+                console.log(`Processing blob chunk ${Math.floor(i / BLOB_CHUNK_SIZE) + 1}...`);
+
+                const chunkBlobs = await Promise.all(
+                    chunk.map(async (file) => {
+                        const { data: blobData } = await this.octokit.git.createBlob({
+                            owner,
+                            repo,
+                            content: file.content,
+                            encoding: 'base64',
+                        });
+                        return {
+                            path: file.path,
+                            mode: '100644', // normal file
+                            type: 'blob',
+                            sha: blobData.sha,
+                        };
+                    })
+                );
+                treeItems.push(...chunkBlobs);
+            }
 
             // 5. Create new Tree
             console.log('Creating new tree...');

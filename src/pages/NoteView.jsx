@@ -101,48 +101,56 @@ const NoteView = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-primary/5 rounded-full blur-[120px] pointer-events-none opacity-50" />
 
                 {/* Navigation & Header */}
-                <div className="relative z-10 mb-16 text-center">
+                <div className="relative z-10 mb-20 text-center">
                     <motion.button
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         onClick={() => navigate('/notes')}
-                        className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-all group mb-8 md:mb-12"
+                        className="inline-flex items-center gap-3 text-slate-500 hover:text-primary transition-all group mb-12"
                     >
-                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-mono text-[9px] md:text-[10px] font-black tracking-[0.3em] uppercase">Return to Terminal</span>
+                        <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform text-primary" />
+                        <span className="font-black text-[10px] uppercase tracking-[0.4em] italic underline decoration-white/5 underline-offset-8 group-hover:decoration-primary">Access Knowledge Bank</span>
                     </motion.button>
 
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-5xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="flex flex-col items-center"
                         >
-                            <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
+                            <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
                                 {note.isStatic && (
-                                    <span className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary-glow rounded-2xl border border-primary/20 text-[10px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(47,129,247,0.15)]">
-                                        <Sparkles size={14} className="animate-pulse" /> Node_Authority: High
+                                    <span className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 text-primary-glow rounded-2xl border border-primary/20 text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_0_30px_rgba(47,129,247,0.2)]">
+                                        <Sparkles size={14} className="animate-pulse" /> Intel_Level: Alpha
                                     </span>
                                 )}
-                                <span className="flex items-center gap-2 px-4 py-2 bg-white/5 text-slate-400 rounded-2xl border border-white/10 text-[10px] font-black uppercase tracking-widest">
-                                    <Clock size={14} /> 5 Min Read
+                                <span className="flex items-center gap-2 px-5 py-2.5 bg-white/2 text-slate-500 rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-[0.3em]">
+                                    <Clock size={14} className="text-primary/50" /> Transmission: Stable
                                 </span>
                             </div>
-                            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] md:leading-none uppercase italic mb-8 w-full text-center">
+                            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[0.85] uppercase italic mb-10 w-full text-center selection:bg-primary selection:text-white">
                                 {note.title}
                             </h1>
-                            <div className="flex flex-wrap justify-center items-center gap-6 text-slate-500 font-mono text-xs">
-                                <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent p-[1px]">
-                                        <div className="w-full h-full rounded-full bg-black flex items-center justify-center text-[10px] font-bold text-white uppercase italic">AF</div>
+                            <div className="flex flex-wrap justify-center items-center gap-8 text-slate-500 font-mono">
+                                <div className="flex items-center gap-4 bg-[#030014]/40 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-3xl shadow-2xl">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent p-[1px]">
+                                        <div className="w-full h-full rounded-xl bg-black flex items-center justify-center text-[11px] font-black text-white uppercase italic">AF</div>
                                     </div>
-                                    <span className="text-white font-bold italic underline decoration-primary/30">Coderafroj</span>
+                                    <div className="flex flex-col items-start leading-none">
+                                        <span className="text-[9px] uppercase tracking-widest text-slate-600 mb-1">Architect</span>
+                                        <span className="text-white font-black italic tracking-tighter uppercase">Coderafroj</span>
+                                    </div>
                                 </div>
-                                <span className="text-slate-700 hidden sm:block">•</span>
-                                <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                    <Calendar size={14} className="text-primary" />
-                                    {note.createdAt?.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                </span>
+                                <div className="hidden sm:block h-10 w-px bg-white/5" />
+                                <div className="flex items-center gap-4 bg-[#030014]/40 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-3xl shadow-2xl">
+                                    <Calendar size={16} className="text-primary" />
+                                    <div className="flex flex-col items-start leading-none">
+                                        <span className="text-[9px] uppercase tracking-widest text-slate-600 mb-1">Timestamp</span>
+                                        <span className="text-white font-black uppercase tracking-tighter">
+                                            {note.createdAt?.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     </div>
@@ -170,7 +178,8 @@ const NoteView = () => {
                             </div>
                         )}
 
-                        <div className="premium-markdown obsidian-card p-5 md:p-12 lg:p-16 rounded-[2rem] md:rounded-[3rem] border-white/5 bg-black/40 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+                        <div className="premium-markdown obsidian-card p-6 md:p-16 lg:p-24 rounded-[3rem] border-white/5 bg-[#030014]/60 backdrop-blur-3xl shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative">
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                             <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
                         </div>
 
@@ -195,27 +204,30 @@ const NoteView = () => {
 
                     {/* Sidebar / Related Contents */}
                     <div className="hidden lg:block space-y-10 sticky top-32 h-fit">
-                        <div className="obsidian-card p-8 rounded-3xl border-white/5 bg-white/2">
-                            <p className="text-[10px] font-mono text-primary-glow uppercase tracking-[0.3em] mb-6">Article Intel</p>
-                            <div className="space-y-6">
-                                <div className="flex justify-between items-center text-[11px] font-mono">
-                                    <span className="text-slate-500 uppercase">Category</span>
-                                    <span className="text-white font-bold uppercase tracking-widest">{note.category || 'Documentation'}</span>
+                        <div className="obsidian-card p-8 rounded-[2rem] border-white/5 bg-white/2 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                <AlertCircle size={40} className="text-primary" />
+                            </div>
+                            <p className="text-[10px] font-black text-primary-glow uppercase tracking-[0.4em] mb-8 italic">Archive_Intel</p>
+                            <div className="space-y-8">
+                                <div className="flex flex-col gap-2">
+                                    <span className="text-[9px] uppercase tracking-[0.3em] text-slate-600 font-black">Classification</span>
+                                    <span className="text-white font-black uppercase tracking-widest text-sm italic">{note.category || 'Documentation'}</span>
                                 </div>
-                                <div className="flex justify-between items-center text-[11px] font-mono">
-                                    <span className="text-slate-500 uppercase">Status</span>
-                                    <span className="text-green-500 font-bold uppercase tracking-widest flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Verified
+                                <div className="flex flex-col gap-2">
+                                    <span className="text-[9px] uppercase tracking-[0.3em] text-slate-600 font-black">Node_Status</span>
+                                    <span className="text-green-500 font-black uppercase tracking-[0.2em] flex items-center gap-3 text-sm">
+                                        <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse" /> Decrypted
                                     </span>
                                 </div>
                             </div>
                         </div>
 
-                        <section className="space-y-6">
-                            <h3 className="text-[10px] font-mono text-primary-glow uppercase tracking-[0.4em] pl-2">Keywords</h3>
-                            <div className="flex flex-wrap gap-2">
+                        <section className="space-y-8 pl-4">
+                            <h3 className="text-[10px] font-black text-primary-glow uppercase tracking-[0.5em] italic">Keywords</h3>
+                            <div className="flex flex-wrap gap-3">
                                 {note.tags?.map((tag, i) => (
-                                    <span key={i} className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[9px] text-slate-400 font-mono uppercase tracking-[0.2em] hover:border-primary/50 hover:text-primary transition-all cursor-pointer">
+                                    <span key={i} className="px-4 py-2 bg-white/2 border border-white/5 rounded-xl text-[10px] text-slate-500 font-black uppercase tracking-widest hover:border-primary/50 hover:text-primary transition-all cursor-pointer hover:bg-primary/10">
                                         #{tag}
                                     </span>
                                 ))}

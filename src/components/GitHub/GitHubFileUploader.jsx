@@ -4,8 +4,12 @@ import { Upload, File as FileIcon, X, CheckCircle, AlertCircle, Loader2, ArrowLe
 import { Input, Textarea } from '../ui/Input';
 import { Button } from '../ui/Button';
 
+import { useGitHub } from '../../context/GitHubContext';
+
 const GitHubFileUploader = ({ selectedRepo, onUploadFiles, isUploading, onBack }) => {
+    const { currentPath } = useGitHub();
     const [files, setFiles] = useState([]);
+    const [targetPath, setTargetPath] = useState(currentPath || '');
     const [message, setMessage] = useState('');
     const [dragActive, setDragActive] = useState(false);
     const [uploadError, setUploadError] = useState('');
@@ -34,7 +38,7 @@ const GitHubFileUploader = ({ selectedRepo, onUploadFiles, isUploading, onBack }
 
         const newEntries = validFiles.map(f => ({
             file: f,
-            path: f.name,
+            path: targetPath ? `${targetPath}/${f.name}` : f.name,
             id: Math.random().toString(36).substr(2, 9)
         }));
 
@@ -103,14 +107,14 @@ const GitHubFileUploader = ({ selectedRepo, onUploadFiles, isUploading, onBack }
         <div className="space-y-8 fade-slide-up">
             <div className="flex flex-col md:flex-row gap-8 items-start">
                 {/* Left Side: Controls */}
-                <div className="w-full md:w-80 space-y-6 shrink-0">
+                <div className="w-full lg:w-80 space-y-6 shrink-0 order-2 lg:order-1">
                     <motion.div
                         onDragOver={handleDrag}
                         onDragEnter={handleDrag}
                         onDragLeave={handleDrag}
                         onDrop={handleDrop}
                         onClick={() => fileInputRef.current?.click()}
-                        className={`obsidian-card p-10 rounded-[2.5rem] border-2 border-dashed transition-all group cursor-pointer text-center relative overflow-hidden ${dragActive ? 'border-primary bg-primary/10' : 'border-white/10 hover:border-primary/50 bg-white/2'
+                        className={`obsidian-card p-10 rounded-[2.5rem] border-2 border-dashed transition-all group cursor-pointer text-center relative overflow-hidden ${dragActive ? 'border-primary bg-primary/10' : 'border-white/5 hover:border-primary/50 bg-white/2'
                             }`}
                     >
                         <input type="file" multiple className="hidden" ref={fileInputRef} onChange={(e) => addFilesToList(e.target.files)} />
@@ -118,49 +122,61 @@ const GitHubFileUploader = ({ selectedRepo, onUploadFiles, isUploading, onBack }
                             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500">
                                 <Upload className="w-8 h-8 text-primary" />
                             </div>
-                            <h3 className="text-xs font-black text-white uppercase tracking-widest mb-1">INITIALIZE_CORE</h3>
-                            <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Drop Files or Browse</p>
+                            <h3 className="text-xs font-black text-white uppercase tracking-widest mb-1">Add Files</h3>
+                            <p className="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Drag & Drop or Browse</p>
                         </div>
                     </motion.div>
 
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Archive Command</label>
-                        <textarea
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Describe transmission..."
-                            className="w-full h-32 p-5 bg-black/40 border-white/5 rounded-[2rem] text-xs text-white placeholder:text-slate-800 focus:border-primary/50 transition-all outline-none resize-none font-bold"
-                        />
+                    <div className="space-y-4">
+                        <div className="space-y-2.5">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Target Folder</label>
+                            <Input
+                                value={targetPath}
+                                onChange={(e) => setTargetPath(e.target.value)}
+                                placeholder="e.g. photos/holiday"
+                                className="bg-black/40 border-white/5 rounded-2xl text-[11px] h-12 font-bold focus:border-primary/50"
+                            />
+                        </div>
+
+                        <div className="space-y-2.5">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Commit Message</label>
+                            <textarea
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="What changes are you making?"
+                                className="w-full h-32 p-5 bg-black/40 border-white/5 rounded-[2rem] text-[11px] text-white placeholder:text-slate-800 focus:border-primary/50 transition-all outline-none resize-none font-bold"
+                            />
+                        </div>
                     </div>
 
                     <Button
                         onClick={handleSubmit}
                         disabled={files.length === 0 || !message || isUploading || isCompressing}
-                        className="w-full h-16 bg-primary hover:bg-primary-glow text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 transition-all"
+                        className="w-full h-16 bg-primary hover:bg-primary-glow text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 transition-all flex items-center justify-center"
                     >
-                        {isUploading || isCompressing ? <Loader2 className="w-5 h-5 animate-spin" /> : <span>Push Core ({files.length})</span>}
+                        {isUploading || isCompressing ? <Loader2 className="w-5 h-5 animate-spin" /> : <span>Upload {files.length} Files</span>}
                     </Button>
 
                     <Button onClick={onBack} variant="ghost" className="w-full h-12 text-slate-500 hover:text-white text-[9px] font-black uppercase tracking-widest transition-colors">
-                        Return to Archive
+                        Back to Repository
                     </Button>
                 </div>
 
                 {/* Right Side: List */}
-                <div className="flex-1 w-full space-y-6">
-                    <div className="obsidian-card p-1 rounded-[3rem] border-white/5 bg-white/2 min-h-[500px] flex flex-col">
+                <div className="flex-1 w-full space-y-6 order-1 lg:order-2">
+                    <div className="obsidian-card p-1 rounded-[3rem] border-white/5 bg-white/2 min-h-[300px] lg:min-h-[500px] flex flex-col">
                         <div className="p-8 pb-4 flex items-center justify-between border-b border-white/5 mx-2">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-white/5 rounded-2xl">
                                     <FileCode className="w-5 h-5 text-slate-400" />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none mb-1">Queue_Sequence</h3>
-                                    <p className="text-[10px] text-primary font-mono font-bold uppercase tracking-widest">{files.length} packets staged</p>
+                                    <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none mb-1">Upload Queue</h3>
+                                    <p className="text-[10px] text-primary font-mono font-bold uppercase tracking-widest">{files.length} files staged</p>
                                 </div>
                             </div>
                             {files.length > 0 && (
-                                <button onClick={() => setFiles([])} className="text-[9px] font-black text-red-500/50 hover:text-red-500 uppercase tracking-[0.2em] transition-colors">PURGE_ENTIRE_QUEUE</button>
+                                <button onClick={() => setFiles([])} className="text-[9px] font-black text-red-500/50 hover:text-red-500 uppercase tracking-[0.2em] transition-colors">Clear Queue</button>
                             )}
                         </div>
 
@@ -236,20 +252,11 @@ const GitHubFileUploader = ({ selectedRepo, onUploadFiles, isUploading, onBack }
                 </div>
             </div>
 
-            {/* Legend */}
-            <div className="flex flex-wrap gap-6 pt-10 border-t border-white/5 opacity-50">
-                <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em]">
-                    <div className="w-2 h-2 bg-primary/40 rounded-full animate-pulse" />
-                    <span>PROTOCOL_V4.2</span>
-                </div>
-                <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em]">
-                    <div className="w-2 h-2 bg-yellow-500/40 rounded-full" />
-                    <span>AUTO_ZIP_ENABLED</span>
-                </div>
-                <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em]">
-                    <div className="w-2 h-2 bg-green-500/40 rounded-full" />
-                    <span>SSL_ENCRYPTED_FLOW</span>
-                </div>
+            {/* Simple footer note */}
+            <div className="text-center pt-10 border-t border-white/5">
+                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em]">
+                    Maximum file size: 150MB • Batch processing enabled
+                </p>
             </div>
         </div>
     );
