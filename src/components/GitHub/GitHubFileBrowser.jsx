@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    ArrowLeft, Folder, File, FileText, FileCode, Image as ImageIcon,
+    ArrowLeft, Folder, File as FileIcon, FileText, FileCode, Image as ImageIcon,
     Film, Archive, Download, Eye, ChevronRight, Search, X, Loader2, Plus, FolderPlus, UploadCloud
 } from 'lucide-react';
 import { useGitHub } from '../../context/GitHubContext';
@@ -64,9 +64,6 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
             // GitHub doesn't have empty folders, create a .gitkeep
             const [ownerName, repoName] = repository.full_name.split('/');
 
-            // We need a way to upload a single file with base64 content
-            // The context has uploadFiles which takes a list.
-            const dummyFile = new File([''], '.gitkeep', { type: 'text/plain' });
             await fetch(`https://api.github.com/repos/${repository.full_name}/contents/${folderPath}/.gitkeep`, {
                 method: 'PUT',
                 headers: {
@@ -108,7 +105,7 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
         if (videoExts.includes(ext)) return <Film className="w-5 h-5 text-pink-400" />;
         if (docExts.includes(ext)) return <FileText className="w-5 h-5 text-red-400" />;
 
-        return <File className="w-5 h-5 text-slate-400" />;
+        return <FileIcon className="w-5 h-5 text-slate-400" />;
     };
 
     const formatSize = (bytes) => {
