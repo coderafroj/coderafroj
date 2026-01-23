@@ -33,6 +33,7 @@ export default {
         'text-muted': '#94a3b8',
       },
       fontFamily: {
+        outfit: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         display: ['Cal Sans', 'Inter', 'sans-serif'],
