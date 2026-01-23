@@ -25,35 +25,35 @@ export default function Home() {
       </div>
 
       {/* Hero Section - Hyper-Impact v2 */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-10">
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 md:px-6 pt-10">
         <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-12 items-center">
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="space-y-10 relative z-20 text-left"
+            className="space-y-8 md:space-y-10 relative z-20 text-left"
           >
             <div className="inline-flex items-center gap-4">
               <span className="glass-tag">System.v3</span>
               <span className="text-[10px] font-mono text-dim-text uppercase tracking-widest">Architectural Mastery</span>
             </div>
 
-            <h1 className="text-7xl md:text-[8rem] leading-[0.8] uppercase flex flex-col font-outfit">
-              <span className="text-white font-black tracking-tightest">Design</span>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] leading-[0.9] md:leading-[0.8] uppercase flex flex-col font-outfit">
+              <span className="text-white font-black tracking-tighter sm:tracking-tightest">Design</span>
               <span className="chrome-text">Mastered.</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-dim-text max-w-lg leading-relaxed font-light font-outfit">
+            <p className="text-base md:text-xl text-dim-text max-w-lg leading-relaxed font-light font-outfit">
               We craft <span className="text-white font-bold italic">BREATHTAKING</span> digital experiences. Elite engineering meets high-end design to elevate your brand to the next dimension.
             </p>
 
-            <div className="flex flex-wrap gap-8 items-center pt-8">
+            <div className="flex flex-wrap gap-6 md:gap-8 items-center pt-4 md:pt-8">
               <Link to="/projects">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-12 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.3em] rounded-none shimmer-button font-outfit"
+                  className="px-8 md:px-12 py-5 md:py-6 bg-white text-black font-black uppercase text-[10px] md:text-xs tracking-[0.3em] rounded-none shimmer-button font-outfit"
                 >
                   Start Project <span className="ml-2">⚡</span>
                 </motion.button>
@@ -61,26 +61,26 @@ export default function Home() {
               <Link to="/tutorials">
                 <motion.button
                   whileHover={{ x: 10 }}
-                  className="text-white font-bold uppercase text-xs tracking-widest flex items-center gap-4 group font-outfit"
+                  className="text-white font-bold uppercase text-[10px] md:text-xs tracking-widest flex items-center gap-4 group font-outfit"
                 >
                   UI Showcase
-                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                    <ArrowRight size={16} />
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                    <ArrowRight size={14} />
                   </div>
                 </motion.button>
               </Link>
             </div>
 
             {/* Micro Modules */}
-            <div className="flex gap-12 pt-16 border-t border-white/5">
+            <div className="flex gap-8 md:gap-12 pt-12 md:pt-16 border-t border-white/5">
               {[
                 { label: 'Uptime', val: '99.9%' },
                 { label: 'Latency', val: '0.12ms' },
                 { label: 'Cores', val: '128-Bit' }
               ].map((m, i) => (
-                <div key={i} className="space-y-1">
-                  <p className="text-[10px] font-mono text-white/30 uppercase tracking-widest">{m.label}</p>
-                  <p className="text-lg font-black text-white italic font-outfit">{m.val}</p>
+                <div key={i} className="space-y-1 text-center md:text-left">
+                  <p className="text-[8px] md:text-[10px] font-mono text-white/30 uppercase tracking-widest">{m.label}</p>
+                  <p className="text-sm md:text-lg font-black text-white italic font-outfit">{m.val}</p>
                 </div>
               ))}
             </div>
@@ -123,20 +123,20 @@ export default function Home() {
             <motion.div
               animate={{
                 rotate: 360,
-                scale: [1, 1.1, 1],
+                scale: [1, 1.2, 1],
               }}
               transition={{
-                rotate: { duration: 40, repeat: Infinity, ease: "linear" },
-                scale: { duration: 10, repeat: Infinity, ease: "easeInOut" }
+                rotate: { duration: 60, repeat: Infinity, ease: "linear" },
+                scale: { duration: 15, repeat: Infinity, ease: "easeInOut" }
               }}
-              className="relative w-full h-full flex items-center justify-center opacity-40"
+              className="relative w-full h-full flex items-center justify-center opacity-60"
             >
               <img
                 src={Hero3D}
                 alt="3D Core Mobile Background"
-                className="w-[150%] max-w-none h-auto filter blur-[4px]"
+                className="w-[180%] max-w-none h-auto filter blur-[2px]"
               />
-              <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full" />
+              <div className="absolute inset-0 bg-primary/20 blur-[150px] rounded-full" />
             </motion.div>
           </div>
 
