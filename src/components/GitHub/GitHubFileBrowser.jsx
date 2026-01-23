@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowLeft, Folder, File as FileIcon, FileText, FileCode, Image as ImageIcon,
-    Film, Archive, Download, Eye, ChevronRight, Search, X, Loader2, Plus, FolderPlus, UploadCloud
+    Film, Archive, Download, Eye, ChevronRight, Search, X, Loader2, Plus, FolderPlus, UploadCloud, Grid, List
 } from 'lucide-react';
 import { useGitHub } from '../../context/GitHubContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import GitHubMediaShowcase from './GitHubMediaShowcase';
 
 const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
-    const { fetchRepoContents, fetchFileContent, repoContents, currentPath, isLoading, token } = useGitHub();
+    const { fetchRepoContents, fetchFileContent, repoContents, currentPath, isLoading, token, user } = useGitHub();
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState('name'); // name, size, type
     const [selectedFile, setSelectedFile] = useState(null);
@@ -18,6 +19,7 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
     const [isCreatingFolder, setIsCreatingFolder] = useState(false);
     const [newFolderName, setNewFolderName] = useState('');
     const [isCreating, setIsCreating] = useState(false);
+    const [viewMode, setViewMode] = useState('list'); // 'list' or 'media'
 
     const [owner, repo] = repository.full_name.split('/');
 
@@ -270,6 +272,29 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar pb-1">
+                    {/* View Mode Toggle */}
+                    <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-xl p-1 flex-shrink-0">
+                        <button
+                            onClick={() => setViewMode('list')}
+                            className={`h-8 px-3 rounded-lg flex items-center gap-2 transition-all ${viewMode === 'list'
+                                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            <List className="w-4 h-4" />
+                            <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">List</span>
+                        </button>
+                        <button
+                            onClick={() => setViewMode('media')}
+                            className={`h-8 px-3 rounded-lg flex items-center gap-2 transition-all ${viewMode === 'media'
+                                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            <Grid className="w-4 h-4" />
+                            <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Media</span>
+                        </button>
+                    </div>
                     <Button
                         onClick={() => setIsCreatingFolder(true)}
                         className="flex-1 sm:flex-none h-10 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all active:scale-95 whitespace-nowrap"
@@ -311,75 +336,86 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
                 </div>
             </div>
 
-            {/* Search and Controls */}
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-                <div className="relative flex-1 group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
-                    <Input
-                        placeholder="Search files..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="pl-12 h-12 bg-white/2 border-white/5 focus:border-primary/50 rounded-2xl text-sm"
-                    />
-                </div>
-                <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="h-12 px-4 bg-white/5 border border-white/10 rounded-2xl text-white text-xs font-black uppercase tracking-widest cursor-pointer hover:bg-white/10 transition-colors outline-none"
-                >
-                    <option value="name">Sort by Name</option>
-                    <option value="size">Sort by Size</option>
-                </select>
-            </div>
+            {/* Conditional View: Media Showcase or File List */}
+            {viewMode === 'media' ? (
+                <GitHubMediaShowcase
+                    items={filteredContents}
+                    username={user?.login || ''}
+                    currentPath={currentPath}
+                />
+            ) : (
+                <>
+                    {/* Search and Controls */}
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+                        <div className="relative flex-1 group">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
+                            <Input
+                                placeholder="Search files..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="pl-12 h-12 bg-white/2 border-white/5 focus:border-primary/50 rounded-2xl text-sm"
+                            />
+                        </div>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            className="h-12 px-4 bg-white/5 border border-white/10 rounded-2xl text-white text-xs font-black uppercase tracking-widest cursor-pointer hover:bg-white/10 transition-colors outline-none"
+                        >
+                            <option value="name">Sort by Name</option>
+                            <option value="size">Sort by Size</option>
+                        </select>
+                    </div>
 
-            {/* File List */}
-            <div className="obsidian-card rounded-[2rem] border-white/5 overflow-hidden">
-                {isLoading ? (
-                    <div className="flex items-center justify-center py-20">
-                        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    {/* File List */}
+                    <div className="obsidian-card rounded-[2rem] border-white/5 overflow-hidden">
+                        {isLoading ? (
+                            <div className="flex items-center justify-center py-20">
+                                <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                            </div>
+                        ) : filteredContents.length > 0 ? (
+                            <div className="divide-y divide-white/5">
+                                {filteredContents.map((item, index) => (
+                                    <motion.div
+                                        key={item.path}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.02 }}
+                                        onClick={() => item.type === 'dir' ? handleFolderClick(item.path) : handleFileClick(item)}
+                                        className="flex items-center gap-3 md:gap-4 p-3 md:p-4 hover:bg-white/5 cursor-pointer transition-all group active:scale-[0.99]"
+                                    >
+                                        <div className="flex-shrink-0">
+                                            {getFileIcon(item)}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm md:text-base font-semibold text-white truncate group-hover:text-primary transition-colors">
+                                                {item.name}
+                                            </p>
+                                            <p className="text-xs text-slate-500 font-mono">{formatSize(item.size)}</p>
+                                        </div>
+                                        <div className="flex-shrink-0">
+                                            {item.type === 'dir' ? (
+                                                <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
+                                            ) : (
+                                                <Eye className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="py-20 text-center">
+                                <Folder className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                                <p className="text-slate-400 font-mono text-sm">No files found</p>
+                            </div>
+                        )}
                     </div>
-                ) : filteredContents.length > 0 ? (
-                    <div className="divide-y divide-white/5">
-                        {filteredContents.map((item, index) => (
-                            <motion.div
-                                key={item.path}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.02 }}
-                                onClick={() => item.type === 'dir' ? handleFolderClick(item.path) : handleFileClick(item)}
-                                className="flex items-center gap-3 md:gap-4 p-3 md:p-4 hover:bg-white/5 cursor-pointer transition-all group active:scale-[0.99]"
-                            >
-                                <div className="flex-shrink-0">
-                                    {getFileIcon(item)}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm md:text-base font-semibold text-white truncate group-hover:text-primary transition-colors">
-                                        {item.name}
-                                    </p>
-                                    <p className="text-xs text-slate-500 font-mono">{formatSize(item.size)}</p>
-                                </div>
-                                <div className="flex-shrink-0">
-                                    {item.type === 'dir' ? (
-                                        <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
-                                    ) : (
-                                        <Eye className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="py-20 text-center">
-                        <Folder className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                        <p className="text-slate-400 font-mono text-sm">No files found</p>
-                    </div>
-                )}
-            </div>
 
-            {/* File Preview Modal */}
-            <AnimatePresence>
-                {viewingFile && <FilePreview />}
-            </AnimatePresence>
+                    {/* File Preview Modal */}
+                    <AnimatePresence>
+                        {viewingFile && <FilePreview />}
+                    </AnimatePresence>
+                </>
+            )}
 
             {/* Create Folder Modal */}
             <AnimatePresence>
