@@ -9,130 +9,158 @@ export default function Home() {
   // Get top 3 trending notes for the showcase
   const trendingNotes = computerNotes?.slice(0, 3) || [];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
+  const microWidgets = [
+    { id: '01', title: 'System', status: 'Secured', color: 'text-primary' },
+    { id: '02', title: 'Latency', status: '0.12ms', color: 'text-secondary' },
+    { id: '03', title: 'Traffic', status: 'Active', color: 'text-accent' },
+  ];
 
   return (
     <div className="relative min-h-screen bg-[#050505] selection:bg-primary/30 overflow-hidden">
-      {/* Dynamic Background Elements */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute inset-0 dynamic-grid-bg opacity-30" />
+      {/* Hyper-Impact Visual Engine */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 immersive-glow opacity-40" />
+        <div className="absolute inset-0 data-strand-bg opacity-30 animate-pulse-slow font-outfit" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0)_0%,#050505_100%)]" />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Section - Hyper-Impact v2 */}
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-10">
+        <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-12 items-center">
+
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative z-20"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="space-y-10 relative z-20 text-left"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-dim-text">
-                v2.0 System Online // Ultra-Modern
-              </span>
+            <div className="inline-flex items-center gap-4">
+              <span className="glass-tag">System.v3</span>
+              <span className="text-[10px] font-mono text-dim-text uppercase tracking-widest">Architectural Mastery</span>
             </div>
 
-            <h1 className="text-6xl md:text-8xl font-black tracking-tightest leading-[0.9] mb-8 uppercase italic font-outfit">
-              <span className="block text-white">Digital</span>
-              <span className="block hero-gradient-text">Architect.</span>
+            <h1 className="text-7xl md:text-[8rem] leading-[0.8] uppercase flex flex-col font-outfit">
+              <span className="text-white font-black tracking-tightest">Design</span>
+              <span className="chrome-text">Mastered.</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-dim-text font-light leading-relaxed mb-10 max-w-lg">
-              Engineering high-fidelity digital experiences with precision and speed. We don't just build websites; we architect the future.
+            <p className="text-lg md:text-xl text-dim-text max-w-lg leading-relaxed font-light font-outfit">
+              We craft <span className="text-white font-bold italic">BREATHTAKING</span> digital experiences. Elite engineering meets high-end design to elevate your brand to the next dimension.
             </p>
 
-            <div className="flex flex-wrap gap-6 items-center">
+            <div className="flex flex-wrap gap-8 items-center pt-8">
               <Link to="/projects">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-10 py-5 bg-white text-black font-black uppercase text-xs tracking-widest rounded-none shimmer-button"
+                  className="px-12 py-6 bg-white text-black font-black uppercase text-xs tracking-[0.3em] rounded-none shimmer-button font-outfit"
                 >
-                  Access Protocols
+                  Start Project <span className="ml-2">⚡</span>
                 </motion.button>
               </Link>
               <Link to="/tutorials">
                 <motion.button
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                  className="px-10 py-5 border border-white/10 text-white font-black uppercase text-xs tracking-widest rounded-none backdrop-blur-sm"
+                  whileHover={{ x: 10 }}
+                  className="text-white font-bold uppercase text-xs tracking-widest flex items-center gap-4 group font-outfit"
                 >
-                  View Archive
+                  UI Showcase
+                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                    <ArrowRight size={16} />
+                  </div>
                 </motion.button>
               </Link>
             </div>
 
-            {/* Micro Stats */}
-            <div className="mt-20 grid grid-cols-3 gap-8 border-t border-white/5 pt-10">
+            {/* Micro Modules */}
+            <div className="flex gap-12 pt-16 border-t border-white/5">
               {[
-                { label: 'Elite Members', val: '2.5K+', icon: <Zap size={14} /> },
-                { label: 'Systems Built', val: '150+', icon: <Globe size={14} /> },
-                { label: 'Uptime', val: '99.9%', icon: <Shield size={14} /> }
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 + i * 0.1 }}
-                  className="space-y-1"
-                >
-                  <p className="text-2xl font-black text-white font-outfit">{stat.val}</p>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-dim-text">{stat.label}</p>
-                </motion.div>
+                { label: 'Uptime', val: '99.9%' },
+                { label: 'Latency', val: '0.12ms' },
+                { label: 'Cores', val: '128-Bit' }
+              ].map((m, i) => (
+                <div key={i} className="space-y-1">
+                  <p className="text-[10px] font-mono text-white/30 uppercase tracking-widest">{m.label}</p>
+                  <p className="text-lg font-black text-white italic font-outfit">{m.val}</p>
+                </div>
               ))}
             </div>
           </motion.div>
 
+          {/* High-Visibility 3D Stage */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1.2, ease: "circOut" }}
-            className="relative perspective-1000"
+            initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.5, ease: "circOut" }}
+            className="relative perspective-2000 hidden lg:block"
           >
-            <div className="relative z-10 hero-3d-asset preserve-3d">
+            <div className="hero-3d-stage preserve-3d">
               <img
                 src={Hero3D}
                 alt="3D Digital Core"
-                className="w-full h-auto drop-shadow-[0_0_100px_rgba(99,102,241,0.3)]"
+                className="w-full h-auto drop-shadow-[0_0_120px_rgba(99,102,241,0.6)]"
               />
-              {/* Orbital Glows */}
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-[100px] -z-10 animate-pulse" />
+              {/* Internal Energy Rings */}
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 blur-sm scale-150 font-outfit" />
+              <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-gradient-to-b from-transparent via-secondary to-transparent opacity-50 blur-sm scale-150" />
             </div>
 
-            <div className="absolute -bottom-10 -right-10 p-8 glass-glow border-white/20 backdrop-blur-3xl hidden md:block z-20">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
-                  <Terminal size={24} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-mono text-dim-text uppercase tracking-widest">System Status</p>
-                  <p className="text-sm font-bold text-white uppercase italic">All Cores Active</p>
-                </div>
+            {/* Floating Info Pod */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute -bottom-10 right-0 micro-widget flex items-center gap-4 border-primary/30"
+            >
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <div className="text-left">
+                <p className="text-[8px] font-mono text-dim-text uppercase tracking-tighter">Core Integrity</p>
+                <p className="text-xs font-bold text-white uppercase italic font-outfit">Optimal Performance</p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
+
+          {/* Mobile Immersive 3D View (Background) */}
+          <div className="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen -z-10 pointer-events-none overflow-hidden">
+            <motion.div
+              animate={{
+                rotate: 360,
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                rotate: { duration: 40, repeat: Infinity, ease: "linear" },
+                scale: { duration: 10, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="relative w-full h-full flex items-center justify-center opacity-40"
+            >
+              <img
+                src={Hero3D}
+                alt="3D Core Mobile Background"
+                className="w-[150%] max-w-none h-auto filter blur-[4px]"
+              />
+              <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full" />
+            </motion.div>
+          </div>
+
         </div>
       </section>
+
+      {/* Mobile Quick Stats Hub */}
+      <div className="pt-20 lg:hidden grid grid-cols-1 gap-4 w-full">
+        {microWidgets.map((stat, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="micro-widget flex items-center justify-between p-6"
+          >
+            <div className="flex items-center gap-4">
+              <div className={`w-2 h-2 rounded-full bg-white/20 ${stat.color} animate-pulse`} />
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-dim-text">{stat.title}</span>
+            </div>
+            <span className="text-sm font-black text-white italic">{stat.status}</span>
+          </motion.div>
+        ))}
+      </div>
 
       {/* Services Bento Grid */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
@@ -251,7 +279,7 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section >
 
       {/* Trust Quote / Footer Preview */}
       <footer className="py-20 px-6 max-w-7xl mx-auto text-center border-t border-white/5">
