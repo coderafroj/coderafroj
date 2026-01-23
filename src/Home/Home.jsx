@@ -24,44 +24,67 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0)_0%,#050505_100%)]" />
       </div>
 
-      {/* Hero Section - Hyper-Impact v2 */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 md:px-6 pt-10">
-        <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-12 items-center">
+      {/* Hero Section - Mobile Optimized v3 */}
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 md:px-6 py-24 md:py-10">
+        {/* Enhanced Mobile Background - Large and Visible */}
+        <div className="lg:hidden absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+          <motion.div
+            animate={{
+              rotate: 360,
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              rotate: { duration: 100, repeat: Infinity, ease: "linear" },
+              scale: { duration: 25, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="relative w-full h-full flex items-center justify-center"
+          >
+            <img
+              src={Hero3D}
+              alt="3D Core Background"
+              className="w-[300%] sm:w-[250%] max-w-none h-auto opacity-30 filter blur-[0.5px]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/15 to-accent/20 blur-[100px]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]/90" />
+          </motion.div>
+        </div>
+
+        <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="space-y-8 md:space-y-10 relative z-20 text-left"
+            className="space-y-6 sm:space-y-8 md:space-y-10 relative z-20 text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-4">
-              <span className="glass-tag">System.v3</span>
-              <span className="text-[10px] font-mono text-dim-text uppercase tracking-widest">Architectural Mastery</span>
+            <div className="inline-flex items-center gap-3 sm:gap-4">
+              <span className="glass-tag text-[9px] sm:text-[10px]">System.v3</span>
+              <span className="text-[9px] sm:text-[10px] font-mono text-dim-text uppercase tracking-widest">Architectural Mastery</span>
             </div>
 
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] leading-[0.9] md:leading-[0.8] uppercase flex flex-col font-outfit">
-              <span className="text-white font-black tracking-tighter sm:tracking-tightest">Design</span>
-              <span className="chrome-text">Mastered.</span>
+            <h1 className="text-[3rem] sm:text-6xl md:text-7xl lg:text-[8rem] leading-[0.85] sm:leading-[0.9] md:leading-[0.8] uppercase flex flex-col font-outfit">
+              <span className="text-white font-black tracking-tighter sm:tracking-tightest drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">Design</span>
+              <span className="chrome-text drop-shadow-[0_0_50px_rgba(99,102,241,0.8)]">Mastered.</span>
             </h1>
 
-            <p className="text-base md:text-xl text-dim-text max-w-lg leading-relaxed font-light font-outfit">
+            <p className="text-sm sm:text-base md:text-xl text-dim-text max-w-lg mx-auto lg:mx-0 leading-relaxed font-light font-outfit px-4 sm:px-0">
               We craft <span className="text-white font-bold italic">BREATHTAKING</span> digital experiences. Elite engineering meets high-end design to elevate your brand to the next dimension.
             </p>
 
-            <div className="flex flex-wrap gap-6 md:gap-8 items-center pt-4 md:pt-8">
-              <Link to="/projects">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 md:gap-8 items-center justify-center lg:justify-start pt-4 md:pt-8">
+              <Link to="/projects" className="w-full sm:w-auto">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 md:px-12 py-5 md:py-6 bg-white text-black font-black uppercase text-[10px] md:text-xs tracking-[0.3em] rounded-none shimmer-button font-outfit"
+                  className="w-full sm:w-auto px-8 md:px-12 py-4 sm:py-5 md:py-6 bg-white text-black font-black uppercase text-[10px] md:text-xs tracking-[0.3em] rounded-none shimmer-button font-outfit shadow-2xl shadow-white/20"
                 >
                   Start Project <span className="ml-2">⚡</span>
                 </motion.button>
               </Link>
-              <Link to="/tutorials">
+              <Link to="/tutorials" className="w-full sm:w-auto">
                 <motion.button
                   whileHover={{ x: 10 }}
-                  className="text-white font-bold uppercase text-[10px] md:text-xs tracking-widest flex items-center gap-4 group font-outfit"
+                  className="w-full sm:w-auto text-white font-bold uppercase text-[10px] md:text-xs tracking-widest flex items-center justify-center gap-4 group font-outfit"
                 >
                   UI Showcase
                   <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
@@ -72,73 +95,66 @@ export default function Home() {
             </div>
 
             {/* Micro Modules */}
-            <div className="flex gap-8 md:gap-12 pt-12 md:pt-16 border-t border-white/5">
+            <div className="flex gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-16 border-t border-white/5 justify-center lg:justify-start">
               {[
                 { label: 'Uptime', val: '99.9%' },
                 { label: 'Latency', val: '0.12ms' },
                 { label: 'Cores', val: '128-Bit' }
               ].map((m, i) => (
-                <div key={i} className="space-y-1 text-center md:text-left">
-                  <p className="text-[8px] md:text-[10px] font-mono text-white/30 uppercase tracking-widest">{m.label}</p>
-                  <p className="text-sm md:text-lg font-black text-white italic font-outfit">{m.val}</p>
+                <div key={i} className="space-y-1 text-center">
+                  <p className="text-[8px] sm:text-[9px] md:text-[10px] font-mono text-white/30 uppercase tracking-widest">{m.label}</p>
+                  <p className="text-xs sm:text-sm md:text-lg font-black text-white italic font-outfit">{m.val}</p>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* High-Visibility 3D Stage */}
+          {/* Enhanced Desktop 3D Stage */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1.5, ease: "circOut" }}
             className="relative perspective-2000 hidden lg:block"
           >
-            <div className="hero-3d-stage preserve-3d">
+            <div className="hero-3d-stage preserve-3d relative">
+              {/* Glow backdrop */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-purple-500/30 to-accent/40 blur-[150px] rounded-full scale-150 animate-pulse-slow" />
+
               <img
                 src={Hero3D}
                 alt="3D Digital Core"
-                className="w-full h-auto drop-shadow-[0_0_120px_rgba(99,102,241,0.6)]"
+                className="relative w-full h-auto drop-shadow-[0_0_150px_rgba(99,102,241,0.8)] z-10"
               />
-              {/* Internal Energy Rings */}
-              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 blur-sm scale-150 font-outfit" />
-              <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-gradient-to-b from-transparent via-secondary to-transparent opacity-50 blur-sm scale-150" />
+
+              {/* Energy Rings */}
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-60 blur-sm scale-150 animate-pulse" />
+              <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[2px] bg-gradient-to-b from-transparent via-secondary to-transparent opacity-60 blur-sm scale-150 animate-pulse" />
+
+              {/* Orbiting particles */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 pointer-events-none"
+              >
+                <div className="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-primary/60 blur-sm" />
+                <div className="absolute bottom-1/4 right-1/4 w-2 h-2 rounded-full bg-accent/60 blur-sm" />
+                <div className="absolute top-1/2 right-1/4 w-2.5 h-2.5 rounded-full bg-purple-500/60 blur-sm" />
+              </motion.div>
             </div>
 
             {/* Floating Info Pod */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -bottom-10 right-0 micro-widget flex items-center gap-4 border-primary/30"
+              className="absolute -bottom-10 right-0 micro-widget flex items-center gap-4 border-primary/30 backdrop-blur-xl"
             >
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-lg shadow-primary/50" />
               <div className="text-left">
                 <p className="text-[8px] font-mono text-dim-text uppercase tracking-tighter">Core Integrity</p>
                 <p className="text-xs font-bold text-white uppercase italic font-outfit">Optimal Performance</p>
               </div>
             </motion.div>
           </motion.div>
-
-          {/* Mobile Immersive 3D View (Background) */}
-          <div className="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen -z-10 pointer-events-none overflow-hidden">
-            <motion.div
-              animate={{
-                rotate: 360,
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                rotate: { duration: 60, repeat: Infinity, ease: "linear" },
-                scale: { duration: 15, repeat: Infinity, ease: "easeInOut" }
-              }}
-              className="relative w-full h-full flex items-center justify-center opacity-60"
-            >
-              <img
-                src={Hero3D}
-                alt="3D Core Mobile Background"
-                className="w-[180%] max-w-none h-auto filter blur-[2px]"
-              />
-              <div className="absolute inset-0 bg-primary/20 blur-[150px] rounded-full" />
-            </motion.div>
-          </div>
 
         </div>
       </section>
