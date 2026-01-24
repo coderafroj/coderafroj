@@ -342,6 +342,7 @@ const GitHubFileBrowser = ({ repository, onBack, onUpload }) => {
                     items={filteredContents}
                     username={user?.login || ''}
                     currentPath={currentPath}
+                    token={token}
                 />
             ) : (
                 <>

@@ -262,6 +262,7 @@ export class GitHubAPI {
                 size: item.size,
                 sha: item.sha,
                 url: item.html_url,
+                api_url: item.url,
                 download_url: item.download_url,
             }));
         } catch (error) {

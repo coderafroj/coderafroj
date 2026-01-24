@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Heart, Image as ImageIcon, Film, Maximize2, Play, Pause } from 'lucide-react';
 import { Button } from '../ui/Button';
 
-const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) => {
+import AuthenticatedImage from './AuthenticatedImage';
+
+const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '', token = null }) => {
     const [lightboxMedia, setLightboxMedia] = useState(null);
     const [lightboxIndex, setLightboxIndex] = useState(0);
     const [playingVideo, setPlayingVideo] = useState(null);
@@ -126,19 +128,20 @@ const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) =>
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.05 }}
                         className={`group relative rounded-2xl overflow-hidden cursor-pointer ${isCoderinnu
-                                ? 'border-2 border-pink-500/20 hover:border-pink-500/50 shadow-lg shadow-pink-500/10'
-                                : 'border border-white/10 hover:border-primary/50'
+                            ? 'border-2 border-pink-500/20 hover:border-pink-500/50 shadow-lg shadow-pink-500/10'
+                            : 'border border-white/10 hover:border-primary/50'
                             } transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]`}
                         onClick={() => openLightbox(media, index)}
                     >
                         {/* Media Preview */}
                         <div className="aspect-square bg-black/40 relative overflow-hidden">
                             {isImage(media.name) && media.download_url && (
-                                <img
+                                <AuthenticatedImage
                                     src={media.download_url}
                                     alt={media.name}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                    loading="lazy"
+                                    token={token}
+                                    apiUrl={media.api_url}
                                 />
                             )}
                             {isVideo(media.name) && (
@@ -149,16 +152,16 @@ const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) =>
 
                             {/* Overlay */}
                             <div className={`absolute inset-0 ${isCoderinnu
-                                    ? 'bg-gradient-to-t from-pink-900/90 via-pink-900/40 to-transparent'
-                                    : 'bg-gradient-to-t from-black/90 via-black/40 to-transparent'
+                                ? 'bg-gradient-to-t from-pink-900/90 via-pink-900/40 to-transparent'
+                                : 'bg-gradient-to-t from-black/90 via-black/40 to-transparent'
                                 } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
                                 <div className="absolute bottom-0 left-0 right-0 p-4">
                                     <p className="text-white font-semibold text-sm truncate mb-1">{media.name}</p>
                                     <div className="flex items-center gap-2">
                                         {isVideo(media.name) && (
                                             <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider ${isCoderinnu
-                                                    ? 'bg-pink-500/20 text-pink-300 border border-pink-500/30'
-                                                    : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                                                ? 'bg-pink-500/20 text-pink-300 border border-pink-500/30'
+                                                : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
                                                 }`}>
                                                 Video
                                             </span>
@@ -211,8 +214,8 @@ const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) =>
                         >
                             {/* Header */}
                             <div className={`p-4 md:p-6 flex items-center justify-between mb-4 rounded-t-3xl ${isCoderinnu
-                                    ? 'bg-gradient-to-r from-pink-900/50 to-purple-900/50 border border-pink-500/20'
-                                    : 'bg-white/5 border border-white/10'
+                                ? 'bg-gradient-to-r from-pink-900/50 to-purple-900/50 border border-pink-500/20'
+                                : 'bg-white/5 border border-white/10'
                                 }`}>
                                 <div className="flex items-center gap-3 overflow-hidden flex-1">
                                     {isCoderinnu && <Heart className="w-5 h-5 text-pink-400 fill-pink-400 animate-pulse" />}
@@ -230,8 +233,8 @@ const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) =>
                                             download
                                             onClick={(e) => e.stopPropagation()}
                                             className={`p-2 rounded-xl transition-colors ${isCoderinnu
-                                                    ? 'bg-pink-500/10 hover:bg-pink-500/20 text-pink-400'
-                                                    : 'bg-primary/10 hover:bg-primary/20 text-primary'
+                                                ? 'bg-pink-500/10 hover:bg-pink-500/20 text-pink-400'
+                                                : 'bg-primary/10 hover:bg-primary/20 text-primary'
                                                 }`}
                                         >
                                             <Download className="w-5 h-5" />
@@ -249,11 +252,13 @@ const GitHubMediaShowcase = ({ items = [], username = '', currentPath = '' }) =>
                             {/* Media Display */}
                             <div className="flex-1 flex items-center justify-center">
                                 {isImage(lightboxMedia.name) && lightboxMedia.download_url && (
-                                    <img
+                                    <AuthenticatedImage
                                         src={lightboxMedia.download_url}
                                         alt={lightboxMedia.name}
                                         className={`max-w-full max-h-[calc(90vh-120px)] object-contain rounded-2xl ${isCoderinnu ? 'shadow-2xl shadow-pink-500/20' : 'shadow-2xl'
                                             }`}
+                                        token={token}
+                                        apiUrl={lightboxMedia.api_url}
                                     />
                                 )}
                                 {isVideo(lightboxMedia.name) && lightboxMedia.download_url && (
