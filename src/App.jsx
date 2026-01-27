@@ -19,6 +19,9 @@ import NoteEditor from './pages/NoteEditor';
 import Contact from './pages/Contact';
 import MobileTabBar from './components/layout/MobileTabBar';
 import DesignViewer from './pages/DesignViewer';
+import CourseIndex from './pages/Learn/CourseIndex';
+import NotesLayout from './pages/Learn/NotesLayout';
+import TopicPage from './pages/Learn/TopicPage';
 import './App.css';
 
 function App() {
@@ -51,6 +54,12 @@ function App() {
               <Route path="/github" element={<GitHubDashboard />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/design/:id" element={<DesignViewer />} />
+
+              {/* New Learning System Routes */}
+              <Route path="/learn" element={<CourseIndex />} />
+              <Route path="/learn/:courseId" element={<NotesLayout />}>
+                <Route path=":topicSlug" element={<TopicPage />} />
+              </Route>
             </Routes>
           </main>
           <Footer />
