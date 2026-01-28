@@ -1,19 +1,14 @@
-
-export const cProgramming = {
-    id: 'c-programming',
-    title: 'C Programming',
-    description: 'Master the mother of all languages. From basics to advanced pointers and data structures.',
-    topics: [
-        {
-            id: 'c-language-introduction',
-            slug: 'c-language-introduction',
-            title: 'Introduction to C Programming',
-            description: 'Dennis Ritchie ki legacy. C language ke features aur code structure ko samjhein.',
-            tags: ['C', 'Programming', 'Basics'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-15'),
-            content: `
+export const cProgramming = [
+    {
+        id: 'c-language-introduction',
+        slug: 'c-language-introduction',
+        title: 'Introduction to C Programming',
+        description: 'Dennis Ritchie ki legacy. C language ke features aur code structure ko samjhein.',
+        tags: ['C', 'Programming', 'Basics'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-15'),
+        content: `
 # C Programming: The Mother Language
 
 C ek dynamic aur powerful language hai jise **Dennis Ritchie** ne 1972 mein AT&T Bell Labs mein banaya tha.
@@ -36,18 +31,18 @@ C ek dynamic aur powerful language hai jise **Dennis Ritchie** ne 1972 mein AT&T
 - **#include**: Preprocessor directive jo link section mein help karta hai.
 - **main()**: Program ka entry point. CPU yahi se execution start karta hai.
 - **printf()**: Output dikhane wala function.
-            `
-        },
-        {
-            id: 'c-tokens-variables',
-            slug: 'c-tokens-variables',
-            title: 'C Tokens: Variables & Data Types',
-            description: 'Identifiers, 32 Keywords, aur memory allocation units (int, float, char).',
-            tags: ['C', 'Logic', 'Memory'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-15'),
-            content: `
+        `
+    },
+    {
+        id: 'c-tokens-variables',
+        slug: 'c-tokens-variables',
+        title: 'C Tokens: Variables & Data Types',
+        description: 'Identifiers, 32 Keywords, aur memory allocation units (int, float, char).',
+        tags: ['C', 'Logic', 'Memory'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-15'),
+        content: `
 # C Tokens & Memory
 
 Computer mein har choti unit jo code mein use hoti hai, use **Token** kehte hain.
@@ -67,18 +62,18 @@ Variable ek naam hai jo memory location ko diya jata hai.
 
 ## 32 Keywords in C
 C language mein 32 words reserved hain jinhe hum variable name ki tarah use nahi kar sakte (Example: \`auto\`, \`break\`, \`int\`, \`return \`).
-            `
-        },
-        {
-            id: 'c-operators-deep-dive',
-            slug: 'c-operators-deep-dive',
-            title: 'C Operators: Arithmetic to Bitwise',
-            description: 'Complete guide to +, -, *, /, %, Logical (&&, ||), aur Bitwise operators. Precedence rules aur calculations.',
-            tags: ['C', 'Operators', 'Math'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-15'),
-            content: `
+        `
+    },
+    {
+        id: 'c-operators-deep-dive',
+        slug: 'c-operators-deep-dive',
+        title: 'C Operators: Arithmetic to Bitwise',
+        description: 'Complete guide to +, -, *, /, %, Logical (&&, ||), aur Bitwise operators. Precedence rules aur calculations.',
+        tags: ['C', 'Operators', 'Math'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-15'),
+        content: `
 # C Operators: The Tools of Calculation
 
 Variables par process karne ke liye hum **Operators** ka use karte hain.
@@ -116,18 +111,18 @@ Bits (0 aur 1) par direct kaam karne ke liye.
 Short \`if-else\`.
 - Syntax: \`Condition ? TruePart : FalsePart;\`
 - Example: \`(a > b) ? a : b;\` (Jo bada hai wo milega).
-            `
-        },
-        {
-            id: 'c-control-structures',
-            slug: 'c-control-structures',
-            title: 'Decisions & Loops in C',
-            description: 'if-else ladder, switch cases, aur Looping (for, while, do-while) ka logic.',
-            tags: ['C', 'Logic', 'Control'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-15'),
-            content: `
+        `
+    },
+    {
+        id: 'c-control-structures',
+        slug: 'c-control-structures',
+        title: 'Decisions & Loops in C',
+        description: 'if-else ladder, switch cases, aur Looping (for, while, do-while) ka logic.',
+        tags: ['C', 'Logic', 'Control'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-15'),
+        content: `
 # Flow Control: Logic Building
 
 Program ko batana ki kab kya karna hai, yahi real programming hai.
@@ -148,18 +143,18 @@ Kisi bhi kaam ko baar-baar karne ke liye:
 1. **break**: Loop se foran bahar nikalne ke liye.
 2. **continue**: Agli iteration par jump karne ke liye.
 3. **goto**: Kisi label par direct control bhejnew ke liye.
-            `
-        },
-        {
-            id: 'c-arrays-and-pointers',
-            slug: 'c-arrays-and-pointers',
-            title: 'Arrays & The Power of Pointers',
-            description: 'Contiguous memory management, 2D Arrays (Matrices), aur pointers core internals.',
-            tags: ['C', 'Advanced', 'Memory'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-15'),
-            content: `
+        `
+    },
+    {
+        id: 'c-arrays-and-pointers',
+        slug: 'c-arrays-and-pointers',
+        title: 'Arrays & The Power of Pointers',
+        description: 'Contiguous memory management, 2D Arrays (Matrices), aur pointers core internals.',
+        tags: ['C', 'Advanced', 'Memory'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-15'),
+        content: `
 # Data Org: Arrays & Pointers
 
 ## 1. Arrays (Samuh)
@@ -176,18 +171,18 @@ Pointer ek aisi special variable hai jo dusri variable ka **Address** store kart
 
 ### Importance of Pointers
 Pointers se hum memory ko direct control kar sakte hain, functions mein link bhej sakte hain (Call by Reference) aur highly dynamic data structures (Linked Lists) bana sakte hain.
-            `
-        },
-        {
-            id: 'c-strings-mastery',
-            slug: 'c-strings-mastery',
-            title: 'Strings in C: Handling Text',
-            description: 'Character arrays, null terminator, aur string.h library functions (strcpy, refined logic) ka pura gyaan.',
-            tags: ['C', 'Strings', 'Text Processing'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-strings-mastery',
+        slug: 'c-strings-mastery',
+        title: 'Strings in C: Handling Text',
+        description: 'Character arrays, null terminator, aur string.h library functions (strcpy, refined logic) ka pura gyaan.',
+        tags: ['C', 'Strings', 'Text Processing'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # C Strings: Text ke saath khelna
 
 C language mein "String" jaisa koi direct data type nahi hota. Hum **Character Arrays** ka use karte hain words ya sentences store karne ke liye.
@@ -217,18 +212,18 @@ String manipulation ke liye hum \`<string.h>\` library use karte hain.
 ### Common Mistake:
 Example: \`str1 = str2;\` ❌ (Wrong! Arrays direct assign nahi hote).
 Sahi tarika: \`strcpy(str1, str2);\` ✅
-            `
-        },
-        {
-            id: 'c-storage-classes',
-            slug: 'c-storage-classes',
-            title: 'Storage Classes: Variable ki Life',
-            description: 'Auto, Extern, Static, aur Register variables ka scope aur lifetime samjhein.',
-            tags: ['C', 'Memory', 'Scope'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-storage-classes',
+        slug: 'c-storage-classes',
+        title: 'Storage Classes: Variable ki Life',
+        description: 'Auto, Extern, Static, aur Register variables ka scope aur lifetime samjhein.',
+        tags: ['C', 'Memory', 'Scope'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Storage Classes: Variable ka Swabhaav
 
 C mein har variable ki 2 properties hoti hain: **Scope** (Kahan tak accessible hai) aur **Lifetime** (Kab tak zinda rehta hai). Ise decide karne ke liye **Storage Classes** use hoti hain.
@@ -261,18 +256,18 @@ void count() {
 - **Request**: Hum CPU se request karte hain ki is variable ko **CPU Register** (sabse fast memory) mein rakho.
 - **Use**: Loops ke counters ke liye jo baar-baar access hote hain.
 - **Note**: Address (\`&\`) operator ispar kaam nahi karta.
-            `
-        },
-        {
-            id: 'program-execution-process',
-            slug: 'program-execution-process',
-            title: 'Anatomy of Program Execution',
-            description: 'Source code se Executable (.exe) file banne ka step-by-step process.',
-            tags: ['Compilation', 'Linking', 'Loading'],
-            category: 'C Programming',
-            image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'program-execution-process',
+        slug: 'program-execution-process',
+        title: 'Anatomy of Program Execution',
+        description: 'Source code se Executable (.exe) file banne ka step-by-step process.',
+        tags: ['Compilation', 'Linking', 'Loading'],
+        category: 'C Programming',
+        image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Program Execution: Code se Software Tak
 
 Jab aap "Run" button dabate hain, toh parde ke piche kya hota hai? 
@@ -294,18 +289,19 @@ CPU instructions ko ek-ek karke execute karta hai aur aapko Output screen par di
 
 ### Flow Diagram:
 \`Source Code(.c) -> Compiler -> Object Code(.obj) -> Linker -> Executable(.exe) -> Loader -> Run\`
-            `
-        },
-        {
-            id: 'c-statements-types',
-            slug: 'c-statements-types',
-            title: 'C Statements: The Building Blocks',
-            description: 'Expression, Compound, aur Null Statements ka foundational logic.',
-            tags: ['C', 'Syntax', 'Logic'],
-            category: 'C Programming Unit II',
-            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    // UNIT II
+    {
+        id: 'c-statements-types',
+        slug: 'c-statements-types',
+        title: 'C Statements: The Building Blocks',
+        description: 'Expression, Compound, aur Null Statements ka foundational logic.',
+        tags: ['C', 'Syntax', 'Logic'],
+        category: 'C Programming Unit II',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # C Statements: Code ke Vakya (Sentences)
 
 C language mein instruction ko "Statement" kehte hain.
@@ -330,18 +326,18 @@ Sirf ek semicolon \`; \`. Yeh kuch nahi karta, bas syntax poora karne ke liye us
 
 ## Return Statement
 Functions se wapas aane ke liye use hota hai. \`return 0; \` ka matlab hai "Sab kuch sahi se khatam hua".
-            `
-        },
-        {
-            id: 'c-decision-making',
-            slug: 'c-decision-making',
-            title: 'Decision Control: if, else & switch',
-            description: 'Computer ko faisla lena sikhayein. if-else ladder aur switch case ki mastery.',
-            tags: ['Control Flow', 'Logic', 'Conditionals'],
-            category: 'C Programming Unit II',
-            image: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-decision-making',
+        slug: 'c-decision-making',
+        title: 'Decision Control: if, else & switch',
+        description: 'Computer ko faisla lena sikhayein. if-else ladder aur switch case ki mastery.',
+        tags: ['Control Flow', 'Logic', 'Conditionals'],
+        category: 'C Programming Unit II',
+        image: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Decision Making: Computer ka Logic
 
 Computer khud start nahi sochta, humein batana padta hai: "Agar ye ho, to wo karo".
@@ -355,7 +351,7 @@ Simple condition check.
     \`\`\`
 
 ## 2. if-else Statement
-Agar condition sahi hai nahi, to kya karein?
+Agar condition sahi nahi hai, to kya karein?
 Use: **ATM Logic**
 - Agar Pin sahi hai -> Withdraw Money
 - Varna (Else) -> Show Error
@@ -377,18 +373,18 @@ Jab ek variable ki alag-alag values par alag kaam karna ho. Yeh \`else -if\` se 
     }
     \`\`\`
 **Note**: \`break\` zaroori hai, nahi to neeche ke saare cases bhi chal jayenge (Fallthrough).
-            `
-        },
-        {
-            id: 'c-loops-iteration',
-            slug: 'c-loops-iteration',
-            title: 'Looping Mastery: While, Do-While & For',
-            description: 'Repetitive tasks ko automate karein. Entry vs Exit controlled loops ka fark.',
-            tags: ['Loops', 'Iteration', 'Automation'],
-            category: 'C Programming Unit II',
-            image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-loops-iteration',
+        slug: 'c-loops-iteration',
+        title: 'Looping Mastery: While, Do-While & For',
+        description: 'Repetitive tasks ko automate karein. Entry vs Exit controlled loops ka fark.',
+        tags: ['Loops', 'Iteration', 'Automation'],
+        category: 'C Programming Unit II',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Loops: Kaam Ko Repeat Karna
 
 Agar aapko "Hello" 1000 baar print karna ho, to kya 1000 baar \`printf\` likhenge? Nahi, **Loops** use karenge!
@@ -412,18 +408,18 @@ Isme initialization, condition, aur update sab ek hi line mein hote hain.
 
 ## Nested Loops
 Loop ke andar loop. Iska use **Matrix** (Rows & Columns) ya **Patterns** (Star pyramid) print karne ke liye hota hai.
-            `
-        },
-        {
-            id: 'c-jump-control',
-            slug: 'c-jump-control',
-            title: 'Jump Statements: Break, Continue & Goto',
-            description: 'Loop flow ko control karna. Break vs Continue ka real-world usage.',
-            tags: ['Control Flow', 'Syntax', 'Logic'],
-            category: 'C Programming Unit II',
-            image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-jump-control',
+        slug: 'c-jump-control',
+        title: 'Jump Statements: Break, Continue & Goto',
+        description: 'Loop flow ko control karna. Break vs Continue ka real-world usage.',
+        tags: ['Control Flow', 'Syntax', 'Logic'],
+        category: 'C Programming Unit II',
+        image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Jump Statements: Flow Ko Todna
 
 Kabhi-kabhi humein sequence todna padta hai.
@@ -444,18 +440,18 @@ Program ka control kisi bhi labeled jagah bhejne ke liye.
 | :--- | :--- |
 | Loop khatam kar deta hai | Sirf current round skip karta hai |
 | Switch mein use hota hai | Switch mein use nahi hota |
-            `
-        },
-        {
-            id: 'c-type-conversion',
-            slug: 'c-type-conversion',
-            title: 'Type Conversion: Implicit vs Explicit',
-            description: 'Data types ko badalna (Casting). Data loss se kaise bachein.',
-            tags: ['Memory', 'Data Types', 'Syntax'],
-            category: 'C Programming Unit II',
-            image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-type-conversion',
+        slug: 'c-type-conversion',
+        title: 'Type Conversion: Implicit vs Explicit',
+        description: 'Data types ko badalna (Casting). Data loss se kaise bachein.',
+        tags: ['Memory', 'Data Types', 'Syntax'],
+        category: 'C Programming Unit II',
+        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Type Casting: Data Ka Roop Badalna
 
 Jab hum ek data type ki value dusre data type mein daalte hain, use **Type Conversion** kehte hain.
@@ -478,18 +474,19 @@ int final = (int)marks; // .5 udd jayega, sirf 95 bachega.
     \`\`\`
 
 **Rule**: Jab aap do integers ko divide karte hain (jaise 5/2), to result integer (2) hi aayega. Sahi result (2.5) ke liye type casting zaroori hai: \`(float)5 / 2\`.
-            `
-        },
-        {
-            id: 'c-functions-modular',
-            slug: 'c-functions-modular',
-            title: 'Functions: Modular Programming',
-            description: 'Code ko chote hisson mein todna. Call by Value vs Reference aur Recursion ka magic.',
-            tags: ['Functions', 'Recursion', 'Modular'],
-            category: 'C Programming Unit III',
-            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    // UNIT III
+    {
+        id: 'c-functions-modular',
+        slug: 'c-functions-modular',
+        title: 'Functions: Modular Programming',
+        description: 'Code ko chote hisson mein todna. Call by Value vs Reference aur Recursion ka magic.',
+        tags: ['Functions', 'Recursion', 'Modular'],
+        category: 'C Programming Unit III',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Functions: Code ke Building Blocks
 
 Badi problem ko chote-chote tukdon mein tod kar solve karna hi "Modular Programming" hai. C mein iska tool hai **Function**.
@@ -516,18 +513,18 @@ int factorial(int n) {
     }
     \`\`\`
 Yeh loop jaisa kaam karta hai, par bina loop lagaye.
-            `
-        },
-        {
-            id: 'c-preprocessor-directives',
-            slug: 'c-preprocessor-directives',
-            title: 'The C Preprocessor: # Magic',
-            description: '#include se lekar Macros tak. Compilation se pehle ka process samjhein.',
-            tags: ['Preprocessor', 'Macros', 'Header Files'],
-            category: 'C Programming Unit III',
-            image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-preprocessor-directives',
+        slug: 'c-preprocessor-directives',
+        title: 'The C Preprocessor: # Magic',
+        description: '#include se lekar Macros tak. Compilation se pehle ka process samjhein.',
+        tags: ['Preprocessor', 'Macros', 'Header Files'],
+        category: 'C Programming Unit III',
+        image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Preprocessor Directives: Compilation se Pehle
 
 Compiler apna kaam shuru karne se pehle "Preprocessor" ko bulata hai. Jo bhi line \`#\` se shuru hoti hai, wo preprocessor command hai.
@@ -549,18 +546,19 @@ Kya code ka kuch hissa specific situation mein hi chalana hai?
     #endif
     \`\`\`
 Yeh techniques bade projects mein platform-specific code likhne ke liye use hoti hain.
-            `
-        },
-        {
-            id: 'c-structures-unions',
-            slug: 'c-structures-unions',
-            title: 'Derived Data: Structures & Unions',
-            description: 'Real world data modeling. Student records se lekar complex data types tak.',
-            tags: ['Data Structures', 'Memory', 'Logic'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    // UNIT IV
+    {
+        id: 'c-structures-unions',
+        slug: 'c-structures-unions',
+        title: 'Derived Data: Structures & Unions',
+        description: 'Real world data modeling. Student records se lekar complex data types tak.',
+        tags: ['Data Structures', 'Memory', 'Logic'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Structures & Unions: Data ka Packet
 
 Ab tak hum ek variable (\`int a\`) mein ek hi value rakhte the. Lekin agar "Student" ka data rakhna ho (Name, Roll No, Marks)?
@@ -585,18 +583,18 @@ Structure jaisa hi hai, par memory bachaata hai. Isme ek waqt mein **sirf ek** m
 ## 3. Arrays of Structures
 Poori class ka data store karna? Structure ka array bana lo!
 \`struct Student class_X[50]; \`
-            `
-        },
-        {
-            id: 'c-typedef-enumerations',
-            slug: 'c-typedef-enumerations',
-            title: 'User Types: Typedef & Enum',
-            description: 'Apna data type kaise banayein? Enums ke named constants aur Typedef ka simplification.',
-            tags: ['C', 'Keywords', 'Types'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-typedef-enumerations',
+        slug: 'c-typedef-enumerations',
+        title: 'User Types: Typedef & Enum',
+        description: 'Apna data type kaise banayein? Enums ke named constants aur Typedef ka simplification.',
+        tags: ['C', 'Keywords', 'Types'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Creating Custom Types
 
 C humein allowed karta hai ki hum existing types ko naye naam dein ya apne types banayein.
@@ -627,18 +625,18 @@ enum Week today = Wed;
 printf("%d", today); // Output: 2
 \`\`\`
 **Faida**: Code padhne mein asaan ho jata hai. \`flag = 0\` ki jagah \`flag = FALSE\` likh sakte hain agar enum banayein toh.
-            `
-        },
-        {
-            id: 'c-advanced-pointers',
-            slug: 'c-advanced-pointers',
-            title: 'Advanced Pointers & Dynamic Memory',
-            description: 'Pointer arithmetic, malloc/calloc, aur memory leakage se bachne ke tarike.',
-            tags: ['Pointers', 'Memory Management', 'Advanced'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-advanced-pointers',
+        slug: 'c-advanced-pointers',
+        title: 'Advanced Pointers & Dynamic Memory',
+        description: 'Pointer arithmetic, malloc/calloc, aur memory leakage se bachne ke tarike.',
+        tags: ['Pointers', 'Memory Management', 'Advanced'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Advanced Pointers: Memory Master
 
 Simple pointers toh address rakhte hain, par Advanced Pointers jaadu karte hain.
@@ -658,18 +656,19 @@ Ab tak hum fix size arrays banate the (\`int arr[100]\`). Par agar size na pata 
 
 ## 3. Pointers to Pointers (**p)
 Ek pointer jo dusre pointer ka address rakhe. Yeh 2D Arrays aur complex Data Structures (Linked Lists) mein use hota hai.
-            `
-        },
-        {
-            id: 'c-file-handling-mastery',
-            slug: 'c-file-handling-mastery',
-            title: 'File Handling: Persistent Storage',
-            description: 'Data ko hamesha ke liye save karna. fopen, fclose, aur File Modes ka detailed guide.',
-            tags: ['File I/O', 'Storage', 'System'],
-            category: 'C Programming Unit V',
-            image: 'https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    // UNIT V
+    {
+        id: 'c-file-handling-mastery',
+        slug: 'c-file-handling-mastery',
+        title: 'File Handling: Persistent Storage',
+        description: 'Data ko hamesha ke liye save karna. fopen, fclose, aur File Modes ka detailed guide.',
+        tags: ['File I/O', 'Storage', 'System'],
+        category: 'C Programming Unit V',
+        image: 'https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # File Handling: Data ko Zinda Rakhna
 
 Variables mein data tab tak rehta hai jab tak program chal raha hai. Agar computer band ho gaya, to data gayab!
@@ -716,18 +715,18 @@ Kaam hone ke baad file band karna zaroori hai taaki data save ho sake aur memory
 Agar file ke beech mein direct jump karna ho:
 - **fseek()**: Cursor ko kisi bhi position par le jane ke liye.
 - **rewind()**: Cursor ko wapas shuru mein laye.
-            `
-        },
-        {
-            id: 'c-command-line-arguments',
-            slug: 'c-command-line-arguments',
-            title: 'Command Line Arguments',
-            description: 'Main function ko arguments pass karna. argc aur argv[] ka concept.',
-            tags: ['C', 'Advanced', 'System'],
-            category: 'C Programming Unit V',
-            image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-16'),
-            content: `
+        `
+    },
+    {
+        id: 'c-command-line-arguments',
+        slug: 'c-command-line-arguments',
+        title: 'Command Line Arguments',
+        description: 'Main function ko arguments pass karna. argc aur argv[] ka concept.',
+        tags: ['C', 'Advanced', 'System'],
+        category: 'C Programming Unit V',
+        image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-16'),
+        content: `
 # Command Line Arguments
 
 Kya aap jante hain ki \`main()\` function bhi arguments le sakta hai? Jab hum command prompt se program run karte hain, tab hum values pass kar sakte hain.
@@ -753,18 +752,18 @@ Agar run karein: \`./app hello 10\`
 - \`argv[2]\` = "10"
 
 Iska use tools banane mein hota hai (jaise \`ls -l\`, jahan \`-l\` ek argument hai).
-            `
-        },
-        {
-            id: 'c-structures',
-            slug: 'c-structures',
-            title: 'Structures in C',
-            description: 'struct keyword, user-defined data types, aur complex data management.',
-            tags: ['C', 'Data Structures', 'Advanced'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'c-structures',
+        slug: 'c-structures',
+        title: 'Structures in C',
+        description: 'struct keyword, user-defined data types, aur complex data management.',
+        tags: ['C', 'Data Structures', 'Advanced'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Structures: Apna Data Type Banao
 
 Ab tak humne \`int\`, \`float\` dekha. Agar humein ek **Student** ka data store karna ho (Name, Roll No, Marks) toh hum alag-alag variables nahi banayenge, hum **Structure** use karenge.
@@ -794,18 +793,18 @@ void main() {
 
 ## Array of Structures
 Puri class ka data store karne ke liye structure ka array bana sakte hain: \`struct Student batch[60];\`
-            `
-        },
-        {
-            id: 'c-unions',
-            slug: 'c-unions',
-            title: 'Unions: Memory Saving',
-            description: 'Structure vs Union. Ek waqt par ek hi member active.',
-            tags: ['C', 'Memory', 'Optimization'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'c-unions',
+        slug: 'c-unions',
+        title: 'Unions: Memory Saving',
+        description: 'Structure vs Union. Ek waqt par ek hi member active.',
+        tags: ['C', 'Memory', 'Optimization'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Unions: Memory Bachat
 
 Union dekhne mein Structure jaisa hi hota hai, lekin memory allocation mein fark hai.
@@ -826,20 +825,20 @@ union Data {
 
 union Data data;
 data.i = 10;
-data.f = 220.5; // Ab 'i' ki value corrupt ho jayega kyunki memory overwrite ho gayi.
+data.f = 220.5; // Ab 'i' ki value corrupt ho jayegi kyunki memory overwrite ho gayi.
 \`\`\`
-            `
-        },
-        {
-            id: 'c-enums-typedef',
-            slug: 'c-enums-typedef',
-            title: 'Enums & Typedef',
-            description: 'Code readability badhana aur constants ke group banana.',
-            tags: ['C', 'Syntax', 'Clean Code'],
-            category: 'C Programming Unit IV',
-            image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'c-enums-typedef',
+        slug: 'c-enums-typedef',
+        title: 'Enums & Typedef',
+        description: 'Code readability badhana aur constants ke group banana.',
+        tags: ['C', 'Syntax', 'Clean Code'],
+        category: 'C Programming Unit IV',
+        image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Keywords for Clean Code
 
 ## 1. Typedef (Type Definition)
@@ -860,18 +859,18 @@ if (today == Sunday) {
     printf("Chutti!");
 }
 \`\`\`
-            `
-        },
-        {
-            id: 'c-dynamic-memory',
-            slug: 'c-dynamic-memory',
-            title: 'Dynamic Memory Allocation (DMA)',
-            description: 'malloc, calloc, realloc, free - Runtime par memory manage karna.',
-            tags: ['C', 'Memory', 'Pointers'],
-            category: 'C Programming Unit V',
-            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'c-dynamic-memory',
+        slug: 'c-dynamic-memory',
+        title: 'Dynamic Memory Allocation (DMA)',
+        description: 'malloc, calloc, realloc, free - Runtime par memory manage karna.',
+        tags: ['C', 'Memory', 'Pointers'],
+        category: 'C Programming Unit V',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Dynamic Memory Allocation (DMA)
 
 Ab tak humne \`int arr[100]\` banaya jo **Static** hai (Fixed size). Agar humein pata na ho ki kitna data aayega, toh hum **Runtime** par memory mangte hain.
@@ -893,18 +892,18 @@ Agar pehle mangi gayi memory kam pad gayi, toh size badhane ke liye.
 ## 4. free()
 Kaam khatam hone par memory wapas karna zaroori hai, nahi toh **Memory Leak** ho jayega.
 - Syntax: \`free(ptr);\`
-            `
-        },
-        {
-            id: 'c-preprocessor',
-            slug: 'c-preprocessor',
-            title: 'Preprocessor Directives',
-            description: '#define, Macros, File inclusion, aur compilation se pehle ka magic.',
-            tags: ['C', 'System', 'Macros'],
-            category: 'C Programming Unit V',
-            image: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'c-preprocessor',
+        slug: 'c-preprocessor',
+        title: 'Preprocessor Directives',
+        description: '#define, Macros, File inclusion, aur compilation se pehle ka magic.',
+        tags: ['C', 'System', 'Macros'],
+        category: 'C Programming Unit V',
+        image: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Preprocessor: Compiler se Pehle
 
 Jo commands \`#\` se shuru hoti hain, wo **Preprocessor** ke liye hoti hain. Ye compilation start hone se pehle code ko modify karti hain.
@@ -928,7 +927,6 @@ Kuch code sirf specific situations mein run karne ke liye.
     // Linux specific code
 #endif
 \`\`\`
-            `
-        }
-    ]
-};
+        `
+    }
+];

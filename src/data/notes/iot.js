@@ -1,19 +1,14 @@
-
-export const iot = {
-    id: 'iot',
-    title: 'Internet of Things (IoT)',
-    description: 'The future is connected. Learn about Sensors, Cloud, Protocols, and Smart Cities.',
-    topics: [
-        {
-            id: 'iot-fundamentals-vision',
-            slug: 'iot-fundamentals-vision',
-            title: 'IoT Fundamentals & The Smart Vision',
-            description: 'Internet of Things ka core concept, M2M vs IoT, aur Smart Objects ki classification.',
-            tags: ['IoT', 'Basics', 'M2M', 'Future Tech'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+export const iot = [
+    {
+        id: 'iot-fundamentals-vision',
+        slug: 'iot-fundamentals-vision',
+        title: 'IoT Fundamentals & The Smart Vision',
+        description: 'Internet of Things ka core concept, M2M vs IoT, aur Smart Objects ki classification.',
+        tags: ['IoT', 'Basics', 'M2M', 'Future Tech'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Internet of Things (IoT): The Global Vision
 
 **Internet of Things (IoT)** sirf devices ko connect karna nahi hai, balki ek aisa "Ecosystem" hai jahan har physical object internet ka ek endpoint ban jata hai.
@@ -47,18 +42,18 @@ IoT ko mathematical terms mein aise samjhein:
 
 - **Enrich**: Data ko gateway par clean aur transcode karna.
 - **Stream**: Message queue se data distribute karna.
-            `
-        },
-        {
-            id: 'iot-architecture-frameworks',
-            slug: 'iot-architecture-frameworks',
-            title: 'IoT Architecture & Standard Models',
-            description: 'CISCO 7-Layer, IEEE P2413, aur multi-tiered architectures ka deep-dive.',
-            tags: ['Architecture', 'IoT', 'CISCO', 'Standards'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-architecture-frameworks',
+        slug: 'iot-architecture-frameworks',
+        title: 'IoT Architecture & Standard Models',
+        description: 'CISCO 7-Layer, IEEE P2413, aur multi-tiered architectures ka deep-dive.',
+        tags: ['Architecture', 'IoT', 'CISCO', 'Standards'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT Architecture: Multi-Layered Frameworks
 
 IoT architecture complex hoti hai kyunki isme hardware aur cloud dono ko merge karna padta hai.
@@ -90,18 +85,18 @@ IEEE focus karta hai:
 - **Security**: Data encryption aur safety.
 - **Privacy**: User ki identity chupa ke rakhna.
 - **Safety**: Physically kisi ko nuksaan na ho (like in robots).
-            `
-        },
-        {
-            id: 'iot-protocols-communication',
-            slug: 'iot-protocols-communication',
-            title: 'IoT Protocols: Networking & Standards',
-            description: 'IPv6, 6LoWPAN, CoAP, aur MQTT protocols ka technical analysis.',
-            tags: ['Protocols', 'CoAP', 'MQTT', '6LoWPAN'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-protocols-communication',
+        slug: 'iot-protocols-communication',
+        title: 'IoT Protocols: Networking & Standards',
+        description: 'IPv6, 6LoWPAN, CoAP, aur MQTT protocols ka technical analysis.',
+        tags: ['Protocols', 'CoAP', 'MQTT', '6LoWPAN'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT Protocols: The Language of Things
 
 ## 🌉 1. 6LoWPAN (Adaptation Layer)
@@ -134,18 +129,18 @@ sequenceDiagram
 
 - **QoS Level 1**: Kam se kam ek baar data pahunchna chahiye.
 - **QoS Level 2**: Exact ek baar data pahunchna chahiye (No duplicates).
-            `
-        },
-        {
-            id: 'iot-hardware-mcu-units',
-            slug: 'iot-hardware-mcu-units',
-            title: 'IoT Hardware: MCU & Sensor Units',
-            description: 'ADC, PWM, GPIO, Timers aur Wireless Sensor Network (WSN) topologies.',
-            tags: ['Hardware', 'WSN', 'MCU', 'Sensors'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-hardware-mcu-units',
+        slug: 'iot-hardware-mcu-units',
+        title: 'IoT Hardware: MCU & Sensor Units',
+        description: 'ADC, PWM, GPIO, Timers aur Wireless Sensor Network (WSN) topologies.',
+        tags: ['Hardware', 'WSN', 'MCU', 'Sensors'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT Hardware: Under the Hood
 
 ## 🧠 1. Microcontroller Functional Units
@@ -171,18 +166,18 @@ graph TD
 ### 🏷️ RFID (Tracking)
 - **Passive**: Reader se power leta hai (No battery).
 - **Active**: Apni battery hoti hai (Long range up to 100m).
-            `
-        },
-        {
-            id: 'iot-service-discovery-logic',
-            slug: 'iot-service-discovery-logic',
-            title: 'IoT Logic: Discovery & Session Initiation',
-            description: 'Discovery protocols (mDNS, DNS-SD), CoRE Resource Directory aur SIP.',
-            tags: ['Discovery', 'mDNS', 'SIP', 'CoRE'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-service-discovery-logic',
+        slug: 'iot-service-discovery-logic',
+        title: 'IoT Logic: Discovery & Session Initiation',
+        description: 'Discovery protocols (mDNS, DNS-SD), CoRE Resource Directory aur SIP.',
+        tags: ['Discovery', 'mDNS', 'SIP', 'CoRE'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT Logic: Discovery & Sessions
 
 ## 🔍 1. Service Discovery
@@ -199,18 +194,18 @@ Constrained environments ke liye:
 
 ## 📞 3. SIP (Session Initiation)
 SIP sessions banata hai, modify karta hai aur khatam karta hai. IoT mein webcam streaming ya real-time calls ke liye use hota hai.
-            `
-        },
-        {
-            id: 'iot-data-processing',
-            slug: 'iot-data-processing',
-            title: 'Data Processing & Analytics in IoT',
-            description: 'OLTP vs OLAP, NoSQL vs SQL, aur real-time data streaming logic.',
-            tags: ['Data', 'Analytics', 'NoSQL', 'Big Data'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-data-processing',
+        slug: 'iot-data-processing',
+        title: 'Data Processing & Analytics in IoT',
+        description: 'OLTP vs OLAP, NoSQL vs SQL, aur real-time data streaming logic.',
+        tags: ['Data', 'Analytics', 'NoSQL', 'Big Data'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1551288049-bbda38a5f973?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Data Analytics: Processing the Flood
 
 IoT trillions of records generate karta hai. Iska processing do tarah ka hota hai:
@@ -235,18 +230,18 @@ graph LR
     P --> D[Dashboard]
     P --> DB[Long-term DB]
 \`\`\`
-            `
-        },
-        {
-            id: 'iot-cloud-computing',
-            slug: 'iot-cloud-computing',
-            title: 'IoT Cloud Computing & Platforms (PaaS)',
-            description: 'AWS IoT, IBM BlueMix, aur Azure IoT Hub. Cloud Computing ka connectivity model.',
-            tags: ['Cloud', 'Cloud Computing', 'AWS', 'PaaS', 'Connectivity'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-cloud-computing',
+        slug: 'iot-cloud-computing',
+        title: 'IoT Cloud Computing & Platforms (PaaS)',
+        description: 'AWS IoT, IBM BlueMix, aur Azure IoT Hub. Cloud Computing ka connectivity model.',
+        tags: ['Cloud', 'Cloud Computing', 'AWS', 'PaaS', 'Connectivity'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT on Cloud: Scaling the Edge
 
 Cloud platforms (PaaS) humein storage, computing aur device management dete hain.
@@ -267,18 +262,18 @@ Cloud platforms (PaaS) humein storage, computing aur device management dete hain
 1. **D2D (Device to Device)**: Direct communication.
 2. **D2G (Device to Gateway)**: Bridge ke zariye.
 3. **D2C (Device to Cloud)**: Direct MQTT connection.
-            `
-        },
-        {
-            id: 'iot-security-solutions',
-            slug: 'iot-security-solutions',
-            title: 'IoT Security, Privacy & Vulnerabilities',
-            description: 'DTLS, IPsec, aur "Quadruple Trust" implementation patterns.',
-            tags: ['Security', 'DTLS', 'Privacy', 'Encryption'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-security-solutions',
+        slug: 'iot-security-solutions',
+        title: 'IoT Security, Privacy & Vulnerabilities',
+        description: 'DTLS, IPsec, aur "Quadruple Trust" implementation patterns.',
+        tags: ['Security', 'DTLS', 'Privacy', 'Encryption'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IoT Security: The Silent Guardian
 
 IoT devices hacked hone ka khatra sabse zyada hai.
@@ -310,18 +305,18 @@ graph TD
     E[End-to-End Security]
     end
 \`\`\`
-            `
-        },
-        {
-            id: 'iot-business-iiot',
-            slug: 'iot-business-iiot',
-            title: 'Industrial IoT (IIoT) & Business Models',
-            description: 'Industry 4.0, Predictive maintenance, Asset tracking aur M2M billing logic.',
-            tags: ['IIoT', 'Industrial IoT', 'Business', 'Industry 4.0'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-business-iiot',
+        slug: 'iot-business-iiot',
+        title: 'Industrial IoT (IIoT) & Business Models',
+        description: 'Industry 4.0, Predictive maintenance, Asset tracking aur M2M billing logic.',
+        tags: ['IIoT', 'Industrial IoT', 'Business', 'Industry 4.0'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # IIoT: Industry 4.0 Transformation
 
 **Industrial IoT (IIoT)** factories ko smart banata hai.
@@ -340,18 +335,18 @@ graph TD
 ## 📦 3. Asset Tracking (SCOVARS)
 **Supply Chain Order Verification and Resource System.**
 Real-time tracking ki madad se inventory aur loss ko 90% tak kam kiya ja sakta hai.
-            `
-        },
-        {
-            id: 'iot-case-studies-advanced',
-            slug: 'iot-case-studies-advanced',
-            title: 'Advanced IoT Case Studies',
-            description: 'Smart Farming, Smart Cities, aur E-Health ki implementation details.',
-            tags: ['Case Study', 'Smart Cities', 'Agriculture', 'Health'],
-            category: 'Internet of Things',
-            image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80',
-            createdAt: new Date('2024-01-17'),
-            content: `
+        `
+    },
+    {
+        id: 'iot-case-studies-advanced',
+        slug: 'iot-case-studies-advanced',
+        title: 'Advanced IoT Case Studies',
+        description: 'Smart Farming, Smart Cities, aur E-Health ki implementation details.',
+        tags: ['Case Study', 'Smart Cities', 'Agriculture', 'Health'],
+        category: 'Internet of Things',
+        image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-17'),
+        content: `
 # Real World IoT Case Studies
 
 ## 🚜 1. Smart Farming (Precision Agriculture)
@@ -380,6 +375,5 @@ graph TD
     E --> AirQuality
 \`\`\`
             `
-        }
-    ]
-};
+    }
+];

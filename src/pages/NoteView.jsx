@@ -7,7 +7,7 @@ import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle, Github, Linkedi
 import ReactMarkdown from 'react-markdown';
 import SEO from '../components/SEO';
 
-import { staticNotes } from '../data/computerNotes';
+import { allNotes } from '../data/notes';
 
 const NoteView = () => {
     const { id } = useParams();
@@ -22,7 +22,7 @@ const NoteView = () => {
 
     const fetchNote = async () => {
         try {
-            const staticNode = staticNotes.find(n => n.id === id || n.slug === id);
+            const staticNode = allNotes.find(n => n.id === id || n.slug === id);
             if (staticNode) {
                 setNote({ ...staticNode, isStatic: true });
                 setLoading(false);

@@ -2,20 +2,18 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TopicViewer from './TopicViewer';
-import { getTopicBySlug } from '../../data/notes';
+import { getTopicBySlug, getCourseById } from '../../data/notes';
 
 const TopicPage = () => {
     const { courseId, topicSlug } = useParams();
     const navigate = useNavigate();
 
-    const topic = getTopicBySlug(courseId, topicSlug);
+    const course = getCourseById(courseId);
 
-    useEffect(() => {
-        if (!topic) {
-            // Optional: Redirect or show 404
-            // navigate(`/learn/${courseId}`);
-        }
-    }, [topic, courseId, navigate]);
+    // Calculate Next/Prev
+    const currentIndex = course?.notes?.findIndex(n => n.id === topic?.id || n.slug === topic?.slug) ?? -1;
+    const prevTopic = currentIndex > 0 ? course.notes[currentIndex - 1] : null;
+    const nextTopic = (currentIndex >= 0 && currentIndex < course.notes.length - 1) ? course.notes[currentIndex + 1] : null;
 
     if (!topic) {
         return (
@@ -32,7 +30,14 @@ const TopicPage = () => {
         );
     }
 
-    return <TopicViewer topic={topic} />;
+    return (
+        <TopicViewer
+            topic={topic}
+            prevTopic={prevTopic}
+            nextTopic={nextTopic}
+            courseId={courseId}
+        />
+    );
 };
 
 export default TopicPage;
