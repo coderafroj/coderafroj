@@ -12,6 +12,7 @@ import afu from '../assets/AFROJ.jpg';
 import { projects } from '../data/projects';
 import { services } from '../data/services';
 import { testimonials } from '../data/testimonials';
+import logo from '../assets/logo/coderafroj.png';
 
 // Lazy load 3D components to prevent crash on initial load
 const AdvancedHero = React.lazy(() => import('../components/Three/AdvancedHero'));
@@ -24,6 +25,69 @@ const ThreeFallback = ({ fullScreen = false }) => (
     <div className={`${fullScreen ? 'fixed inset-0' : 'w-full h-full'} bg-transparent pointer-events-none`}>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/30 to-[#02040a]" />
         <div className="coderafroj-grid opacity-[0.05]" />
+    </div>
+);
+
+const useScrambleText = (text) => {
+    const [scrambled, setScrambled] = React.useState(text);
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+
+    React.useEffect(() => {
+        let iteration = 0;
+        const interval = setInterval(() => {
+            setScrambled(prev =>
+                text.split("")
+                    .map((char, index) => {
+                        if (index < iteration) return text[index];
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join("")
+            );
+
+            if (iteration >= text.length) clearInterval(interval);
+            iteration += 1 / 3;
+        }, 30);
+        return () => clearInterval(interval);
+    }, [text]);
+
+    return scrambled;
+};
+
+const HUDOverlay = () => (
+    <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden opacity-30">
+        {/* Scanning Line */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] pointer-events-none" />
+
+        {/* Corner HUD */}
+        <div className="absolute top-40 left-10 space-y-2 hidden lg:block">
+            <div className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-primary" />
+                <span className="text-[8px] font-mono text-primary tracking-widest uppercase animate-pulse">Core_Status: Stable</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-white/20" />
+                <span className="text-[8px] font-mono text-white/40 tracking-widest uppercase">Node: 0x8A7B2</span>
+            </div>
+            <div className="w-32 h-px bg-white/10" />
+            <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                    <div key={i} className="w-1 h-2 bg-primary/20 animate-bounce" style={{ animationDelay: `${i * 0.1}s` }} />
+                ))}
+            </div>
+        </div>
+
+        {/* Right HUD */}
+        <div className="absolute bottom-40 right-10 flex flex-col items-end space-y-4 hidden lg:block">
+            <div className="w-20 h-20 border-r border-t border-primary/20 relative">
+                <div className="absolute top-0 right-0 w-2 h-2 bg-primary animate-pulse" />
+                <div className="absolute -top-4 right-0 text-[8px] font-mono text-primary/40 rotate-90 origin-bottom-right">ENCRYPTION_ACTIVE</div>
+            </div>
+            <div className="text-[8px] font-mono text-white/20 text-right">
+                LATENCY: 12ms<br />
+                PACKET: 100%<br />
+                SECURE_LINK: YES
+            </div>
+        </div>
     </div>
 );
 
@@ -66,6 +130,7 @@ const ServiceCard = ({ service, index, color }) => {
 const Home = () => {
     const navigate = useNavigate();
     const [hasWebGL, setHasWebGL] = React.useState(true);
+    const scrambledTitle = useScrambleText("coderafroj");
 
     // Deep isolation of WebGL checking
     React.useEffect(() => {
@@ -115,55 +180,64 @@ const Home = () => {
                 <div className="coderafroj-grid opacity-[0.1]" />
             </div>
 
-            {/* Hero Section: Simple, Massive, 3D */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-56 md:pb-40">
-                <div className="flex flex-col items-center text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl"
-                    >
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-glow">Available for New Projects</span>
-                    </motion.div>
+            {/* Hacker HUD Interface */}
+            <HUDOverlay />
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                        className="relative"
-                    >
-                        <h1 className="text-[14vw] md:text-[12rem] font-black tracking-tighter leading-[0.75] uppercase text-white mb-10">
-                            CODERA<br />
-                            <span className="text-reveal-gradient italic">FROJ.</span>
-                        </h1>
-                    </motion.div>
+            {/* Hero Content */}
+            <section className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-20">
+                <div className="max-w-7xl w-full">
+                    <div className="flex flex-col items-center text-center space-y-12">
+                        {/* 3D Logo is now inside AdvancedHero Canvas behind this content */}
 
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="text-lg md:text-xl text-slate-400 font-light max-w-3xl leading-relaxed mb-12"
-                    >
-                        Hello, I am <span className="text-white font-bold italic">Afroj.</span> I build high-end websites, apps, and digital solutions that help your business grow.
-                    </motion.p>
+                        <div className="space-y-6 relative">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="inline-flex items-center gap-2 px-6 py-2 rounded-xl bg-primary/5 border border-primary/20 backdrop-blur-md"
+                            >
+                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                                <span className="text-[10px] font-mono font-black tracking-[0.5em] text-primary uppercase">Elite_Bypass_Successful</span>
+                            </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                        className="flex flex-wrap items-center justify-center gap-6"
-                    >
-                        <Link to="/contact">
-                            <button className="btn-cyber px-12 py-6 rounded-[2rem] text-white font-black text-xs uppercase tracking-[0.3em] shadow-[0_20px_60px_rgba(99,102,241,0.4)] hover:scale-105 active:scale-95 transition-all">
-                                Let's Talk
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="text-7xl md:text-[10rem] font-black text-white italic uppercase tracking-tighter leading-[0.8] mb-4 select-none hacker-glow"
+                            >
+                                {scrambledTitle}
+                            </motion.h1>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-xl md:text-3xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed font-mono"
+                            >
+                                [<span className="text-primary tracking-widest uppercase text-sm">Auth_Layer_01</span>] Digital Architecture & <span className="text-white font-medium">Cyber_Interfaces</span>
+                            </motion.p>
+                        </div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="flex flex-wrap items-center justify-center gap-6"
+                        >
+                            <button
+                                onClick={() => navigate('/projects')}
+                                className="px-12 py-6 bg-primary text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_rgba(47,129,247,0.4)] border border-primary-glow/50"
+                            >
+                                /Initiate_Protocol
                             </button>
-                        </Link>
-                        <Link to="/projects">
-                            <button className="px-12 py-6 rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-md text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 transition-all group">
-                                View Projects <ArrowRight size={16} className="inline ml-2 group-hover:translate-x-2 transition-transform" />
+                            <button
+                                onClick={() => navigate('/contact')}
+                                className="px-12 py-6 bg-white/5 border border-white/10 text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:bg-white/10 transition-all backdrop-blur-md"
+                            >
+                                /Secure_Channel
                             </button>
-                        </Link>
-                    </motion.div>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 

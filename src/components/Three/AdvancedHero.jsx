@@ -1,20 +1,22 @@
+```javascript
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, Sphere, MeshDistortMaterial, Points, PointMaterial } from '@react-three/drei';
+import { Float, Sphere, Points, PointMaterial, MeshTransmissionMaterial, Torus, Wireframe } from '@react-three/drei';
 import * as THREE from 'three';
 
 const ParticleRing = () => {
     const pointsRef = useRef();
 
-    const count = 2000;
+    const count = 3000;
     const positions = useMemo(() => {
         const pos = new Float32Array(count * 3);
         for (let i = 0; i < count; i++) {
             const theta = Math.random() * Math.PI * 2;
-            const radius = 3 + Math.random() * 2;
-            pos[i * 3] = Math.cos(theta) * radius;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
-            pos[i * 3 + 2] = Math.sin(theta) * radius;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const radius = 4 + Math.random() * 2;
+            pos[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+            pos[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+            pos[i * 3 + 2] = radius * Math.cos(phi);
         }
         return pos;
     }, []);
@@ -22,7 +24,9 @@ const ParticleRing = () => {
     useFrame((state) => {
         if (!pointsRef.current || !state) return;
         try {
-            pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
+            const time = state.clock.getElapsedTime();
+            pointsRef.current.rotation.y = time * 0.05;
+            pointsRef.current.rotation.z = time * 0.03;
         } catch (e) {
             console.error("ParticleRing animation error:", e);
         }
@@ -32,51 +36,171 @@ const ParticleRing = () => {
         <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
             <PointMaterial
                 transparent
-                color="#6366f1"
-                size={0.015}
+                color="#818cf8"
+                size={0.02}
                 sizeAttenuation={true}
                 depthWrite={false}
-                opacity={0.4}
+                opacity={0.3}
+                blending={THREE.AdditiveBlending}
             />
         </Points>
     );
 };
 
-const AnimatedCore = () => {
-    const coreRef = useRef();
+const BinaryStream = () => {
+    const pointsRef = useRef();
+    const count = 4000;
+    
+    const positions = useMemo(() => {
+        const pos = new Float32Array(count * 3);
+        const velocities = new Float32Array(count);
+        for (let i = 0; i < count; i++) {
+            pos[i * 3] = (Math.random() - 0.5) * 25; // X
+            pos[i * 3 + 1] = (Math.random() - 0.5) * 30; // Y
+            pos[i * 3 + 2] = (Math.random() - 0.5) * 10; // Z
+        }
+        return pos;
+    }, []);
 
     useFrame((state) => {
-        if (!coreRef.current) return;
+        if (!pointsRef.current) return;
         const time = state.clock.getElapsedTime();
-        coreRef.current.rotation.x = Math.sin(time * 0.2) * 0.2;
-        coreRef.current.rotation.y = time * 0.1;
+        const pos = pointsRef.current.geometry.attributes.position.array;
+        
+        for (let i = 0; i < count; i++) {
+            // Vertical movement
+            pos[i * 3 + 1] -= 0.05 * (1 + Math.sin(i));
+            if (pos[i * 3 + 1] < -15) pos[i * 3 + 1] = 15;
+            
+            // Subtle horizontal jitter
+            pos[i * 3] += Math.sin(time + i) * 0.005;
+        }
+        pointsRef.current.geometry.attributes.position.needsUpdate = true;
     });
 
     return (
-        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1}>
-            <Sphere args={[1.2, 128, 128]} ref={coreRef}>
-                <MeshDistortMaterial
-                    color="#818cf8"
-                    envMapIntensity={2}
-                    clearcoat={1}
-                    clearcoatRoughness={0}
-                    metalness={0.9}
-                    roughness={0.1}
-                    distort={0.45}
-                    speed={2}
-                />
-            </Sphere>
-            {/* Inner Glow Sphere */}
-            <Sphere args={[0.8, 64, 64]}>
-                <meshStandardMaterial
-                    color="#4f46e5"
-                    emissive="#4f46e5"
-                    emissiveIntensity={2}
-                    transparent
-                    opacity={0.3}
-                />
-            </Sphere>
-        </Float>
+        <Points ref={pointsRef} positions={positions} stride={3}>
+            <PointMaterial
+                transparent
+                color="#00ff00"
+                size={0.03}
+                sizeAttenuation={true}
+                depthWrite={false}
+                opacity={0.15}
+                blending={THREE.AdditiveBlending}
+            />
+        </Points>
+    );
+};
+
+const Logo3D = () => {
+    const logoRef = useRef();
+    const texture = useLoader(THREE.TextureLoader, logoImg);
+
+    useFrame((state) => {
+        if (!logoRef.current) return;
+        const time = state.clock.getElapsedTime();
+        logoRef.current.rotation.y = Math.sin(time * 0.5) * 0.3;
+        logoRef.current.position.y = 2 + Math.sin(time) * 0.2;
+    });
+
+    return (
+        <group ref={logoRef} position={[0, 2, 0]}>
+            <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+                {/* 3D Box for depth */}
+                <mesh castShadow receiveShadow>
+                    <boxGeometry args={[3.5, 2, 0.4]} />
+                    <meshStandardMaterial 
+                        color="#ffffff" 
+                        metalness={0.9} 
+                        roughness={0.1} 
+                        map={texture}
+                        emissive="#ffffff"
+                        emissiveIntensity={0.2}
+                    />
+                </mesh>
+                
+                {/* Back side of the logo */}
+                <mesh position={[0, 0, -0.21]}>
+                    <planeGeometry args={[3.5, 2]} />
+                    <meshStandardMaterial color="#30363d" metalness={0.8} roughness={0.2} />
+                </mesh>
+
+                {/* Glow ring around logo */}
+                <Torus args={[2.2, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
+                    <meshStandardMaterial color="#6366f1" emissive="#6366f1" emissiveIntensity={3} transparent opacity={0.5} />
+                </Torus>
+            </Float>
+        </group>
+    );
+};
+
+const HackerCore = () => {
+    const orbRef = useRef();
+    const wireRef = useRef();
+    const ringRef = useRef();
+
+    useFrame((state) => {
+        if (!orbRef.current || !state) return;
+        const time = state.clock.getElapsedTime();
+        
+        // Complex rotation
+        orbRef.current.rotation.y = time * 0.2;
+        orbRef.current.rotation.x = Math.sin(time * 0.1) * 0.2;
+        
+        // Glitch wireframe pulse
+        if (wireRef.current) {
+            wireRef.current.rotation.y = -time * 0.4;
+            wireRef.current.scale.setScalar(1 + Math.sin(time * 10) * 0.02 * (Math.random() > 0.9 ? 2 : 0.5));
+        }
+
+        if (ringRef.current) {
+            ringRef.current.rotation.z = time * 1.5;
+            ringRef.current.rotation.x = time * 0.3;
+        }
+    });
+
+    return (
+        <group position={[0, -0.5, 0]}>
+            <Float speed={5} rotationIntensity={0.5} floatIntensity={0.5}>
+                {/* Main Glass Core */}
+                <Sphere args={[1.2, 64, 64]} ref={orbRef}>
+                    <MeshTransmissionMaterial
+                        backside
+                        samples={16}
+                        resolution={512}
+                        transmission={1}
+                        roughness={0.1}
+                        thickness={2}
+                        ior={1.2}
+                        chromaticAberration={0.15}
+                        distortion={0.3}
+                        distortionScale={0.5}
+                        temporalDistortion={0.5}
+                        color="#4f46e5"
+                        attenuationDistance={1}
+                        attenuationColor="#4f46e5"
+                    />
+                </Sphere>
+
+                {/* Cyber Wireframe Overlay */}
+                <Sphere args={[1.3, 32, 32]} ref={wireRef}>
+                    <meshStandardMaterial 
+                        color="#6366f1"
+                        emissive="#6366f1"
+                        emissiveIntensity={2}
+                        wireframe
+                        transparent
+                        opacity={0.3}
+                    />
+                </Sphere>
+
+                {/* Tech Rings */}
+                <Torus args={[2.0, 0.015, 16, 100]} ref={ringRef}>
+                    <meshStandardMaterial color="#818cf8" emissive="#818cf8" emissiveIntensity={3} />
+                </Torus>
+            </Float>
+        </group>
     );
 };
 
@@ -84,37 +208,40 @@ const Rig = () => {
     const { camera, mouse } = useThree();
     const vec = new THREE.Vector3();
     return useFrame(() => {
-        camera.position.lerp(vec.set(mouse.x * 0.5, mouse.y * 0.5, 5), 0.05);
+        camera.position.lerp(vec.set(mouse.x * 2.5, mouse.y * 2.5, 10), 0.05);
         camera.lookAt(0, 0, 0);
     });
 };
 
 const AdvancedHero = () => {
-    return (
-        <div className="w-full h-full relative cursor-crosshair">
-            <Canvas
-                camera={{ position: [0, 0, 5], fov: 75 }}
-                dpr={[1, 2]}
-                gl={{
-                    antialias: true,
-                    alpha: true,
-                    powerPreference: "high-performance"
-                }}
-            >
-                <color attach="background" args={['transparent']} />
-
-                <ambientLight intensity={0.4} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} color="#6366f1" />
-                <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
-
-                <ParticleRing />
-                <AnimatedCore />
-                <Rig />
-
-                <fog attach="fog" args={['#02040a', 5, 20]} />
-            </Canvas>
-        </div>
-    );
+  return (
+    <div className="w-full h-full relative cursor-crosshair">
+      <Canvas
+        camera={{ position: [0, 0, 10], fov: 45 }}
+        dpr={[1, 2]}
+        gl={{ 
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance" 
+        }}
+      >
+        <color attach="background" args={['transparent']} />
+        
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={2} color="#6366f1" />
+        <pointLight position={[-10, -10, -10]} intensity={1.5} color="#00ffcc" />
+        
+        <Logo3D />
+        <ParticleRing />
+        <BinaryStream />
+        <HackerCore />
+        <Rig />
+        
+        <fog attach="fog" args={['#02040a', 5, 25]} />
+      </Canvas>
+    </div>
+  );
 };
 
 export default AdvancedHero;
+```
