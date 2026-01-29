@@ -85,7 +85,6 @@ const CyberBuddy = () => {
         <div className="fixed inset-0 pointer-events-none z-[10000]">
             <Canvas
                 camera={{ position: [0, 0, 5], fov: 50 }}
-                events={() => ({})}
             >
                 <ambientLight intensity={1} />
                 <pointLight position={[10, 10, 10]} intensity={2} color="#6366f1" />

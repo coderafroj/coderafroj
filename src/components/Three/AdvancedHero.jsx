@@ -170,7 +170,6 @@ const AdvancedHero = () => {
         <div className="w-full h-full relative cursor-crosshair">
             <Canvas
                 camera={{ position: [0, 0, 10], fov: 45 }}
-                events={() => ({})}
             >
                 <color attach="background" args={['transparent']} />
 

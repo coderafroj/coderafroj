@@ -37,7 +37,7 @@ const Node = ({ isHovered, color = "#3586e2ff" }) => {
 const ServiceNode = ({ isHovered, color }) => {
     return (
         <div className="w-16 h-16 pointer-events-none">
-            <Canvas camera={{ position: [0, 0, 3], fov: 45 }} gl={{ alpha: true }} events={() => ({})}>
+            <Canvas camera={{ position: [0, 0, 3], fov: 45 }} gl={{ alpha: true }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color={color} />
                 <Node isHovered={isHovered} color={color} />
