@@ -9,6 +9,7 @@ const TopicPage = () => {
     const navigate = useNavigate();
 
     const course = getCourseById(courseId);
+    const topic = getTopicBySlug(courseId, topicSlug);
 
     // Calculate Next/Prev
     const currentIndex = course?.notes?.findIndex(n => n.id === topic?.id || n.slug === topic?.slug) ?? -1;

@@ -9,12 +9,10 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
-import Tutorials from './pages/Tutorials';
-import TutorialView from './pages/TutorialView';
+import TutorialHub from './pages/TutorialHub';
+import TutorialViewer from './pages/TutorialViewer';
 import Register from './pages/Register';
 import GitHubDashboard from './pages/GitHubDashboard';
-import Notes from './pages/Notes';
-import NoteView from './pages/NoteView';
 import NoteEditor from './pages/NoteEditor';
 import Contact from './pages/Contact';
 import MobileTabBar from './components/layout/MobileTabBar';
@@ -42,14 +40,18 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/notes" element={<Notes />} />
-              <Route path="/notes/:id" element={<NoteView />} />
+              <Route path="/notes" element={<TutorialHub />} />
+              <Route path="/notes/:tutorialId" element={<TutorialViewer />} />
+              <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
+              <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
+
+              {/* Legacy Admin Routes - Keeping for now if needed, or can be removed if user wants total cleanup */}
               <Route path="/admin/notes/new" element={<NoteEditor />} />
               <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/tutorials" element={<Tutorials />} />
-              <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialView />} />
+
+              {/* Register & Auth */}
               <Route path="/register" element={<Register />} />
               <Route path="/github" element={<GitHubDashboard />} />
               <Route path="/contact" element={<Contact />} />
