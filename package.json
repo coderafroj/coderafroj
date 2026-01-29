@@ -12,6 +12,8 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@octokit/rest": "^22.0.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
     "clsx": "^2.1.1",
     "fast-check": "^4.5.3",
     "firebase": "^12.7.0",
@@ -26,6 +28,7 @@
     "react-syntax-highlighter": "^16.1.0",
     "react-textarea-autosize": "^8.5.9",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.182.0",
     "use-debounce": "^10.1.0"
   },
   "devDependencies": {

@@ -5,6 +5,30 @@ import { services } from '../data/services';
 import { computerNotes } from '../data/computerNotes';
 import Hero3D from '../assets/hero-3d-core.png';
 
+// Animation variants for Framer Motion
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
 export default function Home() {
   // Get top 3 trending notes for the showcase
   const trendingNotes = computerNotes?.slice(0, 3) || [];

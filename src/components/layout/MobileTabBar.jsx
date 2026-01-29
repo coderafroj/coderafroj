@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, Terminal, BookOpen, Github, Shield, LayoutActive } from 'lucide-react';
+import { Home, Terminal, BookOpen, Github, Shield } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 const MobileTabBar = () => {

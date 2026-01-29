@@ -13,29 +13,106 @@ import { projects } from '../data/projects';
 import { services } from '../data/services';
 import { testimonials } from '../data/testimonials';
 
+// Lazy load 3D components to prevent crash on initial load
+const AdvancedHero = React.lazy(() => import('../components/Three/AdvancedHero'));
+const ServiceNode = React.lazy(() => import('../components/Three/ServiceNode'));
+const BackgroundStream = React.lazy(() => import('../components/Three/BackgroundStream'));
+const ThreeErrorBoundary = React.lazy(() => import('../components/Three/ThreeErrorBoundary'));
+
+// Component for elegant 3D fallback
+const ThreeFallback = ({ fullScreen = false }) => (
+    <div className={`${fullScreen ? 'fixed inset-0' : 'w-full h-full'} bg-transparent pointer-events-none`}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/30 to-[#02040a]" />
+        <div className="coderafroj-grid opacity-[0.05]" />
+    </div>
+);
+
+const ServiceCard = ({ service, index, color }) => {
+    const [isHovered, setIsHovered] = React.useState(false);
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="group relative p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-500 overflow-hidden card-3d h-full flex flex-col"
+        >
+            <div className="mb-8 flex justify-between items-start">
+                <React.Suspense fallback={<div className="w-16 h-16 bg-white/5 rounded-2xl animate-pulse" />}>
+                    <ThreeErrorBoundary fallback={<div className="w-16 h-16 bg-white/5 rounded-2xl animate-pulse" />}>
+                        <ServiceNode isHovered={isHovered} color={color} />
+                    </ThreeErrorBoundary>
+                </React.Suspense>
+                <div className="h-8 w-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowRight size={14} className="text-white" />
+                </div>
+            </div>
+            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">{service.title}</h3>
+            <p className="text-sm text-slate-500 font-light leading-relaxed flex-grow">{service.description}</p>
+
+            {/* Accent Glow */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div
+                className="absolute bottom-0 left-0 w-full h-1 transition-all duration-500 opacity-0 group-hover:opacity-100"
+                style={{ background: `linear-gradient(to right, transparent, ${color}, transparent)` }}
+            />
+        </motion.div>
+    );
+};
+
 const Home = () => {
     const navigate = useNavigate();
+    const [hasWebGL, setHasWebGL] = React.useState(true);
 
-    // Icon map for services
+    // Deep isolation of WebGL checking
+    React.useEffect(() => {
+        try {
+            const canvas = document.createElement('canvas');
+            const support = !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+            setHasWebGL(support);
+        } catch (e) {
+            setHasWebGL(false);
+        }
+    }, []);
+
+    // Icon map for services - keeping for fallback but using ServiceNode
     const iconMap = {
-        Code: <Code size={32} />,
-        TrendingUp: <TrendingUp size={32} />,
-        Palette: <Palette size={32} />,
-        Shield: <Shield size={32} />
+        Code: "#6366f1",
+        TrendingUp: "#10b981",
+        Palette: "#ec4899",
+        Shield: "#f59e0b"
     };
 
     return (
-        <div className="relative min-h-screen bg-[#02040a] selection:bg-primary/30 selection:text-white overflow-x-hidden">
+        <div className="relative min-h-screen bg-[#02040a] selection:bg-primary/30 selection:text-white overflow-x-hidden font-outfit">
             <SEO
                 title="Elite Digital Architecture"
                 description="Coderafroj - Premium full-stack development and high-end digital design agency. Crafting breathtaking digital experiences."
             />
 
-            {/* 3D Background - Simplified but deeper */}
+            {/* Global 3D Background Stream */}
+            {hasWebGL && (
+                <React.Suspense fallback={<ThreeFallback fullScreen />}>
+                    <ThreeErrorBoundary>
+                        <BackgroundStream />
+                    </ThreeErrorBoundary>
+                </React.Suspense>
+            )}
+
+            {/* 3D Background - Live Advanced Hero Scene */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 blur-[160px] rounded-full animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/5 blur-[160px] rounded-full" />
-                <div className="coderafroj-grid opacity-[0.15]" />
+                {hasWebGL ? (
+                    <React.Suspense fallback={<ThreeFallback fullScreen />}>
+                        <ThreeErrorBoundary showPlaceholder>
+                            <AdvancedHero />
+                        </ThreeErrorBoundary>
+                    </React.Suspense>
+                ) : <ThreeFallback fullScreen />}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/50 to-[#02040a]" />
+                <div className="coderafroj-grid opacity-[0.1]" />
             </div>
 
             {/* Hero Section: Simple, Massive, 3D */}
@@ -55,24 +132,19 @@ const Home = () => {
                         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                         className="relative"
                     >
-                        <h1 className="text-[12vw] md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase text-white mb-10">
-                            DIGITAL <br />
-                            <span className="text-reveal-gradient italic">TITANS.</span>
+                        <h1 className="text-[14vw] md:text-[12rem] font-black tracking-tighter leading-[0.75] uppercase text-white mb-10">
+                            CODERA<br />
+                            <span className="text-reveal-gradient italic">FROJ.</span>
                         </h1>
-
-                        {/* Floating 3D Elements Placeholder for CSS stimulation */}
-                        <div className="absolute -top-10 -right-20 w-40 h-40 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-float opacity-50" />
-                        <div className="absolute -bottom-10 -left-20 w-32 h-32 bg-secondary/10 rounded-full blur-2xl animate-float stagger-2 opacity-30" />
                     </motion.div>
 
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="text-lg md:text-2xl text-slate-400 font-light max-w-3xl leading-relaxed mb-12"
+                        className="text-lg md:text-xl text-slate-400 font-light max-w-3xl leading-relaxed mb-12"
                     >
-                        We build high-performance <span className="text-white font-medium italic underline decoration-primary underline-offset-8">Next-Gen</span> architectures
-                        where elite engineering meets breathtaking visual design.
+                        Hello, I am <span className="text-white font-bold italic">Afroj.</span> I build high-end websites, apps, and digital solutions that help your business grow.
                     </motion.p>
 
                     <motion.div
@@ -83,39 +155,22 @@ const Home = () => {
                     >
                         <Link to="/contact">
                             <button className="btn-cyber px-12 py-6 rounded-[2rem] text-white font-black text-xs uppercase tracking-[0.3em] shadow-[0_20px_60px_rgba(99,102,241,0.4)] hover:scale-105 active:scale-95 transition-all">
-                                Establish Protocol
+                                Let's Talk
                             </button>
                         </Link>
                         <Link to="/projects">
                             <button className="px-12 py-6 rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-md text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 transition-all group">
-                                View Portfolio <ArrowRight size={16} className="inline ml-2 group-hover:translate-x-2 transition-transform" />
+                                View Projects <ArrowRight size={16} className="inline ml-2 group-hover:translate-x-2 transition-transform" />
                             </button>
                         </Link>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Simpler Services: Professional Grid */}
             <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {services.map((service, i) => (
-                        <motion.div
-                            key={service.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="group relative p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-500 overflow-hidden card-3d"
-                        >
-                            <div className="mb-8 text-primary group-hover:primary-glow transition-all duration-500">
-                                {iconMap[service.icon]}
-                            </div>
-                            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">{service.title}</h3>
-                            <p className="text-sm text-slate-500 font-light leading-relaxed">{service.description}</p>
-
-                            {/* Accent Glow */}
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </motion.div>
+                        <ServiceCard key={service.id} service={service} index={i} color={iconMap[service.icon]} />
                     ))}
                 </div>
             </section>
