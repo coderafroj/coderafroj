@@ -44,8 +44,9 @@ const Contact = () => {
     return (
         <div className="min-h-screen digital-grid pt-32 px-6 pb-40">
             <SEO
-                title="Contact | Coderafroj"
-                description="Establish a neural link with Coderafroj."
+                title="Establish Contact | Neural Link"
+                description="Start your next high-impact digital project with Coderafroj. Establish a neural link for custom engineering and premium design."
+                url="/contact"
             />
 
             <div className="max-w-4xl mx-auto relative z-10">

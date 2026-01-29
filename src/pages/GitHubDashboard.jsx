@@ -49,8 +49,8 @@ const GitHubDashboard = () => {
     return (
         <div className="min-h-screen pb-20 pt-10 px-4 max-w-7xl mx-auto relative">
             <SEO
-                title="GitHub Command Center"
-                description="Manage your repositories, view live activity, and sync files directly with GitHub using the Coderafroj Command Center."
+                title="Command Center | GitHub Portal"
+                description="A high-end interface for managing GitHub repositories. Push, sync, and deploy with industrial precision."
                 url="/github"
             />
             {/* Background elements - more organic glow */}

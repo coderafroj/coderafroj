@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Book, Code, Terminal, Database, Globe, ChevronRight } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const tutorials = [
     {
@@ -41,6 +42,10 @@ const tutorials = [
 const TutorialHub = () => {
     return (
         <div className="min-h-screen bg-[#030014] pt-24 pb-20 px-4">
+            <SEO
+                title="Tutorial Hub"
+                description="Master modern technologies with Coderafroj's library of depth-first tutorials and developer documentation."
+            />
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
                     <h1 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">

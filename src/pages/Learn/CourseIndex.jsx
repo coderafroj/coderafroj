@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { courses } from '../../data/notes';
 import { BookOpen, Code, Terminal, Cpu, Database, FileText } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 const icons = {
     'c-programming': Code,
@@ -16,6 +17,10 @@ const icons = {
 const CourseIndex = () => {
     return (
         <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+            <SEO
+                title="Learning Pathways"
+                description="Explore depth-first computer science courses and master programming languages, computer fundamentals, and tech concepts."
+            />
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

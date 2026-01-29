@@ -33,8 +33,8 @@ const Blog = () => {
     return (
         <div className="pt-40 pb-32 min-h-screen px-6">
             <SEO
-                title="Intelligence Logs & Tech Blog"
-                description="Decrypted transmissions regarding neural logic, architectural security, and the evolving digital singularity. Read the latest tech insights."
+                title="Intelligence Logs | Tech Insights"
+                description="Deep dives into neural logic, architectural security, and modern web development. Read the latest transmissions from Coderafroj."
                 url="/blog"
             />
             <div className="max-w-7xl mx-auto">

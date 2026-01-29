@@ -14,236 +14,146 @@ import { services } from '../data/services';
 import { testimonials } from '../data/testimonials';
 
 const Home = () => {
-    const [searchQuery, setSearchQuery] = React.useState('');
     const navigate = useNavigate();
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            navigate(`/notes?q=${encodeURIComponent(searchQuery)}`);
-        }
-    };
-
+    // Icon map for services
     const iconMap = {
-        Code: <Code />,
-        TrendingUp: <TrendingUp />,
-        Palette: <Palette />,
-        Shield: <Shield />
+        Code: <Code size={32} />,
+        TrendingUp: <TrendingUp size={32} />,
+        Palette: <Palette size={32} />,
+        Shield: <Shield size={32} />
     };
 
     return (
-        <div className="relative min-h-screen bg-[#02040a] selection:bg-primary/30 selection:text-white overflow-hidden">
-            <SEO />
-            {/* 3D Background System */}
+        <div className="relative min-h-screen bg-[#02040a] selection:bg-primary/30 selection:text-white overflow-x-hidden">
+            <SEO
+                title="Elite Digital Architecture"
+                description="Coderafroj - Premium full-stack development and high-end digital design agency. Crafting breathtaking digital experiences."
+            />
+
+            {/* 3D Background - Simplified but deeper */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full" />
-                <div className="coderafroj-grid coderafroj-grid-pulse opacity-20" />
+                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 blur-[160px] rounded-full animate-pulse" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/5 blur-[160px] rounded-full" />
+                <div className="coderafroj-grid opacity-[0.15]" />
             </div>
 
-            {/* Hero Section: The Agency Launchpad */}
-            {/* Hero Section: The Agency Launchpad */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-                <div className="flex flex-col items-center justify-center text-center lg:text-left lg:block">
-                    <div className="space-y-12 max-w-4xl mx-auto lg:mx-0">
-                        {/* Agency Status */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
-                        >
-                            <div className="status-pulse" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-glow">Agency_Active_Mode</span>
-                        </motion.div>
+            {/* Hero Section: Simple, Massive, 3D */}
+            <section className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 md:pt-56 md:pb-40">
+                <div className="flex flex-col items-center text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl"
+                    >
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-glow">Available for New Projects</span>
+                    </motion.div>
 
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8 }}
-                            className="space-y-6"
-                        >
-                            <h1 className="text-5xl md:text-[8rem] lg:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase text-white">
-                                <span className="block mb-2">DESIGN</span>
-                                <span className="text-reveal-gradient drop-shadow-[0_0_80px_rgba(47,129,247,0.4)]">MASTERED.</span>
-                            </h1>
-                            <p className="text-sm md:text-2xl text-slate-400 font-light max-w-2xl mx-auto lg:mx-0 leading-relaxed tracking-wide">
-                                We craft <span className="text-white font-bold uppercase italic border-b-2 border-primary">Breathtaking</span> digital experiences.
-                                Elite engineering meets high-end design to elevate your brand to the next dimension.
-                            </p>
-                        </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                        className="relative"
+                    >
+                        <h1 className="text-[12vw] md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase text-white mb-10">
+                            DIGITAL <br />
+                            <span className="text-reveal-gradient italic">TITANS.</span>
+                        </h1>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6"
-                        >
-                            <Link to="/contact">
-                                <button className="group relative px-8 md:px-12 py-4 md:py-6 bg-primary text-white rounded-2xl md:rounded-[2.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95 overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span className="relative z-10 flex items-center gap-3">
-                                        Start Project <Zap size={16} fill="currentColor" />
-                                    </span>
-                                </button>
-                            </Link>
+                        {/* Floating 3D Elements Placeholder for CSS stimulation */}
+                        <div className="absolute -top-10 -right-20 w-40 h-40 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-float opacity-50" />
+                        <div className="absolute -bottom-10 -left-20 w-32 h-32 bg-secondary/10 rounded-full blur-2xl animate-float stagger-2 opacity-30" />
+                    </motion.div>
 
-                            <Link to="/projects">
-                                <button className="glass-premium-button group">
-                                    <div className="shimmer" />
-                                    <span className="relative z-10 flex items-center gap-3">
-                                        UI Showcase <Palette size={16} className="text-primary group-hover:rotate-12 transition-transform" />
-                                    </span>
-                                </button>
-                            </Link>
-                        </motion.div>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-lg md:text-2xl text-slate-400 font-light max-w-3xl leading-relaxed mb-12"
+                    >
+                        We build high-performance <span className="text-white font-medium italic underline decoration-primary underline-offset-8">Next-Gen</span> architectures
+                        where elite engineering meets breathtaking visual design.
+                    </motion.p>
 
-                        {/* Search Bar - More Responsive Spacing */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="relative group max-w-md mx-auto lg:mx-0 pt-8"
-                        >
-                            <div className="obsidian-card p-6 rounded-[2.5rem] border-white/5 relative overflow-hidden backdrop-blur-3xl">
-                                <div className="absolute top-0 right-0 p-4 opacity-10">
-                                    <Terminal size={32} className="text-primary" />
-                                </div>
-                                <h3 className="text-xs font-black text-white italic uppercase mb-2 tracking-widest text-left">Knowledge Base</h3>
-
-                                <form onSubmit={handleSearch} className="relative mt-4">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                    <div className="relative flex items-center bg-[#0d1117]/60 border border-white/10 rounded-xl p-1 shadow-2xl focus-within:border-primary/50 transition-all">
-                                        <div className="pl-3 text-slate-600">
-                                            <Search size={14} />
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            placeholder="Find notes, tutorials..."
-                                            className="flex-1 bg-transparent border-none outline-none px-3 py-2 text-white placeholder-slate-600 font-mono text-[10px] tracking-widest"
-                                        />
-                                        <button
-                                            type="submit"
-                                            className="px-4 py-1.5 bg-white/5 border border-white/5 hover:bg-white/10 text-white rounded-lg text-[8px] font-black uppercase tracking-widest transition-all"
-                                        >
-                                            Search
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </motion.div>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="flex flex-wrap items-center justify-center gap-6"
+                    >
+                        <Link to="/contact">
+                            <button className="btn-cyber px-12 py-6 rounded-[2rem] text-white font-black text-xs uppercase tracking-[0.3em] shadow-[0_20px_60px_rgba(99,102,241,0.4)] hover:scale-105 active:scale-95 transition-all">
+                                Establish Protocol
+                            </button>
+                        </Link>
+                        <Link to="/projects">
+                            <button className="px-12 py-6 rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-md text-white font-black text-xs uppercase tracking-[0.3em] hover:bg-white/10 transition-all group">
+                                View Portfolio <ArrowRight size={16} className="inline ml-2 group-hover:translate-x-2 transition-transform" />
+                            </button>
+                        </Link>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* Services Strategy: The Modules */}
+            {/* Simpler Services: Professional Grid */}
             <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 text-center md:text-left">
-                    <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 text-primary-glow font-mono text-[10px] uppercase tracking-[0.4em] mx-auto md:mx-0">
-                            <Layers size={14} /> core_capabilities
-                        </div>
-                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-none italic">
-                            Our <span className="text-slate-500">Services</span>
-                        </h2>
-                    </div>
-                    <Link to="/contact" className="text-xs font-black text-slate-500 hover:text-white uppercase tracking-[0.3em] transition-colors border-b-2 border-slate-800 pb-2">
-                        Get Custom Quote
-                    </Link>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {services.map((service, i) => (
                         <motion.div
                             key={service.id}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.1, duration: 0.6 }}
-                            className="group relative"
+                            transition={{ delay: i * 0.1 }}
+                            className="group relative p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-500 overflow-hidden card-3d"
                         >
-                            <div className="learning-card-shadow" />
-                            <div className="learning-card h-full flex flex-col">
-                                <div className="space-y-6 flex-1">
-                                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-700">
-                                        <div className="text-primary group-hover:primary-glow">
-                                            {React.cloneElement(iconMap[service.icon], { size: 28 })}
-                                        </div>
-                                    </div>
-                                    <h3 className="text-xl font-black text-white italic uppercase tracking-tighter leading-tight">{service.title}</h3>
-                                    <p className="text-xs text-slate-400 font-light leading-relaxed">{service.description}</p>
-
-                                    <ul className="space-y-2 mt-4">
-                                        {service.features.map((feature, idx) => (
-                                            <li key={idx} className="flex items-center gap-2 text-[10px] text-slate-500 font-mono uppercase">
-                                                <ChevronRight size={12} className="text-primary" /> {feature}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
-                                    <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest">Active_Protocol</span>
-                                    <div className="flex gap-1">
-                                        {[1, 2, 3].map(dot => (
-                                            <div key={dot} className="w-1 h-1 rounded-full bg-primary/40" />
-                                        ))}
-                                    </div>
-                                </div>
+                            <div className="mb-8 text-primary group-hover:primary-glow transition-all duration-500">
+                                {iconMap[service.icon]}
                             </div>
+                            <h3 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-4">{service.title}</h3>
+                            <p className="text-sm text-slate-500 font-light leading-relaxed">{service.description}</p>
+
+                            {/* Accent Glow */}
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                         </motion.div>
                     ))}
                 </div>
             </section>
 
-
-            {/* Projects Showcase: The Core Transmissions */}
+            {/* Featured Projects: Large, Immersive Cards */}
             <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-                    <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 text-primary-glow font-mono text-[10px] uppercase tracking-[0.4em]">
-                            <Sparkles size={14} /> transmission_archive
-                        </div>
-                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-[0.8] italic">
-                            Featured <br /><span className="text-primary-glow">Deployments</span>
-                        </h2>
-                    </div>
-                    <Link to="/projects">
-                        <button className="group flex items-center gap-4 text-white font-black uppercase text-[10px] tracking-[0.4em] hover:text-primary transition-colors">
-                            Initialize Full Archive <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                        </button>
+                <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+                    <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter uppercase italic leading-none">
+                        MASTER <br /><span className="text-slate-500">WORKS.</span>
+                    </h2>
+                    <Link to="/projects" className="text-xs font-black text-primary-glow uppercase tracking-[0.4em] border-b-2 border-primary pb-2 hover:text-white transition-colors">
+                        Expand All Transmissions
                     </Link>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-10">
-                    {projects.slice(0, 4).map((project, i) => (
+                <div className="grid md:grid-cols-2 gap-12">
+                    {projects.slice(0, 2).map((project, i) => (
                         <motion.div
                             key={project.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="group relative h-[400px] md:h-[500px] rounded-[3rem] overflow-hidden border border-white/10"
+                            transition={{ duration: 0.8 }}
+                            className="group relative aspect-[4/5] md:aspect-square rounded-[4rem] overflow-hidden border border-white/10"
                         >
                             <img
                                 src={project.image}
                                 alt={project.title}
-                                className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 brightness-50"
+                                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 brightness-75"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-10 flex flex-col justify-end space-y-4">
-                                <div className="flex gap-2">
-                                    {project.tags.slice(0, 2).map((tag, idx) => (
-                                        <span key={idx} className="px-3 py-1 bg-white/5 backdrop-blur-md rounded-full text-[9px] text-white font-mono border border-white/10 uppercase tracking-widest">{tag}</span>
-                                    ))}
-                                </div>
-                                <h3 className="text-3xl md:text-5xl font-black text-white italic truncate uppercase tracking-tighter">{project.title}</h3>
-                                <p className="text-sm text-slate-300 line-clamp-2 font-light max-w-md">{project.description}</p>
-                                <div className="pt-4 flex items-center gap-6">
-                                    <a href={project.liveLink} className="flex items-center gap-2 text-[10px] font-black text-primary-glow uppercase tracking-widest hover:text-white transition-colors">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-12 flex flex-col justify-end">
+                                <h3 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter mb-6">{project.title}</h3>
+                                <div className="flex items-center gap-6">
+                                    <a href={project.liveLink} className="flex items-center gap-2 text-[10px] font-black text-white bg-primary px-6 py-3 rounded-full uppercase tracking-widest shadow-xl shadow-primary/30">
                                         Establish Link <ExternalLink size={14} />
                                     </a>
-                                    <Link to={`/projects/${project.id}`} className="text-[10px] font-black text-slate-500 uppercase tracking-widest hover:text-white transition-colors">
-                                        View Specs
+                                    <Link to={`/projects/${project.id}`} className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-white transition-colors">
+                                        Specifications
                                     </Link>
                                 </div>
                             </div>
@@ -252,201 +162,28 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Growth Vector: Digital Marketing Section */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5 overflow-hidden">
-                <div className="obsidian-card p-10 md:p-24 rounded-[4rem] border-white/5 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
-                    <div className="absolute -right-20 -top-20 w-80 h-80 bg-primary/10 blur-[100px] rounded-full" />
+            {/* Massive Call to Action */}
+            <section className="relative z-10 max-w-7xl mx-auto px-6 py-40">
+                <div className="obsidian-card p-16 md:p-32 rounded-[5rem] border-white/5 relative overflow-hidden text-center group">
+                    {/* Interior Glows */}
+                    <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/10 blur-[120px] rounded-full group-hover:bg-primary/20 transition-all duration-700" />
+                    <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-accent/10 blur-[120px] rounded-full group-hover:bg-accent/20 transition-all duration-700" />
 
-                    <div className="relative z-10 grid lg:grid-cols-2 gap-20 items-center">
-                        <div className="space-y-10">
-                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
-                                <Activity size={16} className="text-primary animate-pulse" />
-                                <span className="text-[10px] font-black text-white uppercase tracking-widest">Growth_Algorithm_Active</span>
-                            </div>
-                            <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-none uppercase italic">
-                                SCALE YOUR <br /><span className="text-primary-glow font-normal not-italic">VISION.</span>
-                            </h2>
-                            <p className="text-lg text-slate-400 font-light leading-relaxed max-w-lg">
-                                We don't just build; we accelerate. Our digital marketing core utilizes proprietary data-driven
-                                strategies to amplify your brand signaling across the global network.
-                            </p>
-
-                            <div className="grid grid-cols-2 gap-10">
-                                <div className="space-y-2">
-                                    <h4 className="text-4xl font-black text-white tracking-tighter">200%</h4>
-                                    <p className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em]">Avg_Conversion_Lift</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <h4 className="text-4xl font-black text-white tracking-tighter">150+</h4>
-                                    <p className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em]">Deployments_Managed</p>
-                                </div>
-                            </div>
-
-                            <button className="flex items-center gap-4 text-white font-black uppercase text-xs tracking-[0.4em] hover:text-primary transition-colors group">
-                                Explore Marketing Suite <ChevronRight className="group-hover:translate-x-2 transition-transform" />
-                            </button>
-                        </div>
-
-                        <div className="relative aspect-square flex items-center justify-center">
-                            <div className="absolute inset-0 border border-white/5 rounded-full animate-[spin_20s_linear_infinite]" />
-                            <div className="absolute inset-10 border border-white/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-                            <div className="relative z-10 w-full h-full p-12 flex items-center justify-center">
-                                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl" />
-                                <TrendingUp size={120} className="absolute text-primary-glow drop-shadow-[0_0_50px_rgba(47,129,247,0.5)]" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Design Showcase: The Aesthetic Vanguard */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-                    <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 text-primary-glow font-mono text-[10px] uppercase tracking-[0.4em]">
-                            <Palette size={14} /> design_masterpieces
-                        </div>
-                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-[0.8] italic">
-                            Visual <br /><span className="text-primary-glow">Excellence</span>
+                    <div className="relative z-10 space-y-12">
+                        <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.8] uppercase text-white">
+                            READY TO <br />
+                            <span className="text-reveal-gradient italic">ASCEND?</span>
                         </h2>
-                    </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {projects.filter(p => p.category === "Design Piece").map((project, i) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{
-                                delay: i * 0.1,
-                                duration: 0.8,
-                                ease: [0.22, 1, 0.36, 1]
-                            }}
-                            className="design-card-glass group cursor-pointer p-6"
-                        >
-                            <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/5 bg-[#0d1117]">
-                                <img
-                                    src={project.image}
-                                    alt={project.title}
-                                    className="w-full h-full object-cover transition-all duration-[1.2s] group-hover:scale-110 group-hover:rotate-1 brightness-75 group-hover:brightness-100"
-                                />
-                                <div className="shine-effect" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                                    <Link to={`/design/${project.id}`} className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                        <button className="px-8 py-3 bg-white text-black rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl hover:bg-primary hover:text-white transition-colors">
-                                            Launch Visualizer
-                                        </button>
-                                    </Link>
-                                </div>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div className="flex flex-wrap gap-2">
-                                    {project.tags.map((tag, idx) => (
-                                        <span key={idx} className="glass-pill">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 group/title">
-                                        <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter group-hover/title:text-primary-glow transition-colors">{project.title}</h3>
-                                        <ArrowRight size={18} className="text-primary opacity-0 -translate-x-2 group-hover/title:opacity-100 group-hover/title:translate-x-0 transition-all" />
-                                    </div>
-                                    <p className="text-[11px] text-slate-400 font-light leading-relaxed line-clamp-2 uppercase tracking-wider">{project.description}</p>
-                                </div>
-
-                                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                                    <span className="text-[8px] font-mono text-slate-600 uppercase tracking-widest">Protocol_v2.0</span>
-                                    <div className="flex gap-1">
-                                        {[1, 2, 3].map(dot => (
-                                            <div key={dot} className="w-1 h-1 rounded-full bg-primary/20 group-hover:bg-primary/60 transition-colors" />
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                <div className="mt-20 glass-glow p-12 text-center relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative z-10 space-y-6">
-                        <h3 className="text-4xl font-black text-white uppercase italic tracking-tighter">Need a Masterpiece?</h3>
-                        <p className="text-slate-400 max-w-lg mx-auto text-sm font-light">
-                            Direct transmission line open for custom UI/UX engineering and high-end web design orders.
+                        <p className="text-lg md:text-2xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+                            Currently accepting high-impact deployments. Let's engineer
+                            your brand's digital legacy.
                         </p>
                         <Link to="/contact">
-                            <button className="px-12 py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:scale-105 transition-transform shadow-2xl shadow-primary/20">
-                                Place Design Order
+                            <button className="group relative px-16 py-8 bg-white text-black rounded-[3rem] font-black text-sm uppercase tracking-[0.4em] transition-all hover:scale-110 active:scale-95 shadow-[0_20px_80px_rgba(255,255,255,0.2)]">
+                                Start Transmission
                             </button>
                         </Link>
                     </div>
-                </div>
-            </section>
-
-            {/* Social Proof: Client Testimonials */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
-                <div className="text-center space-y-6 mb-24">
-                    <div className="inline-flex items-center gap-2 text-primary-glow font-mono text-[10px] uppercase tracking-[0.4em]">
-                        <MessageSquare size={14} /> verified_transmissions
-                    </div>
-                    <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter uppercase italic">
-                        Client <span className="text-slate-500">Feedback</span>
-                    </h2>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-8">
-                    {testimonials.map((t, i) => (
-                        <motion.div
-                            key={t.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="obsidian-card p-10 rounded-[2.5rem] border-white/5 flex flex-col justify-between"
-                        >
-                            <div className="space-y-6">
-                                <div className="flex gap-1">
-                                    {[1, 2, 3, 4, 5].map(star => (
-                                        <Star key={star} size={14} fill="#2f81f7" className="text-primary" />
-                                    ))}
-                                </div>
-                                <p className="text-slate-300 italic font-light leading-relaxed">"{t.content}"</p>
-                            </div>
-                            <div className="mt-10 flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full overflow-hidden border border-white/10">
-                                    <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
-                                </div>
-                                <div>
-                                    <h4 className="text-sm font-black text-white uppercase italic">{t.name}</h4>
-                                    <p className="text-[10px] text-slate-500 font-mono">{t.role}</p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Lead Capture: The Call to Action */}
-            <section className="relative z-10 max-w-7xl mx-auto px-6 py-40">
-                <div className="flex flex-col items-center text-center space-y-12">
-                    <h2 className="text-6xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic text-white flex flex-col">
-                        <span>READY TO</span>
-                        <span className="text-primary-glow drop-shadow-[0_0_100px_rgba(47,129,247,0.4)]">UPGRADE?</span>
-                    </h2>
-                    <p className="text-xl md:text-2xl text-slate-400 font-light max-w-2xl leading-relaxed">
-                        Deploy your next-gen digital experience with ByteCore.
-                        We are currently accepting new high-impact projects.
-                    </p>
-                    <Link to="/contact">
-                        <button className="group relative px-16 py-8 bg-white text-black rounded-[2.5rem] font-black text-sm uppercase tracking-[0.3em] transition-all hover:scale-110 active:scale-95 shadow-[0_0_80px_rgba(255,255,255,0.2)]">
-                            Initiate Protocol
-                        </button>
-                    </Link>
                 </div>
             </section>
         </div>
@@ -454,4 +191,5 @@ const Home = () => {
 };
 
 export default Home;
+
 

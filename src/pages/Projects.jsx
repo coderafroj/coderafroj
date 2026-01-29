@@ -43,8 +43,8 @@ const Projects = () => {
     return (
         <div className="pt-40 pb-32 min-h-screen px-6">
             <SEO
-                title="Projects & Portfolio"
-                description="Index of deployed architectural systems and neural experiments established within the session."
+                title="Elite Projects Portfolio"
+                description="Explore Coderafroj's gallery of high-end digital projects, advanced web systems, and creative design experiments."
                 url="/projects"
             />
             <div className="max-w-7xl mx-auto">
