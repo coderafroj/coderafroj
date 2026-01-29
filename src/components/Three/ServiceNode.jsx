@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, MeshDistortMaterial, Icosahedron } from '@react-three/drei';
 
-const Node = ({ isHovered, color = "#6366f1" }) => {
+const Node = ({ isHovered, color = "#3586e2ff" }) => {
     const meshRef = useRef();
 
     useFrame((state) => {
@@ -37,7 +37,7 @@ const Node = ({ isHovered, color = "#6366f1" }) => {
 const ServiceNode = ({ isHovered, color }) => {
     return (
         <div className="w-16 h-16 pointer-events-none">
-            <Canvas camera={{ position: [0, 0, 3], fov: 45 }} gl={{ alpha: true }}>
+            <Canvas camera={{ position: [0, 0, 3], fov: 45 }} gl={{ alpha: true }} events={() => ({})}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color={color} />
                 <Node isHovered={isHovered} color={color} />

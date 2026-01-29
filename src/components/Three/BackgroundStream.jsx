@@ -45,7 +45,7 @@ const StreamParticles = () => {
 const BackgroundStream = () => {
     return (
         <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40">
-            <Canvas camera={{ position: [0, 0, 10], fov: 75 }} gl={{ alpha: true }}>
+            <Canvas camera={{ position: [0, 0, 10], fov: 75 }} gl={{ alpha: true }} events={() => ({})}>
                 <StreamParticles />
                 <fog attach="fog" args={['#02040a', 5, 25]} />
             </Canvas>
