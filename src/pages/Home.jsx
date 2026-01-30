@@ -209,8 +209,9 @@ const Home = () => {
                         </ThreeErrorBoundary>
                     </React.Suspense>
                 ) : <ThreeFallback fullScreen />}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/50 to-[#02040a]" />
-                <div className="coderafroj-grid opacity-[0.1]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#02040a]/40 to-[#02040a] z-0" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent z-0 opacity-80" />
+                <div className="coderafroj-grid opacity-[0.1] z-0" />
             </div>
 
             {/* Hacker HUD Interface */}
@@ -236,7 +237,7 @@ const Home = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="text-7xl md:text-[10rem] font-black text-white italic uppercase tracking-tighter leading-[0.8] mb-4 select-none hacker-glow"
+                                className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black text-white italic uppercase tracking-tighter leading-[0.8] mb-4 select-none hacker-glow text-gradient"
                             >
                                 {scrambledTitle}
                             </motion.h1>
@@ -245,9 +246,9 @@ const Home = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="text-xl md:text-3xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed font-mono"
+                                className="text-lg md:text-2xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed font-mono px-4"
                             >
-                                [<span className="text-primary tracking-widest uppercase text-sm">Auth_Layer_01</span>] Digital Architecture & <span className="text-white font-medium">Cyber_Interfaces</span>
+                                [<span className="text-primary-glow tracking-widest uppercase text-xs">Auth_Layer_01</span>] Digital Architecture & <span className="text-white font-medium">Cyber_Interfaces</span>
                             </motion.p>
                         </div>
 

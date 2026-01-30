@@ -104,7 +104,7 @@ const IntroScene = ({ onComplete }) => {
                             className="flex flex-col items-center"
                         >
                             {/* Main Name Reveal */}
-                            <div className="overflow-hidden flex gap-1 md:gap-3">
+                            <div className="overflow-hidden flex flex-wrap justify-center gap-1 md:gap-3 px-4">
                                 {titleChars.map((char, i) => (
                                     <motion.span
                                         key={i}
@@ -112,10 +112,10 @@ const IntroScene = ({ onComplete }) => {
                                         animate={{ y: 0, rotateX: 0, opacity: 1 }}
                                         transition={{
                                             duration: 1.2,
-                                            delay: i * 0.1,
+                                            delay: i * 0.08,
                                             ease: [0.2, 0.65, 0.3, 0.9]
                                         }}
-                                        className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                                        className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white italic tracking-tighter uppercase inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] text-gradient"
                                     >
                                         {char}
                                     </motion.span>
@@ -126,14 +126,24 @@ const IntroScene = ({ onComplete }) => {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1.5, duration: 1 }}
-                                className="mt-6 flex items-center gap-4 text-white font-mono"
+                                transition={{ delay: 1.2, duration: 1 }}
+                                className="mt-8 flex items-center gap-4 text-white font-mono"
                             >
-                                <div className="h-px w-8 bg-primary/40" />
-                                <span className="text-[8px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow">
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: 32 }}
+                                    transition={{ delay: 1.5, duration: 0.8 }}
+                                    className="h-px bg-primary/60 shadow-[0_0_10px_rgba(99,102,241,0.8)]"
+                                />
+                                <span className="text-[7px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow font-bold">
                                     Digital_Mastery_Redefined
                                 </span>
-                                <div className="h-px w-8 bg-primary/40" />
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: 32 }}
+                                    transition={{ delay: 1.5, duration: 0.8 }}
+                                    className="h-px bg-primary/60 shadow-[0_0_10px_rgba(99,102,241,0.8)]"
+                                />
                             </motion.div>
 
                             {/* Lighting Streak Animation */}
