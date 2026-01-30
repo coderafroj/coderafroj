@@ -50,5 +50,9 @@
     "tailwindcss": "^3.3.5",
     "vite": "^7.1.7",
     "vitest": "^4.0.17"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }
