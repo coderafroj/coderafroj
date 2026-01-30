@@ -15,7 +15,7 @@ import { testimonials } from '../data/testimonials';
 import logo from '../assets/logo/coderafroj.png';
 
 // Lazy load 3D components to prevent crash on initial load
-const AdvancedHero = React.lazy(() => import('../components/Three/AdvancedHero'));
+const Portfolio3DScene = React.lazy(() => import('../components/Three/Portfolio3DScene'));
 const BackgroundStream = React.lazy(() => import('../components/Three/BackgroundStream'));
 const ThreeErrorBoundary = React.lazy(() => import('../components/Three/ThreeErrorBoundary'));
 
@@ -205,7 +205,7 @@ const Home = () => {
                 {hasWebGL ? (
                     <React.Suspense fallback={<ThreeFallback fullScreen />}>
                         <ThreeErrorBoundary showPlaceholder>
-                            <AdvancedHero />
+                            <Portfolio3DScene />
                         </ThreeErrorBoundary>
                     </React.Suspense>
                 ) : <ThreeFallback fullScreen />}
@@ -230,7 +230,7 @@ const Home = () => {
                                 className="inline-flex items-center gap-2 px-6 py-2 rounded-xl bg-primary/5 border border-primary/20 backdrop-blur-md"
                             >
                                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                                <span className="text-[10px] font-mono font-black tracking-[0.5em] text-primary uppercase">Elite_Bypass_Successful</span>
+                                <span className="text-[10px] font-mono font-black tracking-[0.5em] text-primary uppercase">Elite_Portfolio_Archive</span>
                             </motion.div>
 
                             <motion.h1
@@ -246,9 +246,9 @@ const Home = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="text-lg md:text-2xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed font-mono px-4"
+                                className="text-lg md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed font-mono px-4"
                             >
-                                [<span className="text-primary-glow tracking-widest uppercase text-xs">Auth_Layer_01</span>] Digital Architecture & <span className="text-white font-medium">Cyber_Interfaces</span>
+                                [<span className="text-primary-glow tracking-widest uppercase text-xs">Architect_V1</span>] Engineering Digital Legacies & <span className="text-white font-medium">Next-Gen_Experiences</span>
                             </motion.p>
                         </div>
 
@@ -262,13 +262,13 @@ const Home = () => {
                                 onClick={() => navigate('/projects')}
                                 className="px-12 py-6 bg-primary text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_rgba(47,129,247,0.4)] border border-primary-glow/50"
                             >
-                                /Initiate_Protocol
+                                /Enter_Archives
                             </button>
                             <button
                                 onClick={() => navigate('/contact')}
                                 className="px-12 py-6 bg-white/5 border border-white/10 text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:bg-white/10 transition-all backdrop-blur-md"
                             >
-                                /Secure_Channel
+                                /Direct_Contact
                             </button>
                         </motion.div>
                     </div>
@@ -283,14 +283,103 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Elite Tech Stack Marquee */}
+            <section className="relative z-10 py-20 border-y border-white/5 bg-white/[0.01] overflow-hidden">
+                <div className="flex whitespace-nowrap animate-scroll">
+                    {[...Array(2)].map((_, i) => (
+                        <div key={i} className="flex gap-20 items-center px-10">
+                            {['REACT', 'NEXT.JS', 'THREE.JS', 'TYPESCRIPT', 'PYTHON', 'NODE.JS', 'TAILWIND', 'FIREBASE', 'GIT', 'DOCKER'].map((tech) => (
+                                <span key={tech} className="text-4xl md:text-6xl font-black text-white/10 italic tracking-tighter hover:text-primary transition-colors cursor-default select-none">
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </section>
+
             {/* Featured Projects: Large, Immersive Cards */}
+            {/* The Architect Section - High End Creator Showcase */}
+            <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
+                <div className="grid lg:grid-cols-2 gap-20 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="space-y-8"
+                    >
+                        <div className="space-y-4">
+                            <span className="text-primary font-mono text-xs tracking-[0.6em] uppercase block">Elite_Creator_Profile</span>
+                            <h2 className="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-none">
+                                THE <br /><span className="text-reveal-gradient">ARCHITECT.</span>
+                            </h2>
+                        </div>
+                        <p className="text-lg md:text-xl text-slate-400 font-light leading-relaxed max-w-xl">
+                            Afroj, the visionary spirit behind <span className="text-white font-medium italic">Coderafroj</span>.
+                            Specializing in deep-tech interfaces and digital legacy architecture.
+                            Every pixel is engineered, every line of code is a statement of intent.
+                        </p>
+                        <div className="flex gap-8 items-center border-l-2 border-primary/20 pl-8">
+                            <div>
+                                <div className="text-3xl font-black text-white tracking-tighter italic uppercase underline decoration-primary/30">150+</div>
+                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Deployments</div>
+                            </div>
+                            <div>
+                                <div className="text-3xl font-black text-white tracking-tighter italic uppercase underline decoration-primary/30">精英</div>
+                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Elite_Status</div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="relative aspect-square"
+                    >
+                        <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full animate-pulse" />
+                        <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full animate-pulse delay-700" />
+
+                        <div className="relative z-10 w-full h-full rounded-[4rem] overflow-hidden border border-white/10 group cursor-crosshair">
+                            <img
+                                src={afu}
+                                alt="Afroj"
+                                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-60" />
+
+                            {/* Signature Element */}
+                            <div className="absolute bottom-10 left-10">
+                                <span className="text-4xl md:text-6xl font-black text-white italic tracking-tighter opacity-20 group-hover:opacity-100 transition-opacity">
+                                    AFROJ.
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Decorative HUD Frame */}
+                        <div className="absolute -inset-4 border border-primary/20 rounded-[5rem] pointer-events-none z-0 rotate-3" />
+                        <div className="absolute -inset-4 border border-white/5 rounded-[5rem] pointer-events-none z-0 -rotate-3" />
+                    </motion.div>
+                </div>
+            </section>
+
             <section className="relative z-10 max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
                 <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
-                    <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter uppercase italic leading-none">
-                        MASTER <br /><span className="text-slate-500">WORKS.</span>
-                    </h2>
-                    <Link to="/projects" className="text-xs font-black text-primary-glow uppercase tracking-[0.4em] border-b-2 border-primary pb-2 hover:text-white transition-colors">
-                        Expand All Transmissions
+                    <div className="space-y-4">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            className="flex items-center gap-4 text-primary font-mono text-xs tracking-[0.5em] uppercase"
+                        >
+                            <span className="h-px w-12 bg-primary/30" />
+                            Curated_Showcase
+                        </motion.div>
+                        <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter uppercase italic leading-none">
+                            MASTER <br /><span className="text-slate-500 hover:text-primary transition-colors duration-500">WORKS.</span>
+                        </h2>
+                    </div>
+                    <Link to="/projects" className="text-xs font-black text-primary-glow uppercase tracking-[0.4em] border-b-2 border-primary pb-2 hover:text-white transition-colors group">
+                        Expand All Transmissions <ArrowRight className="inline-block ml-2 group-hover:translate-x-2 transition-transform" size={12} />
                     </Link>
                 </div>
 

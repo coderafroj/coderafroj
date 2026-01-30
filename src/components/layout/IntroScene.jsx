@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../../assets/logo/coderafroj.png';
 
 const IntroScene = ({ onComplete }) => {
     const [progress, setProgress] = useState(0);
@@ -49,7 +50,7 @@ const IntroScene = ({ onComplete }) => {
                 <div className="coderafroj-grid h-full w-full" />
             </div>
 
-            <div className="relative z-10 w-full max-w-lg px-8 flex flex-col items-center">
+            <div className="relative z-10 w-full max-w-5xl px-8 flex flex-col items-center">
                 <AnimatePresence mode="wait">
                     {stage === 'loading' && (
                         <motion.div
@@ -57,7 +58,7 @@ const IntroScene = ({ onComplete }) => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0, y: -20 }}
-                            className="w-full flex flex-col items-center space-y-8"
+                            className="w-full max-w-md flex flex-col items-center space-y-8"
                         >
                             {/* VIP Monogram Placeholder/Logo */}
                             <div className="relative w-20 h-20 flex items-center justify-center">
@@ -101,10 +102,35 @@ const IntroScene = ({ onComplete }) => {
                     {stage === 'reveal' && (
                         <motion.div
                             key="reveal-stage"
-                            className="flex flex-col items-center"
+                            className="flex flex-col items-center w-full"
                         >
-                            {/* Main Name Reveal */}
-                            <div className="overflow-hidden flex flex-wrap justify-center gap-1 md:gap-3 px-4">
+                            {/* 3D-styled Logo Reveal */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
+                                animate={{
+                                    opacity: 1,
+                                    scale: 1,
+                                    rotateY: [0, 15, -15, 0],
+                                    y: [0, -10, 0]
+                                }}
+                                transition={{
+                                    opacity: { duration: 1.2 },
+                                    scale: { duration: 1.2 },
+                                    rotateY: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+                                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                className="mb-12 relative"
+                            >
+                                <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+                                <img
+                                    src={logo}
+                                    alt="Logo"
+                                    className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10 drop-shadow-[0_0_25px_rgba(47,129,247,0.6)]"
+                                />
+                            </motion.div>
+
+                            {/* Main Name Reveal - Strictly Forced Single Line */}
+                            <div className="flex flex-nowrap justify-center gap-0.5 md:gap-2 px-2 w-full overflow-visible">
                                 {titleChars.map((char, i) => (
                                     <motion.span
                                         key={i}
@@ -115,7 +141,7 @@ const IntroScene = ({ onComplete }) => {
                                             delay: i * 0.08,
                                             ease: [0.2, 0.65, 0.3, 0.9]
                                         }}
-                                        className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white italic tracking-tighter uppercase inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] text-gradient"
+                                        className="text-3xl xs:text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white italic tracking-tighter uppercase inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] text-gradient whitespace-nowrap"
                                     >
                                         {char}
                                     </motion.span>
@@ -126,13 +152,13 @@ const IntroScene = ({ onComplete }) => {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1.2, duration: 1 }}
+                                transition={{ delay: 1.5, duration: 1 }}
                                 className="mt-8 flex items-center gap-4 text-white font-mono"
                             >
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: 32 }}
-                                    transition={{ delay: 1.5, duration: 0.8 }}
+                                    transition={{ delay: 1.8, duration: 0.8 }}
                                     className="h-px bg-primary/60 shadow-[0_0_10px_rgba(99,102,241,0.8)]"
                                 />
                                 <span className="text-[7px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow font-bold">
@@ -141,7 +167,7 @@ const IntroScene = ({ onComplete }) => {
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: 32 }}
-                                    transition={{ delay: 1.5, duration: 0.8 }}
+                                    transition={{ delay: 1.8, duration: 0.8 }}
                                     className="h-px bg-primary/60 shadow-[0_0_10px_rgba(99,102,241,0.8)]"
                                 />
                             </motion.div>
@@ -150,7 +176,7 @@ const IntroScene = ({ onComplete }) => {
                             <motion.div
                                 initial={{ scaleX: 0, opacity: 0 }}
                                 animate={{ scaleX: 1, opacity: [0, 1, 0] }}
-                                transition={{ delay: 1, duration: 2, times: [0, 0.5, 1] }}
+                                transition={{ delay: 1.2, duration: 2, times: [0, 0.5, 1] }}
                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[1px] bg-gradient-to-r from-transparent via-white to-transparent blur-sm z-50 pointer-events-none"
                             />
                         </motion.div>
