@@ -57,34 +57,24 @@ const HUDOverlay = () => (
         {/* Scanning Line */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] pointer-events-none" />
 
-        {/* Corner HUD */}
+        {/* Corner HUD - Simplified */}
         <div className="absolute top-40 left-10 space-y-2 hidden lg:block">
             <div className="flex items-center gap-2">
                 <div className="w-1 h-1 bg-primary" />
-                <span className="text-[8px] font-mono text-primary tracking-widest uppercase animate-pulse">Core_Status: Stable</span>
+                <span className="text-[8px] font-mono text-primary tracking-widest uppercase animate-pulse">Design System Active</span>
             </div>
             <div className="flex items-center gap-2">
                 <div className="w-1 h-1 bg-white/20" />
-                <span className="text-[8px] font-mono text-white/40 tracking-widest uppercase">Node: 0x8A7B2</span>
-            </div>
-            <div className="w-32 h-px bg-white/10" />
-            <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                    <div key={i} className="w-1 h-2 bg-primary/20 animate-bounce" style={{ animationDelay: `${i * 0.1}s` }} />
-                ))}
+                <span className="text-[8px] font-mono text-white/40 tracking-widest uppercase">Version 4.0</span>
             </div>
         </div>
 
-        {/* Right HUD */}
+        {/* Right HUD - Simplified */}
         <div className="absolute bottom-40 right-10 flex flex-col items-end space-y-4 hidden lg:block">
-            <div className="w-20 h-20 border-r border-t border-primary/20 relative">
-                <div className="absolute top-0 right-0 w-2 h-2 bg-primary animate-pulse" />
-                <div className="absolute -top-4 right-0 text-[8px] font-mono text-primary/40 rotate-90 origin-bottom-right">ENCRYPTION_ACTIVE</div>
-            </div>
             <div className="text-[8px] font-mono text-white/20 text-right">
-                LATENCY: 12ms<br />
-                PACKET: 100%<br />
-                SECURE_LINK: YES
+                WEB DEVELOPER<br />
+                CREATIVE DESIGNER<br />
+                CS TEACHER
             </div>
         </div>
     </div>
@@ -230,7 +220,7 @@ const Home = () => {
                                 className="inline-flex items-center gap-2 px-6 py-2 rounded-xl bg-primary/5 border border-primary/20 backdrop-blur-md"
                             >
                                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-                                <span className="text-[10px] font-mono font-black tracking-[0.5em] text-primary uppercase">Elite_Portfolio_Archive</span>
+                                <span className="text-[10px] font-mono font-black tracking-[0.5em] text-primary uppercase">My Personal Portfolio</span>
                             </motion.div>
 
                             <motion.h1
@@ -248,7 +238,7 @@ const Home = () => {
                                 transition={{ delay: 0.2 }}
                                 className="text-lg md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed font-mono px-4"
                             >
-                                [<span className="text-primary-glow tracking-widest uppercase text-xs">Architect_V1</span>] Engineering Digital Legacies & <span className="text-white font-medium">Next-Gen_Experiences</span>
+                                [<span className="text-primary-glow tracking-widest uppercase text-xs">Web Developer</span>] Building Beautiful Websites & <span className="text-white font-medium">Digital Experiences</span>
                             </motion.p>
                         </div>
 
@@ -262,13 +252,13 @@ const Home = () => {
                                 onClick={() => navigate('/projects')}
                                 className="px-12 py-6 bg-primary text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_rgba(47,129,247,0.4)] border border-primary-glow/50"
                             >
-                                /Enter_Archives
+                                View My Work
                             </button>
                             <button
                                 onClick={() => navigate('/contact')}
                                 className="px-12 py-6 bg-white/5 border border-white/10 text-white font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:bg-white/10 transition-all backdrop-blur-md"
                             >
-                                /Direct_Contact
+                                Get In Touch
                             </button>
                         </motion.div>
                     </div>
@@ -309,24 +299,24 @@ const Home = () => {
                         className="space-y-8"
                     >
                         <div className="space-y-4">
-                            <span className="text-primary font-mono text-xs tracking-[0.6em] uppercase block">Elite_Creator_Profile</span>
+                            <span className="text-primary font-mono text-xs tracking-[0.6em] uppercase block">About Me</span>
                             <h2 className="text-6xl md:text-8xl font-black text-white uppercase italic tracking-tighter leading-none">
-                                THE <br /><span className="text-reveal-gradient">ARCHITECT.</span>
+                                MEET <br /><span className="text-reveal-gradient">AFROJ.</span>
                             </h2>
                         </div>
                         <p className="text-lg md:text-xl text-slate-400 font-light leading-relaxed max-w-xl">
-                            Afroj, the visionary spirit behind <span className="text-white font-medium italic">Coderafroj</span>.
-                            Specializing in deep-tech interfaces and digital legacy architecture.
-                            Every pixel is engineered, every line of code is a statement of intent.
+                            Hi, I'm Afroj. I'm a passionate <span className="text-white font-medium italic">Web Developer</span> and <span className="text-white font-medium italic">Designer</span>.
+                            I also love teaching Computer Science to students.
+                            I build websites that are fast, beautiful, and easy to use.
                         </p>
                         <div className="flex gap-8 items-center border-l-2 border-primary/20 pl-8">
                             <div>
                                 <div className="text-3xl font-black text-white tracking-tighter italic uppercase underline decoration-primary/30">150+</div>
-                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Deployments</div>
+                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Projects Done</div>
                             </div>
                             <div>
-                                <div className="text-3xl font-black text-white tracking-tighter italic uppercase underline decoration-primary/30">精英</div>
-                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Elite_Status</div>
+                                <div className="text-3xl font-black text-white tracking-tighter italic uppercase underline decoration-primary/30">100%</div>
+                                <div className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Satisfaction</div>
                             </div>
                         </div>
                     </motion.div>
@@ -372,14 +362,14 @@ const Home = () => {
                             className="flex items-center gap-4 text-primary font-mono text-xs tracking-[0.5em] uppercase"
                         >
                             <span className="h-px w-12 bg-primary/30" />
-                            Curated_Showcase
+                            Featured Work
                         </motion.div>
                         <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter uppercase italic leading-none">
-                            MASTER <br /><span className="text-slate-500 hover:text-primary transition-colors duration-500">WORKS.</span>
+                            MY BEST <br /><span className="text-slate-500 hover:text-primary transition-colors duration-500">PROJECTS.</span>
                         </h2>
                     </div>
                     <Link to="/projects" className="text-xs font-black text-primary-glow uppercase tracking-[0.4em] border-b-2 border-primary pb-2 hover:text-white transition-colors group">
-                        Expand All Transmissions <ArrowRight className="inline-block ml-2 group-hover:translate-x-2 transition-transform" size={12} />
+                        See All Projects <ArrowRight className="inline-block ml-2 group-hover:translate-x-2 transition-transform" size={12} />
                     </Link>
                 </div>
 
@@ -423,16 +413,16 @@ const Home = () => {
 
                     <div className="relative z-10 space-y-12">
                         <h2 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.8] uppercase text-white">
-                            READY TO <br />
-                            <span className="text-reveal-gradient italic">ASCEND?</span>
+                            START A <br />
+                            <span className="text-reveal-gradient italic">PROJECT?</span>
                         </h2>
                         <p className="text-lg md:text-2xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-                            Currently accepting high-impact deployments. Let's engineer
-                            your brand's digital legacy.
+                            I am currently available for new projects. Let's work
+                            together to build something amazing.
                         </p>
                         <Link to="/contact">
                             <button className="group relative px-16 py-8 bg-white text-black rounded-[3rem] font-black text-sm uppercase tracking-[0.4em] transition-all hover:scale-110 active:scale-95 shadow-[0_20px_80px_rgba(255,255,255,0.2)]">
-                                Start Transmission
+                                Message Me
                             </button>
                         </Link>
                     </div>

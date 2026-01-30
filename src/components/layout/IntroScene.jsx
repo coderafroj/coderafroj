@@ -42,11 +42,11 @@ const IntroScene = ({ onComplete }) => {
     const [stage, setStage] = useState('loading'); // loading, reveal, exit
 
     const terminalMessages = [
-        "> INITIALIZING_SYSTEM_BOOT...",
-        "> ESTABLISHING_SECURE_HANDSHAKE...",
-        "> BYPASSING_FIREWALL_LAYERS...",
-        "> DECRYPTING_ELITE_ASSETS...",
-        "> ACCESS_GRANTED: CODERAFROJ"
+        "> Starting things up...",
+        "> Loading my projects...",
+        "> Setting up the design...",
+        "> Making it look good...",
+        "> Welcome to my world"
     ];
 
     useEffect(() => {
@@ -126,8 +126,10 @@ const IntroScene = ({ onComplete }) => {
                             <div className="w-full space-y-4">
                                 <div className="flex justify-between items-end border-b border-white/5 pb-2">
                                     <div className="flex flex-col">
-                                        <span className="text-[8px] uppercase tracking-[0.4em] text-white/30 font-bold">System_Core_Load</span>
-                                        <span className="text-[10px] font-mono text-white/60">Deployment_Protocol_v4.2</span>
+                                        <span className="text-[7px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow font-bold">
+                                            Building Better Websites
+                                        </span>
+                                        <span className="text-[10px] font-mono text-white/60">Portfolio v4.0</span>
                                     </div>
                                     <span className="text-3xl font-black italic text-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
                                         {Math.round(progress)}%
