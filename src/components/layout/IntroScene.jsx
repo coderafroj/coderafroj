@@ -1,153 +1,189 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../../assets/logo/coderafroj.png';
-
-const useScrambleText = (text, delay = 0) => {
-    const [scrambled, setScrambled] = useState('');
-    const chars = "!<>-_\\/[]{}—=+*^?#________";
-
-    useEffect(() => {
-        let iteration = 0;
-        let interval;
-
-        const timeout = setTimeout(() => {
-            interval = setInterval(() => {
-                setScrambled(prev =>
-                    text.split("")
-                        .map((char, index) => {
-                            if (index < iteration) return text[index];
-                            return chars[Math.floor(Math.random() * chars.length)];
-                        })
-                        .join("")
-                );
-
-                if (iteration >= text.length) clearInterval(interval);
-                iteration += 1 / 3;
-            }, 30);
-        }, delay);
-
-        return () => {
-            clearTimeout(timeout);
-            clearInterval(interval);
-        };
-    }, [text, delay]);
-
-    return scrambled;
-};
 
 const IntroScene = ({ onComplete }) => {
-    const [status, setStatus] = useState('INITIALIZING...');
-    const scrambledTitle = useScrambleText("CODERAFROJ", 500);
     const [progress, setProgress] = useState(0);
+    const [stage, setStage] = useState('loading'); // loading, reveal, exit
 
     useEffect(() => {
-        const statusMsgs = [
-            'BYPASSING_FIREWALL...',
-            'INJECTING_CORE_MODULES...',
-            'ESTABLISHING_SECURE_LINK...',
-            'ACCESS_GRANTED',
-            'LOADING_SYSTEM_UI...'
-        ];
-
-        let msgIdx = 0;
-        const msgInterval = setInterval(() => {
-            if (msgIdx < statusMsgs.length) {
-                setStatus(statusMsgs[msgIdx]);
-                msgIdx++;
-            }
-        }, 600);
-
-        const progInterval = setInterval(() => {
+        const interval = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) {
-                    clearInterval(progInterval);
-                    setTimeout(onComplete, 800);
+                    clearInterval(interval);
+                    setTimeout(() => setStage('reveal'), 500);
                     return 100;
                 }
-                return prev + Math.random() * 15;
+                const next = prev + Math.random() * 20;
+                return next > 100 ? 100 : next;
             });
-        }, 200);
+        }, 300);
 
-        return () => {
-            clearInterval(msgInterval);
-            clearInterval(progInterval);
-        };
-    }, [onComplete]);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        if (stage === 'reveal') {
+            const timer = setTimeout(() => {
+                setStage('exit');
+                setTimeout(onComplete, 1500);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [stage, onComplete]);
+
+    const titleChars = "CODERAFROJ".split("");
 
     return (
         <motion.div
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
-            transition={{ duration: 1, ease: "circOut" }}
-            className="fixed inset-0 z-[9999] bg-[#02040a] flex flex-col items-center justify-center overflow-hidden"
+            exit={{ opacity: 0, filter: 'blur(20px)' }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[9999] bg-[#02040a] flex flex-col items-center justify-center overflow-hidden font-outfit"
         >
-            {/* Background Hacker Grid */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
+            {/* Soft Ambient Glows */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full animate-pulse" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full animate-pulse" />
+
+            {/* Matrix/Grid Subtle Texture */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                 <div className="coderafroj-grid h-full w-full" />
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5" />
             </div>
 
-            {/* Glowing Scanline */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-                <div className="w-full h-[2px] bg-primary blur-sm animate-scanline shadow-[0_0_15px_rgba(47,129,247,0.5)]" />
-            </div>
+            <div className="relative z-10 w-full max-w-lg px-8 flex flex-col items-center">
+                <AnimatePresence mode="wait">
+                    {stage === 'loading' && (
+                        <motion.div
+                            key="loading-stage"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="w-full flex flex-col items-center space-y-8"
+                        >
+                            {/* VIP Monogram Placeholder/Logo */}
+                            <div className="relative w-20 h-20 flex items-center justify-center">
+                                <motion.div
+                                    animate={{
+                                        rotate: 360,
+                                        scale: [1, 1.1, 1]
+                                    }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                    className="absolute inset-0 border-2 border-primary/20 rounded-full"
+                                />
+                                <motion.div
+                                    animate={{ rotate: -360 }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                                    className="absolute inset-2 border border-white/10 rounded-full border-dashed"
+                                />
+                                <span className="text-white font-black text-2xl italic tracking-tighter">CR</span>
+                            </div>
 
-            <div className="relative z-10 flex flex-col items-center space-y-12">
-                {/* Rotating Logo */}
-                <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", damping: 15, stiffness: 100 }}
-                    className="relative"
-                >
-                    <div className="absolute -inset-4 bg-primary/20 rounded-full blur-2xl animate-pulse" />
-                    <motion.img
-                        src={logo}
-                        alt="Logo"
-                        className="w-24 h-24 md:w-32 md:h-32 object-contain relative z-10 drop-shadow-[0_0_20px_rgba(47,129,247,0.4)]"
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                    />
-                </motion.div>
+                            <div className="w-full space-y-4">
+                                <div className="flex justify-between items-end">
+                                    <span className="text-[10px] uppercase tracking-[0.4em] text-white/40 font-bold">
+                                        Initializing_VIP_Experience
+                                    </span>
+                                    <span className="text-[14px] font-mono text-primary font-black">
+                                        {Math.round(progress)}%
+                                    </span>
+                                </div>
+                                <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden relative border border-white/5">
+                                    <motion.div
+                                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-transparent via-primary to-primary shadow-[0_0_15px_rgba(47,129,247,0.8)]"
+                                        initial={{ width: "0%" }}
+                                        animate={{ width: `${progress}%` }}
+                                        transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
 
-                {/* Scrambled Text */}
-                <div className="text-center space-y-4">
-                    <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase hacker-glow">
-                        {scrambledTitle}
-                    </h1>
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-primary">
-                            <span className="animate-pulse">▶</span> {status}
-                        </div>
+                    {stage === 'reveal' && (
+                        <motion.div
+                            key="reveal-stage"
+                            className="flex flex-col items-center"
+                        >
+                            {/* Main Name Reveal */}
+                            <div className="overflow-hidden flex gap-1 md:gap-3">
+                                {titleChars.map((char, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ y: 150, rotateX: -90, opacity: 0 }}
+                                        animate={{ y: 0, rotateX: 0, opacity: 1 }}
+                                        transition={{
+                                            duration: 1.2,
+                                            delay: i * 0.1,
+                                            ease: [0.2, 0.65, 0.3, 0.9]
+                                        }}
+                                        className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase inline-block drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                                    >
+                                        {char}
+                                    </motion.span>
+                                ))}
+                            </div>
 
-                        {/* Progress Bar Container */}
-                        <div className="w-64 h-1 bg-white/5 rounded-full overflow-hidden border border-white/5 backdrop-blur-sm relative">
+                            {/* Tagline Reveal */}
                             <motion.div
-                                className="absolute inset-y-0 left-0 bg-primary shadow-[0_0_15px_rgba(47,129,247,0.8)]"
-                                initial={{ width: "0%" }}
-                                animate={{ width: `${progress}%` }}
-                                transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 1.5, duration: 1 }}
+                                className="mt-6 flex items-center gap-4 text-white font-mono"
+                            >
+                                <div className="h-px w-8 bg-primary/40" />
+                                <span className="text-[8px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow">
+                                    Digital_Mastery_Redefined
+                                </span>
+                                <div className="h-px w-8 bg-primary/40" />
+                            </motion.div>
+
+                            {/* Lighting Streak Animation */}
+                            <motion.div
+                                initial={{ scaleX: 0, opacity: 0 }}
+                                animate={{ scaleX: 1, opacity: [0, 1, 0] }}
+                                transition={{ delay: 1, duration: 2, times: [0, 0.5, 1] }}
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[1px] bg-gradient-to-r from-transparent via-white to-transparent blur-sm z-50 pointer-events-none"
                             />
-                        </div>
-                        <span className="font-mono text-[8px] text-white/40 tracking-widest lowercase">
-                            Progress: {Math.round(progress)}%_STABLE
-                        </span>
-                    </div>
-                </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
-            {/* Corner Decorative HUD Elements */}
-            <div className="absolute top-10 left-10 hidden md:block">
-                <div className="flex flex-col gap-1 font-mono text-[8px] text-primary/40 uppercase tracking-widest">
-                    <span>System_Core: 0x8A7B2</span>
-                    <span>Link_Status: Active</span>
-                </div>
+            {/* Side HUD Elements (VIP Modern Style) */}
+            <div className="absolute top-0 left-0 w-full p-12 flex justify-between items-start pointer-events-none">
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 0.3, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="flex flex-col gap-1 font-mono text-[8px] text-white tracking-[0.3em] uppercase"
+                >
+                    <span>System_Access: Granted</span>
+                    <span>Protocol: Elite_V2</span>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 0.3, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="flex flex-col items-end gap-1 font-mono text-[8px] text-white tracking-[0.3em] uppercase"
+                >
+                    <span>Location: Global</span>
+                    <span>Status: High_Priority</span>
+                </motion.div>
             </div>
-            <div className="absolute bottom-10 right-10 hidden md:block">
-                <div className="flex flex-col items-end gap-1 font-mono text-[8px] text-primary/40 uppercase tracking-widest">
-                    <span>Ver: 0.b.2.x</span>
-                    <span>User: Coderafroj_Admin</span>
-                </div>
+
+            <div className="absolute bottom-12 left-12 pointer-events-none">
+                <motion.div
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    className="h-24 w-[1px] bg-gradient-to-b from-primary/50 to-transparent origin-top"
+                />
+            </div>
+
+            <div className="absolute top-12 right-12 pointer-events-none">
+                <motion.div
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    className="h-24 w-[1px] bg-gradient-to-t from-primary/50 to-transparent origin-bottom"
+                />
             </div>
         </motion.div>
     );

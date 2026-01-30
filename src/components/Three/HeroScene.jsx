@@ -43,30 +43,6 @@ const ParticleField = ({ count = 200 }) => {
     );
 };
 
-const AbstractCore = () => {
-    const meshRef = useRef();
-
-    useFrame((state) => {
-        if (!meshRef.current) return;
-        const time = state.clock.getElapsedTime();
-        meshRef.current.rotation.x = Math.cos(time / 4) / 4;
-        meshRef.current.rotation.y = Math.sin(time / 4) / 4;
-        meshRef.current.position.y = Math.sin(time / 2) / 4;
-    });
-
-    return (
-        <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-            <Sphere args={[1, 64, 64]} ref={meshRef}>
-                <MeshDistortMaterial
-                    color="#6366f1"
-                    speed={3}
-                    distort={0.4}
-                    radius={1}
-                />
-            </Sphere>
-        </Float>
-    );
-};
 
 const HeroScene = () => {
     return (
@@ -77,7 +53,6 @@ const HeroScene = () => {
                 <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
 
                 <ParticleField count={300} />
-                <AbstractCore />
 
                 <fog attach="fog" args={['#02040a', 5, 15]} />
             </Canvas>

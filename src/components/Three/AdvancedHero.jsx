@@ -87,74 +87,6 @@ const BinaryStream = () => {
     );
 };
 
-const HackerCore = () => {
-    const orbRef = useRef();
-    const wireRef = useRef();
-    const ringRef = useRef();
-
-    useFrame((state) => {
-        if (!orbRef.current || !state) return;
-        const time = state.clock.getElapsedTime();
-
-        // Complex rotation
-        orbRef.current.rotation.y = time * 0.2;
-        orbRef.current.rotation.x = Math.sin(time * 0.1) * 0.2;
-
-        // Glitch wireframe pulse
-        if (wireRef.current) {
-            wireRef.current.rotation.y = -time * 0.4;
-            wireRef.current.scale.setScalar(1 + Math.sin(time * 10) * 0.02 * (Math.random() > 0.9 ? 2 : 0.5));
-        }
-
-        if (ringRef.current) {
-            ringRef.current.rotation.z = time * 1.5;
-            ringRef.current.rotation.x = time * 0.3;
-        }
-    });
-
-    return (
-        <group position={[0, -0.5, 0]}>
-            <Float speed={5} rotationIntensity={0.5} floatIntensity={0.5}>
-                {/* Main Glass Core */}
-                <Sphere args={[1.2, 64, 64]} ref={orbRef}>
-                    <MeshTransmissionMaterial
-                        backside
-                        samples={16}
-                        resolution={512}
-                        transmission={1}
-                        roughness={0.1}
-                        thickness={2}
-                        ior={1.2}
-                        chromaticAberration={0.15}
-                        distortion={0.3}
-                        distortionScale={0.5}
-                        temporalDistortion={0.5}
-                        color="#4f46e5"
-                        attenuationDistance={1}
-                        attenuationColor="#4f46e5"
-                    />
-                </Sphere>
-
-                {/* Cyber Wireframe Overlay */}
-                <Sphere args={[1.3, 32, 32]} ref={wireRef}>
-                    <meshStandardMaterial
-                        color="#6366f1"
-                        emissive="#6366f1"
-                        emissiveIntensity={2}
-                        wireframe
-                        transparent
-                        opacity={0.3}
-                    />
-                </Sphere>
-
-                {/* Tech Rings */}
-                <Torus args={[2.0, 0.015, 16, 100]} ref={ringRef}>
-                    <meshStandardMaterial color="#818cf8" emissive="#818cf8" emissiveIntensity={3} />
-                </Torus>
-            </Float>
-        </group>
-    );
-};
 
 const Rig = () => {
     const { camera, mouse } = useThree();
@@ -179,7 +111,6 @@ const AdvancedHero = () => {
 
                 <ParticleRing />
                 <BinaryStream />
-                <HackerCore />
                 <Rig />
 
                 <fog attach="fog" args={['#02040a', 5, 25]} />
