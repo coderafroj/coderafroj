@@ -4,7 +4,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { GitHubProvider } from './context/GitHubContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import IntroScene from './components/layout/IntroScene';
 import GlobalErrorBoundary from './components/GlobalErrorBoundary';
+import { AnimatePresence } from 'framer-motion';
 
 
 
@@ -29,9 +31,15 @@ import TopicPage from './pages/Learn/TopicPage';
 import './App.css';
 
 function App() {
+  const [showIntro, setShowIntro] = React.useState(true);
+
   return (
     <HelmetProvider>
       <GitHubProvider>
+        <AnimatePresence mode="wait">
+          {showIntro && <IntroScene onComplete={() => setShowIntro(false)} />}
+        </AnimatePresence>
+
         <div className="min-h-screen flex flex-col relative overflow-hidden">
           {/* Cyber-Coderafroj Background Architecture */}
           <div className="coderafroj-bg">
