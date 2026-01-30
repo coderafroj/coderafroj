@@ -16,7 +16,6 @@ import logo from '../assets/logo/coderafroj.png';
 
 // Lazy load 3D components to prevent crash on initial load
 const AdvancedHero = React.lazy(() => import('../components/Three/AdvancedHero'));
-const ServiceNode = React.lazy(() => import('../components/Three/ServiceNode'));
 const BackgroundStream = React.lazy(() => import('../components/Three/BackgroundStream'));
 const ThreeErrorBoundary = React.lazy(() => import('../components/Three/ThreeErrorBoundary'));
 
@@ -94,6 +93,22 @@ const HUDOverlay = () => (
 const ServiceCard = ({ service, index, color }) => {
     const [isHovered, setIsHovered] = React.useState(false);
 
+    // Map icon strings to Lucide components
+    const IconComponent = {
+        Code: Code,
+        TrendingUp: TrendingUp,
+        Palette: Palette,
+        Shield: Shield,
+        Terminal: Terminal,
+        Cpu: Cpu,
+        Globe: Globe,
+        Layers: Layers,
+        Activity: Activity,
+        Radio: Radio,
+        Lock: Lock,
+        Database: Database
+    }[service.icon] || Sparkles;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -105,11 +120,29 @@ const ServiceCard = ({ service, index, color }) => {
             className="group relative p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 hover:border-primary/20 hover:bg-white/[0.04] transition-all duration-500 overflow-hidden card-3d h-full flex flex-col"
         >
             <div className="mb-8 flex justify-between items-start">
-                <React.Suspense fallback={<div className="w-16 h-16 bg-white/5 rounded-2xl animate-pulse" />}>
-                    <ThreeErrorBoundary fallback={<div className="w-16 h-16 bg-white/5 rounded-2xl animate-pulse" />}>
-                        <ServiceNode isHovered={isHovered} color={color} />
-                    </ThreeErrorBoundary>
-                </React.Suspense>
+                <div className="relative w-16 h-16 flex items-center justify-center">
+                    <motion.div
+                        animate={{
+                            scale: isHovered ? [1, 1.1, 1] : 1,
+                            rotate: isHovered ? [0, 5, -5, 0] : 0
+                        }}
+                        transition={{ duration: 0.5, repeat: isHovered ? Infinity : 0 }}
+                        className="relative z-10"
+                    >
+                        <IconComponent
+                            size={32}
+                            style={{ color }}
+                            className="drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                        />
+                    </motion.div>
+
+                    {/* Elegant Background Glow for Icon */}
+                    <div
+                        className="absolute inset-0 rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+                        style={{ backgroundColor: color }}
+                    />
+                    <div className="absolute inset-0 border border-white/5 rounded-2xl bg-white/5 backdrop-blur-sm" />
+                </div>
                 <div className="h-8 w-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight size={14} className="text-white" />
                 </div>

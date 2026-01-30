@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, addDoc, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
@@ -77,7 +77,6 @@ const Admin = () => {
     const deleteItem = async (col, id) => {
         if (!window.confirm("Terminate this artifact from the coderafroj?")) return;
         try {
-            const { deleteDoc, doc } = await import('firebase/firestore');
             await deleteDoc(doc(db, col, id));
             setSubmitStatus('TERMINATED');
             fetchData();
@@ -127,7 +126,6 @@ const Admin = () => {
         setIsSubmitting(true);
         setSubmitStatus(editMode ? 'UPDATING...' : 'SYNCING...');
         try {
-            const { updateDoc, doc: firestoreDoc } = await import('firebase/firestore');
 
             if (editMode && editingId) {
                 // Update existing item
@@ -138,7 +136,7 @@ const Admin = () => {
                 else if (activeTab === 'tutorial') collectionName = 'tutorials';
                 else if (activeTab === 'chapter') collectionName = 'chapters';
 
-                const docRef = firestoreDoc(db, collectionName, editingId);
+                const docRef = doc(db, collectionName, editingId);
                 const updateData = {};
 
                 if (activeTab === 'notes') {
