@@ -6,8 +6,8 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import GlobalErrorBoundary from './components/GlobalErrorBoundary';
 
-import CyberBuddy from './components/Three/CyberBuddy';
-const ThreeErrorBoundary = React.lazy(() => import('./components/Three/ThreeErrorBoundary'));
+
+
 
 import Home from './pages/Home';
 import Projects from './pages/Projects';
@@ -72,12 +72,6 @@ function App() {
           </main>
           <Footer />
           <MobileTabBar />
-
-          <React.Suspense fallback={null}>
-            <ThreeErrorBoundary>
-              <CyberBuddy />
-            </ThreeErrorBoundary>
-          </React.Suspense>
         </div>
       </GitHubProvider>
     </HelmetProvider>
