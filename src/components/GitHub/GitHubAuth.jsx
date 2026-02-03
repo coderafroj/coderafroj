@@ -41,17 +41,17 @@ const GitHubAuth = () => {
                     </motion.div>
 
                     <h2 className="text-4xl font-black text-center mb-2 tracking-tighter text-white uppercase italic">
-                        Node <span className="text-primary-glow not-italic">Sync</span>
+                        Github  <span className="text-primary-glow not-italic">Sync</span>
                     </h2>
                     <p className="text-slate-400 text-center mb-10 text-xs font-light tracking-wide uppercase">
-                        Authorize Transmission Protocol
+                        Authorize Github
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="space-y-3">
                             <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-1 flex items-center gap-2">
                                 <Key className="w-3 h-3 text-primary-glow" />
-                                Access_Cipher
+                                Access Github by token
                             </label>
                             <div className="relative">
                                 <Input
@@ -104,7 +104,7 @@ const GitHubAuth = () => {
                             rel="noopener noreferrer"
                             className="text-[9px] text-slate-500 hover:text-primary-glow underline underline-offset-8 decoration-white/10 transition-all font-black tracking-widest flex items-center justify-center gap-2 uppercase"
                         >
-                            Request Access Key
+                            create access key
                             <ExternalLink className="w-3 h-3" />
                         </a>
                     </div>
