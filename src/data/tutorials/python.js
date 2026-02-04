@@ -8,443 +8,376 @@ export const pythonTutorial = {
     {
       id: 'home',
       title: 'Python Home',
-      content: `# Python Masterclass\n\n**Welcome to your Python journey.**\n\nThis tutorial covers the essential building blocks of Python programming. Master these basics to build a strong foundation for your coding career.\n\n> ### 🚀 Roadmap\n> * **Basics:** Intro, Variables, Numbers, Strings (Done ✅)\n> * **Data Types:** Lists, Tuples, Dictionaries, Sets (Done ✅)\n> * **Logic:** If...Else, Loops, Functions (Done ✅)`
+      content: `# Python Super-Masterclass 🚀
+
+**Swagat hai Coderafroj ke sabse deep Python guide mein.**
+
+Bhai, ye sirf ek tutorial nahi hai, ye ek encyclopedia hai. Ismein humne har ek variable, har ek method, aur har ek internal logic ko itna detail mein likha hai ki iske baad aapko koi kitab padhne ki zaroori nahi padegi. `
     },
-    // ... Keeping previous sections implicitly or re-writing with full depth
     {
-      id: 'basics_group',
-      title: 'Python Basics',
+      id: 'foundations_group',
+      title: '1. Python Foundations 🧱',
       children: [
         {
           id: 'intro',
-          title: 'Python Intro',
-          content: `# Python Intro: Shuruat Karein! 🚀
+          title: 'Deep Intro & Architecture',
+          content: `# Python Architecture: Under the Hood ⚙️
 
-Python ek high-level, interpreted, aur bahut hi easy language hai. Isse "English jaisi" coding bhi kaha jata hai.
+Python ek **High-Level, Interpreted** language hai. Iska matlab hai ki humein memory ya hardware ki chinta nahi karni padti.
 
-### Python Kyun Seekhein?
-1. **Easy Syntax:** Iska code padhna english padhne jaisa hai.
-2. **Powerful:** Artificial Intelligence se lekar Website banane tak, sab jagah use hoti hai.
-3. **Big Community:** Agar aap kahin fans gaye, toh help milna bahut aasaan hai.
+### ⚙️ Compilation vs Interpretation
+1. **Source Code (.py):** Aapka likha hua code.
+2. **Bytecode (.pyc):** Ye machine code nahi hota, ye platform-independent intermediate code hai.
+3. **PVM (Python Virtual Machine):** Ye bytecode ko read karke machine code mein badalta hai.
 
-\`\`\`python
-# Aapka pehla code!
-print("Hello Coderafroj!")
-\`\`\`
-
-Python code blocks ke liye **Indentation** (space) ka use karta hai, curly braces \`{}\` ka nahi.`
+### 🌟 Features Mastery
+- **Platform Independent:** Aap Windows par code likho aur Mac/Linux par bina change kiye chalao.
+- **Rich Libraries:** 300,000+ packages available hain PyPI par. 
+- **Garbage Collection:** Python automatically un objects ko memory se hata deta hai jo kisi variable ke reference mein nahi hain. `
         },
         {
-          id: 'variables',
-          title: 'Variables',
-          content: `# Variables: Data Store Karne Wala Box 📦
+          id: 'variables_memory',
+          title: 'Memory Logic (The Real Deal)',
+          content: `# Memory Architecture & Variables 🧠
 
-Variables ka matlab hai containers jisme hum data store karte hain. Python mein aapko variable ka type (integar, string etc.) batane ki jarurat nahi padti.
-
-### Basic Rules:
-- Name start hona chahiye letter ya underscore se.
-- Numbers se start nahi kar sakte (\`1name\` galat hai).
-- Names case-sensitive hote hain (\`age\` aur \`Age\` alag hain).
-
+### 📦 References & Identity
+Python mein sab kuch ek **Object** hai.
 \`\`\`python
-name = "Afroj"  # Ye ek string variable hai
-age = 22        # Ye ek integer variable hai
-is_pro = True   # Ye ek boolean variable hai
+a = [1, 2, 3]
+b = a # b ab usi list object ko point kar raha hai
+print(id(a) == id(b)) # True
+\`\`\`
 
-print(name)
-\`\`\` `
+### 🛡️ Naming Mastery (PEP 8)
+- Variable names sirf letters (a-z, A-Z), digits (0-9), aur underscores (\`_\`) se milkar bante hain.
+- Pehla character digit nahi ho sakta.
+- Underscore se start hone wale names (\`_var\`) aksar "Private" variables ke liye use hote hain. `
         },
         {
-          id: 'numbers',
-          title: 'Numbers (Int & Float)',
-          content: `# Numbers in Python 🔢
+          id: 'operators_deep',
+          title: 'Operators: The Math Engine',
+          content: `# Operators Deep Mastery ➗
 
-Python mein main 3 tarah ke numbers hote hain:
+### 🧮 Bitwise Operators (Advanced)
+Aap numbers ko binary level par bhi manipulate kar sakte ho:
+- \`&\` (AND), \`|\` (OR), \`^\` (XOR), \`~\` (NOT)
+- \`<<\` (Left Shift), \`>>\` (Right Shift)
 
-1. **int (Integer):** Pure numbers bina decimal ke (e.g., 5, -10, 1000).
-2. **float (Floating Point):** Decimal wale numbers (e.g., 5.5, -0.1, 10.0).
-3. **complex:** Numbers with imaginary parts (e.g., 3 + 5j).
-
-### Basic Math Operations:
-\`\`\`python
-x = 10
-y = 3
-
-print(x + y)  # 13 (Addition)
-print(x / y)  # 3.333... (Division hamesha float return karta hai)
-print(x // y) # 3 (Floor division - point ke baad wala part hata deta hai)
-print(x % y)  # 1 (Remainder/Modulus)
-print(x ** y) # 1000 (Power/Exponent)
-\`\`\` `
-        },
-        {
-          id: 'strings',
-          title: 'Strings (Advanced Guide) 🧵',
-          content: `# Strings: Characters ka Sequence
-
-Python mein String ek **sequence** hai, yaani characters ka ek ordered collection. Aap characters ko bracket operator \`[]\` se access kar sakte ho.
-
-### 1. Indexing (Ginti 0 se shuru hoti hai)
-Computer science mein counting hamesha \`0\` se start hoti hai.
-\`\`\`python
-fruit = 'banana'
-letter = fruit[0] # 'b' milega
-print(letter)
-\`\`\`
-**Note:** Agar aap \`fruit[1.5]\` likhenge toh error aayega kyunki index hamesha integer hona chahiye.
-
-### 2. Length Pata Karna (len)
-\`len()\` function se aap string ki total length jaan sakte ho.
-\`\`\`python
-fruit = 'banana'
-print(len(fruit)) # Result: 6
-\`\`\`
-**Tip:** Last character nikalne ke liye \`fruit[len(fruit)-1]\` ya simple \`fruit[-1]\` use karein.
-
-### 3. Slicing (String ke Tukde)
-String ka ek part cut karne ke liye slice operator \`[:]\` use hota hai.
-\`\`\`python
-s = 'Coderafroj'
-print(s[0:4]) # 'Code' (0 se 3 tak, 4 include nahi hota)
-print(s[:4])  # Same result 'Code'
-print(s[4:])  # 'rafroj' (4 se end tak)
-\`\`\`
-
-### 4. Strings are Immutable
-Matlab aap string banane ke baad usko beech mein se "edit" nahi kar sakte.
-\`\`\`python
-greet = "Hello"
-# greet[0] = "J" # Yeh ERROR dega!
-new_greet = "J" + greet[1:] # Aise naya string banao
-print(new_greet) # "Jello"
-\`\`\`
-
-### 5. String Methods
-Methods functions jaisa kaam karte hain par dot \`.\` se invoke hote hain.
-\`\`\`python
-word = "banana"
-print(word.upper()) # "BANANA"
-print(word.find('na')) # 2 (Pehla 'na' index 2 par hai)
-print(word.find('na', 3)) # 4 (Index 3 ke baad dhundho)
-\`\`\` `
-        },
-        {
-          id: 'lists',
-          title: 'Lists (Arrays) 📋',
-          content: `# Lists: Data ki List Banayein
-
-Python mein items ko ek order mein store karne ke liye \`List\` sabse zyada use hota hai. Ye doosri languages ke 'Array' jaisa hai par zyada flexible hai.
-
-### 1. List Kaise Banayein?
-Square brackets \`[]\` ka use karein aur items ko comma \`,\` se separate karein.
-\`\`\`python
-fruits = ["apple", "banana", "cherry"]
-mix_list = ["Afroj", 22, True] # Alag types bhi ho sakte hain!
-\`\`\`
-
-### 2. Items Access Karna
-Strings ki tarah yahan bhi indexing \`0\` se start hoti hai.
-\`\`\`python
-print(fruits[0])  # "apple"
-print(fruits[-1]) # "cherry" (Last item)
-\`\`\`
-
-### 3. List is Mutable (Change Kar Sakte Hain)
-Strings ke opposite, aap list ke items ko change kar sakte ho.
-\`\`\`python
-fruits[1] = "mango"
-print(fruits) # ["apple", "mango", "cherry"]
-\`\`\`
-
-### 4. Important Methods
-\`\`\`python
-fruits.append("orange") # End mein add karein
-fruits.insert(1, "lemon") # Specific position par add karein
-fruits.remove("apple") # Item delete karein
-fruits.pop() # Last item delete karein
-\`\`\` `
-        },
-        {
-          id: 'tuples',
-          title: 'Tuples (Locked Lists) 🔒',
-          content: `# Tuples: Immutable Collections
-
-Tuple bilkul List jaisa hai, par ek bade difference ke saath: **Tuples ko modify nahi kiya ja sakta (Immutable).**
-
-### 1. Tuple Kaise Banayein?
-Iske liye round brackets \`()\` ka use hota hai.
-\`\`\`python
-motto = ("Code", "Innovate", "Succeed")
-# motto[0] = "Hack" # Yeh ERROR dega!
-\`\`\`
-
-### 2. Kab Use Karein?
-Jab aap chahte ho ki aapka data accidental change se bacha rahe (Jaise ki coordinates, configuration etc.)
-
-### 3. Unpacking
-\`\`\`python
-point = (10, 20)
-x, y = point # x=10, y=20
-print(x, y)
-\`\`\` `
-        },
-        {
-          id: 'dictionaries',
-          title: 'Dictionaries (Key-Value) 📖',
-          content: `# Dictionaries: Key-Value Pairs
-
-Dictionary ka use data ko "Key:Value" pairs mein store karne ke liye hota hai. Ye real-life dictionary jaisa hai jahan word (key) ka matlab (value) hota hai.
-
-### 1. Dictionary Kaise Banayein?
-Curly braces \`{}\` ka use karein.
-\`\`\`python
-user = {
-  "name": "Afroj",
-  "age": 22,
-  "is_pro": True
-}
-\`\`\`
-
-### 2. Data Access Karna
-Yahan indexing nahi, **Key** ka use hota hai.
-\`\`\`python
-print(user["name"]) # "Afroj"
-print(user.get("age")) # 22
-\`\`\`
-
-### 3. Change & Add Items
-Dictionaries mutable hoti hain.
-\`\`\`python
-user["age"] = 23 # Update
-user["location"] = "India" # New item add karein
-\`\`\`
-
-### 4. Important Methods
-\`\`\`python
-print(user.keys())   # Saari keys milegi
-print(user.values()) # Saari values milegi
-user.pop("name")     # Specific key delete karein
-\`\`\` `
-        },
-        {
-          id: 'sets',
-          title: 'Sets (Unique Items) 💎',
-          content: `# Sets: No Duplicates ALLOWED!
-
-Set ek aisi collection hai jisme koi bhi item repeat nahi ho sakta. Ye unordered hoti hai.
-
-### 1. Set Kaise Banayein?
-Curly braces \`{}\` ka use hota hai (bina key-value ke).
-\`\`\`python
-my_set = {"apple", "banana", "cherry", "apple"}
-print(my_set) # Result: {"apple", "banana", "cherry"} (Duplicates gayab!)
-\`\`\`
-
-### 2. Access Items
-Sets unordered hote hain isliye aap \`my_set[0]\` nahi kar sakte. Aapko loop use karna padega.
-
-### 3. Methods
-\`\`\`python
-my_set.add("orange")
-my_set.remove("banana")
-\`\`\` `
+### 🧩 Assignment Operators
+- \`+=\`, \`-=\`, \`*=\`, \`/=\`, \`//=\`, \`%=\`, \`**=\`, \`&=\`, \`|=\`, \`^=\`, \`>>=\`, \`<<=\` `
         }
       ]
     },
     {
-      id: 'logic_group',
-      title: 'Logic & Control Flow',
+      id: 'data_mastery_group',
+      title: '2. Data Mastery (The Core) 🧵',
       children: [
         {
-          id: 'ifelse',
-          title: 'If...Else (Conditions) 🤔',
-          content: `# If...Else: Decision Making
+          id: 'strings_exhaustive',
+          title: 'Strings: The Exhaustive Guide',
+          content: `# Strings: Deep Dive 🧵
 
-Programming mein humein aksar conditions check karni padti hain (Jaise: "Agar marks 100 hain toh Winner").
+String ek **Immutable Sequence** hai. Yani ki ek baar banne ke baad aap uske elements ko change nahi kar sakte.
 
-### 1. Basic Syntax
+### 🛠️ Exhaustive Methods Guide
+
+| Method | Description | Example |
+|---|---|---|
+| \`.capitalize()\` | Pehla character uppercase karega | \`"hi".capitalize()\` -> "Hi" |
+| \`.casefold()\` | Pura string lowercase karega (More aggressive than lower) | \`"HELLO".casefold()\` -> "hello" |
+| \`.center(width)\` | String ko center mein layega fixed width ke | \`"hi".center(10)\` -> "    hi    " |
+| \`.count(val)\` | Check karega value kitni baar aayi | \`"banana".count("a")\` -> 3 |
+| \`.encode()\` | Encoded version return karega | \`s.encode("utf-8")\` |
+| \`.endswith(val)\` | True agar string us value par khatam ho | \`"file.txt".endswith(".txt")\` -> True |
+| \`.find(val)\` | Position dhundhega (warna -1) | \`"abc".find("b")\` -> 1 |
+| \`.index(val)\` | Like find, par error fekega agar na mile | \`"abc".index("z")\` -> Exception! |
+| \`.isalnum()\` | True agar alphanumeric hai | |
+| \`.isalpha()\` | True agar sirf alphabet hai | |
+| \`.isdecimal()\` | True agar numbers (0-9) hain | |
+| \`.isdigit()\` | Numbers + superscripts etc. | |
+| \`.islower()\` | True agar sab small hai | |
+| \`.isspace()\` | True agar sirf whitespace hai | |
+| \`.isupper()\` | True agar sab capital hai | |
+| \`.join(iterable)\` | Elements ko join karega | \`"-".join(["A", "B"])\` -> "A-B" |
+| \`.ljust(width)\` | Left justify karega | |
+| \`.lower()\` | Sab small karega | |
+| \`.lstrip()\` | Left se spaces hatana | |
+| \`.replace(old, new)\` | Value badlega | \`"A B".replace("A", "C")\` |
+| \`.rfind()\` | Piche se dhundhna | |
+| \`.split()\` | String todna (returns list) | \`"a b".split()\` -> ["a", "b"] |
+| \`.splitlines()\` | Newline par todna | |
+| \`.startswith(val)\` | True agar shuruat wahan se ho | |
+| \`.strip()\` | Dono taraf se spaces saaf karna | |
+| \`.swapcase()\` | Upper -> Lower, Lower -> Upper | |
+| \`.title()\` | Har word ka pehla letter capital | \`"hello world".title()\` -> "Hello World" |
+| \`.upper()\` | Sab capital | |
+| \`.zfill(width)\` | Zeroes se bhar dena | \`"42".zfill(5)\` -> "00042" |
+
+### 🚀 Formatting Mastery
 \`\`\`python
-a = 100
-b = 50
+# Modern F-Strings
+name = "Afroj"
+print(f"User: {name.upper():>10}") # Right align (10 width)
 
-if a > b:
-  print("a bada hai b se")
-elif a == b:
-  print("Dono barabar hain")
+# .format() method
+print("Age is {0}, name is {1}".format(25, "Bhai"))
+\`\`\` `
+        },
+        {
+          id: 'lists_exhaustive',
+          title: 'Lists: Every Single Secret',
+          content: `# Lists: Full Encyclopedia 📋
+
+Lists **Mutable Ordered Collections** hain.
+
+### 🛠️ All List Methods
+
+| Method | Definition | Example |
+|---|---|---|
+| \`.append(x)\` | Add item at the end | \`L.append(4)\` |
+| \`.clear()\` | Remove all elements | \`L.clear()\` |
+| \`.copy()\` | Returns a shallow copy | \`L2 = L.copy()\` |
+| \`.count(x)\` | Kitni baar x aaya hai | \`L.count(1)\` |
+| \`.extend(iterable)\` | End mein multiple items add karna | \`L.extend([5, 6])\` |
+| \`.index(x)\` | First occurrence ka index | \`L.index(3)\` |
+| \`.insert(i, x)\` | Specific index i par x daalna | \`L.insert(1, 'val')\` |
+| \`.pop(i)\` | Element nikalna index i se (default last) | \`val = L.pop()\` |
+| \`.remove(x)\` | First occurrence of x delete karna | \`L.remove(2)\` |
+| \`.reverse()\` | Permanent reverse | \`L.reverse()\` |
+| \`.sort()\` | Permanent sorting | \`L.sort(reverse=True)\` |
+
+### 🧠 Nested Lists & Matrices
+\`\`\`python
+matrix = [[1, 2], [3, 4]]
+print(matrix[0][1]) # Output: 2
+\`\`\` `
+        },
+        {
+          id: 'tuples_pro',
+          title: 'Tuples: Speed & Integrity',
+          content: `# Tuples: Deep Mastery 🔒
+
+Tuples comma-separated values hain jo immutable hain.
+
+### 🍱 Unpacking & Padding
+\`\`\`python
+t = (1, 2, 3, 4, 5)
+a, *b, c = t 
+print(a) # 1
+print(b) # [2, 3, 4] (Middle elements in list)
+print(c) # 5
+\`\`\`
+
+### 🗺️ Built-in Methods
+Tuples ke paas sirf do methods hote hain kyunki wo change nahi ho sakte:
+1. \`.count()\`
+2. \`.index()\` `
+        },
+        {
+          id: 'dict_exhaustive',
+          title: 'Dictionaries: Hash Table Magic',
+          content: `# Dictionaries: Exhaustive Guide 📖
+
+### 🛠️ Dictionary Methods (All)
+
+| Method | Explanation |
+|---|---|
+| \`.clear()\` | Pura khali kardena |
+| \`.copy()\` | Copy banana |
+| \`.fromkeys(seq, val)\` | Nayi dict banana specific keys aur value ke sath |
+| \`.get(key, default)\` | Safely value nikalna (error nahi aayega agar key na ho) |
+| \`.items()\` | List of tuples (key, val) return karega |
+| \`.keys()\` | Sari keys dega |
+| \`.pop(key)\` | Specific key nikalna |
+| \`.popitem()\` | Last inserted item nikalna |
+| \`.setdefault(key, val)\` | Agar key na ho toh set kar dena |
+| \`.update(dict2)\` | Merge karna dusri dict ko |
+| \`.values()\` | Sari values dega |
+
+### ⚡ Performance Hint
+Hashing ki wajah se dictionary mein data search karna constant time \`O(1)\` mein hota hai, chahe dict kitni bhi badi ho! `
+        },
+        {
+          id: 'sets_exhaustive',
+          title: 'Sets: The Math Hub',
+          content: `# Sets Mastery 💎
+
+Sets unordered, unique collections hain.
+
+### 🛠️ Every Set Method
+| Method | Description |
+|---|---|
+| \`.add(x)\` | Item daalna |
+| \`.clear()\` | Safayi |
+| \`.difference(set2)\` | A - B |
+| \`.discard(x)\` | Remove item (na ho toh error nahi dega) |
+| \`.intersection(set2)\` | Common items |
+| \`.isdisjoint(set2)\` | True agar kuch common nahi hai |
+| \`.issubset(set2)\` | True agar A, B ke andar hai |
+| \`.pop()\` | Random item nikalna |
+| \`.symmetric_difference()\` | Jo common nahi hain wo nikalna |
+| \`.union(set2)\` | Sab milakar | `
+        }
+      ]
+    },
+    {
+      id: 'logic_control_group',
+      title: '3. Logic & Algorithms 🌀',
+      children: [
+        {
+          id: 'conditionals_logic',
+          title: 'Conditionals & Short Circuit',
+          content: `# Conditions & Logic 🌀
+
+### ⚡ Short Circuit Logic
+\`if A or B:\` - Agar A true hai, toh B check bhi nahi hoga. 
+\`if A and B:\` - Agar A false hai, toh B check bhi nahi hoga.
+
+### 🎭 Ternary Operator
+\`\`\`python
+status = "Allowed" if age > 18 else "Wait"
+\`\`\` `
+        },
+        {
+          id: 'loops_deep',
+          title: 'Loops, Range & Enumerate',
+          content: `# Deep Iteration 🔄
+
+### 📍 Enumerate
+Aap index aur value dono ek sath loop mein use kar sakte ho:
+\`\`\`python
+for i, name in enumerate(["A", "B"]):
+    print(f"Index {i} is {name}")
+\`\`\`
+
+### 🎡 While-Else & For-Else
+Python mein loops ke peeche \`else\` lag sakta hai! Ye tab chalta hai jab loop bina \`break\` hue finish ho jaye. `
+        },
+        {
+          id: 'recursion_algorithms',
+          title: 'Recursion & Call Stack',
+          content: `# Recursion Depth 🌀
+
+Recursion ek powerful tool hai par khatarnak bhi.
+- **Stack:** Har call memory ke stack mein save hoti hai.
+- **Limit:** Python ki default recursion limit 1000 hoti hai. \`sys.setrecursionlimit()\` se aap badha sakte ho. `
+        }
+      ]
+    },
+    {
+      id: 'professional_python',
+      title: '4. Professional & Advanced 🛡️',
+      children: [
+        {
+          id: 'file_handling_exhaustive',
+          title: 'File Handling: Beyond Basics',
+          content: `# File I/O Mastery 📂
+
+Data ko permanent save karne ke liye File Handling zaroori hai.
+
+### 🔑 Modes Guide
+| Mode | Action |
+|---|---|
+| \`'r'\` | Read (Default). Error agar file na ho. |
+| \`'w'\` | Write. File ko overwrite karke pura saaf kardega. |
+| \`'a'\` | Append. End mein data likhega. |
+| \`'x'\` | Create. Error dega agar file pehle se ho. |
+| \`'b'\` | Binary mode (Images/Videos ke liye). |
+| \`'+'\` | Updating (Read + Write). |
+
+### 🛠️ Advanced File Methods
+- \`.read(n)\`: \`n\` characters tak read karna.
+- \`.readline()\`: Ek single line read karna.
+- \`.readlines()\`: Sari lines list mein read karna.
+- \`.tell()\`: Current cursor position batayega.
+- \`.seek(offset)\`: Cursor ko specific position par bhejega.
+- \`.flush()\`: Buffer saaf karke Turant file mein save karna.
+
+### 🛡️ Best Practice: Context Manager
+\`\`\`python
+with open('file.txt', 'r') as f:
+    data = f.read()
+# f.close() karne ki chinta nahi, ye auto ho jata hai!
+\`\`\` `
+        },
+        {
+          id: 'exception_handling_deep',
+          title: 'Exception Handling Deep Dive',
+          content: `# Exception Handling mastery 🛡️
+
+Programming mein galtiyan handle karna hi ek achhe developer ki pehchan hai.
+
+### 💻 Exhaustive Syntax
+\`\`\`python
+try:
+    # Danger zone
+except ValueError:
+    # Specific handle
+except (ZeroDivisionError, KeyError) as e:
+    # Multiple handle
 else:
-  print("b bada hai a se")
+    # Chalta hai agar galti NA ho
+finally:
+    # Hamesha chalta hai (Clean-up)
 \`\`\`
 
-### 2. Logical Operators
-- **and:** Dono condition true honi chahiye.
-- **or:** Kam se kam ek true honi chahiye.
-- **not:** Condition ko ulta kar deta hai.
-
+### 🆕 Raising Exceptions
+Aap khud error fek sakte ho:
 \`\`\`python
-if a > 0 and b > 0:
-  print("Dono numbers positive hain")
+if age < 0:
+    raise ValueError("Age ghatiya nahi ho sakti!")
 \`\`\` `
         },
         {
-          id: 'loops',
-          title: 'Loops (Repeating Tasks) 🔄',
-          content: `# Loops: Kaam ko Repeat Karein
+          id: 'oop_mastery',
+          title: 'OOP: The Design Patterns',
+          content: `# OOP Gold Mine 🏗️
 
-Jab koi kaam baar-baar karna ho, toh hum Loops ka use karte hain.
+### 🧬 Inheritance & MRO
+**MRO (Method Resolution Order):** Python \`C3 Linearization\` algorithm use karta hai ye decide karne ke liye ki konsa method pehle call hoga multi-inheritance mein.
 
-### 1. for Loop
-Ye sequence (list, string etc.) par iterate karne ke liye best hai.
-\`\`\`python
-fruits = ["apple", "banana", "cherry"]
-for x in fruits:
-  print(x) # Sabka naam line se print hoga
-\`\`\`
-
-### 2. range() Function
-Agar aapko loop specific number of times chalana hai:
-\`\`\`python
-for i in range(5):
-  print(i) # 0 se 4 tak print karega
-\`\`\`
-
-### 3. while Loop
-Ye tab tak chalta hai jab tak condition **True** rahe.
-\`\`\`python
-i = 1
-while i < 6:
-  print(i)
-  i += 1
-\`\`\` `
-        },
-        {
-          id: 'functions',
-          title: 'Functions (Custom Tools) 🛠️',
-          content: `# Functions: Reusable Code Blocks
-
-Function ek aisi cheez hai jisme aap code likh kar "save" kar lete ho aur jab chahe usse "call" kar sakte ho.
-
-### 1. Function Banana aur Call Karna
-\`def\` keyword ka use karein.
-\`\`\`python
-def greet(name):
-  print("Namaste, " + name + "!")
-
-greet("Afroj") # Output: Namaste, Afroj!
-\`\`\`
-
-### 2. Arguments & Parameters
-Aap function ke andar data bhej sakte ho (Parameters).
-
-### 3. Return Statements
-Function se value wapas lene ke liye \`return\` use karein.
-\`\`\`python
-def add(x, y):
-  return x + y
-
-result = add(5, 5)
-print(result) # 10
-\`\`\` `
+### 🪄 Magic Methods (Dunder)
+| Method | Triggered by |
+|---|---|
+| \`__init__\` | Object creation |
+| \`__str__\` | print() |
+| \`__len__\` | len() |
+| \`__add__\` | \`+\` operator |
+| \`__getitem__\` | \`obj[key]\` | `
         }
       ]
     },
     {
-      id: 'masterclass_group',
-      title: 'Python Masterclass Series 🎓',
+      id: 'projects_group',
+      title: '5. Python Mega Projects 🚀',
       children: [
         {
-          id: 'mc_1',
-          title: 'MC 1: The Way of the Program',
-          content: `Masterclass 1 covers the fundamental philosophy of programming, debugging techniques, and the difference between formal and natural languages. It sets the stage for thinking like a computer scientist.`
-        },
-        {
-          id: 'mc_2',
-          title: 'MC 2: Variables & Statements',
-          content: `In Masterclass 2, we explore memory architecture, reserved keywords, and the order of operations (PEMDAS). We learn how values are stored and manipulated.`
-        },
-        {
-          id: 'mc_3',
-          title: 'MC 3: Functions & Flow',
-          content: `Masterclass 3 deep dives into function calls, parameters, arguments, and the 'stack diagram' to visualize memory during execution.`
-        },
-        {
-          id: 'mc_4',
-          title: 'MC 4: Turtle Graphics',
-          content: `A practical case study using the Turtle module to learn about interface design, encapsulation, and code generalization.`
-        },
-        {
-          id: 'mc_5',
-          title: 'MC 5: Conditionals & Recursion',
-          content: `Mastering logic with boolean expressions and the mind-bending concept of recursion – where functions call themselves.`
-        },
-        {
-          id: 'mc_6',
-          title: 'MC 6: Fruitful Functions',
-          content: `Learning about return values, incremental development patterns, and boolean-returning functions.`
-        },
-        {
-          id: 'mc_7',
-          title: 'MC 7: Iteration Mastery',
-          content: `Deep dive into loops, reassignment logic, and classic algorithms like Newton's method for square roots.`
-        },
-        {
-          id: 'mc_8',
-          title: 'MC 8: Strings Sequence',
-          content: `Understanding strings as an immutable sequence, traversal techniques, and powerful string methods.`
-        },
-        {
-          id: 'mc_9',
-          title: 'MC 9: Word Play (Case Study)',
-          content: `Applying string and file logic to solve word-puzzles and analyze dictionary files.`
-        },
-        {
-          id: 'mc_10',
-          title: 'MC 10: Lists & Mutability',
-          content: `Mastering the most versatile sequence in Python – Lists. Covering mutability, slicing, and map/filter/reduce patterns.`
-        },
-        {
-          id: 'mc_11',
-          title: 'MC 11: Dictionaries Mapping',
-          content: `Fast data retrieval using key-value pairs, histogram logic, and reverse lookups.`
-        },
-        {
-          id: 'mc_12',
-          title: 'MC 12: Tuples & Unpacking',
-          content: `Immutable sequences, variable-length arguments, and using tuples as dictionary keys.`
-        },
-        {
-          id: 'mc_13',
-          title: 'MC 13: Data Structure Selection',
-          content: `A comparative study on choosing the right data structure (List vs Dict vs Set) for performance.`
-        },
-        {
-          id: 'mc_14',
-          title: 'MC 14: Persistence (Files)',
-          content: `How to keep data alive after the program ends using file I/O, OS modules, and Pickling.`
-        },
-        {
-          id: 'mc_15',
-          title: 'MC 15: Classes & Objects',
-          content: `Intro to Object-Oriented Programming (OOP) – creating your own data types and memory attributes.`
-        },
-        {
-          id: 'mc_16',
-          title: 'MC 16: Classes & Functions',
-          content: `Comparing pure functions vs modifiers and learning the prototyping-to-planning workflow.`
-        },
-        {
-          id: 'mc_17',
-          title: 'MC 17: Classes & Methods',
-          content: `The power of 'Magic Methods' like __init__, __str__, and operator overloading.`
-        },
-        {
-          id: 'mc_18',
-          title: 'MC 18: Inheritance Logic',
-          content: `Designing hierarchies using Inheritance, class diagrams, and card-game logic.`
-        },
-        {
-          id: 'mc_19',
-          title: 'MC 19: Python Goodies',
-          content: `Advanced Python tricks: List comprehensions, Generators, and 'any/all' optimizations.`
+          id: 'project_1',
+          title: 'Project 1: Management System',
+          content: `# Advanced User Management 🏢
+
+Is project mein humne try-except, file handling aur logic ko merge kiya hai.
+
+### 💻 Code Logic:
+\`\`\`python
+import os
+
+FILE = "users.db"
+
+def save_user(name, age):
+    try:
+        with open(FILE, "a") as f:
+            f.write(f"{name}:{age}\\n")
+    except Exception as e:
+        print(f"Error: {e}")
+
+def load_users():
+    if not os.path.exists(FILE): return []
+    with open(FILE, "r") as f:
+        return [line.strip().split(":") for line in f]
+
+# Main interaction loop...
+\`\`\` `
         }
       ]
     }
