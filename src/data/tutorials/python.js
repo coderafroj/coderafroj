@@ -346,6 +346,107 @@ print(result) # 10
 \`\`\` `
         }
       ]
+    },
+    {
+      id: 'masterclass_group',
+      title: 'Python Masterclass Series 🎓',
+      children: [
+        {
+          id: 'mc_1',
+          title: 'MC 1: The Way of the Program',
+          content: `Masterclass 1 covers the fundamental philosophy of programming, debugging techniques, and the difference between formal and natural languages. It sets the stage for thinking like a computer scientist.`
+        },
+        {
+          id: 'mc_2',
+          title: 'MC 2: Variables & Statements',
+          content: `In Masterclass 2, we explore memory architecture, reserved keywords, and the order of operations (PEMDAS). We learn how values are stored and manipulated.`
+        },
+        {
+          id: 'mc_3',
+          title: 'MC 3: Functions & Flow',
+          content: `Masterclass 3 deep dives into function calls, parameters, arguments, and the 'stack diagram' to visualize memory during execution.`
+        },
+        {
+          id: 'mc_4',
+          title: 'MC 4: Turtle Graphics',
+          content: `A practical case study using the Turtle module to learn about interface design, encapsulation, and code generalization.`
+        },
+        {
+          id: 'mc_5',
+          title: 'MC 5: Conditionals & Recursion',
+          content: `Mastering logic with boolean expressions and the mind-bending concept of recursion – where functions call themselves.`
+        },
+        {
+          id: 'mc_6',
+          title: 'MC 6: Fruitful Functions',
+          content: `Learning about return values, incremental development patterns, and boolean-returning functions.`
+        },
+        {
+          id: 'mc_7',
+          title: 'MC 7: Iteration Mastery',
+          content: `Deep dive into loops, reassignment logic, and classic algorithms like Newton's method for square roots.`
+        },
+        {
+          id: 'mc_8',
+          title: 'MC 8: Strings Sequence',
+          content: `Understanding strings as an immutable sequence, traversal techniques, and powerful string methods.`
+        },
+        {
+          id: 'mc_9',
+          title: 'MC 9: Word Play (Case Study)',
+          content: `Applying string and file logic to solve word-puzzles and analyze dictionary files.`
+        },
+        {
+          id: 'mc_10',
+          title: 'MC 10: Lists & Mutability',
+          content: `Mastering the most versatile sequence in Python – Lists. Covering mutability, slicing, and map/filter/reduce patterns.`
+        },
+        {
+          id: 'mc_11',
+          title: 'MC 11: Dictionaries Mapping',
+          content: `Fast data retrieval using key-value pairs, histogram logic, and reverse lookups.`
+        },
+        {
+          id: 'mc_12',
+          title: 'MC 12: Tuples & Unpacking',
+          content: `Immutable sequences, variable-length arguments, and using tuples as dictionary keys.`
+        },
+        {
+          id: 'mc_13',
+          title: 'MC 13: Data Structure Selection',
+          content: `A comparative study on choosing the right data structure (List vs Dict vs Set) for performance.`
+        },
+        {
+          id: 'mc_14',
+          title: 'MC 14: Persistence (Files)',
+          content: `How to keep data alive after the program ends using file I/O, OS modules, and Pickling.`
+        },
+        {
+          id: 'mc_15',
+          title: 'MC 15: Classes & Objects',
+          content: `Intro to Object-Oriented Programming (OOP) – creating your own data types and memory attributes.`
+        },
+        {
+          id: 'mc_16',
+          title: 'MC 16: Classes & Functions',
+          content: `Comparing pure functions vs modifiers and learning the prototyping-to-planning workflow.`
+        },
+        {
+          id: 'mc_17',
+          title: 'MC 17: Classes & Methods',
+          content: `The power of 'Magic Methods' like __init__, __str__, and operator overloading.`
+        },
+        {
+          id: 'mc_18',
+          title: 'MC 18: Inheritance Logic',
+          content: `Designing hierarchies using Inheritance, class diagrams, and card-game logic.`
+        },
+        {
+          id: 'mc_19',
+          title: 'MC 19: Python Goodies',
+          content: `Advanced Python tricks: List comprehensions, Generators, and 'any/all' optimizations.`
+        }
+      ]
     }
   ]
 };

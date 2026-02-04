@@ -1,50 +1,808 @@
 export const python = [
     {
-        id: 'python-basics-syntax',
-        slug: 'python-basics-syntax',
-        title: 'Python Masterclass: Syntax & Fundamentals',
-        description: 'Python intro, setup, variables, aur data types ka deep technical overview.',
-        tags: ['Python', 'Basics', 'Variables', 'Data Types'],
+        id: 'python-way-of-program',
+        slug: 'python-way-of-program',
+        title: 'Masterclass 1: The Way of the Program',
+        description: 'Programming kya hai? Debugging, Formal vs Natural language, aur Python ka pehla safar.',
+        tags: ['Python', 'Basics', 'Debugging', 'Logic'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 1: The Way of the Program 🛣️
+
+Programming seekhna sirf code likhna nahi, balki **problem-solving** seekhna hai. Ek computer scientist ki tarah sochna hi "The Way of the Program" hai.
+
+### 🧠 Programming Kya Hai?
+Program ek sequence of instructions hai jo batata hai ki computational kaam kaise karna hai. Ye math jaisa ho sakta hai ya symbolic processing jaisa.
+
+**Core Components of a Program:**
+1. **Input**: Keyboard, file, ya sensor se data lena.
+2. **Output**: Screen pe dikhana ya file mein save karna.
+3. **Math**: Basic addition se lekar complex algorithms tak.
+4. **Conditional Execution**: "Agar ye ho, toh wo karo" wala logic.
+5. **Repetition**: Kisi kaam ko baar-baar karte rehna.
+
+---
+
+### 🪲 Debugging: Galtiyon se Seekhna
+Code mein galtiyan hona normal hai. In galtiyon ko "Bugs" kehte hain aur inko theek karne ko "Debugging".
+
+**Bugs ke Types:**
+- **Syntax Errors**: Python ke grammar rules todna.
+- **Runtime Errors**: Run hote waqt fat jana.
+- **Semantic Errors**: Program run toh hota hai par output galat deta hai.
+
+---
+
+### 🗣️ Languages: Formal vs Natural
+- **Natural Languages**: Jo hum bolte hain (Hindi, English). Inmein ambiguity hoti hai.
+- **Formal Languages**: Jo scientists design karte hain (Math logic, Programming languages). Ye ek dam precise hoti hain.
+`
+    },
+    {
+        id: 'python-variables-expressions',
+        slug: 'python-variables-expressions',
+        title: 'Masterclass 2: Variables & Statements',
+        description: 'Memory architecture, Reserved words, aur Operators ka deep logic.',
+        tags: ['Python', 'Memory', 'Operators', 'Expressions'],
         category: 'Python Masterclass',
         image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80',
-        createdAt: new Date('2024-01-18'),
+        createdAt: new Date('2024-02-04'),
         content: `
-# Python Masterclass: Segment 1
+# Masterclass 2: Variables & Statements 🧱
 
-Python ek **High-level**, **Interpreted**, aur **Dynamic** programming language hai. Iska syntax itna simple hai ki ye english jaisa lagta hai.
+Is segment mein hum dekhenge ki Python memory ke saath kaise khelta hai.
 
-### 🌟 Python Philosophy (Zen of Python)
-- Simple is better than complex.
-- Readability counts.
+### 📦 Assignment Statements
+Jab hum \`message = "Hello"\` likhte hain, toh hum ek "State" create kar rahe hain. 
 
-### 🏗️ Python Internal Flow
-Python code kaise run hota hai ?
+### 🚫 Reserved Words (Keywords)
+Python ke paas kuch reserved words hain jo aap variable name ki tarah use nahi kar sakte.
+(e.g., \`False\`, \`class\`, \`finally\`, \`is\`, \`return\`, etc.)
 
-\`\`\`mermaid
-graph LR
-    C[Source Code .py] --> B[Bytecode .pyc]
-    B --> P[PVM: Python Virtual Machine]
-    P --> R[Output]
+---
+
+### ➗ Expressions aur Operators
+- **Expression**: Values, variables, aur operators ka combination.
+- **Statement**: Ek unit of code jiska koi effect hota hai (jaise print ya assignment).
+
+**PEMDAS (Order of Operations):**
+1. **P**-arentheses \`()\`
+2. **E**-xponentiation \`**\`
+3. **M**-ultiplication \`*\` aur **D**-ivision \`/\`
+4. **A**-ddition \`+\` aur **S**-ubtraction \`-\`
+
+### 🧩 String Operations
+Aap Strings ke saath math ke '+' aur '*' use kar sakte ho!
+\`\`\`python
+first = 'throat'
+second = 'warbler'
+print(first + second) # throatwarbler (Concatenation)
+print('Spam' * 3)      # SpamSpamSpam (Repetition)
+\`\`\`
+`
+    },
+    {
+        id: 'python-functions-deep',
+        slug: 'python-functions-deep',
+        title: 'Masterclass 3: Functions & Flow of Execution',
+        description: 'Function calls, Arguments, Parameters, aur Stack Diagrams ki logic.',
+        tags: ['Python', 'Functions', 'Stack', 'Arguments'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 3: Functions 🍱
+
+Functions code ko organize aur reusable banane ka best tarika hain.
+
+### 📞 Function Calls
+Jaise \`type(32)\` ek function call hai jo argument \`32\` leta hai aur result return karta hai.
+
+### ➕ Math Functions
+Python mein \`math\` module bahut powerful hai:
+\`\`\`python
+import math
+radians = 0.7
+height = math.sin(radians)
 \`\`\`
 
 ---
 
-### 🧱 Variables & Memory Logic
-Python mein variables sirf "Labels" hote hain jo objects ki taraf point karte hain.
+### 🏗️ Flow of Execution
+Computer hamesha line 1 se start karta hai par jab function call aata hai toh control function ke andar jump kar jata hai.
 
+### 📋 Parameters aur Arguments
+- **Argument**: Jo value hum function ko bhejte hain.
+- **Parameter**: Wo variable jo function ke andar us value ko pakadta hai.
+
+### 📚 Stack Diagrams
+Memory ko Visualize karne ke liye stack diagrams use hote hain. Har function ek "Frame" banata hai. Frame mein local variables hote hain.
+`
+    },
+    {
+        id: 'python-turtle-interface',
+        slug: 'python-turtle-interface',
+        title: 'Masterclass 4: Case Study: Interface Design',
+        description: 'Turtle graphics ke saath encapsulation, generalization, aur refactoring seekhein.',
+        tags: ['Python', 'Turtle', 'Encapsulation', 'Refactoring'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 4: Turtle Graphics 🐢
+
+Chalo kuch shapes draw karte hain aur programming ke patterns seekhte hain.
+
+### 🎨 Turtle Module
 \`\`\`python
-# Dynamic Typing
-x = 10      # x is an integer
-x = "Afroj" # now x is a string
+import turtle
+bob = turtle.Turtle()
+bob.fd(100) # Forward 100
+bob.lt(90)  # Left 90
 \`\`\`
 
-**Variables rules in Hinglish:**
-- Number se shuru nahi ho sakta.
-- Sirf alpha-numeric characters (A-z, 0-9, aur _) allowed hain.
-- Case-sensitive (age aur Age alag hain).
-        `
-    },
+---
 
+### 📦 Encapsulation
+Related code ko function mein wrap karna:
+\`\`\`python
+def square(t):
+    for i in range(4):
+        t.fd(100)
+        t.lt(90)
+\`\`\`
+
+### 🌍 Generalization
+Function ko flexibility dena parameters add karke:
+\`\`\`python
+def polygon(t, n, length):
+    angle = 360 / n
+    for i in range(n):
+        t.fd(length)
+        t.lt(angle)
+\`\`\`
+
+### 🛠️ Refactoring
+Code ko rearrange karna takki redundant code khatam ho jaye aur readability badh jaye.
+`
+    },
+    {
+        id: 'python-conditionals-recursion',
+        slug: 'python-conditionals-recursion',
+        title: 'Masterclass 5: Conditionals & Recursion',
+        description: 'Boolean expressions, Logical operators, aur Recursion ka magic.',
+        tags: ['Python', 'Logic', 'Recursion', 'Conditionals'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 5: Conditionals & Recursion 🌀
+
+Logic building ka asli khel yahan shuru hota hai.
+
+### ➗ Floor Division aur Modulus
+- \`//\`: Point ke baad wali values hata deta hai.
+- \`%\`: Remainder deta hai.
+
+### ✅ Boolean Expressions
+Ek aisi expression jo ya toh \`True\` hogi ya \`False\`.
+Operators: \`==\`, \`!=\`, \`>\`, \`<\`, \`>=\`, \`<=\`.
+
+---
+
+### 🌀 Recursion (Khud ko Call Karna)
+Jab ek function khud ko hi call kare, usse Recursion kehte hain.
+
+\`\`\`python
+def countdown(n):
+    if n <= 0:
+        print('Blastoff!')
+    else:
+        print(n)
+        countdown(n-1) # Recursive call
+\`\`\`
+
+**Base Case:** Wo condition jahan recursion rukta hai (\`n <= 0\`). Agar base case nahi hoga toh code infinite loop mein ja kar crash (Stack Overflow) ho jayega.
+
+### ⌨️ Keyboard Input
+User se input lene ke liye:
+\`\`\`python
+name = input('Aapka naam kya hai? ')
+\`\`\`
+`
+    },
+    {
+        id: 'python-fruitful-functions',
+        slug: 'python-fruitful-functions',
+        title: 'Masterclass 6: Fruitful Functions',
+        description: 'Return values, Incremental development, aur Boolean functions ki logic.',
+        tags: ['Python', 'Functions', 'Logic', 'Development'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 6: Fruitful Functions 🍎
+
+Ab tak humne jo functions dekhe wo "Void" the (kuch return nahi karte the). Ab hum seekhenge **Fruitful Functions** jo value wapas dete hain.
+
+### 🔙 Return Values
+\`return\` keyword ka use function se result nikalne ke liye hota hai.
+\`\`\`python
+import math
+def area(radius):
+    return math.pi * radius**2
+\`\`\`
+
+---
+
+### 🛠️ Incremental Development
+Bade programs likhte waqt ek saath sara code mat likho.
+1. Chote se shuru karo.
+2. Har step pe print karke check karo.
+3. Jab wo chalne lage, tab agla part likho.
+
+### 🎭 Dead Code
+Aisa code jo \`return\` statement ke baad likha ho aur kabhi run na ho sake.
+
+### 🌈 Composition
+Ek function ke andar dusre function ko call karna.
+\`\`\`python
+def circle_area(xc, yc, xp, yp):
+    return area(distance(xc, yc, xp, yp))
+\`\`\`
+
+### ✅ Boolean Functions
+Wo functions jo sirf \`True\` ya \`False\` return karte hain. Inka naam aksar \`is_\` se shuru hota hai (e.g., \`is_divisible\`).
+`
+    },
+    {
+        id: 'python-iteration-mastery',
+        slug: 'python-iteration-mastery',
+        title: 'Masterclass 7: Iteration & Algorithms',
+        description: 'While loops, Reassignment, aur Newton\'s method for square roots.',
+        tags: ['Python', 'Loops', 'Algorithms', 'Math'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 7: Iteration 🔄
+
+Computers repetitive kaam karne mein mahir hote hain.
+
+### 🔄 Multiple Assignment
+Aap ek variable ko baar-baar nayi value de sakte ho.
+\`\`\`python
+x = 5
+print(x)
+x = 7
+print(x)
+\`\`\`
+**Note:** \`x = y\` aur \`y = x\` alag hain. Mathematics mein \`=\` equality dikhata hai, Python mein ye **Assignment** hai.
+
+---
+
+### 🎡 While Loop
+Jab tak condition true rahegi, loop chalta rahega.
+\`\`\`python
+def countdown(n):
+    while n > 0:
+        print(n)
+        n = n - 1
+    print('Blastoff!')
+\`\`\`
+
+### 🛑 Break Statement
+Loop ko beech mein hi rokne ke liye:
+\`\`\`python
+while True:
+    line = input('> ')
+    if line == 'done':
+        break
+    print(line)
+\`\`\`
+
+### 🧮 Newton's Method (Square Root)
+Loop ka use karke square root nikalne ka tareeka:
+\`\`\`python
+# Square root of a
+while True:
+    print(y)
+    x = (y + a/y) / 2
+    if x == y:
+        break
+    y = x
+\`\`\`
+`
+    },
+    {
+        id: 'python-strings-traversal',
+        slug: 'python-strings-traversal',
+        title: 'Masterclass 8: Strings - A Deeper Look',
+        description: 'Traversal, Slices, Immutability, aur Search methods.',
+        tags: ['Python', 'Strings', 'Sequence', 'Methods'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 8: Strings Deeper 🧵
+
+Strings sirf text nahi, characters ka **Sequence** hain.
+
+### 🚶 Traversal (Looping through strings)
+\`\`\`python
+index = 0
+while index < len(fruit):
+    letter = fruit[index]
+    print(letter)
+    index = index + 1
+\`\`\`
+Ya phir simple:
+\`\`\`python
+for char in fruit:
+    print(char)
+\`\`\`
+
+---
+
+### 🍰 String Slices
+\`[start:end]\` pattern. End include nahi hota!
+\`\`\`python
+s = 'Monty Python'
+print(s[0:5]) # 'Monty'
+print(s[6:12]) # 'Python'
+\`\`\`
+
+### 🔒 Strings are Immutable
+Yaani aap \`s[0] = 'A'\` nahi kar sakte. Aapko naya string banana padega.
+
+### 🔍 Searching Pattern
+Aisa function jo character ka index dhundhe:
+\`\`\`python
+def find(word, letter):
+    index = 0
+    while index < len(word):
+        if word[index] == letter:
+            return index
+        index = index + 1
+    return -1
+\`\`\`
+`
+    },
+    {
+        id: 'python-word-play-case',
+        slug: 'python-word-play-case',
+        title: 'Masterclass 9: Case Study: Word Play',
+        description: 'File reading, String logic, aur Computational thinking practice.',
+        tags: ['Python', 'Strings', 'Logic', 'Case Study'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 9: Word Play Case Study 📖
+
+Chalo real data ke saath khelte hain. Python file reading ko bahut aasaan bana deta hai.
+
+### 📂 Reading Word Lists
+Maan lo hamare paas \`words.txt\` file hai.
+\`\`\`python
+fin = open('words.txt')
+for line in fin:
+    word = line.strip()
+    print(word)
+\`\`\`
+
+---
+
+### 🧩 Challenges:
+1. **No 'e'**: Wo words print karo jinmein 'e' nahi hai.
+2. **Avoids**: Ek word aur forbidden characters le kar check karo.
+
+**Logic for "Has No E":**
+\`\`\`python
+def has_no_e(word):
+    for letter in word:
+        if letter == 'e':
+            return False
+    return True
+\`\`\`
+`
+    },
+    {
+        id: 'python-lists-sequences',
+        slug: 'python-lists-sequences',
+        title: 'Masterclass 10: Lists - The Mutable Sequence',
+        description: 'List operations, Slicing, Methods, aur Map/Filter/Reduce logic.',
+        tags: ['Python', 'Lists', 'Mutability', 'Algorithms'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 10: Lists Mastery 📋
+
+Lists sequences hain, par strings ke opposite ye **Mutable** (changable) hain.
+
+### 🧱 List elements
+List ke andar elements kisi bhi type ke ho sakte hain, yahan tak ki dusri lists (Nested Lists) bhi.
+\`\`\`python
+cheeses = ['Cheddar', 'Edam', 'Gouda']
+numbers = [17, 123]
+empty = []
+\`\`\`
+
+---
+
+### ✏️ Mutability
+\`\`\`python
+numbers[1] = 5
+print(numbers) # [17, 5]
+\`\`\`
+
+### 🛠️ List Methods
+- \`t.append('x')\`: End mein add karo.
+- \`t.extend(['a', 'b'])\`: Dusri list join karo.
+- \`t.sort()\`: Order mein lagao.
+
+### 🔀 Map, Filter, and Reduce
+- **Map**: Saare words ko uppercase karna.
+- **Filter**: Sirf kuch specific items rakhna.
+`
+    },
+    {
+        id: 'python-dictionaries-mastery',
+        slug: 'python-dictionaries-mastery',
+        title: 'Masterclass 11: Dictionaries - The Key-Value Map',
+        description: 'Dictionaries as mapping, Counter logic, aur Dictionaries vs Lists.',
+        tags: ['Python', 'Dictionaries', 'Mapping', 'Counter'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 11: Dictionaries Deep 📖
+
+Dictionary ek ultra-fast data structure hai jo Mapping ke liye use hoti hai.
+
+### 🗺️ Dictionary as a Mapping
+Yahan aap Index ki jagah **Key** use karte ho.
+\`\`\`python
+eng2sp = {'one': 'uno', 'two': 'dos', 'three': 'tres'}
+print(eng2sp['one']) # 'uno'
+\`\`\`
+
+---
+
+### 🧮 Dictionary as a Collection of Counters
+Maan lo aapko characters count karne hain:
+\`\`\`python
+def histogram(s):
+    d = dict()
+    for c in s:
+        if c not in d:
+            d[c] = 1
+        else:
+            d[c] += 1
+    return d
+\`\`\`
+
+### 🔍 Looping and Dictionaries
+\`\`\`python
+for key in d:
+    print(key, d[key])
+\`\`\`
+
+### ⚡ Reverse Lookup
+Key se value nikalna aasaan hai, par value se key nikalna slow hota hai.
+
+### 🧠 Memos
+Recursion ko fast karne ke liye values ko dictionary mein save rakhna.
+`
+    },
+    {
+        id: 'python-tuples-mastery',
+        slug: 'python-tuples-mastery',
+        title: 'Masterclass 12: Tuples - The Immutable Sequence',
+        description: 'Tuples as sequences, Unpacking, aur Tuples as Keys.',
+        tags: ['Python', 'Tuples', 'Mutability', 'Unpacking'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 12: Tuples Mastery 🔒
+
+Tuples comma-separated values hain. Ye Lists jaise hain par **Immutable** hain.
+
+### 🧱 Creating Tuples
+\`\`\`python
+t = ('a', 'b', 'c', 'd', 'e')
+t1 = 'a', # Single element tuple ke liye comma zaroori hai!
+\`\`\`
+
+---
+
+### 📦 Tuple Assignment (Unpacking)
+Ek line mein variables swap karne ka pro tarika:
+\`\`\`python
+a, b = b, a
+\`\`\`
+
+### 🍱 Variable-length Argument Tuples (\*args)
+Jab aapko nahi pata kitne parameters aayenge:
+\`\`\`python
+def printall(*args):
+    print(args)
+\`\`\`
+
+### 🗺️ Dictionaries and Tuples
+Tuples ko aap Dictionary keys ki tarah use kar sakte ho.
+`
+    },
+    {
+        id: 'python-data-structures-case',
+        slug: 'python-data-structures-case',
+        title: 'Masterclass 13: Case Study: Data Structure Selection',
+        description: 'Word frequency analysis, Random numbers, aur sahi data structure kaise chune.',
+        tags: ['Python', 'Analysis', 'Logic', 'Case Study'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 13: Data Structure Selection Case Study 🏗️
+
+Sahi tool chunna hi ek achhe programmer ki pehchaan hai.
+
+### 📊 Word Frequency Analysis
+Book ke saare words padhna aur unhe count karna.
+
+### 🎲 Random Numbers
+\`random\` module ka use karke random values pick karna:
+\`\`\`python
+import random
+t = ['a', 'b', 'c']
+print(random.choice(t))
+\`\`\`
+
+---
+
+### 🛠️ Common Patterns:
+- **Lists**: Jab order zaroori ho.
+- **Dictionaries**: Jab fast mapping zaroori ho.
+- **Tuples**: Jab data immutable rakhna ho.
+`
+    },
+    {
+        id: 'python-persistence-files',
+        slug: 'python-persistence-files',
+        title: 'Masterclass 14: Files - Persistence',
+        description: 'Writing files, Format operators, Directories, aur Shelve/Pickle modules.',
+        tags: ['Python', 'Files', 'OS', 'Persistence'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 14: Files & Persistence 📂
+
+Program band hone ke baad bhi data save rakhne ko **Persistence** kehte hain.
+
+### ✍️ Writing Files
+\`\`\`python
+fout = open('output.txt', 'w')
+fout.write("Hello World\\n")
+fout.close()
+\`\`\`
+
+---
+
+### 📁 Filenames and Paths
+\`os\` module ka use karke directories aur paths manage karna.
+
+### 🥒 Pickling
+Complex objects ko file mein save karne ke liye \`pickle\` module best hai.
+`
+    },
+    {
+        id: 'python-classes-objects',
+        slug: 'python-classes-objects',
+        title: 'Masterclass 15: Classes & Objects',
+        description: 'User-defined types, Attributes, aur Deep Copy logic.',
+        tags: ['Python', 'OOP', 'Classes', 'Memory'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 15: Classes & Objects 🏗️
+
+Object-Oriented Programming (OOP) ka pehla kadam.
+
+### 🆕 User-defined Types
+\`class\` keyword se hum naye data types bana sakte hain.
+\`\`\`python
+class Point:
+    """Represents a point in 2-D space."""
+\`\`\`
+
+---
+
+### 🏷️ Attributes
+Object ke andar data store karna dot notation se.
+
+### 📋 Deep Copy vs Shallow Copy
+- **Shallow Copy**: Sirf top-level object copy.
+- **Deep Copy**: Saare nested objects bhi copy.
+`
+    },
+    {
+        id: 'python-classes-functions',
+        slug: 'python-classes-functions',
+        title: 'Masterclass 16: Classes & Functions',
+        description: 'Pure functions, Modifiers, aur Prototyping vs Planning logic.',
+        tags: ['Python', 'OOP', 'Functions', 'Logic'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 16: Classes & Functions 🛠️
+
+Hum user-defined types ko functions ke saath kaise use karte hain, chalo dekhte hain.
+
+### 🍎 Pure Functions
+Wo function jo sirf input leta hai aur output deta hai, bina objects ko modify kiye.
+\`\`\`python
+def add_time(t1, t2):
+    sum = Time()
+    sum.hour = t1.hour + t2.hour
+    sum.minute = t1.minute + t2.minute
+    sum.second = t1.second + t2.second
+    return sum
+\`\`\`
+
+---
+
+### 🔧 Modifiers
+Wo functions jo un objects ko modify karte hain jo unhe as arguments mile hain.
+\`\`\`python
+def increment(time, seconds):
+    time.second += seconds
+    if time.second >= 60:
+        time.second -= 60
+        time.minute += 1
+\`\`\`
+
+### 💡 Prototyping vs Planning
+- **Prototyping**: Pehle jaldi se code likho, phir use theek karo.
+- **Planning**: Pehle problem samjho, phir design karo. Planning aksar behtar hoti hai.
+`
+    },
+    {
+        id: 'python-classes-methods',
+        slug: 'python-classes-methods',
+        title: 'Masterclass 17: Classes & Methods',
+        description: 'Magic methods, Init, Str, aur Operator Overloading.',
+        tags: ['Python', 'OOP', 'Methods', 'Special Methods'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 17: Classes & Methods 🪄
+
+Ab hum logic ko class ke *andar* layenge.
+
+### 🏗️ The __init__ Method
+Ye constructor hai jo tab call hota hai jab object banta hai.
+\`\`\`python
+class Time:
+    def __init__(self, hour=0, minute=0, second=0):
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+\`\`\`
+
+---
+
+### 📝 The __str__ Method
+Jab hum object ko \`print()\` karte hain, tab ye method call hota hai.
+\`\`\`python
+def __str__(self):
+    return '%.2d:%.2d:%.2d' % (self.hour, self.minute, self.second)
+\`\`\`
+
+### ➕ Operator Overloading
+Aap \`+\`, \`-\` jaise operators ka behavior apni class ke liye define kar sakte ho using \`__add__\`.
+
+### 🎭 Polymorphism
+Alag-alag classes ke liye same functions use karna (e.g., \`histogram\` function jo string ya list dono pe kaam kare).
+`
+    },
+    {
+        id: 'python-inheritance-mastery',
+        slug: 'python-inheritance-mastery',
+        title: 'Masterclass 18: Inheritance',
+        description: 'Class diagrams, Inheritance, Encapsulation, aur Class variables.',
+        tags: ['Python', 'OOP', 'Inheritance', 'Architecture'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 18: Inheritance 🧬
+
+Ek class se doosri class banane ka tareeka.
+
+### 🃏 Card Game Example
+Maan lo humein Card game banana hai.
+\`\`\`python
+class Card:
+    """Represents a standard playing card."""
+    suit_names = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+    rank_names = [None, 'Ace', '2', '3', '4', '5', '6', '7', 
+                 '8', '9', '10', 'Jack', 'Queen', 'King']
+\`\`\`
+
+---
+
+### 🧬 Inheritance Logic
+\`\`\`python
+class Deck(Card): # Deck inherits from Card
+    def __init__(self):
+        self.cards = []
+        for suit in range(4):
+            for rank in range(1, 14):
+                self.cards.append(Card(suit, rank))
+\`\`\`
+
+### 📊 Class Diagrams
+Visualizing how classes relate to each other (Is-a relation, Has-a relation).
+
+### 🔒 Encapsulation
+Data aur methods ko ek hi unit mein band karna.
+`
+    },
+    {
+        id: 'python-goodies-advanced',
+        slug: 'python-goodies-advanced',
+        title: 'Masterclass 19: The Python Goodies',
+        description: 'List comprehensions, Generators, aur advanced coding tricks.',
+        tags: ['Python', 'Advanced', 'Tricks', 'Optimization'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-02-04'),
+        content: `
+# Masterclass 19: Python Goodies 💎
+
+Python ke kuch advanced shortcuts aur tools.
+
+### 📝 Conditional Expressions
+\`\`\`python
+y = math.log(x) if x > 0 else float('nan')
+\`\`\`
+
+---
+
+### 🚀 List Comprehensions
+List banane ka elegant tareeka:
+\`\`\`python
+points = [Point(x, y) for x in range(5) for y in range(5)]
+\`\`\`
+
+### 🌀 Generators
+\`yield\` keyword ka use karke lazy evaluation karna (Memory efficient).
+\`\`\`python
+def count():
+    n = 0
+    while True:
+        yield n
+        n += 1
+\`\`\`
+
+### 🍱 Any and All
+- \`any([False, True, False])\` -> \`True\`
+- \`all([True, True, False])\` -> \`False\`
+
+---
+
+> [!TIP]
+> Masterclass Khatam! Ab aap ek Python Pro ban chuke hain. 🚀
+`
+    },
     {
         id: 'python-control-flow-loops',
         slug: 'python-control-flow-loops',
@@ -672,77 +1430,75 @@ graph TD
         image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
         createdAt: new Date('2024-01-20'),
         content: `
-# ⚛️ Python Core: Primitives & Memory
+# ⚛️ Python Core: Primitives & Memory Masterclass
 
-Python mein "Everything is an Object". Chalo iske foundation ko samjhte hain.
+Python mein "Everything is an Object". Chalo iske foundation ko ek dam depth mein samjhte hain.
 
 ---
 
-## 1. Fundamental Data Types
-Python automatically detect kar leta hai ki data type kya hai (**Dynamic Typing**), par humein internals pata hona chahiye.
+## 1. Fundamental Data Types (Numbers Deep Dive)
+Python automatically detect kar leta hai ki data type kya hai (**Dynamic Typing**), par complex engineering ke liye humein internals pata hona chahiye.
 
 ### A. Integers (int)
-Bina decimal wale numbers. Python 3 mein integers ki koi fixed size nahi hoti (Arbitrary Precision), ye aapki RAM tak badh sakte hain.
+Bina decimal wale numbers. Python 3 mein integers ki koi fixed size nahi hoti (**Arbitrary Precision**).
+- **Internals**: Chote integers \`(-5 to 256)\` memory mein predefined hote hain.
+- **Conversion**: Aap \`bin()\`, \`oct()\`, aur \`hex()\` se bases change kar sakte hain.
 \`\`\`python
 a = 10
-b = 10**100 # Ye bhi handle ho jayega!
+print(bin(a)) # 0b1010 (Binary)
+print(hex(a)) # 0xa (Hexadecimal)
 \`\`\`
 
 ### B. Floating Point (float)
 Decimal wale numbers. Ye IEEE 754 double precision format use karte hain.
+- **The Floating Point Issue**: \`0.1 + 0.2\` exactly \`0.3\` nahi hota.
 \`\`\`python
-pi = 3.14159
-exp = 2e3 # 2000.0 (Scientific notation)
+print(0.1 + 0.2 == 0.3) # False! (Result is 0.30000000000000004)
+\`\`\`
+- **Solution**: High precision financial calculations ke liye \`decimal\` module use karein.
+\`\`\`python
+from decimal import Decimal
+print(Decimal('0.1') + Decimal('0.2')) # Exact 0.3
 \`\`\`
 
 ### C. Complex Numbers (complex)
-Engineering aur math ke liye: \`a + bj\`.
+AI aur science ke liye: \`a + bj\`.
 \`\`\`python
-c = 3 + 5j
-print(c.real) # 3.0
-print(c.imag) # 5.0
-\`\`\`
-
-### D. Booleans (bool)
-Integers ke sub-class hain: \`True\` (1) aur \`False\` (0).
-
-### E. NoneType (None)
-Insaan ke paas "Null" hota hai, Python ke paas \`None\`. Iska matlab hai "Void" ya "Kuch nahi".
-
----
-
-## 2. Objects & Memory Internals
-Python mein har value ek object hai jiske paas 3 cheezein hoti hain:
-1. **Identity**: Memory address (\`id(x)\`).
-2. **Type**: Category (\`type(x)\`).
-3. **Value**: Actual data.
-
-\`\`\`python
-x = 5
-print(id(x))   # Address dikhayega
-print(type(x)) # <class 'int'>
-\`\`\`
-
-### 🧠 Interning Optimization
-Python memory bachane ke liye chote integers (-5 se 256) aur strings ko cache kar leta hai.
-\`\`\`python
-a = 256
-b = 256
-print(a is b) # True (Same memory address!)
+c = 3 + 4j
+print(abs(c)) # 5.0 (Magnitude/Hypotenuse)
 \`\`\`
 
 ---
 
-## 3. Type Conversion (Casting)
-- **Implicit**: Python khud karta hai (\`5 + 2.0 -> 7.0\`).
-- **Explicit**: Hum batate hain:
-  - \`int("10")\` -> 10
-  - \`float(10)\` -> 10.0
-  - \`str(10)\` -> "10"
-  - \`bool(1)\` -> True
+## 2. Objects & Memory Architecture
+Python Memory Management (PMM) kaafi smart hai.
 
-### Truthy/Falsy Evaluation
-Python mein \`0\`, \`None\`, \`""\` (empty string), aur empty collections \`[]\`, \`{}\`, \`()\` humesha **False** hote hain. Baki sab **True**.
+### Identity vs Equality
+- \`==\` (Equality): Kya values same hain?
+- \`is\` (Identity): Kya memory address (Object) same hai?
+
+\`\`\`python
+a = [1, 2]
+b = [1, 2]
+print(a == b) # True
+print(a is b) # False (Alag memory clusters)
+\`\`\`
+
+### Mutable vs Immutable
+Inka logic samajhna sabse zaroori hai:
+1. **Immutable** (Change nahi ho sakte): \`int\`, \`float\`, \`string\`, \`tuple\`, \`bool\`.
+2. **Mutable** (Change ho sakte hain): \`list\`, \`dict\`, \`set\`.
+
+---
+
+## 3. Truthy/Falsy & Logic Gates
+Python mein har value ka ek logical status hota hai.
+- **All False**: \`0\`, \`0.0\`, \`None\`, \`""\`, \`[]\`, \`{}\`, \`()\`, \`set()\`, \`False\`.
+- **Logic Gates**: \`and\`, \`or\`, \`not\` operators bitwise se alag hote hain.
+\`\`\`python
+# Short-circuiting
+res = True or some_heavy_function() # some_heavy_function call hi nahi hoga!
+\`\`\`
 `
     },
     {
@@ -908,85 +1664,74 @@ String Python ki jaan hai. In methods ko yaad rakhne ki zaroorat nahi, bas pata 
         image: 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?auto=format&fit=crop&q=80',
         createdAt: new Date('2024-01-20'),
         content: `
-# 📜 Python Lists & Tuples
+# 📜 Python Lists & Tuples Masterclass
 
-Variables store data, but **Lists** and **Tuples** store *collections* of data.
-
----
-
-## 1. Python Lists (Mutable Arrays)
-List ek ordered collection hai jo change ho sakti hai (**Mutable**).
-\`\`\`python
-fruits = ["Apple", "Banana", "Cherry", 100, 3.14]
-\`\`\`
-
-### List Methods (Yaad Karlo!)
-1. **append(item)**: End mein jodna.  
-   \`list.append("Mango")\`
-2. **extend(iterable)**: Dusri list ko jodna.  
-   \`list.extend([1, 2])\`
-3. **insert(index, item)**: Beech mein dalna.  
-   \`list.insert(1, "Orange")\`
-4. **remove(item)**: Value se hatana.  
-   \`list.remove("Banana")\`
-5. **pop(index)**: Index se hatana (return bhi karta hai).  
-   \`item = list.pop()\` (Last item)
-6. **clear()**: Sab saaf kar dena.
-7. **index(item)**: Dhoondhna.
-8. **count(item)**: Ginna.
-9. **sort()**: Arrange karna (Ascending).  
-   \`list.sort(reverse=True)\` (Descending).
-10. **reverse()**: Ulta kar dena.
-11. **copy()**: Duplicate banana.
-
-### List Comprehension (Pro Tip ⚡)
-Ek line mein list banana.
-\`\`\`python
-# Normal
-sq = []
-for x in range(10): sq.append(x**2)
-
-# Comprehension
-sq = [x**2 for x in range(10)]
-\`\`\`
+Collections store karna Python ki sabse badi power hai. Chalo inka post-mortem karte hain.
 
 ---
 
-## 2. Python Tuples (Immutable Lists)
-Tuple ek baar ban gayi to change nahi ho sakti (**Immutable**). Fast hoti hai.
+## 1. Python Lists (The Dynamic Array)
+List ek ordered collection hai jo mutable (changeable) hoti hai.
+
+### Exhaustive Method List (11+ Methods)
+1. **append(x)**: End mein element jodna. $O(1)$
+2. **extend(iterable)**: Puri list ya collection ko end mein merge karna.
+3. **insert(i, x)**: Specific index par element dalna. $O(n)$
+4. **remove(x)**: Pehli bar mile element ko hatana. $O(n)$
+5. **pop([i])**: Index se element hatana aur return karna. (Uda dena).
+6. **clear()**: Saari list khali kar dena.
+7. **index(x)**: Element ka pehla index return karna. 
+8. **count(x)**: Ginna ki element kitni baar aaya.
+9. **sort(key=..., reverse=...)**: In-place sorting. $O(n \log n)$
+10. **reverse()**: List ko ulta kar dena.
+11. **copy()**: Shallow copy banana.
+
+### Advanced Slicing & Logic
 \`\`\`python
-t = (1, 2, 3)
-# t[0] = 10  <-- ERROR! Change nahi kar sakte.
+nums = [0, 10, 20, 30, 40, 50]
+
+# Negative Indexing
+print(nums[-1]) # 50 (Last)
+
+# Stepping
+print(nums[1:5:2]) # [10, 30] (1 se 4 tak, har dusra element)
+
+# Reversing via Slice
+print(nums[::-1]) # [50, 40, 30, 20, 10, 0]
 \`\`\`
 
-### Tuple Methods
-Kyunki change nahi kar sakte, sirf 2 main methods hain:
-1. **count(item)**
-2. **index(item)**
+### Memory Internal 🧠
+Lists actually **Dynamic Arrays** hoti hain. Jab list bharti hai, Python use double memory (Over-allocation) deta hai taaki baar-baar resize na karna pade. Isliye \`append\` fast hota hai.
 
-### Tuple Packing & Unpacking
+---
+
+## 2. Python Tuples (The Fast Constants)
+Immutable collection. Jo badli nahi ja sakti.
+
+### Why Tuples?
+- **Speed**: Lists se fast hoti hain.
+- **Safety**: Configuration data protected rehta hai.
+- **Dictionary Keys**: Tuples ko keys banane ke liye use kar sakte hain (Lists ko nahi).
+
+### Specialized Tuples
 \`\`\`python
-# Packing
-my_tuple = 1, 2, "Hi" 
-
-# Unpacking
-a, b, c = my_tuple
-print(c) # "Hi"
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+print(p.x) # 10 (Access like object!)
 \`\`\`
 
-### Kab Tuple Use Karein?
-- Jab data constant rakhna ho (Coordinates, Config).
-- Jab dictionary ki key banana ho (List key nahi ban sakti, Tuple ban sakti hai).
-- Performance chahiye ho (Tuples are lighter on memory).
+---
 
-### ⚔️ LISTS VS TUPLES (Comparison)
+## 3. Comparison of Collections
 
-| Feature | List [] | Tuple () |
+| Feature | List | Tuple |
 | :--- | :--- | :--- |
-| **Type** | Mutable (Changeable) | Immutable (Fixed) |
-| **Speed** | Thoda Slow | Fast ⚡ |
-| **Memory** | Zyada Memory | Kam Memory |
-| **Syntax** | Square Brackets \`[]\` | Parentheses \`()\` |
+| **Storage** | Dynamic Array | Static Array |
+| **Mutability** | Mutable | Immutable |
+| **Methods** | Many (append, pop, etc) | Only 2 (count, index) |
+| **Best For** | Changing Data | Constant Data / Keys |
+| **Memory** | High (Due to over-allocation) | Low |
 
 `
     },
@@ -1016,54 +1761,54 @@ user = {
 }
 \`\`\`
 
-### Dictionary Methods
-1. **get(key)**: Safe access. Agar key nahi mili to Crash nahi hoga, \`None\` milega.  
-   \`user.get("salary", 0)\`
-2. **keys()**: Saari keys ki list.
-3. **values()**: Saari values ki list.
-4. **items()**: (Key, Value) tuples ki list (Looping ke liye best).
-5. **update(new_dict)**: Merge karna ya update karna.
-6. **pop(key)**: Key ko uda dena aur value return karna.
-7. **popitem()**: Last inserted item uda dena.
-8. **setdefault(key, default)**: Agar key hai to value do, nahi to set kardo.
+# 🗝️ Python Dictionaries & Sets Masterclass
 
-### Looping Example
+Yeh dono collections **Hashing** concept par kaam karte hain. Isliye data retrieval $O(1)$ (Instant) hota hai.
+
+---
+
+## 1. Dictionaries (The Hash Map)
+Key-Value pairs ka collection. Python 3.7+ mein ye **Ordered** hote hain.
+
+### Exhaustive Dictionary Methods
+1. **get(key, default)**: Safe retrieval. Crash nahi hoga agar key missing hai.
+2. **keys() / values() / items()**: Views return karte hain jo dynamic hote hain.
+3. **update({k:v})**: Batch update ya merge karna.
+4. **pop(key)**: Key hatana aur uski value return karna.
+5. **popitem()**: Last inserted item (LIFO) hatana.
+6. **setdefault(key, default)**: Agar key nahi hai to set kardo, hai to value do.
+7. **fromkeys(seq, val)**: Nayi dictionary banana with same value for all keys.
+
+### Hashing Internal 🧠
+Dict keys **Hashable** honi chahiye (Immutable). Jab aap \`d[key]\` karte hain, Python key ka \`hash()\` nikalta hai aur ek internal table (Bucket) mein value store karta hai.
+
 \`\`\`python
-for k, v in user.items():
-    print(f"{k} : {v}")
+# Dict Comprehension
+users = ["Afroj", "Babu"]
+role_dict = {u: "Admin" for u in users} # {'Afroj': 'Admin', 'Babu': 'Admin'}
 \`\`\`
 
 ---
 
-## 2. Sets (Unique Collection)
-Mathemetical Sets. Duplicate values allowed nahi hoti. Order maintain nahi hota.
+## 2. Sets (Unique & Mathematical)
+Unordered collection of unique items.
+
+### Set Theory Operations
+Sets sirf duplicates hatane ke liye nahi, logic building ke liye bhi hote hain:
+- **Union (\`| \`)**: Dono sets ke saare elements.
+- **Intersection (\`& \`)**: Sirf common elements.
+- **Difference (\`- \`)**: A mein hon par B mein nahi.
+- **Symmetric Difference (\`^ \`)**: Jo dono mein common nahi hain.
+
+### Advanced Methods
+1. **add() / remove() / discard()**: Basic mutations.
+2. **issubset() / issuperset()**: Relation check karna.
+3. **isdisjoint()**: Kya kuch bhi common nahi hai?
+
 \`\`\`python
-s = {1, 2, 2, 3} 
-print(s) # {1, 2, 3} (2 gayab ho gaya)
-\`\`\`
-
-### Set Methods (Set Theory)
-1. **add(item)**: Item jodna.
-2. **remove(item)**: Hatana (Error agar nahi mila).
-3. **discard(item)**: Hatana (No Error agar nahi mila - Safe).
-4. **pop()**: Random item hatana.
-
-### Mathematical Operations 🧠
-\`\`\`python
-A = {1, 2, 3}
-B = {3, 4, 5}
-
-# Union (Sab kuch) - symbol |
-print(A | B) # {1, 2, 3, 4, 5}
-
-# Intersection (Common) - symbol &
-print(A & B) # {3}
-
-# Difference (A mein hai par B mein nahi) - symbol -
-print(A - B) # {1, 2}
-
-# Symmetric Difference (Jo common nahi hai) - symbol ^
-print(A ^ B) # {1, 2, 4, 5}
+s = {1, 2, 3}
+s.discard(10) # Safe: Error nahi dega agar 10 nahi mila
+# s.remove(10) # Unsafe: Error dega!
 \`\`\`
 `
     },
@@ -1127,6 +1872,65 @@ print(arr[0])
 
 **Kab use karein?**
 Sirf tab jab aapko millions of numbers store karne hon aur memory bachani ho. 99% time aap **List** hi use karenge ya phir **NumPy Arrays** (Data Science ke liye).
+`
+    },
+    {
+        id: 'python-special-types',
+        slug: 'python-special-types',
+        title: 'Python Specialized Types: Range & Binary Data',
+        description: 'Deep dive into Range objects, Bytes, Bytearrays, and Memoryviews for low-level optimization.',
+        tags: ['Python', 'Specialized', 'Binary', 'Range'],
+        category: 'Python Masterclass',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80',
+        createdAt: new Date('2024-01-20'),
+        content: `
+# 🛠️ Python Specialized Data Types
+
+Ye types common tutorials mein nahi milte, par real-world system systems programming mein bahut important hote hain.
+
+---
+
+## 1. Range Object (The Memory Saver)
+\`range()\` ek regular list nahi hai. Ye ek **Lazy Iterator** hai.
+- **Internals**: Ye sirf Start, Stop, aur Step values store karta hai. Chahe range 10 ki ho ya 10 Million ki, ye memory barabar leta hai ($O(1)$ Memory).
+
+\`\`\`python
+r = range(1, 10000000)
+print(r[500]) # Immediate access (indexing allowed!)
+\`\`\`
+
+---
+
+## 2. Binary Types (Low-level Data)
+Jab aap images, files, ya network packets handle karte hain:
+
+### A. Bytes (Immutable)
+\`\`\`python
+b = b"Hello" # Prefix 'b'
+# b[0] = 65 # ERROR! Immutable hai.
+\`\`\`
+
+### B. Bytearray (Mutable)
+\`\`\`python
+ba = bytearray(b"Hello")
+ba[0] = 72 # ASCII for 'H'
+print(ba) # bytearray(b'Hello')
+\`\`\`
+
+### C. Memoryview
+Bina data copy kiye binary data ko access karna:
+\`\`\`python
+mv = memoryview(ba)
+print(mv[0]) # 72
+\`\`\`
+
+---
+
+## Summary of Python Data Types
+System design ke liye yaad rakho:
+1. **Numbers**: High precision (Decimal), Arbitrary size (Int).
+2. **Collections**: Fast lookup (Dict/Set), Ordering (List), Safety (Tuple).
+3. **Optimizers**: Generators/Ranges, Specialized Arrays.
 `
     }
 ];
