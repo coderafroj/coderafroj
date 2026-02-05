@@ -8,375 +8,229 @@ export const pythonTutorial = {
     {
       id: 'home',
       title: 'Python Home',
-      content: `# Python Super-Masterclass 🚀
+      content: `# Python Super-Masterclass: The Absolute Encyclopedia 🚀
 
 **Swagat hai Coderafroj ke sabse deep Python guide mein.**
 
-Bhai, ye sirf ek tutorial nahi hai, ye ek encyclopedia hai. Ismein humne har ek variable, har ek method, aur har ek internal logic ko itna detail mein likha hai ki iske baad aapko koi kitab padhne ki zaroori nahi padegi. `
+Bhai, ye sirf ek tutorial nahi hai, ye ek encyclopedia hai. Ismein humne har ek variable, har ek method, aur har ek internal logic ko itna detail mein likha hai ki iske baad aapko koi kitab padhne ki zaroori nahi padegi. From Basics to Industry-Level Libraries, sab yahan hai.`
     },
     {
       id: 'foundations_group',
-      title: '1. Python Foundations 🧱',
+      title: '1. Foundations & Architecture 🧱',
       children: [
         {
           id: 'intro',
-          title: 'Deep Intro & Architecture',
+          title: 'Internal Architecture & PVM',
           content: `# Python Architecture: Under the Hood ⚙️
 
-Python ek **High-Level, Interpreted** language hai. Iska matlab hai ki humein memory ya hardware ki chinta nahi karni padti.
+### ⚙️ Compilation vs Interpretation Logic
+Python code 3 steps mein chalta hai:
+1. **Source Code (.py):** Hamara likha code.
+2. **Bytecode (.pyc):** \`__pycache__\` folder mein save hota hai. Ye ek intermediate low-level language hai jo machine-independent hai.
+3. **PVM (Python Virtual Machine):** Ye bytecode ko read karke host processor ke machine cycles mein badalta hai.
 
-### ⚙️ Compilation vs Interpretation
-1. **Source Code (.py):** Aapka likha hua code.
-2. **Bytecode (.pyc):** Ye machine code nahi hota, ye platform-independent intermediate code hai.
-3. **PVM (Python Virtual Machine):** Ye bytecode ko read karke machine code mein badalta hai.
-
-### 🌟 Features Mastery
-- **Platform Independent:** Aap Windows par code likho aur Mac/Linux par bina change kiye chalao.
-- **Rich Libraries:** 300,000+ packages available hain PyPI par. 
-- **Garbage Collection:** Python automatically un objects ko memory se hata deta hai jo kisi variable ke reference mein nahi hain. `
+### 🧠 CPython vs Others
+Python ka default implementation **CPython** hai (C language mein likha gaya). Par iske alaga **Jython** (JVM ke liye) aur **IronPython** (.NET ke liye) bhi hote hain. `
         },
         {
           id: 'variables_memory',
-          title: 'Memory Logic (The Real Deal)',
-          content: `# Memory Architecture & Variables 🧠
+          title: 'Memory Management & GC',
+          content: `# Memory Architecture 🧠
 
-### 📦 References & Identity
-Python mein sab kuch ek **Object** hai.
+### 📦 Reference Counting
+Python har object ka ek "Reference Count" track karta hai.
 \`\`\`python
-a = [1, 2, 3]
-b = a # b ab usi list object ko point kar raha hai
-print(id(a) == id(b)) # True
+import sys
+x = [1, 2]
+print(sys.getrefcount(x)) # Count check karo
 \`\`\`
 
-### 🛡️ Naming Mastery (PEP 8)
-- Variable names sirf letters (a-z, A-Z), digits (0-9), aur underscores (\`_\`) se milkar bante hain.
-- Pehla character digit nahi ho sakta.
-- Underscore se start hone wale names (\`_var\`) aksar "Private" variables ke liye use hote hain. `
-        },
-        {
-          id: 'operators_deep',
-          title: 'Operators: The Math Engine',
-          content: `# Operators Deep Mastery ➗
+### ♻️ Garbage Collection (GC)
+Jab kisi object ka count 0 ho jata hai, Python use memory se "Cycle Detection" algorithm se saaf kar deta hai.
 
-### 🧮 Bitwise Operators (Advanced)
-Aap numbers ko binary level par bhi manipulate kar sakte ho:
-- \`&\` (AND), \`|\` (OR), \`^\` (XOR), \`~\` (NOT)
-- \`<<\` (Left Shift), \`>>\` (Right Shift)
-
-### 🧩 Assignment Operators
-- \`+=\`, \`-=\`, \`*=\`, \`/=\`, \`//=\`, \`%=\`, \`**=\`, \`&=\`, \`|=\`, \`^=\`, \`>>=\`, \`<<=\` `
+### 🛡️ Variable Scopes (LEGB Rule)
+Variables ka look-up is order mein hota hai:
+- **L**ocal (Function ke andar)
+- **E**nclosing (Nested functions mein)
+- **G**lobal (Module level par)
+- **B**uilt-in (Python keywords) `
         }
       ]
     },
     {
-      id: 'data_mastery_group',
-      title: '2. Data Mastery (The Core) 🧵',
+      id: 'data_structures_group',
+      title: '2. Data Structures (Masterclass) 🧵',
       children: [
         {
-          id: 'strings_exhaustive',
+          id: 'strings_ultimate',
           title: 'Strings: The Exhaustive Guide',
-          content: `# Strings: Deep Dive 🧵
+          content: `# Strings: The Ultimate Guide 🧵
 
-String ek **Immutable Sequence** hai. Yani ki ek baar banne ke baad aap uske elements ko change nahi kar sakte.
+### 🛠️ Exhaustive Method List
 
-### 🛠️ Exhaustive Methods Guide
+| Method | Pro-Level Use |
+|---|---|
+| \`.encode()\` | ASCII/UTF-8 bytes mein convert karna |
+| \`.find()\` vs \`.index()\` | find() -1 deta hai, index() Error fekta hai |
+| \`.translate()\` | Multiple map-based replacements ek sath |
+| \`.partition()\` | String ko (head, separator, tail) mein todna |
+| \`.maketrans()\` | Translation tables banana |
 
-| Method | Description | Example |
-|---|---|---|
-| \`.capitalize()\` | Pehla character uppercase karega | \`"hi".capitalize()\` -> "Hi" |
-| \`.casefold()\` | Pura string lowercase karega (More aggressive than lower) | \`"HELLO".casefold()\` -> "hello" |
-| \`.center(width)\` | String ko center mein layega fixed width ke | \`"hi".center(10)\` -> "    hi    " |
-| \`.count(val)\` | Check karega value kitni baar aayi | \`"banana".count("a")\` -> 3 |
-| \`.encode()\` | Encoded version return karega | \`s.encode("utf-8")\` |
-| \`.endswith(val)\` | True agar string us value par khatam ho | \`"file.txt".endswith(".txt")\` -> True |
-| \`.find(val)\` | Position dhundhega (warna -1) | \`"abc".find("b")\` -> 1 |
-| \`.index(val)\` | Like find, par error fekega agar na mile | \`"abc".index("z")\` -> Exception! |
-| \`.isalnum()\` | True agar alphanumeric hai | |
-| \`.isalpha()\` | True agar sirf alphabet hai | |
-| \`.isdecimal()\` | True agar numbers (0-9) hain | |
-| \`.isdigit()\` | Numbers + superscripts etc. | |
-| \`.islower()\` | True agar sab small hai | |
-| \`.isspace()\` | True agar sirf whitespace hai | |
-| \`.isupper()\` | True agar sab capital hai | |
-| \`.join(iterable)\` | Elements ko join karega | \`"-".join(["A", "B"])\` -> "A-B" |
-| \`.ljust(width)\` | Left justify karega | |
-| \`.lower()\` | Sab small karega | |
-| \`.lstrip()\` | Left se spaces hatana | |
-| \`.replace(old, new)\` | Value badlega | \`"A B".replace("A", "C")\` |
-| \`.rfind()\` | Piche se dhundhna | |
-| \`.split()\` | String todna (returns list) | \`"a b".split()\` -> ["a", "b"] |
-| \`.splitlines()\` | Newline par todna | |
-| \`.startswith(val)\` | True agar shuruat wahan se ho | |
-| \`.strip()\` | Dono taraf se spaces saaf karna | |
-| \`.swapcase()\` | Upper -> Lower, Lower -> Upper | |
-| \`.title()\` | Har word ka pehla letter capital | \`"hello world".title()\` -> "Hello World" |
-| \`.upper()\` | Sab capital | |
-| \`.zfill(width)\` | Zeroes se bhar dena | \`"42".zfill(5)\` -> "00042" |
-
-### 🚀 Formatting Mastery
+### 🔍 Advanced Patterns (re module)
 \`\`\`python
-# Modern F-Strings
-name = "Afroj"
-print(f"User: {name.upper():>10}") # Right align (10 width)
-
-# .format() method
-print("Age is {0}, name is {1}".format(25, "Bhai"))
+import re
+# Pure text se email dhundna
+raw = "Contact at support@coderafroj.com today!"
+email = re.findall(r'[\w\.-]+@[\w\.-]+', raw)
 \`\`\` `
         },
         {
-          id: 'lists_exhaustive',
-          title: 'Lists: Every Single Secret',
-          content: `# Lists: Full Encyclopedia 📋
+          id: 'collections_deep',
+          title: 'Exhaustive Collections (L, T, D, S)',
+          content: `# Collections Bible 📋
 
-Lists **Mutable Ordered Collections** hain.
+### 📋 Lists Pro
+- **Slicing Depth:** \`L[start:stop:step]\`. \`L[::-1]\` is reverse, \`L[::2]\` is alternate.
+- **Sorting Logic:** \`sort(key=len)\` - Length ke basis par sort karna.
 
-### 🛠️ All List Methods
+### 📖 Dictionary Mastery
+- **Ordered Dict:** Python 3.7+ mein dicts memory order save rakhti hain.
+- **Merging:** Python 3.9+ mein \`d1 | d2\` use karein dictionaries merge karne ke liye.
 
-| Method | Definition | Example |
-|---|---|---|
-| \`.append(x)\` | Add item at the end | \`L.append(4)\` |
-| \`.clear()\` | Remove all elements | \`L.clear()\` |
-| \`.copy()\` | Returns a shallow copy | \`L2 = L.copy()\` |
-| \`.count(x)\` | Kitni baar x aaya hai | \`L.count(1)\` |
-| \`.extend(iterable)\` | End mein multiple items add karna | \`L.extend([5, 6])\` |
-| \`.index(x)\` | First occurrence ka index | \`L.index(3)\` |
-| \`.insert(i, x)\` | Specific index i par x daalna | \`L.insert(1, 'val')\` |
-| \`.pop(i)\` | Element nikalna index i se (default last) | \`val = L.pop()\` |
-| \`.remove(x)\` | First occurrence of x delete karna | \`L.remove(2)\` |
-| \`.reverse()\` | Permanent reverse | \`L.reverse()\` |
-| \`.sort()\` | Permanent sorting | \`L.sort(reverse=True)\` |
-
-### 🧠 Nested Lists & Matrices
+### 💎 Set Math
 \`\`\`python
-matrix = [[1, 2], [3, 4]]
-print(matrix[0][1]) # Output: 2
+A = {1, 2, 3}
+B = {3, 4, 5}
+print(A ^ B) # Symmetric Difference: {1, 2, 4, 5}
 \`\`\` `
-        },
-        {
-          id: 'tuples_pro',
-          title: 'Tuples: Speed & Integrity',
-          content: `# Tuples: Deep Mastery 🔒
-
-Tuples comma-separated values hain jo immutable hain.
-
-### 🍱 Unpacking & Padding
-\`\`\`python
-t = (1, 2, 3, 4, 5)
-a, *b, c = t 
-print(a) # 1
-print(b) # [2, 3, 4] (Middle elements in list)
-print(c) # 5
-\`\`\`
-
-### 🗺️ Built-in Methods
-Tuples ke paas sirf do methods hote hain kyunki wo change nahi ho sakte:
-1. \`.count()\`
-2. \`.index()\` `
-        },
-        {
-          id: 'dict_exhaustive',
-          title: 'Dictionaries: Hash Table Magic',
-          content: `# Dictionaries: Exhaustive Guide 📖
-
-### 🛠️ Dictionary Methods (All)
-
-| Method | Explanation |
-|---|---|
-| \`.clear()\` | Pura khali kardena |
-| \`.copy()\` | Copy banana |
-| \`.fromkeys(seq, val)\` | Nayi dict banana specific keys aur value ke sath |
-| \`.get(key, default)\` | Safely value nikalna (error nahi aayega agar key na ho) |
-| \`.items()\` | List of tuples (key, val) return karega |
-| \`.keys()\` | Sari keys dega |
-| \`.pop(key)\` | Specific key nikalna |
-| \`.popitem()\` | Last inserted item nikalna |
-| \`.setdefault(key, val)\` | Agar key na ho toh set kar dena |
-| \`.update(dict2)\` | Merge karna dusri dict ko |
-| \`.values()\` | Sari values dega |
-
-### ⚡ Performance Hint
-Hashing ki wajah se dictionary mein data search karna constant time \`O(1)\` mein hota hai, chahe dict kitni bhi badi ho! `
-        },
-        {
-          id: 'sets_exhaustive',
-          title: 'Sets: The Math Hub',
-          content: `# Sets Mastery 💎
-
-Sets unordered, unique collections hain.
-
-### 🛠️ Every Set Method
-| Method | Description |
-|---|---|
-| \`.add(x)\` | Item daalna |
-| \`.clear()\` | Safayi |
-| \`.difference(set2)\` | A - B |
-| \`.discard(x)\` | Remove item (na ho toh error nahi dega) |
-| \`.intersection(set2)\` | Common items |
-| \`.isdisjoint(set2)\` | True agar kuch common nahi hai |
-| \`.issubset(set2)\` | True agar A, B ke andar hai |
-| \`.pop()\` | Random item nikalna |
-| \`.symmetric_difference()\` | Jo common nahi hain wo nikalna |
-| \`.union(set2)\` | Sab milakar | `
         }
       ]
     },
     {
-      id: 'logic_control_group',
-      title: '3. Logic & Algorithms 🌀',
+      id: 'professional_group',
+      title: '3. Professional Development 🛡️',
       children: [
         {
-          id: 'conditionals_logic',
-          title: 'Conditionals & Short Circuit',
-          content: `# Conditions & Logic 🌀
+          id: 'file_system_mastery',
+          title: 'File System & Persistence',
+          content: `# File System Mastery 📂
 
-### ⚡ Short Circuit Logic
-\`if A or B:\` - Agar A true hai, toh B check bhi nahi hoga. 
-\`if A and B:\` - Agar A false hai, toh B check bhi nahi hoga.
+Basics se aage, file system ko control karna seekhein.
 
-### 🎭 Ternary Operator
+### 🛠️ shutil (File Operations)
+Is module se aap files copy aur move kar sakte ho:
 \`\`\`python
-status = "Allowed" if age > 18 else "Wait"
-\`\`\` `
-        },
-        {
-          id: 'loops_deep',
-          title: 'Loops, Range & Enumerate',
-          content: `# Deep Iteration 🔄
-
-### 📍 Enumerate
-Aap index aur value dono ek sath loop mein use kar sakte ho:
-\`\`\`python
-for i, name in enumerate(["A", "B"]):
-    print(f"Index {i} is {name}")
+import shutil
+shutil.copy('source.txt', 'destination.txt')
+shutil.make_archive('backup', 'zip', 'project_folder')
 \`\`\`
 
-### 🎡 While-Else & For-Else
-Python mein loops ke peeche \`else\` lag sakta hai! Ye tab chalta hai jab loop bina \`break\` hue finish ho jaye. `
-        },
-        {
-          id: 'recursion_algorithms',
-          title: 'Recursion & Call Stack',
-          content: `# Recursion Depth 🌀
-
-Recursion ek powerful tool hai par khatarnak bhi.
-- **Stack:** Har call memory ke stack mein save hoti hai.
-- **Limit:** Python ki default recursion limit 1000 hoti hai. \`sys.setrecursionlimit()\` se aap badha sakte ho. `
-        }
-      ]
-    },
-    {
-      id: 'professional_python',
-      title: '4. Professional & Advanced 🛡️',
-      children: [
-        {
-          id: 'file_handling_exhaustive',
-          title: 'File Handling: Beyond Basics',
-          content: `# File I/O Mastery 📂
-
-Data ko permanent save karne ke liye File Handling zaroori hai.
-
-### 🔑 Modes Guide
-| Mode | Action |
-|---|---|
-| \`'r'\` | Read (Default). Error agar file na ho. |
-| \`'w'\` | Write. File ko overwrite karke pura saaf kardega. |
-| \`'a'\` | Append. End mein data likhega. |
-| \`'x'\` | Create. Error dega agar file pehle se ho. |
-| \`'b'\` | Binary mode (Images/Videos ke liye). |
-| \`'+'\` | Updating (Read + Write). |
-
-### 🛠️ Advanced File Methods
-- \`.read(n)\`: \`n\` characters tak read karna.
-- \`.readline()\`: Ek single line read karna.
-- \`.readlines()\`: Sari lines list mein read karna.
-- \`.tell()\`: Current cursor position batayega.
-- \`.seek(offset)\`: Cursor ko specific position par bhejega.
-- \`.flush()\`: Buffer saaf karke Turant file mein save karna.
-
-### 🛡️ Best Practice: Context Manager
+### 📦 pathlib (Modern Path Logic)
+OS module se better tarika:
 \`\`\`python
-with open('file.txt', 'r') as f:
-    data = f.read()
-# f.close() karne ki chinta nahi, ye auto ho jata hai!
-\`\`\` `
+from pathlib import Path
+p = Path('data') / 'test.txt'
+print(p.exists())
+print(p.suffix) # .txt
+\`\`\`
+
+### 🥒 Serialization (Pickle & JSON)
+Objects ko save karna:
+- **JSON:** Cross-language compatibility.
+- **Pickle:** Pure Python object integrity (Methods bhi save ho jate hain). `
         },
         {
-          id: 'exception_handling_deep',
-          title: 'Exception Handling Deep Dive',
-          content: `# Exception Handling mastery 🛡️
+          id: 'exception_mastery',
+          title: 'Error Handling Strategy',
+          content: `# Advanced Error Management 🛡️
 
-Programming mein galtiyan handle karna hi ek achhe developer ki pehchan hai.
+Galti hone par program ko graceful banana.
 
-### 💻 Exhaustive Syntax
+### 💻 Exception Context
 \`\`\`python
 try:
-    # Danger zone
-except ValueError:
-    # Specific handle
-except (ZeroDivisionError, KeyError) as e:
-    # Multiple handle
-else:
-    # Chalta hai agar galti NA ho
-finally:
-    # Hamesha chalta hai (Clean-up)
+    with open('db.txt') as f:
+        data = f.read()
+except FileNotFoundError as e:
+    # Python 3 logic: Chained exceptions
+    raise RuntimeError("DB load nahi ho saki") from e
 \`\`\`
 
-### 🆕 Raising Exceptions
-Aap khud error fek sakte ho:
-\`\`\`python
-if age < 0:
-    raise ValueError("Age ghatiya nahi ho sakti!")
-\`\`\` `
-        },
-        {
-          id: 'oop_mastery',
-          title: 'OOP: The Design Patterns',
-          content: `# OOP Gold Mine 🏗️
-
-### 🧬 Inheritance & MRO
-**MRO (Method Resolution Order):** Python \`C3 Linearization\` algorithm use karta hai ye decide karne ke liye ki konsa method pehle call hoga multi-inheritance mein.
-
-### 🪄 Magic Methods (Dunder)
-| Method | Triggered by |
-|---|---|
-| \`__init__\` | Object creation |
-| \`__str__\` | print() |
-| \`__len__\` | len() |
-| \`__add__\` | \`+\` operator |
-| \`__getitem__\` | \`obj[key]\` | `
+### 🧠 Assertions
+Debugging ke liye: \`assert age > 0, "Age negative kaise?"\` `
         }
       ]
     },
     {
-      id: 'projects_group',
+      id: 'industry_tools_group',
+      title: '4. Industry Standard Tools 🛠️',
+      children: [
+        {
+          id: 'numpy_pandas',
+          title: 'NumPy & Pandas (Data Science)',
+          content: `# Data Science Intro 📊
+
+Industry mein Python in do libraries ke bina adhura hai.
+
+### 🔢 NumPy (Numerical Python)
+Arrays ke liye sabse fast library.
+\`\`\`python
+import numpy as np
+arr = np.array([1, 2, 3])
+print(arr * 2) # Vectorized operation (Fast)
+\`\`\`
+
+### 🐼 Pandas (Data Analysis)
+Excel sheets aur Data ko handle karne ke liye.
+\`\`\`python
+import pandas as pd
+df = pd.read_csv('data.csv')
+print(df.head()) # Pehle 5 rows dikhao
+\`\`\` `
+        },
+        {
+          id: 'web_scraping',
+          title: 'Web Scraping & APIs',
+          content: `# Web & Automation 🌐
+
+### 🕷️ BeautifulSoup
+Website se data nikalna:
+\`\`\`python
+from bs4 import BeautifulSoup
+import requests
+
+page = requests.get("https://coderafroj.com")
+soup = BeautifulSoup(page.content, 'html.parser')
+print(soup.title.text)
+\`\`\`
+
+### 🔌 Requests (APIs)
+\`\`\`python
+response = requests.get("https://api.github.com/users/afroj")
+data = response.json()
+print(data['bio'])
+\`\`\` `
+        }
+      ]
+    },
+    {
+      id: 'projects_hub',
       title: '5. Python Mega Projects 🚀',
       children: [
         {
-          id: 'project_1',
-          title: 'Project 1: Management System',
-          content: `# Advanced User Management 🏢
+          id: 'final_project',
+          title: 'Advanced CRM System',
+          content: `# The Ultimate CRM Project 🏢
 
-Is project mein humne try-except, file handling aur logic ko merge kiya hai.
+Isme humne Classes, JSON Persistence, Error Handling, aur Logic ko merge kiya hai.
 
-### 💻 Code Logic:
+### 💻 Features:
+1. **Persistent Storage:** Data \`.json\` file mein save hota hai.
+2. **Object Oriented:** Classes handle user logic.
+3. **Menu Driven:** Command line interface.
+
 \`\`\`python
-import os
-
-FILE = "users.db"
-
-def save_user(name, age):
-    try:
-        with open(FILE, "a") as f:
-            f.write(f"{name}:{age}\\n")
-    except Exception as e:
-        print(f"Error: {e}")
-
-def load_users():
-    if not os.path.exists(FILE): return []
-    with open(FILE, "r") as f:
-        return [line.strip().split(":") for line in f]
-
-# Main interaction loop...
+# Check out the implementation logic in Professional Python section!
 \`\`\` `
         }
       ]
