@@ -3,9 +3,10 @@ import {
     Drawer, Typography, Box, Divider, TextField,
     Stack, Chip, Avatar
 } from '@mui/material';
-import { Tag, Image, Category } from '@mui/icons-material';
+import { Tag, Image, Category, Close } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
-const PropertiesSidebar = ({ metadata, setMetadata }) => {
+const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile }) => {
     const width = 300;
 
     const handleChange = (field) => (event) => {
@@ -14,22 +15,34 @@ const PropertiesSidebar = ({ metadata, setMetadata }) => {
 
     return (
         <Drawer
-            variant="permanent"
+            variant={isMobile ? "temporary" : (open ? "permanent" : "persistent")}
             anchor="right"
+            open={open}
+            onClose={onClose}
             sx={{
-                width: width,
+                width: open ? width : 0,
                 flexShrink: 0,
-                [`& .MuiDrawer-paper`]: { width: width, boxSizing: 'border-box', top: '64px', height: 'calc(100% - 64px)' },
+                transition: 'width 0.3s ease',
+                [`& .MuiDrawer-paper`]: {
+                    width: width,
+                    boxSizing: 'border-box',
+                    height: '100%',
+                    borderLeft: '1px solid rgba(255,255,255,0.05)',
+                    bgcolor: 'background.paper'
+                },
             }}
         >
-            <Box sx={{ p: 2, pb: 1 }}>
+            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography variant="overline" color="text.secondary" fontWeight="bold" letterSpacing="0.2em">
                     PROPERTIES
                 </Typography>
+                <IconButton size="small" onClick={onClose}>
+                    <Close fontSize="small" />
+                </IconButton>
             </Box>
             <Divider />
 
-            <Stack spacing={3} sx={{ p: 3 }}>
+            <Stack spacing={3} sx={{ p: 3, overflowY: 'auto', flexGrow: 1 }}>
 
                 {/* Featured Image Preview */}
                 <Box
@@ -43,13 +56,14 @@ const PropertiesSidebar = ({ metadata, setMetadata }) => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         overflow: 'hidden',
-                        position: 'relative'
+                        position: 'relative',
+                        boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5)'
                     }}
                 >
                     {metadata.image ? (
                         <img src={metadata.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                        <Image sx={{ fontSize: 40, opacity: 0.2 }} />
+                        <Image sx={{ fontSize: 40, opacity: 0.1 }} />
                     )}
                 </Box>
 
@@ -60,20 +74,20 @@ const PropertiesSidebar = ({ metadata, setMetadata }) => {
                     fullWidth
                     value={metadata.image || ''}
                     onChange={handleChange('image')}
-                    InputProps={{ style: { fontSize: '0.8rem', fontFamily: 'monospace' } }}
-                    InputLabelProps={{ style: { fontSize: '0.8rem' } }}
+                    InputProps={{ style: { fontSize: '0.75rem', fontFamily: 'monospace' } }}
+                    sx={{ bgcolor: 'black' }}
                 />
 
                 <Divider />
 
                 <TextField
-                    label="Title"
+                    label="Topic Title"
                     variant="filled"
                     size="small"
                     fullWidth
                     value={metadata.title || ''}
                     onChange={handleChange('title')}
-                    sx={{ '& .MuiInputBase-input': { fontWeight: 'bold' } }}
+                    sx={{ '& .MuiInputBase-input': { fontWeight: 900, textTransform: 'uppercase', fontSize: '0.9rem' } }}
                 />
 
                 <TextField
@@ -85,17 +99,17 @@ const PropertiesSidebar = ({ metadata, setMetadata }) => {
                     fullWidth
                     value={metadata.description || ''}
                     onChange={handleChange('description')}
-                    InputProps={{ style: { fontSize: '0.8rem' } }}
-                    InputLabelProps={{ style: { fontSize: '0.8rem' } }}
-                    placeholder="Brief summary..."
+                    InputProps={{ style: { fontSize: '0.75rem', lineHeight: 1.6 } }}
+                    placeholder="Brief summary for indexing..."
+                    sx={{ bgcolor: 'black' }}
                 />
 
                 <Divider />
 
                 <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <Tag sx={{ fontSize: 14, opacity: 0.7 }} />
-                        <Typography variant="caption" sx={{ opacity: 0.7 }}>TAGS</Typography>
+                        <Tag sx={{ fontSize: 14, opacity: 0.7, color: 'primary.main' }} />
+                        <Typography variant="caption" sx={{ opacity: 0.7, fontWeight: 800 }}>TAGS</Typography>
                     </Box>
                     <TextField
                         variant="standard"
@@ -105,23 +119,23 @@ const PropertiesSidebar = ({ metadata, setMetadata }) => {
                         onChange={handleChange('tags')}
                         InputProps={{
                             disableUnderline: true,
-                            style: { fontSize: '0.85rem', fontFamily: 'monospace', color: '#00f3ff' }
+                            style: { fontSize: '0.8rem', fontFamily: 'monospace', color: '#00f3ff' }
                         }}
                     />
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 1.5 }}>
                         {metadata.tags && metadata.tags.split(',').map((tag, i) => (
-                            tag.trim() && <Chip key={i} label={tag.trim()} size="small" variant="outlined" sx={{ borderRadius: 1, fontSize: '0.7rem' }} />
+                            tag.trim() && <Chip key={i} label={tag.trim()} size="small" variant="filled" sx={{ borderRadius: '4px', fontSize: '0.65rem', fontWeight: 700, bgcolor: 'rgba(255,255,255,0.05)' }} />
                         ))}
                     </Box>
                 </Box>
 
-                <Box>
+                <Box sx={{ pb: 4 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <Category sx={{ fontSize: 14, opacity: 0.7 }} />
-                        <Typography variant="caption" sx={{ opacity: 0.7 }}>CATEGORY</Typography>
+                        <Category sx={{ fontSize: 14, opacity: 0.7, color: 'primary.main' }} />
+                        <Typography variant="caption" sx={{ opacity: 0.7, fontWeight: 800 }}>COURSE_NODE</Typography>
                     </Box>
-                    <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                        {metadata.category || 'Uncategorized'}
+                    <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.75rem', p: 1, bgcolor: 'rgba(0,0,0,0.3)', borderRadius: 1, border: '1px solid rgba(255,255,255,0.03)' }}>
+                        {metadata.category || 'Unassigned'}
                     </Typography>
                 </Box>
 

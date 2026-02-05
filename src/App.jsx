@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { GitHubProvider } from './context/GitHubContext';
 import Navbar from './components/layout/Navbar';
@@ -33,24 +33,37 @@ import UltimateEditor from './pages/Admin/UltimateEditor';
 import './App.css';
 
 function App() {
-  const [showIntro, setShowIntro] = React.useState(true);
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  // Only show intro once per session
+  const [showIntro, setShowIntro] = React.useState(() => {
+    return !sessionStorage.getItem('intro_played');
+  });
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    sessionStorage.setItem('intro_played', 'true');
+  };
 
   return (
     <HelmetProvider>
       <GitHubProvider>
         <AnimatePresence mode="wait">
-          {showIntro && <IntroScene onComplete={() => setShowIntro(false)} />}
+          {showIntro && <IntroScene onComplete={handleIntroComplete} />}
         </AnimatePresence>
 
         <div className="min-h-screen flex flex-col relative overflow-hidden">
           {/* Cyber-Coderafroj Background Architecture */}
-          <div className="coderafroj-bg">
-            <div className="coderafroj-grid" />
-            <div className="coderafroj-mesh" />
-          </div>
+          {!isAdmin && (
+            <div className="coderafroj-bg">
+              <div className="coderafroj-grid" />
+              <div className="coderafroj-mesh" />
+            </div>
+          )}
 
-          <Navbar />
-          <main className="flex-grow relative z-10">
+          {!isAdmin && <Navbar />}
+          <main className="flex-grow relative z-10 flex flex-col">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/projects" element={<Projects />} />
@@ -61,7 +74,7 @@ function App() {
               <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
               <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
 
-              {/* Legacy Admin Routes - Keeping for now if needed, or can be removed if user wants total cleanup */}
+              {/* Legacy Admin Routes */}
               <Route path="/admin/notes/new" element={<NoteEditor />} />
               <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
               <Route path="/admin/notes" element={<UltimateEditor />} />
@@ -81,8 +94,8 @@ function App() {
               </Route>
             </Routes>
           </main>
-          <Footer />
-          <MobileTabBar />
+          {!isAdmin && <Footer />}
+          {!isAdmin && <MobileTabBar />}
         </div>
       </GitHubProvider>
     </HelmetProvider>

@@ -17,14 +17,29 @@ import { Typography as TipTapTypography } from '@tiptap/extension-typography';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
+import { FontFamily } from '@tiptap/extension-font-family';
+import { TextAlign } from '@tiptap/extension-text-align';
 import { common, createLowlight } from 'lowlight';
-import { ThemeProvider, Box, CssBaseline, CircularProgress, Typography, Button } from '@mui/material';
+import {
+    ThemeProvider, Box, CssBaseline, CircularProgress,
+    Typography, Button, useMediaQuery, useTheme,
+    Breadcrumbs, Link as MuiLink, Stack, Tooltip,
+    TextField, InputAdornment
+} from '@mui/material';
+import {
+    NavigateNext as NavigateNextIcon,
+    Home as HomeIcon,
+    Category as CategoryIcon,
+    Article as ArticleIcon
+} from '@mui/icons-material';
 import editorTheme from '../../components/editor/EditorTheme';
 import TopToolbar from '../../components/editor/TopToolbar';
 import FileSidebar from '../../components/editor/FileSidebar';
 import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
 import { courses } from '../../data/notes';
-import { Github } from 'lucide-react';
+import { Github, Menu as MenuIcon, Search as SearchIcon } from 'lucide-react';
 
 // Lowlight setup
 const lowlight = createLowlight(common);
@@ -43,6 +58,12 @@ const UltimateEditor = () => {
         image: '',
         category: ''
     });
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [fileSidebarOpen, setFileSidebarOpen] = useState(!isMobile);
+    const [propsSidebarOpen, setPropsSidebarOpen] = useState(!isMobile);
 
     // Editor Initialization
     const editor = useEditor({
@@ -58,6 +79,10 @@ const UltimateEditor = () => {
             TipTapTypography,
             Highlight.configure({ multipart: true }),
             Subscript, Superscript,
+            TextStyle,
+            Color,
+            FontFamily,
+            TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Placeholder.configure({ placeholder: 'Start writing your masterclass content...' }),
         ],
         content: '',
@@ -67,6 +92,15 @@ const UltimateEditor = () => {
             },
         },
     });
+
+    // Filtering logic for search
+    const filteredCourses = courses.map(course => ({
+        ...course,
+        notes: course.notes.filter(note =>
+            note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            note.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+    })).filter(course => course.notes.length > 0 || searchQuery === '');
 
     // Effects
     useEffect(() => {
@@ -91,6 +125,10 @@ const UltimateEditor = () => {
         setIsSaving(true);
 
         try {
+            if (!selectedRepo) {
+                throw new Error('No repository selected. Please select your repository in the Command Center (/github) first.');
+            }
+
             const repoPath = `src/data/notes/${selectedCourse.id.replace('-masterclass', '').replace('-deep-dive', '').replace('-mastery', '').replace('-ecosystem', '').replace('-systems-programming', '').replace('-programming', '')}.js`
                 .replace('internet-web-technology', 'internet') // manual fix for long ids
                 .replace('pc-maintenance-troubleshooting', 'hardware')
@@ -178,6 +216,54 @@ ${markdownContent}
         }
     };
 
+    const handleDeleteTopic = async (course, topic) => {
+        if (!window.confirm(`Are you sure you want to delete "${topic.title}"?`)) return;
+        setIsSaving(true);
+
+        try {
+            const filename = course.id.replace('-masterclass', '').split('-')[0]; // simple inference
+            const fullPath = `src/data/notes/${filename}.js`;
+            const [owner, repoName] = selectedRepo.full_name.split('/');
+            const fileData = await fetchFileContent(owner, repoName, fullPath);
+            const content = fileData.content;
+
+            const topicRegex = new RegExp(`{\\s*id:\\s*['"]${topic.id}['"][\\s\\S]*?content:\\s*\`[\\s\\S]*?\`\\s*},?`, 'm');
+            const updatedContent = content.replace(topicRegex, '');
+
+            await uploadFiles([{
+                path: fullPath,
+                file: new Blob([updatedContent], { type: 'text/javascript' })
+            }], `Delete note: ${topic.title}`);
+
+            alert('Deleted successfully! Refreshing...');
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+            alert('Failed to delete: ' + error.message);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleNewTopic = (course) => {
+        setSelectedCourse(course);
+        setSelectedTopic(null);
+        setMetadata({
+            title: '',
+            description: '',
+            tags: '',
+            image: '',
+            category: course.title
+        });
+        editor?.commands.setContent('');
+    };
+
+    const handleNewCourse = () => {
+        const name = window.prompt('Enter new course name (e.g., Node.js Mastery)');
+        if (!name) return;
+        alert('Creating new courses involves updating project structure. For now, please add the new .js file in src/data/notes/ and import it in index.js manually. I will automate this in the next update!');
+    };
+
     if (!isAuthenticated) return (
         <ThemeProvider theme={editorTheme}>
             <CssBaseline />
@@ -252,16 +338,60 @@ ${markdownContent}
         <ThemeProvider theme={editorTheme}>
             <CssBaseline />
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
-                <TopToolbar editor={editor} onSave={handleSave} isSaving={isSaving} />
+                <TopToolbar
+                    editor={editor}
+                    onSave={handleSave}
+                    onDelete={() => selectedTopic && handleDeleteTopic(selectedCourse, selectedTopic)}
+                    isSaving={isSaving}
+                    onToggleFiles={() => setFileSidebarOpen(!fileSidebarOpen)}
+                    onToggleProps={() => setPropsSidebarOpen(!propsSidebarOpen)}
+                    isMobile={isMobile}
+                    courseId={selectedCourse?.id}
+                    topicSlug={selectedTopic?.slug}
+                />
 
-                <Box sx={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}>
+                {breadcrumbs}
 
+                <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden', position: 'relative' }}>
+                    <style>
+                        {`
+                            ::-webkit-scrollbar {
+                                width: 6px;
+                                height: 6px;
+                            }
+                            ::-webkit-scrollbar-track {
+                                background: rgba(0,0,0,0.2);
+                            }
+                            ::-webkit-scrollbar-thumb {
+                                background: rgba(0, 243, 255, 0.1);
+                                border-radius: 10px;
+                            }
+                            ::-webkit-scrollbar-thumb:hover {
+                                background: rgba(0, 243, 255, 0.3);
+                            }
+                            .ProseMirror p.is-editor-empty:first-of-type::before {
+                                color: rgba(255,255,255,0.2);
+                                content: attr(data-placeholder);
+                                float: left;
+                                height: 0;
+                                pointer-events: none;
+                            }
+                        `}
+                    </style>
                     <FileSidebar
-                        courses={courses}
+                        courses={filteredCourses}
                         selectedCourse={selectedCourse}
                         onSelectCourse={setSelectedCourse}
                         selectedTopic={selectedTopic}
                         onSelectTopic={setSelectedTopic}
+                        onNewCourse={handleNewCourse}
+                        onNewTopic={handleNewTopic}
+                        onDeleteTopic={handleDeleteTopic}
+                        searchQuery={searchQuery}
+                        onSearchChange={setSearchQuery}
+                        open={fileSidebarOpen}
+                        onClose={() => setFileSidebarOpen(false)}
+                        isMobile={isMobile}
                     />
 
                     <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -271,7 +401,7 @@ ${markdownContent}
                             overflowY: 'auto',
                             display: 'flex',
                             justifyContent: 'center',
-                            p: 4,
+                            p: isMobile ? 2 : 4,
                             backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.03), transparent 70%)'
                         }}>
                             <Box sx={{
@@ -281,14 +411,20 @@ ${markdownContent}
                                 minHeight: '100%',
                                 boxShadow: '0 10px 40px -10px rgba(0,0,0,0.5)',
                                 border: '1px solid rgba(255,255,255,0.03)',
-                                borderRadius: 1
+                                borderRadius: isMobile ? 0 : 1
                             }}>
                                 <EditorContent editor={editor} />
                             </Box>
                         </Box>
                     </Box>
 
-                    <PropertiesSidebar metadata={metadata} setMetadata={setMetadata} />
+                    <PropertiesSidebar
+                        metadata={metadata}
+                        setMetadata={setMetadata}
+                        open={propsSidebarOpen}
+                        onClose={() => setPropsSidebarOpen(false)}
+                        isMobile={isMobile}
+                    />
 
                 </Box>
             </Box>

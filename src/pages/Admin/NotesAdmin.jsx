@@ -132,6 +132,9 @@ const NotesAdmin = () => {
         setStatus({ type: 'info', message: 'Syncing with GitHub...' });
 
         try {
+            if (!selectedRepo) {
+                throw new Error('No repository selected. Select one in Command Center.');
+            }
             // 1. Get current file content from GitHub
             const repoPath = `src/data/notes/${selectedCourse.id.replace('-masterclass', '')}.js`;
             const [owner, repoName] = selectedRepo.full_name.split('/');

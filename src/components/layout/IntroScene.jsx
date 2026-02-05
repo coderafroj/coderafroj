@@ -42,29 +42,29 @@ const IntroScene = ({ onComplete }) => {
     const [stage, setStage] = useState('loading'); // loading, reveal, exit
 
     const terminalMessages = [
-        "> Starting things up...",
-        "> Loading my projects...",
-        "> Setting up the design...",
-        "> Making it look good...",
-        "> Welcome to my world"
+        "> INITIALIZING_SYSTEM_CORE...",
+        "> SHARPENING_WEB_ARCHITECT...",
+        "> SYNCING_CREATIVE_ASSETS...",
+        "> CALIBRATING_DESIGN_GRID...",
+        "> CODERAFROJ_SESSION_ACTIVE"
     ];
 
     useEffect(() => {
         const interval = setInterval(() => {
             setProgress(prev => {
-                const next = prev + Math.random() * 8;
+                const next = prev + Math.random() * 15; // Faster progress
                 if (next >= 100) {
                     clearInterval(interval);
-                    setTimeout(() => setStage('reveal'), 800);
+                    setTimeout(() => setStage('reveal'), 400); // Shorter wait
                     return 100;
                 }
                 return next;
             });
-        }, 150);
+        }, 80); // Faster interval (was 150)
 
         const terminalInterval = setInterval(() => {
             setTerminalLine(prev => (prev < terminalMessages.length - 1 ? prev + 1 : prev));
-        }, 800);
+        }, 400); // Faster terminal (was 800)
 
         return () => {
             clearInterval(interval);
@@ -76,8 +76,8 @@ const IntroScene = ({ onComplete }) => {
         if (stage === 'reveal') {
             const timer = setTimeout(() => {
                 setStage('exit');
-                setTimeout(onComplete, 1500);
-            }, 4500);
+                setTimeout(onComplete, 800); // Faster exit
+            }, 2500); // Reveal duration (was 4500)
             return () => clearTimeout(timer);
         }
     }, [stage, onComplete]);
@@ -126,21 +126,21 @@ const IntroScene = ({ onComplete }) => {
                             <div className="w-full space-y-4">
                                 <div className="flex justify-between items-end border-b border-white/5 pb-2">
                                     <div className="flex flex-col">
-                                        <span className="text-[7px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow font-bold">
-                                            Building Better Websites
+                                        <span className="text-[7px] md:text-[10px] uppercase tracking-[0.6em] text-primary-glow font-black">
+                                            ELITE_WORKSPACE_v5.0
                                         </span>
-                                        <span className="text-[10px] font-mono text-white/60">Portfolio v4.0</span>
+                                        <span className="text-[10px] font-mono text-white/40">SECURE_LINK_CONNECTED</span>
                                     </div>
-                                    <span className="text-3xl font-black italic text-primary drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
-                                        {Math.round(progress)}%
+                                    <span className="text-4xl font-black italic text-primary drop-shadow-[0_0_15px_rgba(99,102,241,0.6)]">
+                                        {Math.round(progress)}
                                     </span>
                                 </div>
                                 <div className="w-full h-1 bg-white/5 overflow-hidden relative">
                                     <motion.div
-                                        className="absolute inset-y-0 left-0 bg-primary shadow-[0_0_20px_rgba(99,102,241,1)]"
+                                        className="absolute inset-y-0 left-0 bg-primary shadow-[0_0_30px_rgba(99,102,241,1)]"
                                         initial={{ width: "0%" }}
                                         animate={{ width: `${progress}%` }}
-                                        transition={{ duration: 0.2 }}
+                                        transition={{ duration: 0.1 }}
                                     />
                                 </div>
                             </div>

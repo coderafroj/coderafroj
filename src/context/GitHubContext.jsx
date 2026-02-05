@@ -46,6 +46,18 @@ export function GitHubProvider({ children }) {
             // Fetch repositories
             const repositories = await githubAPI.getRepositories();
             setRepos(repositories);
+
+            // Auto-select repository if unique or matches known name
+            if (repositories.length === 1) {
+                setSelectedRepo(repositories[0]);
+            } else if (repositories.length > 0) {
+                const autoTarget = repositories.find(r =>
+                    r.name === 'coderafroj' ||
+                    r.full_name === 'coderafroj/coderafroj' ||
+                    r.name === 'portfolio'
+                );
+                if (autoTarget) setSelectedRepo(autoTarget);
+            }
         } catch (err) {
             const errorMessage = err.message || 'Authentication failed. Please check your token.';
             setError(errorMessage);
