@@ -3,6 +3,12 @@ import { cProgramming } from './c-programming';
 import { python } from './python';
 import { hardware } from './hardware';
 import { office } from './office';
+import { javascript } from './javascript';
+import { html } from './html';
+import { css } from './css';
+import { react } from './react';
+import { java } from './java';
+import { cpp } from './cpp';
 import { internet } from './internet';
 
 // Combine all notes into a single array for backward compatibility and search
@@ -12,7 +18,14 @@ export const allNotes = [
     ...python,
     ...hardware,
     ...office,
-    ...internet
+    ...office,
+    ...internet,
+    ...javascript,
+    ...html,
+    ...css,
+    ...react,
+    ...java,
+    ...cpp
 ];
 
 // Export categories separately for the new UI
@@ -46,6 +59,36 @@ export const noteCategories = {
         title: 'Internet & Web Tech',
         description: 'Web Development & Security',
         notes: internet
+    },
+    javascript: {
+        title: 'JavaScript Deep Dive',
+        description: 'Modern ES6+ and Beyond',
+        notes: javascript
+    },
+    html: {
+        title: 'HTML5 Mastery',
+        description: 'Semantic Web Structure',
+        notes: html
+    },
+    css: {
+        title: 'Advanced CSS3',
+        description: 'Modern Layouts & Animations',
+        notes: css
+    },
+    react: {
+        title: 'React.js Ecosystem',
+        description: 'Component-Based UI Development',
+        notes: react
+    },
+    java: {
+        title: 'Java Programming',
+        description: 'Enterprise Object-Oriented Dev',
+        notes: java
+    },
+    cpp: {
+        title: 'C++ Systems Programming',
+        description: 'Performance & Low-Level Control',
+        notes: cpp
     }
 };
 
@@ -55,7 +98,13 @@ export const courses = [
     { id: 'python-masterclass', ...noteCategories.python },
     { id: 'office-automation', ...noteCategories.office },
     { id: 'pc-maintenance-troubleshooting', ...noteCategories.hardware },
-    { id: 'internet-web-technology', ...noteCategories.internet }
+    { id: 'internet-web-technology', ...noteCategories.internet },
+    { id: 'javascript-deep-dive', ...noteCategories.javascript },
+    { id: 'html5-mastery', ...noteCategories.html },
+    { id: 'advanced-css3', ...noteCategories.css },
+    { id: 'react-js-ecosystem', ...noteCategories.react },
+    { id: 'java-programming', ...noteCategories.java },
+    { id: 'cpp-systems-programming', ...noteCategories.cpp }
 ];
 
 // Helper Functions

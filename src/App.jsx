@@ -29,6 +29,7 @@ import CourseIndex from './pages/Learn/CourseIndex';
 import NotesLayout from './pages/Learn/NotesLayout';
 import TopicPage from './pages/Learn/TopicPage';
 import NotesAdmin from './pages/Admin/NotesAdmin';
+import UltimateEditor from './pages/Admin/UltimateEditor';
 import './App.css';
 
 function App() {
@@ -63,8 +64,8 @@ function App() {
               {/* Legacy Admin Routes - Keeping for now if needed, or can be removed if user wants total cleanup */}
               <Route path="/admin/notes/new" element={<NoteEditor />} />
               <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
-              <Route path="/admin/notes" element={<NotesAdmin />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/notes" element={<UltimateEditor />} />
+              <Route path="/admin" element={<UltimateEditor />} />
               <Route path="/login" element={<Login />} />
 
               {/* Register & Auth */}

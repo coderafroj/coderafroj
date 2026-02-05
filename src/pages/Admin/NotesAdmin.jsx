@@ -50,7 +50,11 @@ import {
     Highlighter,
     Subscript as SubscriptIcon,
     Superscript as SuperscriptIcon,
-    TerminalSquare
+    TerminalSquare,
+    Maximize2,
+    Minimize2,
+    PanelLeft,
+    PanelLeftClose
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { courses } from '../../data/notes';
@@ -61,6 +65,8 @@ const NotesAdmin = () => {
     const [selectedTopic, setSelectedTopic] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [status, setStatus] = useState({ type: '', message: '' });
+    const [isFocusMode, setIsFocusMode] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(true);
 
     const [metadata, setMetadata] = useState({
         title: '',
@@ -226,31 +232,37 @@ ${newTopicData.content.replace(/`/g, '\\`')}
     return (
         <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 max-w-[1600px] mx-auto">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 border-b border-white/5 pb-8">
-                <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2 py-0.5 bg-primary/10 border border-primary/20 rounded text-[9px] font-black text-primary uppercase tracking-widest">Editor_v2.0</span>
+            {!isFocusMode && (
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 border-b border-white/5 pb-8"
+                >
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="px-2 py-0.5 bg-primary/10 border border-primary/20 rounded text-[9px] font-black text-primary uppercase tracking-widest">Editor_v2.0</span>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-none">
+                            Notes <span className="text-primary italic inline-block transform skew-x-[-10deg]">Architect</span>
+                        </h1>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-none">
-                        Notes <span className="text-primary italic inline-block transform skew-x-[-10deg]">Architect</span>
-                    </h1>
-                </div>
 
-                <div className="flex gap-3">
-                    <Button
-                        onClick={handleSave}
-                        disabled={isSaving || !selectedCourse}
-                        className="h-12 px-6 bg-primary hover:bg-primary/80 text-white flex items-center gap-2 rounded-xl group shadow-lg shadow-primary/20"
-                    >
-                        {isSaving ? (
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        ) : (
-                            <Save className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                        )}
-                        <span className="text-xs font-bold uppercase tracking-widest">Sync to GitHub</span>
-                    </Button>
-                </div>
-            </div>
+                    <div className="flex gap-3">
+                        <Button
+                            onClick={handleSave}
+                            disabled={isSaving || !selectedCourse}
+                            className="h-12 px-6 bg-primary hover:bg-primary/80 text-white flex items-center gap-2 rounded-xl group shadow-lg shadow-primary/20"
+                        >
+                            {isSaving ? (
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            ) : (
+                                <Save className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            )}
+                            <span className="text-xs font-bold uppercase tracking-widest">Sync to GitHub</span>
+                        </Button>
+                    </div>
+                </motion.div>
+            )}
 
             {/* Status Bar */}
             <AnimatePresence>
@@ -270,235 +282,268 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                 )}
             </AnimatePresence>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Sidebar: Selectors */}
-                <div className="lg:col-span-3 space-y-6">
-                    <section className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 space-y-4">
-                        <div className="flex items-center gap-2 text-primary">
-                            <Layers size={14} />
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em]">Select Course</h3>
-                        </div>
-                        <div className="space-y-1">
-                            {courses.map(course => (
-                                <button
-                                    key={course.id}
-                                    onClick={() => {
-                                        setSelectedCourse(course);
-                                        setSelectedTopic(null);
-                                    }}
-                                    className={`w-full text-left px-4 py-3 rounded-xl transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-between group ${selectedCourse?.id === course.id ? 'bg-primary text-white shadow-lg shadow-primary/10' : 'text-slate-500 hover:text-white hover:bg-white/5'
-                                        }`}
-                                >
-                                    <span>{course.title}</span>
-                                    <ChevronRight size={14} className={`${selectedCourse?.id === course.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`} />
-                                </button>
-                            ))}
-                        </div>
-                    </section>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+                {/* Sidebar Toggle for Mobile/Focus */}
+                <button
+                    onClick={() => setShowSidebar(!showSidebar)}
+                    className="lg:hidden absolute -top-12 right-0 p-2 text-white bg-white/10 rounded-lg z-50"
+                >
+                    {showSidebar ? <PanelLeftClose size={20} /> : <PanelLeft size={20} />}
+                </button>
 
-                    {selectedCourse && (
-                        <section className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 space-y-4">
-                            <div className="flex items-center justify-between">
+                {/* Sidebar: Selectors */}
+                <AnimatePresence>
+                    {(!isFocusMode && showSidebar) && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -20, width: 0 }}
+                            animate={{ opacity: 1, x: 0, width: '100%' }}
+                            exit={{ opacity: 0, x: -20, width: 0 }}
+                            className="lg:col-span-3 space-y-6 overflow-hidden"
+                        >
+                            <section className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 space-y-4">
                                 <div className="flex items-center gap-2 text-primary">
-                                    <BookOpen size={14} />
-                                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em]">Select Topic</h3>
+                                    <Layers size={14} />
+                                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em]">Select Course</h3>
                                 </div>
-                                <button
-                                    onClick={() => setSelectedTopic(null)}
-                                    className="p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                                >
-                                    <Plus size={14} />
-                                </button>
-                            </div>
-                            <div className="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar space-y-1">
-                                {selectedCourse.notes.map(topic => (
-                                    <button
-                                        key={topic.id}
-                                        onClick={() => setSelectedTopic(topic)}
-                                        className={`w-full text-left px-4 py-2.5 rounded-xl transition-all text-[11px] font-medium flex flex-col gap-0.5 ${selectedTopic?.id === topic.id ? 'bg-white/10 text-white border border-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
-                                            }`}
-                                    >
-                                        <span className="truncate">{topic.title}</span>
-                                        <span className="text-[8px] opacity-40 uppercase tracking-widest">{topic.slug}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        </section>
+                                <div className="space-y-1">
+                                    {courses.map(course => (
+                                        <button
+                                            key={course.id}
+                                            onClick={() => {
+                                                setSelectedCourse(course);
+                                                setSelectedTopic(null);
+                                            }}
+                                            className={`w-full text-left px-4 py-3 rounded-xl transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-between group ${selectedCourse?.id === course.id ? 'bg-primary text-white shadow-lg shadow-primary/10' : 'text-slate-500 hover:text-white hover:bg-white/5'
+                                                }`}
+                                        >
+                                            <span>{course.title}</span>
+                                            <ChevronRight size={14} className={`${selectedCourse?.id === course.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`} />
+                                        </button>
+                                    ))}
+                                </div>
+                            </section>
+
+                            {selectedCourse && (
+                                <section className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2 text-primary">
+                                            <BookOpen size={14} />
+                                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em]">Select Topic</h3>
+                                        </div>
+                                        <button
+                                            onClick={() => setSelectedTopic(null)}
+                                            className="p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                                        >
+                                            <Plus size={14} />
+                                        </button>
+                                    </div>
+                                    <div className="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar space-y-1">
+                                        {selectedCourse.notes.map(topic => (
+                                            <button
+                                                key={topic.id}
+                                                onClick={() => setSelectedTopic(topic)}
+                                                className={`w-full text-left px-4 py-2.5 rounded-xl transition-all text-[11px] font-medium flex flex-col gap-0.5 ${selectedTopic?.id === topic.id ? 'bg-white/10 text-white border border-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                                    }`}
+                                            >
+                                                <span className="truncate">{topic.title}</span>
+                                                <span className="text-[8px] opacity-40 uppercase tracking-widest">{topic.slug}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+                        </motion.div>
                     )}
-                </div>
+                </AnimatePresence>
 
                 {/* Main Content: Metadata & Editor */}
-                <div className="lg:col-span-9 space-y-8">
-                    {/* Metadata Section */}
-                    <div className="obsidian-card p-8 rounded-3xl border-white/5 bg-white/2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Topic Title</label>
-                                <div className="relative">
-                                    <Type className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
-                                    <input
-                                        type="text"
-                                        value={metadata.title}
-                                        onChange={e => setMetadata({ ...metadata, title: e.target.value })}
-                                        placeholder="e.g. Masterclass 1: Introduction"
-                                        className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-bold text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none shadow-inner"
+                <motion.div
+                    layout
+                    className={`${!isFocusMode && showSidebar ? 'lg:col-span-9' : 'col-span-12'} space-y-8 transition-all duration-500`}
+                >
+                    {/* Metadata Section - Hidden in Focus Mode */}
+                    {!isFocusMode && (
+                        <div className="obsidian-card p-8 rounded-3xl border-white/5 bg-white/2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Topic Title</label>
+                                    <div className="relative">
+                                        <Type className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
+                                        <input
+                                            type="text"
+                                            value={metadata.title}
+                                            onChange={e => setMetadata({ ...metadata, title: e.target.value })}
+                                            placeholder="e.g. Masterclass 1: Introduction"
+                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-bold text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none shadow-inner"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Description</label>
+                                    <textarea
+                                        value={metadata.description}
+                                        onChange={e => setMetadata({ ...metadata, description: e.target.value })}
+                                        placeholder="Brief intro for the sidebar card..."
+                                        className="w-full h-24 bg-black/40 border border-white/5 rounded-2xl p-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none resize-none"
                                     />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Description</label>
-                                <textarea
-                                    value={metadata.description}
-                                    onChange={e => setMetadata({ ...metadata, description: e.target.value })}
-                                    placeholder="Brief intro for the sidebar card..."
-                                    className="w-full h-24 bg-black/40 border border-white/5 rounded-2xl p-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none resize-none"
-                                />
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Featured Image URL</label>
+                                    <div className="relative">
+                                        <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
+                                        <input
+                                            type="text"
+                                            value={metadata.image}
+                                            onChange={e => setMetadata({ ...metadata, image: e.target.value })}
+                                            placeholder="Unsplash URL, etc."
+                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tags (comma separated)</label>
+                                    <div className="relative">
+                                        <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
+                                        <input
+                                            type="text"
+                                            value={metadata.tags}
+                                            onChange={e => setMetadata({ ...metadata, tags: e.target.value })}
+                                            placeholder="Python, Basics, Logic"
+                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Featured Image URL</label>
-                                <div className="relative">
-                                    <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
-                                    <input
-                                        type="text"
-                                        value={metadata.image}
-                                        onChange={e => setMetadata({ ...metadata, image: e.target.value })}
-                                        placeholder="Unsplash URL, etc."
-                                        className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none"
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tags (comma separated)</label>
-                                <div className="relative">
-                                    <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-primary w-4 h-4" />
-                                    <input
-                                        type="text"
-                                        value={metadata.tags}
-                                        onChange={e => setMetadata({ ...metadata, tags: e.target.value })}
-                                        placeholder="Python, Basics, Logic"
-                                        className="w-full h-12 bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 text-sm font-medium text-white placeholder:text-slate-700 focus:border-primary/50 transition-all outline-none"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    )}
 
                     {/* Editor Section */}
-                    <div className="obsidian-card rounded-[2.5rem] border-white/5 bg-black/40 overflow-hidden flex flex-col min-h-[600px] shadow-2xl relative">
+                    <div className={`obsidian-card rounded-[2.5rem] border-white/5 bg-black/40 overflow-hidden flex flex-col shadow-2xl relative transition-all duration-500 ${isFocusMode ? 'fixed inset-4 z-50 h-[calc(100vh-2rem)] border-primary/20' : 'min-h-[600px] h-[70vh]'}`}>
                         {/* Editor Toolbar */}
-                        <div className="p-3 border-b border-white/5 bg-white/2 flex flex-wrap gap-1 items-center sticky top-0 z-20 backdrop-blur-xl">
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
-                                <ToolbarButton onClick={() => editor.chain().focus().undo().run()} icon={<Undo size={14} />} />
-                                <ToolbarButton onClick={() => editor.chain().focus().redo().run()} icon={<Redo size={14} />} />
+                        <div className="p-3 border-b border-white/5 bg-white/2 flex items-center justify-between sticky top-0 z-20 backdrop-blur-xl">
+                            <div className="flex overflow-x-auto no-scrollbar gap-1 items-center pb-2 md:pb-0 w-full mask-linear-fade">
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton onClick={() => editor.chain().focus().undo().run()} icon={<Undo size={14} />} />
+                                    <ToolbarButton onClick={() => editor.chain().focus().redo().run()} icon={<Redo size={14} />} />
+                                </div>
+
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleBold().run()}
+                                        active={editor?.isActive('bold')}
+                                        icon={<Bold size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleItalic().run()}
+                                        active={editor?.isActive('italic')}
+                                        icon={<Italic size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleCode().run()}
+                                        active={editor?.isActive('code')}
+                                        icon={<Code size={14} />}
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                                        active={editor?.isActive('heading', { level: 1 })}
+                                        icon={<Heading1 size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                                        active={editor?.isActive('heading', { level: 2 })}
+                                        icon={<Heading2 size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                                        active={editor?.isActive('heading', { level: 3 })}
+                                        icon={<Heading3 size={14} />}
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleBulletList().run()}
+                                        active={editor?.isActive('bulletList')}
+                                        icon={<List size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                                        active={editor?.isActive('orderedList')}
+                                        icon={<ListOrdered size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                                        active={editor?.isActive('blockquote')}
+                                        icon={<Quote size={14} />}
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+                                        icon={<TableIcon size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => {
+                                            const url = window.prompt('Enter image URL');
+                                            if (url) editor.chain().focus().setImage({ src: url }).run();
+                                        }}
+                                        icon={<ImageIcon size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                                        active={editor?.isActive('codeBlock')}
+                                        icon={<TerminalSquare size={16} />}
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1 shrink-0">
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleTaskList().run()}
+                                        active={editor?.isActive('taskList')}
+                                        icon={<CheckSquare size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleHighlight().run()}
+                                        active={editor?.isActive('highlight')}
+                                        icon={<Highlighter size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleSubscript().run()}
+                                        active={editor?.isActive('subscript')}
+                                        icon={<SubscriptIcon size={14} />}
+                                    />
+                                    <ToolbarButton
+                                        onClick={() => editor.chain().focus().toggleSuperscript().run()}
+                                        active={editor?.isActive('superscript')}
+                                        icon={<SuperscriptIcon size={14} />}
+                                    />
+                                </div>
                             </div>
 
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
+                            {/* Focus Toggle */}
+                            <div className="pl-2 border-l border-white/10 ml-2">
                                 <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleBold().run()}
-                                    active={editor?.isActive('bold')}
-                                    icon={<Bold size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleItalic().run()}
-                                    active={editor?.isActive('italic')}
-                                    icon={<Italic size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleCode().run()}
-                                    active={editor?.isActive('code')}
-                                    icon={<Code size={14} />}
-                                />
-                            </div>
-
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                                    active={editor?.isActive('heading', { level: 1 })}
-                                    icon={<Heading1 size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                                    active={editor?.isActive('heading', { level: 2 })}
-                                    icon={<Heading2 size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                                    active={editor?.isActive('heading', { level: 3 })}
-                                    icon={<Heading3 size={14} />}
-                                />
-                            </div>
-
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleBulletList().run()}
-                                    active={editor?.isActive('bulletList')}
-                                    icon={<List size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                                    active={editor?.isActive('orderedList')}
-                                    icon={<ListOrdered size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                                    active={editor?.isActive('blockquote')}
-                                    icon={<Quote size={14} />}
-                                />
-                            </div>
-
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
-                                    icon={<TableIcon size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => {
-                                        const url = window.prompt('Enter image URL');
-                                        if (url) editor.chain().focus().setImage({ src: url }).run();
-                                    }}
-                                    icon={<ImageIcon size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                                    active={editor?.isActive('codeBlock')}
-                                    icon={<TerminalSquare size={16} />}
-                                />
-                            </div>
-
-                            <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleTaskList().run()}
-                                    active={editor?.isActive('taskList')}
-                                    icon={<CheckSquare size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleHighlight().run()}
-                                    active={editor?.isActive('highlight')}
-                                    icon={<Highlighter size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleSubscript().run()}
-                                    active={editor?.isActive('subscript')}
-                                    icon={<SubscriptIcon size={14} />}
-                                />
-                                <ToolbarButton
-                                    onClick={() => editor.chain().focus().toggleSuperscript().run()}
-                                    active={editor?.isActive('superscript')}
-                                    icon={<SuperscriptIcon size={14} />}
+                                    onClick={() => setIsFocusMode(!isFocusMode)}
+                                    active={isFocusMode}
+                                    icon={isFocusMode ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
                                 />
                             </div>
                         </div>
 
                         {/* TipTap Surface */}
-                        <div className="flex-grow p-8 overflow-y-auto custom-scrollbar">
-                            <EditorContent editor={editor} className="tiptap-editor-surface" />
+                        <div className="flex-grow p-4 md:p-8 overflow-y-auto custom-scrollbar">
+                            <EditorContent editor={editor} className="tiptap-editor-surface max-w-4xl mx-auto" />
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </div >
     );
 };
 
