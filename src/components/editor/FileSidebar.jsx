@@ -7,7 +7,7 @@ import {
 import {
     ExpandLess, ExpandMore, Folder, Description,
     Code as CodeIcon, Terminal, Language, Add, CreateNewFolder,
-    Delete as DeleteIcon, Search as SearchIcon
+    Delete as DeleteIcon, Search as SearchIcon, Close as CloseIcon
 } from '@mui/icons-material';
 
 const FileSidebar = ({
@@ -32,29 +32,32 @@ const FileSidebar = ({
             sx={{
                 width: open ? width : 0,
                 flexShrink: 0,
-                transition: 'width 0.3s ease',
+                transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 [`& .MuiDrawer-paper`]: {
-                    width: width,
+                    width: isMobile ? '85%' : width,
                     boxSizing: 'border-box',
                     height: '100%',
                     borderRight: '1px solid rgba(255,255,255,0.05)',
-                    bgcolor: 'background.paper'
+                    bgcolor: isMobile ? 'rgba(13, 13, 13, 0.95)' : 'background.paper',
+                    backdropFilter: isMobile ? 'blur(30px)' : 'none',
+                    borderRadius: isMobile ? '0 24px 24px 0' : 0,
+                    boxShadow: isMobile ? '20px 0 60px rgba(0,0,0,0.8)' : 'none'
                 },
             }}
         >
-            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyBetween: 'space-between' }}>
-                <Typography variant="overline" color="text.secondary" fontWeight="bold" letterSpacing="0.2em">
+            <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography variant="overline" color="primary" fontWeight="900" letterSpacing="0.3em" sx={{ opacity: 0.8 }}>
                     EXPLORER
                 </Typography>
-                <Stack direction="row" spacing={0.5}>
+                <Stack direction="row" spacing={1}>
                     <Tooltip title="New Course">
-                        <IconButton size="small" onClick={onNewCourse} color="primary">
-                            <CreateNewFolder fontSize="inherit" />
+                        <IconButton size="small" onClick={onNewCourse} sx={{ bgcolor: 'rgba(0, 243, 255, 0.05)', border: '1px solid rgba(0, 243, 255, 0.1)' }}>
+                            <CreateNewFolder fontSize="inherit" color="primary" />
                         </IconButton>
                     </Tooltip>
                     {isMobile && (
-                        <IconButton size="small" onClick={onClose}>
-                            <ExpandLess sx={{ transform: 'rotate(-90deg)' }} />
+                        <IconButton size="small" onClick={onClose} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }}>
+                            <CloseIcon fontSize="small" />
                         </IconButton>
                     )}
                 </Stack>

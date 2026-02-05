@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGitHub } from '../../context/GitHubContext';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -23,16 +25,23 @@ import { FontFamily } from '@tiptap/extension-font-family';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { common, createLowlight } from 'lowlight';
 import {
-    ThemeProvider, Box, CssBaseline, CircularProgress,
-    Typography, Button, useMediaQuery, useTheme,
     Breadcrumbs, Link as MuiLink, Stack, Tooltip,
-    TextField, InputAdornment
+    TextField, InputAdornment, IconButton, Divider,
+    Grid, Paper, Container, Fade, Zoom, Avatar
 } from '@mui/material';
 import {
     NavigateNext as NavigateNextIcon,
     Home as HomeIcon,
     Category as CategoryIcon,
-    Article as ArticleIcon
+    Article as ArticleIcon,
+    FormatBold as FormatBoldIcon,
+    FormatItalic as FormatItalicIcon,
+    Code as CodeIcon,
+    Image as ImageIcon,
+    Save as SaveIcon,
+    MoreVert as MoreVertIcon,
+    Visibility as VisibilityIcon,
+    DeleteForever as DeleteForeverIcon
 } from '@mui/icons-material';
 import editorTheme from '../../components/editor/EditorTheme';
 import TopToolbar from '../../components/editor/TopToolbar';
@@ -59,6 +68,7 @@ const UltimateEditor = () => {
         category: ''
     });
     const [searchQuery, setSearchQuery] = useState('');
+    const [showLauncher, setShowLauncher] = useState(true);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -74,7 +84,12 @@ const UltimateEditor = () => {
             Table.configure({ resizable: true }),
             TableRow, TableCell, TableHeader,
             Image,
-            Link,
+            Link.configure({
+                openOnClick: false,
+                HTMLAttributes: {
+                    class: 'cursor-pointer text-cyan-400 no-underline hover:underline',
+                },
+            }),
             TaskList, TaskItem.configure({ nested: true }),
             TipTapTypography,
             Highlight.configure({ multipart: true }),
@@ -129,21 +144,6 @@ const UltimateEditor = () => {
                 throw new Error('No repository selected. Please select your repository in the Command Center (/github) first.');
             }
 
-            const repoPath = `src/data/notes/${selectedCourse.id.replace('-masterclass', '').replace('-deep-dive', '').replace('-mastery', '').replace('-ecosystem', '').replace('-systems-programming', '').replace('-programming', '')}.js`
-                .replace('internet-web-technology', 'internet') // manual fix for long ids
-                .replace('pc-maintenance-troubleshooting', 'hardware')
-                .replace('office-automation', 'office')
-                .replace('advanced-css3', 'css');
-
-            // This path logic is a bit fragile, let's try to be more robust if possible or rely on the ID map we made in index.js?
-            // Actually, index.js exports the arrays. The filenames align with the import names.
-            // Let's rely on the simple mapping we established:
-            // fundamentals -> fundamentals.js
-            // c-programming -> c-programming.js
-            // etc.
-            // A better way is to store the filename in the course object, but we can infer it for now.
-
-            // Quick Fix for ID to Filename mapping based on our known files
             let filename = selectedCourse.id;
             if (filename.includes('javascript')) filename = 'javascript';
             else if (filename.includes('html')) filename = 'html';
@@ -334,25 +334,301 @@ ${markdownContent}
         </ThemeProvider>
     );
 
+    // Launcher UI Component
+    const LaunchCenter = () => (
+        <Box sx={{
+            minHeight: '100vh',
+            bgcolor: 'background.default',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            overflow: 'hidden'
+        }}>
+            {/* Ambient Background Elements */}
+            <Box sx={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0, 243, 255, 0.08) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+            <Box sx={{ position: 'absolute', bottom: -100, left: -100, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0, 102, 255, 0.05) 0%, transparent 70%)', filter: 'blur(80px)' }} />
+
+            <Container maxWidth="lg" sx={{ pt: isMobile ? 4 : 8, pb: 8, position: 'relative', zIndex: 1 }}>
+                {/* Header Section */}
+                <motion.div
+                    initial={{ y: -30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                >
+                    <Box sx={{ textAlign: 'center', mb: 8 }}>
+                        <Box sx={{
+                            display: 'inline-flex',
+                            p: 2,
+                            borderRadius: '24px',
+                            bgcolor: 'rgba(255,255,255,0.02)',
+                            border: '1px solid rgba(255,255,255,0.05)',
+                            backdropFilter: 'blur(10px)',
+                            mb: 3
+                        }}>
+                            <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #00f3ff, #0066ff)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(0, 243, 255, 0.3)' }}>
+                                <Typography variant="h5" fontWeight="900" sx={{ color: 'black' }}>N</Typography>
+                            </div>
+                        </Box>
+                        <Typography variant={isMobile ? "h4" : "h2"} sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em', fontStyle: 'italic', mb: 1.5 }}>
+                            Notes <span style={{ color: theme.palette.primary.main }}>Architect</span>
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto', fontWeight: 300, opacity: 0.7 }}>
+                            Elite Command Center for Professional Content Management
+                        </Typography>
+                    </Box>
+                </motion.div>
+
+                {/* Selection Interface */}
+                <motion.div
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <Box sx={{ mb: 6 }}>
+                        <TextField
+                            fullWidth
+                            placeholder="Find a course mission..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon color="primary" sx={{ opacity: 0.5 }} />
+                                    </InputAdornment>
+                                ),
+                                sx: {
+                                    height: 64,
+                                    borderRadius: '20px',
+                                    border: '1px solid rgba(255,255,255,0.05)',
+                                    bgcolor: 'rgba(255,255,255,0.02)',
+                                    backdropFilter: 'blur(20px)',
+                                    fontSize: '1.1rem',
+                                    transition: 'all 0.3s',
+                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.04)', borderColor: 'rgba(0, 243, 255, 0.2)' },
+                                    '&.Mui-focused': { bgcolor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(0, 243, 255, 0.5)', boxShadow: '0 0 30px rgba(0, 243, 255, 0.1)' }
+                                }
+                            }}
+                        />
+                    </Box>
+
+                    <Grid container spacing={3}>
+                        {filteredCourses.map((course, index) => (
+                            <Grid item xs={12} sm={6} md={4} key={course.id}>
+                                <motion.div
+                                    whileHover={{ y: -8, scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => {
+                                        setSelectedCourse(course);
+                                        setShowLauncher(false);
+                                    }}
+                                >
+                                    <Paper sx={{
+                                        p: 3,
+                                        height: '100%',
+                                        cursor: 'pointer',
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        borderRadius: '24px',
+                                        bgcolor: 'rgba(20, 20, 20, 0.6)',
+                                        border: '1px solid rgba(255,255,255,0.05)',
+                                        backdropFilter: 'blur(30px)',
+                                        transition: 'all 0.3s',
+                                        '&:hover': {
+                                            borderColor: 'primary.main',
+                                            boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(0, 243, 255, 0.1)'
+                                        }
+                                    }}>
+                                        <Stack spacing={2}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                <Avatar sx={{ bgcolor: 'rgba(0, 243, 255, 0.1)', color: 'primary.main', borderRadius: '12px' }}>
+                                                    <CategoryIcon fontSize="small" />
+                                                </Avatar>
+                                                <Typography variant="caption" sx={{ opacity: 0.3, letterSpacing: '0.1em' }}>COURSE ID: {course.id.substring(0, 6)}</Typography>
+                                            </Box>
+                                            <Box>
+                                                <Typography variant="h6" fontWeight="bold" sx={{ mb: 0.5, lineHeight: 1.2 }}>
+                                                    {course.title}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ opacity: 0.5, fontSize: '0.8rem' }}>
+                                                    {course.notes.length} Active Modules
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{ pt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                                                <Button size="small" variant="text" sx={{ fontWeight: 800, fontSize: '0.7rem', color: 'primary.main' }} endIcon={<NavigateNextIcon />}>
+                                                    Initialize Workspace
+                                                </Button>
+                                            </Box>
+                                        </Stack>
+                                    </Paper>
+                                </motion.div>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </motion.div>
+            </Container>
+        </Box>
+    );
+
+    if (showLauncher) {
+        return (
+            <ThemeProvider theme={editorTheme}>
+                <CssBaseline />
+                <LaunchCenter />
+            </ThemeProvider>
+        );
+    }
+
     return (
         <ThemeProvider theme={editorTheme}>
             <CssBaseline />
             <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
-                <TopToolbar
-                    editor={editor}
-                    onSave={handleSave}
-                    onDelete={() => selectedTopic && handleDeleteTopic(selectedCourse, selectedTopic)}
-                    isSaving={isSaving}
-                    onToggleFiles={() => setFileSidebarOpen(!fileSidebarOpen)}
-                    onToggleProps={() => setPropsSidebarOpen(!propsSidebarOpen)}
-                    isMobile={isMobile}
-                    courseId={selectedCourse?.id}
-                    topicSlug={selectedTopic?.slug}
-                />
+                {!isMobile && (
+                    <TopToolbar
+                        editor={editor}
+                        onSave={handleSave}
+                        onDelete={() => selectedTopic && handleDeleteTopic(selectedCourse, selectedTopic)}
+                        isSaving={isSaving}
+                        onToggleFiles={() => setFileSidebarOpen(!fileSidebarOpen)}
+                        onToggleProps={() => setPropsSidebarOpen(!propsSidebarOpen)}
+                        isMobile={isMobile}
+                        courseId={selectedCourse?.id}
+                        topicSlug={selectedTopic?.slug}
+                    />
+                )}
 
-                {breadcrumbs}
+                {!isMobile && breadcrumbs}
 
                 <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden', position: 'relative' }}>
+                    {/* Workspace UI Header for Mobile */}
+                    <AnimatePresence>
+                        {isMobile && editor && (
+                            <>
+                                {/* Floating Top Header */}
+                                <motion.div
+                                    initial={{ y: -50, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: -50, opacity: 0 }}
+                                    style={{
+                                        position: 'absolute',
+                                        top: 16,
+                                        left: 16,
+                                        right: 16,
+                                        zIndex: 1000,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        padding: '12px 20px',
+                                        background: 'rgba(10, 10, 10, 0.8)',
+                                        backdropFilter: 'blur(20px)',
+                                        borderRadius: '16px',
+                                        border: '1px solid rgba(255,255,255,0.08)',
+                                        boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                        <IconButton size="small" onClick={() => setShowLauncher(true)} sx={{ mr: 0.5, color: 'primary.main' }}>
+                                            <HomeIcon fontSize="small" />
+                                        </IconButton>
+                                        <Typography variant="body2" fontWeight="800" sx={{ letterSpacing: '0.1em', opacity: 0.9 }}>
+                                            {selectedTopic ? selectedTopic.title.substring(0, 15) + '...' : (selectedCourse?.title.substring(0, 15) + '...' || 'ARCHITECT')}
+                                        </Typography>
+                                    </Box>
+                                    <Button
+                                        size="small"
+                                        onClick={handleSave}
+                                        disabled={isSaving}
+                                        variant="contained"
+                                        sx={{
+                                            borderRadius: '10px',
+                                            fontWeight: 800,
+                                            height: 32,
+                                            padding: '0 16px',
+                                            background: 'linear-gradient(to right, #00f3ff, #0066ff)',
+                                            color: 'black',
+                                            boxShadow: '0 0 15px rgba(0, 243, 255, 0.3)'
+                                        }}
+                                    >
+                                        {isSaving ? '...' : <SaveIcon fontSize="small" />}
+                                    </Button>
+                                </motion.div>
+
+                                {/* Vertical Floating Toolbar */}
+                                <motion.div
+                                    initial={{ x: -50, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    exit={{ x: -50, opacity: 0 }}
+                                    style={{
+                                        position: 'absolute',
+                                        left: 12,
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        zIndex: 999,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 8,
+                                        padding: '10px',
+                                        background: 'rgba(10, 10, 10, 0.7)',
+                                        backdropFilter: 'blur(15px)',
+                                        borderRadius: '24px',
+                                        border: '1px solid rgba(255,255,255,0.05)'
+                                    }}
+                                >
+                                    {[
+                                        { icon: <FormatBoldIcon fontSize="small" />, active: editor.isActive('bold'), action: () => editor.chain().focus().toggleBold().run() },
+                                        { icon: <FormatItalicIcon fontSize="small" />, active: editor.isActive('italic'), action: () => editor.chain().focus().toggleItalic().run() },
+                                        { icon: <CodeIcon fontSize="small" />, active: editor.isActive('codeBlock'), action: () => editor.chain().focus().toggleCodeBlock().run() },
+                                        { icon: <ImageIcon fontSize="small" />, active: false, action: () => { const url = window.prompt('Image URL'); if (url) editor.chain().focus().setImage({ src: url }).run(); } },
+                                    ].map((tool, i) => (
+                                        <IconButton
+                                            key={i}
+                                            size="small"
+                                            onClick={tool.action}
+                                            sx={{
+                                                width: 38,
+                                                height: 38,
+                                                color: tool.active ? '#00f3ff' : 'white',
+                                                bgcolor: tool.active ? 'rgba(0, 243, 255, 0.1)' : 'transparent',
+                                                '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
+                                            }}
+                                        >
+                                            {tool.icon}
+                                        </IconButton>
+                                    ))}
+                                </motion.div>
+
+                                {/* Bottom Dock */}
+                                <motion.div
+                                    initial={{ y: 50, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: 50, opacity: 0 }}
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: 24,
+                                        left: '50%',
+                                        transform: 'translateX(-50%)',
+                                        zIndex: 1001,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 20,
+                                        padding: '12px 24px',
+                                        background: 'rgba(20, 20, 20, 0.9)',
+                                        backdropFilter: 'blur(20px)',
+                                        borderRadius: '80px',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        boxShadow: '0 10px 40px rgba(0,0,0,0.6)'
+                                    }}
+                                >
+                                    <IconButton onClick={() => setFileSidebarOpen(true)} sx={{ color: 'white', opacity: 0.8 }}>
+                                        <MenuIcon size={20} />
+                                    </IconButton>
+                                    <Divider orientation="vertical" flexItem sx={{ borderRightColor: 'rgba(255,255,255,0.1)', my: 1 }} />
+                                    <IconButton onClick={() => setPropsSidebarOpen(true)} sx={{ color: 'white', opacity: 0.8 }}>
+                                        <SearchIcon size={20} />
+                                    </IconButton>
+                                </motion.div>
+                            </>
+                        )}
+                    </AnimatePresence>
                     <style>
                         {`
                             ::-webkit-scrollbar {
@@ -401,7 +677,9 @@ ${markdownContent}
                             overflowY: 'auto',
                             display: 'flex',
                             justifyContent: 'center',
-                            p: isMobile ? 2 : 4,
+                            p: isMobile ? 1 : 4,
+                            pt: isMobile ? 10 : 4, // More space for floating header
+                            pb: isMobile ? 12 : 4, // More space for bottom dock
                             backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.03), transparent 70%)'
                         }}>
                             <Box sx={{

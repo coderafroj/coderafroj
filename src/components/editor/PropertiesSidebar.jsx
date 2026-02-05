@@ -16,27 +16,35 @@ const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile }) =
     return (
         <Drawer
             variant={isMobile ? "temporary" : (open ? "permanent" : "persistent")}
-            anchor="right"
+            anchor={isMobile ? "bottom" : "right"}
             open={open}
             onClose={onClose}
             sx={{
-                width: open ? width : 0,
+                width: isMobile ? '100%' : (open ? width : 0),
                 flexShrink: 0,
-                transition: 'width 0.3s ease',
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 [`& .MuiDrawer-paper`]: {
-                    width: width,
+                    width: isMobile ? '100%' : width,
+                    height: isMobile ? '80%' : '100%',
                     boxSizing: 'border-box',
-                    height: '100%',
-                    borderLeft: '1px solid rgba(255,255,255,0.05)',
-                    bgcolor: 'background.paper'
+                    borderLeft: isMobile ? 'none' : '1px solid rgba(255,255,255,0.05)',
+                    borderTop: isMobile ? '1px solid rgba(0, 243, 255, 0.2)' : 'none',
+                    bgcolor: isMobile ? 'rgba(13, 13, 13, 0.95)' : 'background.paper',
+                    backdropFilter: isMobile ? 'blur(30px)' : 'none',
+                    borderRadius: isMobile ? '32px 32px 0 0' : 0,
+                    boxShadow: isMobile ? '0 -20px 60px rgba(0,0,0,0.8)' : 'none',
+                    overflow: 'hidden'
                 },
             }}
         >
-            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Typography variant="overline" color="text.secondary" fontWeight="bold" letterSpacing="0.2em">
+            {isMobile && (
+                <Box sx={{ width: 40, height: 4, bgcolor: 'rgba(255,255,255,0.1)', borderRadius: 2, mx: 'auto', mt: 1.5, mb: 0.5 }} />
+            )}
+            <Box sx={{ p: isMobile ? 3 : 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography variant="overline" color="primary" fontWeight="900" letterSpacing="0.3em" sx={{ opacity: 0.8 }}>
                     PROPERTIES
                 </Typography>
-                <IconButton size="small" onClick={onClose}>
+                <IconButton size="small" onClick={onClose} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }}>
                     <Close fontSize="small" />
                 </IconButton>
             </Box>
