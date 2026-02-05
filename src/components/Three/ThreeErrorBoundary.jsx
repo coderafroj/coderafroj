@@ -12,8 +12,12 @@ class ThreeErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, errorInfo) {
-        // You can also log the error to an error reporting service
-        console.warn("Three.js Rendering Error Caught:", error, errorInfo);
+        // Suppress and handle WebGL context lost or creation errors
+        if (error.message?.includes('WebGL') || error.message?.includes('context')) {
+            console.warn("Switching to Static Mode: WebGL failure detected.");
+        } else {
+            console.warn("Three.js Rendering Error:", error, errorInfo);
+        }
     }
 
     render() {

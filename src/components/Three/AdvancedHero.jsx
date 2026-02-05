@@ -101,7 +101,14 @@ const AdvancedHero = () => {
     return (
         <div className="w-full h-full relative cursor-crosshair">
             <Canvas
-                camera={{ position: [0, 0, 10], fov: 45 }}
+                camera={{ position: [0, 0, 5], fov: 50 }}
+                gl={{
+                    antialias: false,
+                    powerPreference: 'low-power',
+                    stencil: false,
+                    alpha: true,
+                    depth: true
+                }}
             >
                 <color attach="background" args={['transparent']} />
 

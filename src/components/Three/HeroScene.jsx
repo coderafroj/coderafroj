@@ -47,7 +47,15 @@ const ParticleField = ({ count = 200 }) => {
 const HeroScene = () => {
     return (
         <div className="absolute inset-0 z-0">
-            <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+            <Canvas
+                camera={{ position: [0, 0, 5], fov: 45 }}
+                gl={{
+                    antialias: false,
+                    powerPreference: 'low-power',
+                    stencil: false,
+                    alpha: true
+                }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color="#6366f1" />
                 <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />

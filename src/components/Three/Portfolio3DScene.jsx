@@ -162,7 +162,16 @@ const Portfolio3DScene = () => {
 
     return (
         <div className="w-full h-full absolute inset-0 z-0">
-            <Canvas camera={{ position: [0, 0, 12], fov: 45 }}>
+            <Canvas
+                camera={{ position: [0, 0, 12], fov: 45 }}
+                gl={{
+                    antialias: false,
+                    powerPreference: 'low-power',
+                    stencil: false,
+                    alpha: true,
+                    depth: true
+                }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color="#6366f1" />
                 <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />

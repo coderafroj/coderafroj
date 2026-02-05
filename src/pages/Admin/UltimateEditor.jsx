@@ -18,12 +18,13 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { common, createLowlight } from 'lowlight';
-import { ThemeProvider, Box, CssBaseline, CircularProgress, Typography } from '@mui/material';
+import { ThemeProvider, Box, CssBaseline, CircularProgress, Typography, Button } from '@mui/material';
 import editorTheme from '../../components/editor/EditorTheme';
 import TopToolbar from '../../components/editor/TopToolbar';
 import FileSidebar from '../../components/editor/FileSidebar';
 import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
 import { courses } from '../../data/notes';
+import { Github } from 'lucide-react';
 
 // Lowlight setup
 const lowlight = createLowlight(common);
@@ -178,9 +179,73 @@ ${markdownContent}
     };
 
     if (!isAuthenticated) return (
-        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'black', color: 'white' }}>
-            <Typography variant="h5">AUTHENTICATION REQUIRED</Typography>
-        </Box>
+        <ThemeProvider theme={editorTheme}>
+            <CssBaseline />
+            <Box sx={{
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'background.default',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Background Glows */}
+                <Box sx={{ position: 'absolute', top: '10%', right: '-10%', width: 600, height: 600, bgcolor: 'primary.main', opacity: 0.05, filter: 'blur(120px)', borderRadius: '50%' }} />
+                <Box sx={{ position: 'absolute', bottom: '10%', left: '-10%', width: 600, height: 600, bgcolor: 'cyan', opacity: 0.05, filter: 'blur(120px)', borderRadius: '50%' }} />
+
+                <Box sx={{ textAlign: 'center', zIndex: 1, p: 4 }}>
+                    <Box sx={{
+                        mb: 4,
+                        display: 'inline-flex',
+                        p: 3,
+                        borderRadius: '2rem',
+                        bgcolor: 'rgba(255,255,255,0.02)',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        backdropFilter: 'blur(10px)'
+                    }}>
+                        <Github size={48} color={editorTheme.palette.primary.main} style={{ opacity: 0.5 }} />
+                    </Box>
+                    <Typography variant="h3" sx={{ fontWeight: 900, mb: 2, letterSpacing: '-0.02em', textTransform: 'uppercase', fontStyle: 'italic' }}>
+                        Access <span style={{ color: editorTheme.palette.primary.main }}>Restricted</span>
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, maxWidth: 400, mx: 'auto', fontWeight: 300 }}>
+                        Professional Note Architect requires GitHub authentication to sync with your repository.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            onClick={() => window.location.href = '/'}
+                            sx={{
+                                borderRadius: '1rem',
+                                px: 4,
+                                py: 1.5,
+                                bgcolor: 'rgba(255,255,255,0.05)',
+                                color: 'white',
+                                '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+                            }}
+                        >
+                            Back Home
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            onClick={() => window.location.href = '/github'}
+                            sx={{
+                                borderRadius: '1rem',
+                                px: 4,
+                                py: 1.5,
+                                fontWeight: 800,
+                                boxShadow: '0 10px 30px -5px rgba(0, 243, 255, 0.4)'
+                            }}
+                        >
+                            Log In to GitHub
+                        </Button>
+                    </Box>
+                </Box>
+            </Box>
+        </ThemeProvider>
     );
 
     return (

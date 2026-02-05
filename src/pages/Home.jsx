@@ -181,14 +181,14 @@ const Home = () => {
                 description="Coderafroj - Premium full-stack development and high-end digital design agency. Crafting breathtaking digital experiences."
             />
 
-            {/* Global 3D Background Stream */}
-            {hasWebGL && (
+            {/* Global 3D Background Stream - Removed on Home to fix context limit/crash */}
+            {/* hasWebGL && (
                 <React.Suspense fallback={<ThreeFallback fullScreen />}>
                     <ThreeErrorBoundary>
                         <BackgroundStream />
                     </ThreeErrorBoundary>
                 </React.Suspense>
-            )}
+            ) */}
 
             {/* 3D Background - Live Advanced Hero Scene */}
             <div className="fixed inset-0 pointer-events-none z-0">
