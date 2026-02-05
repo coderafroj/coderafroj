@@ -1090,8 +1090,8 @@
 
 @keyframes glitch {
   0% {
-    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-      -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+    text-shadow: 0.05em 0 0 rgba(21, 171, 216, 0.75),
+      -0.05em -0.025em 0 rgba(226, 208, 44, 0.75),
       -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
   }
 
@@ -1140,4 +1140,147 @@
   height: 100%;
   opacity: 0.05;
   pointer-events: none;
-}.tiptap-editor-surface .tiptap { outline: none; min-height: 400px; } .tiptap-editor-surface .tiptap p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; color: #475569; pointer-events: none; height: 0; } .tiptap-editor-surface .tiptap h1 { @apply text-3xl font-black text-white mb-6 uppercase italic; } .tiptap-editor-surface .tiptap h2 { @apply text-2xl font-black text-primary-glow mb-4 uppercase mt-8 border-b border-white/5 pb-2; } .tiptap-editor-surface .tiptap h3 { @apply text-xl font-bold text-white mb-3 uppercase mt-6; } .tiptap-editor-surface .tiptap p { @apply text-slate-400 mb-4 leading-relaxed; } .tiptap-editor-surface .tiptap ul { @apply list-disc list-inside mb-4 space-y-2 text-slate-400; } .tiptap-editor-surface .tiptap ol { @apply list-decimal list-inside mb-4 space-y-2 text-slate-400; } .tiptap-editor-surface .tiptap blockquote { @apply border-l-4 border-primary bg-primary/5 p-4 rounded-r-xl italic text-slate-500 mb-6; } .tiptap-editor-surface .tiptap code { @apply bg-white/5 text-primary-glow px-1.5 py-0.5 rounded font-mono text-sm border border-white/10; } .tiptap-editor-surface .tiptap pre { @apply bg-[#050510] border border-white/10 p-4 rounded-2xl mb-6 font-mono text-sm overflow-x-auto; } .tiptap-editor-surface .tiptap img { @apply max-w-full h-auto rounded-2xl border border-white/10 my-8 shadow-2xl; } .tiptap-editor-surface .tiptap table { @apply w-full border-collapse mb-6 border border-white/10 rounded-xl overflow-hidden; } .tiptap-editor-surface .tiptap th, .tiptap-editor-surface .tiptap td { @apply border border-white/10 p-3 text-sm; } .tiptap-editor-surface .tiptap th { @apply bg-white/5 text-primary-glow font-black uppercase tracking-widest text-[10px]; }
+}
+
+.tiptap-editor-surface .tiptap {
+  outline: none;
+  min-height: 400px;
+}
+
+.tiptap-editor-surface .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #475569;
+  pointer-events: none;
+  height: 0;
+}
+
+.tiptap-editor-surface .tiptap h1 {
+  @apply text-3xl font-black text-white mb-6 uppercase italic;
+}
+
+.tiptap-editor-surface .tiptap h2 {
+  @apply text-2xl font-black text-primary-glow mb-4 uppercase mt-8 border-b border-white/5 pb-2;
+}
+
+.tiptap-editor-surface .tiptap h3 {
+  @apply text-xl font-bold text-white mb-3 uppercase mt-6;
+}
+
+.tiptap-editor-surface .tiptap p {
+  @apply text-slate-400 mb-4 leading-relaxed;
+}
+
+.tiptap-editor-surface .tiptap ul {
+  @apply list-disc list-inside mb-4 space-y-2 text-slate-400;
+}
+
+.tiptap-editor-surface .tiptap ol {
+  @apply list-decimal list-inside mb-4 space-y-2 text-slate-400;
+}
+
+.tiptap-editor-surface .tiptap blockquote {
+  @apply border-l-4 border-primary bg-primary/5 p-4 rounded-r-xl italic text-slate-500 mb-6;
+}
+
+.tiptap-editor-surface .tiptap code {
+  @apply bg-white/5 text-primary-glow px-1.5 py-0.5 rounded font-mono text-sm border border-white/10;
+}
+
+.tiptap-editor-surface .tiptap pre {
+  @apply bg-[#050510] border border-white/10 p-4 rounded-2xl mb-6 font-mono text-sm overflow-x-auto;
+}
+
+.tiptap-editor-surface .tiptap img {
+  @apply max-w-full h-auto rounded-2xl border border-white/10 my-8 shadow-2xl;
+}
+
+.tiptap-editor-surface .tiptap table {
+  @apply w-full border-collapse mb-6 border border-white/10 rounded-xl overflow-hidden;
+}
+
+.tiptap-editor-surface .tiptap th,
+.tiptap-editor-surface .tiptap td {
+  @apply border border-white/10 p-3 text-sm;
+}
+
+.tiptap-editor-surface .tiptap th {
+  @apply bg-white/5 text-primary-glow font-black uppercase tracking-widest text-[10px];
+}
+
+/* Syntax Highlighting */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+  color: #c678dd;
+}
+
+.hljs-function .hljs-keyword {
+  color: #c678dd;
+}
+
+.hljs-title,
+.hljs-name,
+.hljs-type,
+.hljs-attribute,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #e06c75;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-meta {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-subst,
+.hljs-params,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #98c379;
+}
+
+.tiptap-editor-surface .tiptap .selectedCell:after {
+  content: "";
+  @apply absolute inset-0 bg-primary/20 pointer-events-none;
+}
+
+ul[data-type="taskList"] {
+  @apply list-none p-0;
+}
+
+li[data-type="taskItem"] {
+  @apply flex items-start gap-3 mb-2;
+}
+
+li[data-type="taskItem"] label {
+  @apply mt-1 select-none cursor-pointer;
+}
+
+li[data-type="taskItem"] input[type="checkbox"] {
+  @apply appearance-none w-4 h-4 border border-white/20 rounded bg-white/5 checked:bg-primary checked:border-primary transition-all cursor-pointer relative;
+}
+
+li[data-type="taskItem"] input[type="checkbox"]:checked::after {
+  content: '✓';
+  @apply absolute left-[2px] top-[-2px] text-white text-[10px] font-bold;
+}
+
+li[data-type="taskItem"]>div {
+  @apply flex-1;
+}
