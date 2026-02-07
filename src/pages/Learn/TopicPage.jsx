@@ -37,6 +37,7 @@ const TopicPage = () => {
             prevTopic={prevTopic}
             nextTopic={nextTopic}
             courseId={courseId}
+            course={course}
         />
     );
 };

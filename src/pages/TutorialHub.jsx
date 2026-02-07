@@ -1,43 +1,76 @@
-
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Book, Code, Terminal, Database, Globe, ChevronRight } from 'lucide-react';
+import { Book, Code, Terminal, Database, Globe, ChevronRight, Cpu, FileText, Layout, Layers, ShieldCheck, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
+import { courses } from '../data/notes';
 
-const tutorials = [
-    {
-        id: 'python',
-        title: 'Python',
-        description: 'A popular programming language for Web, AI, and Scripting.',
+const courseStyles = {
+    'python-masterclass': {
         icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" className="w-8 h-8" alt="Python" />,
         color: 'from-blue-600 to-yellow-500',
         bg: 'hover:border-yellow-500/50'
     },
-    {
-        id: 'c',
-        title: 'C',
-        description: 'The mother of all languages. High performance and system level.',
+    'c-programming': {
         icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" className="w-8 h-8" alt="C" />,
         color: 'from-blue-500 to-blue-700',
         bg: 'hover:border-blue-500/50'
     },
-    {
-        id: 'cpp',
-        title: 'C++',
-        description: 'A powerful extension of C with object-oriented features.',
+    'cpp-systems-programming': {
         icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" className="w-8 h-8" alt="C++" />,
         color: 'from-blue-700 to-purple-600',
         bg: 'hover:border-blue-700/50'
     },
-    {
-        id: 'java',
-        title: 'Java',
-        description: 'A robust, object-oriented language used for enterprise apps.',
+    'java-programming': {
         icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" className="w-8 h-8" alt="Java" />,
         color: 'from-red-500 to-orange-600',
         bg: 'hover:border-red-500/50'
+    },
+    'javascript-deep-dive': {
+        icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" className="w-8 h-8" alt="JS" />,
+        color: 'from-yellow-400 to-yellow-600',
+        bg: 'hover:border-yellow-400/50'
+    },
+    'html5-mastery': {
+        icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" className="w-8 h-8" alt="HTML" />,
+        color: 'from-orange-500 to-red-600',
+        bg: 'hover:border-orange-500/50'
+    },
+    'advanced-css3': {
+        icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" className="w-8 h-8" alt="CSS" />,
+        color: 'from-blue-400 to-blue-600',
+        bg: 'hover:border-blue-400/50'
+    },
+    'react-js-ecosystem': {
+        icon: <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" className="w-8 h-8" alt="React" />,
+        color: 'from-cyan-400 to-blue-500',
+        bg: 'hover:border-cyan-400/50'
+    },
+    'computer-fundamentals': {
+        icon: <Terminal size={32} className="text-green-400" />,
+        color: 'from-green-500 to-emerald-700',
+        bg: 'hover:border-green-500/50'
+    },
+    'office-automation': {
+        icon: <FileText size={32} className="text-blue-400" />,
+        color: 'from-blue-400 to-indigo-600',
+        bg: 'hover:border-blue-400/50'
+    },
+    'pc-maintenance-troubleshooting': {
+        icon: <Cpu size={32} className="text-purple-400" />,
+        color: 'from-purple-500 to-pink-600',
+        bg: 'hover:border-purple-500/50'
+    },
+    'internet-web-technology': {
+        icon: <Globe size={32} className="text-cyan-400" />,
+        color: 'from-cyan-500 to-blue-600',
+        bg: 'hover:border-cyan-500/50'
+    },
+    'iot-mastery': {
+        icon: <Layers size={32} className="text-yellow-400" />,
+        color: 'from-yellow-400 to-orange-600',
+        bg: 'hover:border-yellow-400/50'
     }
-];
+};
 
 const TutorialHub = () => {
     return (
@@ -57,32 +90,40 @@ const TutorialHub = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {tutorials.map((tut, index) => (
-                        <motion.div
-                            key={tut.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                        >
-                            <Link to={`/tutorial/${tut.id}`} className="block h-full">
-                                <div className={`h-full bg-[#0d1117] border border-white/5 rounded-3xl p-8 transition-all duration-300 group hover:bg-[#161b22] ${tut.bg} hover:border-opacity-50 hover:shadow-2xl hover:-translate-y-1`}>
-                                    <div className="mb-6 w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                        {tut.icon}
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-3 flex items-center gap-2">
-                                        {tut.title}
-                                    </h3>
-                                    <p className="text-gray-400 leading-relaxed">
-                                        {tut.description}
-                                    </p>
+                    {courses.map((course, index) => {
+                        const style = courseStyles[course.id] || {
+                            icon: <Book size={32} className="text-gray-400" />,
+                            color: 'from-gray-600 to-gray-400',
+                            bg: 'hover:border-gray-400/50'
+                        };
 
-                                    <div className="mt-8 flex items-center text-sm font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
-                                        Start Learning <ChevronRight size={16} className="ml-1" />
+                        return (
+                            <motion.div
+                                key={course.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                            >
+                                <Link to={`/learn/${course.id}`} className="block h-full">
+                                    <div className={`h-full bg-[#0d1117] border border-white/5 rounded-3xl p-8 transition-all duration-300 group hover:bg-[#161b22] ${style.bg} hover:border-opacity-50 hover:shadow-2xl hover:-translate-y-1`}>
+                                        <div className="mb-6 w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                                            {style.icon}
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-white mb-3 flex items-center gap-2">
+                                            {course.title}
+                                        </h3>
+                                        <p className="text-gray-400 leading-relaxed line-clamp-2">
+                                            {course.description}
+                                        </p>
+
+                                        <div className="mt-8 flex items-center text-sm font-bold uppercase tracking-widest text-gray-500 group-hover:text-white transition-colors">
+                                            Start Learning <ChevronRight size={16} className="ml-1" />
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        </motion.div>
-                    ))}
+                                </Link>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

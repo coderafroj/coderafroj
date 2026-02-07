@@ -16,62 +16,70 @@ const icons = {
 
 const CourseIndex = () => {
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+        <div className="min-h-screen pt-32 pb-20 px-6 sm:px-12 lg:px-24 infinite-canvas text-white">
             <SEO
-                title="Learning Pathways"
+                title="Learning Pathways | Elite Architech"
                 description="Explore depth-first computer science courses and master programming languages, computer fundamentals, and tech concepts."
             />
             <div className="max-w-7xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-16"
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center mb-24"
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-4">
-                        Learning Pathways
+                    <div className="flex justify-center mb-8">
+                        <span className="px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.4em] bg-blue-600/10 text-blue-400 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+                            Educational_Protocol_Active
+                        </span>
+                    </div>
+                    <h1 className="text-6xl md:text-9xl font-black text-white mb-8 tracking-tighter leading-[0.85] uppercase">
+                        Learning <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600">Pathways</span>
                     </h1>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                        Master computer science concepts with our premium, depth-first courses.
-                        Select a track to begin your journey.
+                    <p className="text-white/40 text-sm md:text-base font-mono uppercase tracking-[0.2em] max-w-2xl mx-auto">
+                        Mastering the digital landscape through depth-first exploration and premium architecture.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     {courses.map((course, index) => {
                         const Icon = icons[course.id] || BookOpen;
                         return (
                             <Link key={course.id} to={`/learn/${course.id}`}>
                                 <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    whileHover={{ scale: 1.03, rotate: 1 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="group relative h-full p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300 shadow-xl overflow-hidden"
+                                    initial={{ opacity: 0, y: 40 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    whileHover={{ y: -15 }}
+                                    className="group relative h-[450px] p-10 rounded-[2.5rem] glass-plus hover:border-blue-500/40 transition-all duration-700 overflow-hidden flex flex-col justify-between"
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:to-pink-500/10 transition-all duration-500" />
+                                    <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                                     <div className="relative z-10">
-                                        <div className="mb-4 p-3 rounded-lg bg-blue-500/20 w-fit text-blue-400 group-hover:text-blue-300 group-hover:bg-blue-500/30 transition-colors">
-                                            <Icon size={32} />
+                                        <div className="mb-10 p-5 rounded-2xl bg-white/[0.03] border border-white/5 w-fit text-blue-400 group-hover:text-white group-hover:bg-blue-600 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-500">
+                                            <Icon size={40} strokeWidth={1.5} />
                                         </div>
 
-                                        <h2 className="text-2xl font-bold mb-3 text-white group-hover:text-blue-200 transition-colors">
+                                        <h2 className="text-3xl font-black mb-6 text-white group-hover:translate-x-2 transition-transform duration-500 uppercase tracking-tight">
                                             {course.title}
                                         </h2>
 
-                                        <p className="text-gray-400 mb-6 line-clamp-3 group-hover:text-gray-300">
+                                        <p className="text-white/40 text-sm leading-relaxed mb-8 line-clamp-3 group-hover:text-white/60 transition-colors">
                                             {course.description}
                                         </p>
+                                    </div>
 
-                                        <div className="flex items-center text-sm font-medium text-blue-400 group-hover:translate-x-2 transition-transform duration-300">
-                                            View Course <span className="ml-2">→</span>
+                                    <div className="relative z-10 flex items-center justify-between">
+                                        <div className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500/60 group-hover:text-blue-400 transition-colors">
+                                            Initialize_Module
+                                        </div>
+                                        <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                                            <span className="text-2xl mt-[-4px]">→</span>
                                         </div>
                                     </div>
 
-                                    {/* Decorative blobs */}
-                                    <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl group-hover:bg-blue-500/40 transition-all" />
-                                    <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl group-hover:bg-purple-500/40 transition-all" />
+                                    {/* Scanline Effect on Hover */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                                 </motion.div>
                             </Link>
                         );

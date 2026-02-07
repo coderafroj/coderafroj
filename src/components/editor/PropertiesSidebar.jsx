@@ -27,12 +27,12 @@ const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile }) =
                     width: isMobile ? '100%' : width,
                     height: isMobile ? '80%' : '100%',
                     boxSizing: 'border-box',
-                    borderLeft: isMobile ? 'none' : '1px solid rgba(255,255,255,0.05)',
+                    borderLeft: isMobile ? 'none' : '1px solid rgba(255,255,255,0.08)',
                     borderTop: isMobile ? '1px solid rgba(0, 243, 255, 0.2)' : 'none',
-                    bgcolor: isMobile ? 'rgba(13, 13, 13, 0.95)' : 'background.paper',
-                    backdropFilter: isMobile ? 'blur(30px)' : 'none',
+                    bgcolor: 'rgba(10, 10, 20, 0.7)',
+                    backdropFilter: 'blur(50px) saturate(180%)',
                     borderRadius: isMobile ? '32px 32px 0 0' : 0,
-                    boxShadow: isMobile ? '0 -20px 60px rgba(0,0,0,0.8)' : 'none',
+                    boxShadow: '0 -20px 80px rgba(0,0,0,0.9)',
                     overflow: 'hidden'
                 },
             }}

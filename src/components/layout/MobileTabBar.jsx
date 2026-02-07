@@ -35,32 +35,29 @@ const MobileTabBar = () => {
                                 animate={isActive ? { scale: 1.15, y: -4 } : { scale: 1, y: 0 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                                 className={twMerge(
-                                    "p-2 rounded-2xl transition-all duration-300 relative z-10",
-                                    isActive ? "bg-primary/20 shadow-[0_0_20px_rgba(99,102,241,0.3)]" : "hover:bg-white/5"
+                                    "p-2.5 rounded-2xl transition-all duration-300 relative z-10",
+                                    isActive ? "shadow-[0_10px_30px_rgba(99,102,241,0.2)]" : "hover:bg-white/5"
                                 )}
                             >
                                 {tab.icon}
                                 {isActive && (
                                     <motion.div
-                                        layoutId="mobile-glow-impact"
-                                        className="absolute inset-0 bg-primary/40 blur-xl rounded-2xl -z-10"
+                                        layoutId="mobile-liquid-pill"
+                                        className="absolute inset-0 bg-primary/20 backdrop-blur-xl border border-primary/30 rounded-2xl -z-10"
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                     />
                                 )}
                             </motion.div>
 
-                            <span className={twMerge(
-                                "text-[8px] font-bold tracking-[0.2em] mt-1.5 uppercase transition-all duration-300",
-                                isActive ? "opacity-100 scale-100" : "opacity-0 scale-90 h-0"
-                            )}>
+                            <motion.span
+                                animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
+                                className={twMerge(
+                                    "text-[8px] font-black tracking-[0.2em] mt-1.5 uppercase transition-all duration-300",
+                                    isActive ? "text-primary-glow" : "text-slate-500"
+                                )}
+                            >
                                 {tab.name}
-                            </span>
-
-                            {isActive && (
-                                <motion.div
-                                    layoutId="mobile-active-orb"
-                                    className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-primary-glow shadow-[0_0_15px_#6366f1]"
-                                />
-                            )}
+                            </motion.span>
                         </Link>
                     );
                 })}

@@ -32,6 +32,8 @@ import NotesAdmin from './pages/Admin/NotesAdmin';
 import UltimateEditor from './pages/Admin/UltimateEditor';
 import './App.css';
 
+import { Toaster } from 'sonner';
+
 function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
@@ -49,6 +51,25 @@ function App() {
   return (
     <HelmetProvider>
       <GitHubProvider>
+        <Toaster
+          position="top-right"
+          expand={false}
+          richColors
+          closeButton
+          theme="dark"
+          toastOptions={{
+            style: {
+              background: 'rgba(10, 10, 20, 0.8)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '20px',
+              fontFamily: '"Outfit", sans-serif',
+              fontSize: '12px',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
+            }
+          }}
+        />
         <AnimatePresence mode="wait">
           {showIntro && <IntroScene onComplete={handleIntroComplete} />}
         </AnimatePresence>
@@ -64,35 +85,46 @@ function App() {
 
           {!isAdmin && <Navbar />}
           <main className="flex-grow relative z-10 flex flex-col">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/notes" element={<TutorialHub />} />
-              <Route path="/notes/:tutorialId" element={<TutorialViewer />} />
-              <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
-              <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 10, scale: 0.995 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 1.005 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex-grow flex flex-col"
+              >
+                <Routes location={location} key={location.pathname}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
+                  <Route path="/notes" element={<TutorialHub />} />
+                  <Route path="/notes/:tutorialId" element={<TutorialViewer />} />
+                  <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
+                  <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
 
-              {/* Legacy Admin Routes */}
-              <Route path="/admin/notes/new" element={<NoteEditor />} />
-              <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
-              <Route path="/admin/notes" element={<UltimateEditor />} />
-              <Route path="/admin" element={<UltimateEditor />} />
-              <Route path="/login" element={<Login />} />
+                  {/* Legacy Admin Routes */}
+                  <Route path="/admin/notes/new" element={<NoteEditor />} />
+                  <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
+                  <Route path="/admin/notes" element={<UltimateEditor />} />
+                  <Route path="/admin" element={<UltimateEditor />} />
+                  <Route path="/login" element={<Login />} />
 
-              {/* Register & Auth */}
-              <Route path="/register" element={<Register />} />
-              <Route path="/github" element={<GitHubDashboard />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/design/:id" element={<DesignViewer />} />
+                  {/* Register & Auth */}
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/github" element={<GitHubDashboard />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/design/:id" element={<DesignViewer />} />
 
-              {/* New Learning System Routes */}
-              <Route path="/learn" element={<CourseIndex />} />
-              <Route path="/learn/:courseId" element={<NotesLayout />}>
-                <Route path=":topicSlug" element={<TopicPage />} />
-              </Route>
-            </Routes>
+                  {/* New Learning System Routes */}
+                  <Route path="/learn" element={<CourseIndex />} />
+                  <Route path="/learn/:courseId" element={<NotesLayout />}>
+                    <Route path=":topicSlug" element={<TopicPage />} />
+                  </Route>
+                </Routes>
+              </motion.div>
+            </AnimatePresence>
           </main>
           {!isAdmin && <Footer />}
           {!isAdmin && <MobileTabBar />}

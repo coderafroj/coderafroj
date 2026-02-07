@@ -601,6 +601,29 @@
   animation: skeleton-loading 1.5s ease-in-out infinite;
 }
 
+/* --- MS Word / Elite Editor Utilities --- */
+.page-border-shadow {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 30px 60px -12px rgba(0, 0, 0, 0.5),
+    0 18px 36px -18px rgba(0, 0, 0, 0.7);
+}
+
+.magnetic-surface {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnetic-surface:hover {
+  transform: translateY(-2px);
+}
+
+.word-count-badge {
+  @apply px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] bg-white/5 text-white/40 border border-white/5;
+}
+
+.elite-ribbon {
+  @apply flex items-center gap-1 p-1 bg-black/20 backdrop-blur-3xl border border-white/5 rounded-2xl;
+}
+
 @keyframes scanline {
   0% {
     transform: translateY(-100vh);
@@ -611,8 +634,94 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.3));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.6));
+  }
+}
+
+@keyframes reveal-text {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 .animate-scanline {
   animation: scanline 3s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.reveal-text {
+  animation: reveal-text 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Elite Glassmorphism */
+.glass-plus {
+  background: rgba(10, 10, 20, 0.7);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+}
+
+.glass-pill {
+  @apply glass-plus rounded-full px-8 py-4 flex items-center gap-6;
+}
+
+/* Immersive Workspace */
+.infinite-canvas {
+  background-color: #030014;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 100%),
+    linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  background-size: 100% 100%, 80px 80px, 80px 80px;
+}
+
+.floating-page {
+  @apply bg-[#0d1117] relative z-10 mx-auto;
+  box-shadow: 0 100px 150px -50px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  width: 100%;
+  max-width: 950px;
+  min-height: 120vh;
+}
+
+/* Masterclass Code Block */
+.code-mac-case {
+  @apply rounded-[1.5rem] overflow-hidden border border-white/5 bg-[#050510] shadow-2xl relative my-12;
+}
+
+.code-mac-header {
+  @apply flex items-center justify-between px-6 py-4 bg-white/[0.03] border-b border-white/5 backdrop-blur-md;
 }
 
 /* 3D and Depth Utilities */

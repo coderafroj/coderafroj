@@ -37,11 +37,11 @@ const FileSidebar = ({
                     width: isMobile ? '85%' : width,
                     boxSizing: 'border-box',
                     height: '100%',
-                    borderRight: '1px solid rgba(255,255,255,0.05)',
-                    bgcolor: isMobile ? 'rgba(13, 13, 13, 0.95)' : 'background.paper',
-                    backdropFilter: isMobile ? 'blur(30px)' : 'none',
+                    borderRight: '1px solid rgba(255,255,255,0.08)',
+                    bgcolor: 'rgba(10, 10, 20, 0.7)',
+                    backdropFilter: 'blur(50px) saturate(180%)',
                     borderRadius: isMobile ? '0 24px 24px 0' : 0,
-                    boxShadow: isMobile ? '20px 0 60px rgba(0,0,0,0.8)' : 'none'
+                    boxShadow: '20px 0 80px rgba(0,0,0,0.9)'
                 },
             }}
         >

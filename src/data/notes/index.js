@@ -1,8 +1,12 @@
-import { fundamentals } from './fundamentals';
+import { computerFundamentals } from './computer-fundamentals';
+const fundamentals = computerFundamentals.topics;
 import { cProgramming } from './c-programming';
-import { python } from './python';
+import { pythonMasterclass } from './python-masterclass';
+const python = pythonMasterclass.topics;
 import { hardware } from './hardware';
 import { office } from './office';
+import { iot as iotData } from './iot';
+const iot = iotData.topics || iotData;
 import { javascript } from './javascript';
 import { html } from './html';
 import { css } from './css';
@@ -18,8 +22,8 @@ export const allNotes = [
     ...python,
     ...hardware,
     ...office,
-    ...office,
     ...internet,
+    ...iot,
     ...javascript,
     ...html,
     ...css,
@@ -89,6 +93,11 @@ export const noteCategories = {
         title: 'C++ Systems Programming',
         description: 'Performance & Low-Level Control',
         notes: cpp
+    },
+    iot: {
+        title: 'Internet of Things',
+        description: 'Sensors, Protocols, and Cloud Integration',
+        notes: iot
     }
 };
 
@@ -99,6 +108,7 @@ export const courses = [
     { id: 'office-automation', ...noteCategories.office },
     { id: 'pc-maintenance-troubleshooting', ...noteCategories.hardware },
     { id: 'internet-web-technology', ...noteCategories.internet },
+    { id: 'iot-mastery', ...noteCategories.iot },
     { id: 'javascript-deep-dive', ...noteCategories.javascript },
     { id: 'html5-mastery', ...noteCategories.html },
     { id: 'advanced-css3', ...noteCategories.css },

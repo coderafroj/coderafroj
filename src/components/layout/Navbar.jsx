@@ -69,13 +69,17 @@ const Navbar = () => {
                                 key={link.name}
                                 to={link.path}
                                 className={twMerge(
-                                    'relative px-4 py-2 text-[10px] font-mono font-bold tracking-widest rounded-lg transition-all duration-300 group',
+                                    'relative px-4 py-2 text-[10px] font-mono font-bold tracking-widest rounded-lg transition-all duration-300 group overflow-hidden',
                                     isActive ? 'text-white' : 'text-slate-400 hover:text-white'
                                 )}
                             >
-                                <span className="relative z-10 flex items-center gap-2">
+                                <motion.span
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="relative z-10 flex items-center gap-2"
+                                >
                                     {link.icon} {link.name.toUpperCase()}
-                                </span>
+                                </motion.span>
                                 {isActive && (
                                     <motion.div
                                         layoutId="active-nav"
@@ -83,6 +87,7 @@ const Navbar = () => {
                                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                     />
                                 )}
+                                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors" />
                             </Link>
                         );
                     })}

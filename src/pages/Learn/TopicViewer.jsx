@@ -1,117 +1,198 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { motion } from 'framer-motion';
-import { Calendar, Tag, Share2, Printer } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, Tag, Share2, Printer, ChevronLeft, ChevronRight, Menu, CheckCircle2, LayoutGrid } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const TopicViewer = ({ topic, prevTopic, nextTopic, courseId }) => {
-    if (!topic) return <div className="p-8 text-center text-gray-500">Select a topic to start learning</div>;
+const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
+    const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    if (!topic || !course) return (
+        <div className="min-h-[60vh] flex flex-col items-center justify-center p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
+                <span className="text-red-500 text-2xl font-black">!</span>
+            </div>
+            <h2 className="text-2xl font-black text-white uppercase italic tracking-tight mb-2">Sync Error</h2>
+            <p className="text-gray-500 max-w-sm">Dena data load karne mein samasya ayi hai. Please course select karein ya page refresh karein.</p>
+            <button
+                onClick={() => navigate('/learn')}
+                className="mt-8 px-6 py-3 bg-white text-black font-black uppercase text-[10px] tracking-widest rounded-xl hover:scale-105 transition-all"
+            >
+                Back to Protocol
+            </button>
+        </div>
+    );
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="w-full max-w-5xl mx-auto pb-20"
         >
-            {/* Top Navigation Bar */}
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
-                <div className="flex gap-2">
-                    {prevTopic ? (
-                        <a href={`/learn/${courseId}/${prevTopic.slug}`} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0a0a16] border border-white/10 hover:border-blue-500/50 hover:text-white text-gray-400 text-xs font-bold uppercase tracking-wider transition-all">
-                            <span className="text-lg">«</span> Prev
-                        </a>
-                    ) : <div className="w-20" />}
+            {/* Elite Top Navigation Bar */}
+            <div className="flex items-center justify-between mb-12 py-6 border-b border-white/5 sticky top-0 bg-[#030014]/80 backdrop-blur-xl z-20 -mx-4 px-4">
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl transition-all duration-300 ${isDropdownOpen ? 'bg-blue-600/10 border border-blue-500/30' : 'bg-white/5 border border-white/5 hover:border-white/10'}`}
+                        >
+                            <LayoutGrid size={14} className={isDropdownOpen ? 'text-blue-400' : 'text-gray-500'} />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white hidden sm:inline">Contents</span>
+                            <ChevronRight size={14} className={`text-gray-600 transition-transform duration-300 ${isDropdownOpen ? 'rotate-90' : ''}`} />
+                        </button>
+
+                        <AnimatePresence>
+                            {isDropdownOpen && (
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        onClick={() => setIsDropdownOpen(false)}
+                                        className="fixed inset-0 z-[-1]"
+                                    />
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        className="absolute top-full left-0 mt-3 w-[300px] max-h-[400px] overflow-y-auto bg-[#0a0a16] border border-white/10 rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] p-3 custom-scrollbar"
+                                    >
+                                        <div className="p-3 mb-2">
+                                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-blue-500/60 leading-none">Transmission_Index</span>
+                                        </div>
+                                        {course.notes?.map((n, idx) => (
+                                            <button
+                                                key={n.id}
+                                                onClick={() => {
+                                                    navigate(`/learn/${courseId}/${n.slug}`);
+                                                    setIsDropdownOpen(false);
+                                                }}
+                                                className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all text-left group ${topic.id === n.id ? 'bg-blue-600/10 border border-blue-500/20' : 'hover:bg-white/5 border border-transparent'}`}
+                                            >
+                                                <span className={`text-[10px] font-mono font-bold ${topic.id === n.id ? 'text-blue-400' : 'text-white/20'}`}>
+                                                    {String(idx + 1).padStart(2, '0')}
+                                                </span>
+                                                <span className={`text-xs font-bold ${topic.id === n.id ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
+                                                    {n.title}
+                                                </span>
+                                                {topic.id === n.id && <CheckCircle2 size={12} className="ml-auto text-blue-400" />}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                </>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
+
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/40">Mod</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-400 truncate max-w-[120px] sm:max-w-none">{course.title}</span>
+                    </div>
                 </div>
 
-                <div className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
-                    <span>Course_ID: {courseId}</span>
-                </div>
-
-                <div className="flex gap-2">
-                    {nextTopic ? (
-                        <a href={`/learn/${courseId}/${nextTopic.slug}`} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 border border-blue-500/50 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/20">
-                            Next <span className="text-lg">»</span>
-                        </a>
-                    ) : <div className="w-20" />}
+                <div className="flex items-center gap-3">
+                    <button className="p-2.5 rounded-xl bg-white/5 border border-white/5 text-gray-500 hover:text-white hover:bg-white/10 transition-all active:scale-95">
+                        <Share2 size={14} />
+                    </button>
                 </div>
             </div>
 
             {/* Header */}
-            <header className="mb-12">
-                <div className="flex flex-wrap gap-3 mb-6">
+            <header className="mb-24 mt-12">
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex flex-wrap gap-3 mb-12"
+                >
                     {topic.tags?.map(tag => (
-                        <span key={tag} className="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest bg-blue-500/5 text-blue-400 border border-blue-500/20">
-                            #{tag}
+                        <span key={tag} className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/5 text-blue-400 border border-white/5 backdrop-blur-md">
+                            #{tag.toUpperCase()}
                         </span>
                     ))}
-                </div>
+                </motion.div>
 
-                <h1 className="text-4xl md:text-6xl font-black text-white mb-8 leading-[1.1] uppercase tracking-tight">
-                    {topic.title}
+                <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-12 leading-[0.85] uppercase tracking-tighter reveal-text">
+                    <span className="block opacity-20">01_</span>
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/40">{topic.title}</span>
                 </h1>
 
-                <div className="flex items-center p-4 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
-                    <div className="flex items-center mr-6 text-xs text-gray-400 font-mono">
-                        <Calendar size={14} className="mr-2 text-blue-500" />
-                        {new Date(topic.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="inline-flex items-center p-3 pr-10 rounded-[2rem] bg-white/[0.03] border border-white/5 backdrop-blur-xl shadow-2xl"
+                >
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.4)] animate-glow-pulse">
+                        <Calendar size={24} className="text-white" />
                     </div>
-
-                    <div className="h-4 w-[1px] bg-white/10 mr-6" />
-
-                    {/* Action Buttons */}
-                    <div className="flex items-center ml-auto gap-2">
-                        <button className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-all" title="Share Node">
-                            <Share2 size={16} />
-                        </button>
-                        <button className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-all" title="Print Data">
-                            <Printer size={16} />
-                        </button>
+                    <div className="ml-6 flex flex-col">
+                        <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 leading-none mb-2">Protocol_Initialize</span>
+                        <span className="text-lg text-white font-mono font-black tracking-tight">
+                            {new Date(topic.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </span>
                     </div>
-                </div>
+                </motion.div>
             </header>
 
             {/* Content */}
-            <article className="prose prose-invert prose-lg max-w-none 
-                prose-p:leading-relaxed prose-p:text-gray-300
-                prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-headings:text-white
-                prose-h2:text-3xl prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-4 prose-h2:mb-8 prose-h2:mt-12
-                prose-h3:text-xl prose-h3:text-blue-400
-                prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-white prose-strong:font-bold
-                prose-code:text-pink-400 prose-code:font-mono prose-code:font-medium prose-code:bg-[#0a0a16] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-white/5
-                prose-pre:bg-[#050510] prose-pre:border prose-pre:border-white/10 prose-pre:shadow-2xl prose-pre:rounded-2xl
-                prose-img:rounded-2xl prose-img:shadow-2xl prose-img:border prose-img:border-white/10 prose-img:my-8
+            <article className="prose prose-invert prose-2xl max-w-none 
+                prose-p:leading-[1.8] prose-p:text-white/70 prose-p:font-light prose-p:tracking-tight
+                prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tighter prose-headings:text-white
+                prose-h2:text-4xl md:prose-h2:text-6xl prose-h2:mt-32 prose-h2:mb-12 prose-h2:flex prose-h2:items-center prose-h2:gap-6
+                prose-h2:before:content-[''] prose-h2:before:w-12 prose-h2:before:h-[2px] prose-h2:before:bg-blue-500
+                prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:text-blue-400 prose-h3:mt-16
+                prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-a:font-bold prose-a:underline-offset-8
+                prose-strong:text-white prose-strong:font-black
+                prose-code:text-indigo-300 prose-code:font-mono prose-code:font-bold prose-code:bg-white/5 prose-code:px-2 prose-code:py-0.5 prose-code:rounded-lg prose-code:before:content-none prose-code:after:content-none
+                prose-pre:p-0 prose-pre:bg-transparent prose-pre:border-none
+                prose-img:rounded-[2.5rem] prose-img:shadow-[0_40px_100px_rgba(0,0,0,0.8)] prose-img:border prose-img:border-white/5 prose-img:my-20
+                prose-ul:list-none prose-ul:pl-0
+                prose-li:pl-10 prose-li:relative prose-li:my-6 prose-li:before:content-[''] prose-li:before:absolute prose-li:before:left-0 prose-li:before:top-[0.8em] prose-li:before:w-3 prose-li:before:h-[2px] prose-li:before:bg-blue-500
             ">
                 <ReactMarkdown
                     components={{
                         code({ node, inline, className, children, ...props }) {
                             const match = /language-(\w+)/.exec(className || '');
                             return !inline && match ? (
-                                <div className="relative group my-8">
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl opacity-20 group-hover:opacity-40 transition blur" />
-                                    <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a16]">
-                                        <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
-                                            <span className="text-[10px] font-mono text-gray-500 uppercase">{match[1]}</span>
-                                            <div className="flex gap-1.5">
-                                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
-                                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
-                                                <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+                                <div className="code-mac-case group">
+                                    <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
+                                    <div className="code-mac-header">
+                                        <div className="flex items-center gap-6">
+                                            <div className="flex gap-2">
+                                                <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
                                             </div>
+                                            <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.3em]">{match[1]} package</span>
                                         </div>
-                                        <div className="p-4 overflow-x-auto">
-                                            <SyntaxHighlighter
-                                                style={vscDarkPlus}
-                                                language={match[1]}
-                                                PreTag="div"
-                                                customStyle={{ margin: 0, padding: 0, background: 'transparent' }}
-                                                {...props}
-                                            >
-                                                {String(children).replace(/\n$/, '')}
-                                            </SyntaxHighlighter>
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+                                            <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Live_Module</span>
                                         </div>
+                                    </div>
+                                    <div className="p-8 md:p-12 overflow-x-auto custom-scrollbar bg-black/40 backdrop-blur-sm">
+                                        <SyntaxHighlighter
+                                            style={vscDarkPlus}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '18px', lineHeight: '1.7', fontFamily: '"JetBrains Mono", monospace' }}
+                                            {...props}
+                                        >
+                                            {String(children).replace(/\n$/, '')}
+                                        </SyntaxHighlighter>
+                                    </div>
+                                    <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">
+                                            Click_to_Clone
+                                        </button>
                                     </div>
                                 </div>
                             ) : (
@@ -126,27 +207,39 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId }) => {
                 </ReactMarkdown>
             </article>
 
-            {/* Footer Navigation */}
-            <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {prevTopic ? (
-                    <a href={`/learn/${courseId}/${prevTopic.slug}`} className="group relative p-6 rounded-2xl bg-[#0a0a16] border border-white/5 hover:border-blue-500/30 transition-all overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-transparent transition-all" />
-                        <span className="relative z-10 text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block group-hover:text-blue-400">Previous Module</span>
-                        <div className="relative z-10 font-bold text-white text-lg group-hover:translate-x-1 transition-transform truncate">
-                            {prevTopic.title}
-                        </div>
-                    </a>
-                ) : <div />}
+            {/* Premium Module Navigation */}
+            <div className="mt-32 pt-16 border-t border-white/5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {prevTopic ? (
+                        <a href={`/learn/${courseId}/${prevTopic.slug}`} className="group relative p-8 rounded-3xl bg-white/5 border border-white/5 hover:bg-white/[0.07] hover:border-white/10 transition-all duration-500 overflow-hidden">
+                            <div className="absolute top-0 left-0 w-32 h-32 bg-blue-600/5 rounded-full blur-[60px] translate-x-[-20%] translate-y-[-20%]" />
+                            <div className="relative z-10">
+                                <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 mb-4 group-hover:text-blue-400 transition-colors">
+                                    <ChevronLeft size={12} className="group-hover:-translate-x-1 transition-transform" />
+                                    Previous_Transmission
+                                </span>
+                                <div className="font-black text-white text-2xl group-hover:translate-x-1 transition-transform leading-tight">
+                                    {prevTopic.title}
+                                </div>
+                            </div>
+                        </a>
+                    ) : <div className="hidden md:block" />}
 
-                {nextTopic ? (
-                    <a href={`/learn/${courseId}/${nextTopic.slug}`} className="group relative p-6 rounded-2xl bg-[#0a0a16] border border-white/5 hover:border-blue-500/30 transition-all overflow-hidden text-right">
-                        <div className="absolute inset-0 bg-gradient-to-l from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-transparent transition-all" />
-                        <span className="relative z-10 text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2 block group-hover:text-blue-400">Next Module</span>
-                        <div className="relative z-10 font-bold text-white text-lg group-hover:-translate-x-1 transition-transform truncate">
-                            {nextTopic.title}
-                        </div>
-                    </a>
-                ) : <div />}
+                    {nextTopic ? (
+                        <a href={`/learn/${courseId}/${nextTopic.slug}`} className="group relative p-8 rounded-3xl bg-[#0a0a16] border border-blue-500/20 hover:border-blue-500/50 hover:bg-blue-600/5 transition-all duration-500 overflow-hidden text-right">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 rounded-full blur-[60px] translate-x-[20%] translate-y-[-20%]" />
+                            <div className="relative z-10">
+                                <span className="flex items-center justify-end gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-4">
+                                    Next_Transmission
+                                    <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </span>
+                                <div className="font-black text-white text-2xl group-hover:-translate-x-1 transition-transform leading-tight">
+                                    {nextTopic.title}
+                                </div>
+                            </div>
+                        </a>
+                    ) : <div className="hidden md:block" />}
+                </div>
             </div>
         </motion.div>
     );

@@ -9,206 +9,183 @@ import {
     Image as ImageIcon, TableChart, Link as LinkIcon,
     Undo, Redo, Save, CheckCircle, Menu, MoreVert, ExitToApp,
     FormatAlignLeft, FormatAlignCenter, FormatAlignRight,
-    Palette, FontDownload, Visibility, DeleteForever
+    Palette, FontDownload, Visibility, DeleteForever,
+    Category as CategoryIcon, Title as TitleIcon, Zap
 } from '@mui/icons-material';
+import { Zap as ZapIcon } from 'lucide-react';
 
 const TopToolbar = ({
     editor, onSave, onDelete, isSaving,
     onToggleFiles, onToggleProps, isMobile,
-    courseId, topicSlug
+    courseId, topicSlug,
+    selectedCourse, selectedTopic, onTopicSelect
 }) => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
     if (!editor) return null;
 
     const isActive = (type, opts) => editor.isActive(type, opts) ? 'primary' : 'inherit';
+    const open = Boolean(anchorEl);
 
     return (
-        <AppBar position="static" elevation={0} sx={{ zIndex: 1201, borderBottom: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
-            <Toolbar variant="dense" sx={{ minHeight: '56px', px: 1, gap: isMobile ? 0.5 : 2 }}>
+        <Box sx={{
+            position: 'fixed',
+            top: 24,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1300,
+            width: 'auto',
+            pointerEvents: 'none'
+        }}>
+            <Box className="elite-ribbon" sx={{
+                height: isMobile ? '72px' : '84px',
+                px: 2,
+                gap: isMobile ? 1 : 1.5,
+                pointerEvents: 'auto',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(99, 102, 241, 0.1)'
+            }}>
+                {/* Segment: System Navigation */}
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <IconButton size="small" onClick={onToggleFiles} sx={{ color: 'white', opacity: 0.6, '&:hover': { opacity: 1, bgcolor: 'rgba(255,255,255,0.05)' } }}>
+                        <Menu fontSize="medium" />
+                    </IconButton>
+                </Stack>
 
-                <IconButton edge="start" color="inherit" onClick={onToggleFiles} sx={{ display: { md: 'flex' } }}>
-                    <Menu fontSize="small" />
-                </IconButton>
+                <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
 
-                {/* Brand - Hide on small mobile */}
-                <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, mr: isMobile ? 0 : 2 }}>
-                    <div className="w-8 h-8 bg-cyan-500/10 rounded items-center justify-center flex border border-cyan-500/20">
-                        <span className="text-cyan-400 font-black">N</span>
-                    </div>
-                    {!isMobile && (
-                        <div>
-                            <Typography variant="subtitle2" fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: '0.1em' }} color="primary">
-                                NOTES
-                            </Typography>
-                            <Typography variant="caption" sx={{ fontSize: '0.6rem', opacity: 0.5, letterSpacing: '0.15em' }}>
-                                ARCHITECT
-                            </Typography>
-                        </div>
-                    )}
-                </Box>
-
-                {!isMobile && <Divider orientation="vertical" flexItem variant="middle" />}
-
-                {/* History - Hide on mobile toolkit */}
-                {!isMobile && (
-                    <ButtonGroup variant="text" size="small">
-                        <Tooltip title="Undo (Ctrl+Z)">
-                            <IconButton size="small" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
-                                <Undo fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Redo (Ctrl+Y)">
-                            <IconButton size="small" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
-                                <Redo fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    </ButtonGroup>
-                )}
-
-                {!isMobile && <Divider orientation="vertical" flexItem variant="middle" />}
-
-                {/* Text Formatting */}
+                {/* Segment: History (MS Word Style) */}
                 <Stack direction="row" spacing={0.5}>
-                    <Tooltip title="Bold">
-                        <IconButton
-                            size="small"
-                            color={isActive('bold')}
-                            onClick={() => editor.chain().focus().toggleBold().run()}
-                        >
-                            <FormatBold fontSize="small" />
+                    <Tooltip title="Undo">
+                        <IconButton size="small" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} sx={{ color: 'white', opacity: 0.4 }}>
+                            <Undo fontSize="small" />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Italic">
-                        <IconButton
-                            size="small"
-                            color={isActive('italic')}
-                            onClick={() => editor.chain().focus().toggleItalic().run()}
-                        >
-                            <FormatItalic fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="CodeBlock">
-                        <IconButton
-                            size="small"
-                            color={isActive('codeBlock')}
-                            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                        >
-                            <Code fontSize="small" />
+                    <Tooltip title="Redo">
+                        <IconButton size="small" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} sx={{ color: 'white', opacity: 0.4 }}>
+                            <Redo fontSize="small" />
                         </IconButton>
                     </Tooltip>
                 </Stack>
 
-                {!isMobile && <Divider orientation="vertical" flexItem variant="middle" />}
+                <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
 
-                {/* Advanced Formatting */}
-                {!isMobile && (
-                    <Stack direction="row" spacing={0.5}>
-                        <Tooltip title="Text Color">
-                            <IconButton
-                                size="small"
-                                onClick={() => {
-                                    const color = window.prompt('Enter color (hex or name)');
-                                    if (color) editor.chain().focus().setColor(color).run();
-                                }}
-                            >
-                                <Palette fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                        <ButtonGroup size="small">
-                            <IconButton size="small" onClick={() => editor.chain().focus().setTextAlign('left').run()} color={editor.isActive({ textAlign: 'left' }) ? 'primary' : 'inherit'}>
-                                <FormatAlignLeft fontSize="small" />
-                            </IconButton>
-                            <IconButton size="small" onClick={() => editor.chain().focus().setTextAlign('center').run()} color={editor.isActive({ textAlign: 'center' }) ? 'primary' : 'inherit'}>
-                                <FormatAlignCenter fontSize="small" />
-                            </IconButton>
-                            <IconButton size="small" onClick={() => editor.chain().focus().setTextAlign('right').run()} color={editor.isActive({ textAlign: 'right' }) ? 'primary' : 'inherit'}>
-                                <FormatAlignRight fontSize="small" />
-                            </IconButton>
-                        </ButtonGroup>
-                    </Stack>
-                )}
-
-                {!isMobile && <Divider orientation="vertical" flexItem variant="middle" />}
-
-                {/* Actions & Settings Toggles */}
-                {!isMobile && (
-                    <Stack direction="row" spacing={0.5}>
-                        <Tooltip title="Insert Table">
-                            <IconButton
-                                size="small"
-                                onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
-                            >
-                                <TableChart fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Insert Image">
-                            <IconButton
-                                size="small"
-                                onClick={() => {
-                                    const url = window.prompt('Enter image URL');
-                                    if (url) editor.chain().focus().setImage({ src: url }).run();
-                                }}
-                            >
-                                <ImageIcon fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                )}
-
-                <Box sx={{ flexGrow: 1 }} />
-
+                {/* Segment: Text Formatting (Elite Word v2) */}
                 <Stack direction="row" spacing={1} alignItems="center">
+                    {!isMobile && <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 900, fontSize: '8px', writingMode: 'vertical-rl', transform: 'rotate(180deg)', opacity: 0.5 }}>TEXT</Typography>}
+                    <Stack direction="row" spacing={0.5}>
+                        {[
+                            { icon: <FormatBold />, active: 'bold', action: () => editor.chain().focus().toggleBold().run() },
+                            { icon: <FormatItalic />, active: 'italic', action: () => editor.chain().focus().toggleItalic().run() },
+                            { icon: <FormatUnderlined />, active: 'underline', action: () => editor.chain().focus().toggleUnderline().run() },
+                            { icon: <Code />, active: 'code', action: () => editor.chain().focus().toggleCode().run() },
+                        ].map((tool, i) => (
+                            <IconButton
+                                key={i}
+                                size="small"
+                                onClick={tool.action}
+                                sx={{
+                                    width: 36, height: 36,
+                                    color: editor.isActive(tool.active) ? 'primary.main' : 'rgba(255,255,255,0.4)',
+                                    bgcolor: editor.isActive(tool.active) ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                                    borderRadius: '10px',
+                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
+                                }}
+                            >
+                                {React.cloneElement(tool.icon, { fontSize: 'small' })}
+                            </IconButton>
+                        ))}
+                    </Stack>
+                    <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, opacity: 0.3 }} />
+                    <Stack direction="row" spacing={0.5}>
+                        {[
+                            { icon: <TitleIcon />, active: { level: 1 }, action: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
+                            { icon: <TitleIcon sx={{ fontSize: '1rem' }} />, active: { level: 2 }, action: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
+                        ].map((tool, i) => (
+                            <IconButton
+                                key={i}
+                                size="small"
+                                onClick={tool.action}
+                                sx={{
+                                    width: 36, height: 36,
+                                    color: editor.isActive('heading', tool.active) ? 'primary.main' : 'rgba(255,255,255,0.4)',
+                                    bgcolor: editor.isActive('heading', tool.active) ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                                    borderRadius: '10px',
+                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' }
+                                }}
+                            >
+                                {tool.icon}
+                            </IconButton>
+                        ))}
+                    </Stack>
+                </Stack>
+
+                <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
+
+                {/* Segment: Paragraph & Layout */}
+                {!isMobile && (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 900, fontSize: '8px', writingMode: 'vertical-rl', transform: 'rotate(180deg)', opacity: 0.5 }}>PARA</Typography>
+                        <Stack direction="row" spacing={0.5}>
+                            <IconButton onClick={() => editor.chain().focus().setTextAlign('left').run()} sx={{ color: editor.isActive({ textAlign: 'left' }) ? 'primary.main' : 'rgba(255,255,255,0.3)' }}><FormatAlignLeft fontSize="small" /></IconButton>
+                            <IconButton onClick={() => editor.chain().focus().setTextAlign('center').run()} sx={{ color: editor.isActive({ textAlign: 'center' }) ? 'primary.main' : 'rgba(255,255,255,0.3)' }}><FormatAlignCenter fontSize="small" /></IconButton>
+                            <IconButton onClick={() => editor.chain().focus().setTextAlign('right').run()} sx={{ color: editor.isActive({ textAlign: 'right' }) ? 'primary.main' : 'rgba(255,255,255,0.3)' }}><FormatAlignRight fontSize="small" /></IconButton>
+                        </Stack>
+                    </Stack>
+                )}
+
+                <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
+
+                {/* Segment: Insert & Media */}
+                <Stack direction="row" spacing={1} alignItems="center">
+                    {!isMobile && <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 900, fontSize: '8px', writingMode: 'vertical-rl', transform: 'rotate(180deg)', opacity: 0.5 }}>ADD</Typography>}
+                    <Stack direction="row" spacing={0.5}>
+                        <IconButton onClick={() => editor.chain().focus().toggleBulletList().run()} sx={{ color: editor.isActive('bulletList') ? 'primary.main' : 'rgba(255,255,255,0.3)' }}><FormatListBulleted fontSize="small" /></IconButton>
+                        {!isMobile && <IconButton onClick={() => { const url = window.prompt('Image URL'); if (url) editor.chain().focus().setImage({ src: url }).run(); }} sx={{ color: 'rgba(255,255,255,0.3)' }}><ImageIcon fontSize="small" /></IconButton>}
+                        {!isMobile && <IconButton onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} sx={{ color: 'rgba(255,255,255,0.3)' }}><TableChart fontSize="small" /></IconButton>}
+                    </Stack>
+                </Stack>
+
+                <Divider orientation="vertical" variant="middle" flexItem sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
+
+                {/* Segment: Sync Actions (Primary) */}
+                <Stack direction="row" spacing={2} alignItems="center" sx={{ pl: 2 }}>
                     <Button
                         variant="contained"
-                        color="primary"
-                        size={isMobile ? "small" : "medium"}
-                        startIcon={isSaving || isMobile ? null : <Save />}
                         onClick={onSave}
                         disabled={isSaving}
+                        startIcon={isSaving ? null : <CheckCircle sx={{ fontSize: '14px' }} />}
+                        className="magnetic-surface"
                         sx={{
-                            px: isMobile ? 1.5 : 3,
-                            fontWeight: 800,
-                            borderRadius: '8px',
-                            minWidth: isMobile ? 'auto' : '120px'
+                            height: 48,
+                            px: 3,
+                            borderRadius: '16px',
+                            fontWeight: 900,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.15em',
+                            fontSize: '0.65rem',
+                            background: 'linear-gradient(90deg, #6366f1, #a855f7)',
+                            boxShadow: '0 10px 30px rgba(99, 102, 241, 0.4)',
+                            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                            '&:hover': {
+                                boxShadow: '0 15px 40px rgba(99, 102, 241, 0.6)',
+                                scale: 1.05
+                            }
                         }}
                     >
-                        {isSaving ? (isMobile ? '...' : 'Syncing...') : (isMobile ? <Save fontSize="small" /> : 'Save Changes')}
+                        {isSaving ? 'Establishing Link...' : 'Synchronize'}
                     </Button>
 
-                    <IconButton color="inherit" onClick={onToggleProps}>
-                        <MoreVert fontSize="small" />
+                    <IconButton onClick={onToggleProps} sx={{ color: 'white', opacity: 0.5, '&:hover': { opacity: 1, scale: 1.1 } }}>
+                        <Zap size={20} />
                     </IconButton>
 
                     {!isMobile && (
-                        <Divider orientation="vertical" flexItem variant="middle" />
-                    )}
-
-                    {!isMobile && courseId && topicSlug && (
-                        <Tooltip title="View Live">
-                            <IconButton color="inherit" onClick={() => window.open(`/learn/${courseId}/${topicSlug}`, '_blank')}>
-                                <Visibility fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-
-                    {!isMobile && (
-                        <Tooltip title="Delete Topic">
-                            <IconButton color="error" onClick={onDelete}>
-                                <DeleteForever fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-
-                    {!isMobile && (
-                        <Tooltip title="Exit to Website">
-                            <IconButton color="inherit" onClick={() => window.location.href = '/'}>
-                                <ExitToApp fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
+                        <IconButton color="error" onClick={onDelete} sx={{ opacity: 0.3, '&:hover': { opacity: 0.8, scale: 1.1 } }}>
+                            <DeleteForever fontSize="small" />
+                        </IconButton>
                     )}
                 </Stack>
-
-            </Toolbar>
-        </AppBar>
+            </Box>
+        </Box>
     );
 };
 
