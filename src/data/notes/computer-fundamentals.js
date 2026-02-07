@@ -26,7 +26,7 @@ export const computerFundamentals = {
 
 ---
 
-## 🚀 Characteristics of Computers (Khaasiyat)
+## ð Characteristics of Computers (Khaasiyat)
 
 1. **Speed (Raftaar)**: Computer millions of calculations sirf 1-2 seconds mein kar leta hai.
 2. **Accuracy (Sateekta)**: Computer kabhi galti nahi karta (GIGO - Garbage In, Garbage Out).
@@ -276,11 +276,11 @@ Algorithm ko diagram mein dikhana Flowchart kehlata hai. Iske specific symbols h
 
 | Symbol | Shape | Meaning |
 | :--- | :--- | :--- |
-| **Oval** | 🟢 | Start / Stop |
-| **Parallelogram** | ▱ | Input (Lean) / Output (Print) |
-| **Rectangle** | ▭ | Processing (Calculation like \`a = b + c\`) |
-| **Diamond** | ◇ | Decision (Kya \`a > b\` hai? Yes/No) |
-| **Arrows** | ➡ | Flow ki disha |
+| **Oval** | ð¢ | Start / Stop |
+| **Parallelogram** | â± | Input (Lean) / Output (Print) |
+| **Rectangle** | â­ | Processing (Calculation like \`a = b + c\`) |
+| **Diamond** | â | Decision (Kya \`a > b\` hai? Yes/No) |
+| **Arrows** | â¡ | Flow ki disha |
 
 ### Example Logic: Even or Odd Number
 1. **Start**
