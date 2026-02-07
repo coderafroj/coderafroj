@@ -1,3 +1,27 @@
+import React, { useState, useEffect } from 'react';
+import { useGitHub } from '../../context/GitHubContext';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { Markdown } from 'tiptap-markdown';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
+import { Image } from '@tiptap/extension-image';
+import { Link } from '@tiptap/extension-link';
+import { Placeholder } from '@tiptap/extension-placeholder';
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
+import { TaskList } from '@tiptap/extension-task-list';
+import { TaskItem } from '@tiptap/extension-task-item';
+import { Typography as TipTapTypography } from '@tiptap/extension-typography';
+import { Highlight } from '@tiptap/extension-highlight';
+import { Subscript } from '@tiptap/extension-subscript';
+import { Superscript } from '@tiptap/extension-superscript';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
+import { FontFamily } from '@tiptap/extension-font-family';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Underline } from '@tiptap/extension-underline';
 import { CharacterCount } from '@tiptap/extension-character-count';
 import { toast } from 'sonner';
@@ -428,7 +452,7 @@ ${markdownContent}
 
                     <Grid container spacing={4}>
                         {filteredCourses.map((course, index) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={course.id}>
+                            <Grid item xs={12} sm={6} md={4} key={course.id}>
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
