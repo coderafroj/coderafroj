@@ -10,9 +10,9 @@ import {
     Undo, Redo, Save, CheckCircle, Menu, MoreVert, ExitToApp,
     FormatAlignLeft, FormatAlignCenter, FormatAlignRight,
     Palette, FontDownload, Visibility, DeleteForever,
-    Category as CategoryIcon, Title as TitleIcon, Zap
+    Category as CategoryIcon, Title as TitleIcon
 } from '@mui/icons-material';
-import { Zap as ZapIcon } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 const TopToolbar = ({
     editor, onSave, onDelete, isSaving,

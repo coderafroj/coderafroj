@@ -6,7 +6,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import IntroScene from './components/layout/IntroScene';
 import GlobalErrorBoundary from './components/GlobalErrorBoundary';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 
 
