@@ -1393,3 +1393,58 @@ li[data-type="taskItem"] input[type="checkbox"]:checked::after {
 li[data-type="taskItem"]>div {
   @apply flex-1;
 }
+
+/* Elite Editor Redesign - Glass & Interaction Tokens */
+:root {
+  --elite-blue: #0ea5e9;
+  --elite-blue-glow: rgba(14, 165, 233, 0.5);
+  --elite-glass: rgba(15, 15, 25, 0.85);
+  --elite-border: rgba(255, 255, 255, 0.1);
+}
+
+.elite-glass {
+  background: var(--elite-glass);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--elite-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.elite-node {
+  @apply elite-glass rounded-3xl p-6 transition-all duration-300 border-white/5;
+  min-width: 200px;
+}
+
+.elite-node-active {
+  @apply border-sky-500/50 shadow-[0_0_30px_rgba(14, 165, 233, 0.2)];
+}
+
+.haptic-feedback {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.haptic-feedback:active {
+  transform: scale(0.92);
+}
+
+/* React Flow Customization */
+.react-flow__node {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: var(--elite-blue);
+  border: 2px solid #fff;
+}
+
+.react-flow__edge-path {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--elite-blue);
+}
