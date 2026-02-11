@@ -1,0 +1,25 @@
+{
+    "name": "remote-3d",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "three": "^0.173.0",
+        "@react-three/fiber": "^8.17.14",
+        "@react-three/drei": "^9.121.4"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@vitejs/plugin-react": "^4.3.1",
+        "vite": "^5.4.1",
+        "@originjs/vite-plugin-federation": "^1.3.5"
+    }
+}
