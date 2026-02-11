@@ -26,7 +26,7 @@ export const computerFundamentals = {
 
 ---
 
-## Ã°ÂÂÂ Characteristics of Computers (Khaasiyat)
+## ÃÂ°ÃÂÃÂÃÂ Characteristics of Computers (Khaasiyat)
 
 1. **Speed (Raftaar)**: Computer millions of calculations sirf 1-2 seconds mein kar leta hai.
 2. **Accuracy (Sateekta)**: Computer kabhi galti nahi karta (GIGO - Garbage In, Garbage Out).
@@ -276,11 +276,11 @@ Algorithm ko diagram mein dikhana Flowchart kehlata hai. Iske specific symbols h
 
 | Symbol | Shape | Meaning |
 | :--- | :--- | :--- |
-| **Oval** | Ã°ÂÂÂ¢ | Start / Stop |
-| **Parallelogram** | Ã¢ÂÂ± | Input (Lean) / Output (Print) |
-| **Rectangle** | Ã¢ÂÂ­ | Processing (Calculation like \`a = b + c\`) |
-| **Diamond** | Ã¢ÂÂ | Decision (Kya \`a > b\` hai? Yes/No) |
-| **Arrows** | Ã¢ÂÂ¡ | Flow ki disha |
+| **Oval** | ÃÂ°ÃÂÃÂÃÂ¢ | Start / Stop |
+| **Parallelogram** | ÃÂ¢ÃÂÃÂ± | Input (Lean) / Output (Print) |
+| **Rectangle** | ÃÂ¢ÃÂÃÂ­ | Processing (Calculation like \`a = b + c\`) |
+| **Diamond** | ÃÂ¢ÃÂÃÂ | Decision (Kya \`a > b\` hai? Yes/No) |
+| **Arrows** | ÃÂ¢ÃÂÃÂ¡ | Flow ki disha |
 
 ### Example Logic: Even or Odd Number
 1. **Start**
