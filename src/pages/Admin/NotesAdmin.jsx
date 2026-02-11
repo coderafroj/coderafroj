@@ -118,7 +118,11 @@ const NotesAdmin = () => {
     // --- EDITOR SETUP ---
     const editor = useEditor({
         extensions: [
-            StarterKit.configure({ codeBlock: false }),
+            StarterKit.configure({
+                codeBlock: false,
+                link: false,
+                underline: false
+            }),
             CodeBlockLowlight.configure({ lowlight }),
             Markdown,
             Table.configure({ resizable: true }),
