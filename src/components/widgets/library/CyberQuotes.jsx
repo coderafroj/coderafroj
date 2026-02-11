@@ -1,4 +1,14 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, Sparkles, Terminal, Copy, CheckCircle2 } from 'lucide-react';
+
+const quotes = [
+    "Code is like humor. When you have to explain it, it’s bad. Hinglish debugging is real power.",
+    "First, solve the problem. Then, write the code. Logic building hi asli game hai.",
+    "The best way to predict the future is to create it. Coderafroj engine always on.",
+    "Bina logic ke syntax sirf ek text hai. Mastery requires deep understanding.",
+    "Software is a gas; it expands to fill its container. System optimized for peak performance."
+];
 
 export default function CyberQuotes() {
     const [index, setIndex] = useState(0);

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useGitHub } from '../../context/GitHubContext';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -33,6 +36,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { courses as initialCourses } from '../../data/notes';
+import AIAssistantTray from '../../components/editor/AIAssistantTray';
 
 // --- ANIMATION VARIANTS ---
 const pageVariants = {
@@ -42,7 +46,24 @@ const pageVariants = {
 };
 
 const NotesAdmin = () => {
+    const navigate = useNavigate();
     const { isAuthenticated, selectedRepo, uploadFiles, fetchFileContent, user } = useGitHub();
+    const [firebaseUser, setFirebaseUser] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    // Firebase Authentication Check
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser && currentUser.email === 'coderafroj@gmail.com') {
+                setFirebaseUser(currentUser);
+            } else {
+                setFirebaseUser(null);
+                navigate('/login');
+            }
+            setAuthLoading(false);
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
     // --- STATE ---
     const [view, setView] = useState('courses'); // 'courses' | 'topics' | 'editor'
@@ -55,6 +76,7 @@ const NotesAdmin = () => {
     const [status, setStatus] = useState({ type: '', message: '' });
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [showMetaSidebar, setShowMetaSidebar] = useState(false);
+    const [aiOpen, setAiOpen] = useState(false);
 
     // New Course State
     const [newCourseName, setNewCourseName] = useState('');
@@ -276,6 +298,24 @@ ${newTopicData.content.replace(/`/g, '\\`')}
 
     // --- RENDER HELPERS ---
 
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-white text-xl font-mono uppercase tracking-widest"
+                >
+                    Authenticating...
+                </motion.div>
+            </div>
+        );
+    }
+
+    if (!firebaseUser) {
+        return null;
+    }
+
     if (!isAuthenticated) return <AccessDenied />;
 
     return (
@@ -462,6 +502,15 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                                     <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor?.isActive('heading', { level: 2 })} icon={<Heading2 size={16} />} />
                                     <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor?.isActive('bulletList')} icon={<List size={16} />} />
                                     <ToolbarButton onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor?.isActive('codeBlock')} icon={<TerminalSquare size={16} />} />
+
+                                    <div className="h-4 w-[1px] bg-white/10 mx-1" />
+
+                                    <ToolbarButton
+                                        onClick={() => setAiOpen(true)}
+                                        active={aiOpen}
+                                        icon={<Sparkles size={16} className="text-sky-500" />}
+                                        title="AI Assistant"
+                                    />
                                 </div>
 
                                 <div className="flex items-center gap-2 pl-2 border-l border-white/10">
@@ -483,6 +532,13 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                             <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 lg:px-16">
                                 <EditorContent editor={editor} className="tiptap-editor-surface max-w-4xl mx-auto min-h-[500px]" />
                             </div>
+
+                            <AIAssistantTray
+                                isOpen={aiOpen}
+                                onClose={() => setAiOpen(false)}
+                                editor={editor}
+                                topicTitle={metadata.title}
+                            />
                         </div>
                     </motion.div>
                 )}

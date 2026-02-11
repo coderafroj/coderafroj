@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { AI_CONFIG } from '../../config/aiConfig';
 import {
     Zap,
     Send,
@@ -17,9 +18,9 @@ const AIAssistantTray = ({ isOpen, onClose, editor, topicTitle }) => {
     const [response, setResponse] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // Initialize Gemini
-    const genAI = new GoogleGenerativeAI('AIzaSyDZNCUxuD7Qf5-AKCg-3D2fEuhaF-rArDQ');
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // Initialize Gemini using centralized config
+    const genAI = new GoogleGenerativeAI(AI_CONFIG.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: AI_CONFIG.GEMINI_MODEL });
 
     const generateContent = async () => {
         if (!prompt) return;

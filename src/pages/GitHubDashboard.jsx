@@ -276,11 +276,56 @@ const GitHubDashboard = () => {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="obsidian-card p-12 md:p-20 flex flex-col items-center justify-center rounded-3xl border-dashed border-white/5"
+                                className="space-y-8"
                             >
-                                <Settings className="w-12 h-12 text-primary/30 mb-6" />
-                                <h3 className="text-lg font-bold text-white uppercase tracking-widest">Sync Settings</h3>
-                                <p className="text-dim-text text-xs mt-2 font-mono text-center">Fine-tune your GitHub integration experience.</p>
+                                <div className="obsidian-card p-10 rounded-[2.5rem] border-white/5 bg-white/2">
+                                    <div className="flex items-center gap-4 mb-8">
+                                        <div className="p-3 bg-primary/10 rounded-2xl text-primary">
+                                            <Settings className="w-6 h-6" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-bold text-white uppercase tracking-widest">System Configuration</h3>
+                                            <p className="text-dim-text text-xs mt-1 font-mono uppercase">Fine-tune your technical environment.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-6">
+                                        <div className="p-6 rounded-2xl bg-white/5 border border-white/5 space-y-4">
+                                            <div className="flex items-center gap-3 text-primary-glow">
+                                                <Zap size={18} />
+                                                <h4 className="text-sm font-bold uppercase tracking-widest">AI Setup (Gemini Pro)</h4>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em]">Active API Key</label>
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        type="password"
+                                                        value="AIzaSyAcaSgNCeve4kl7UUN0NoWj_Ypqs4P1l1Y"
+                                                        readOnly
+                                                        className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs text-white font-mono focus:border-primary/50 outline-none"
+                                                    />
+                                                    <div className="px-4 py-3 bg-green-500/10 border border-green-500/20 rounded-xl text-[10px] font-bold text-green-500 uppercase flex items-center gap-2">
+                                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                                                        Active
+                                                    </div>
+                                                </div>
+                                                <p className="text-[9px] text-slate-600 font-mono italic">
+                                                    * This key is used for the Elite AI Architect in the Note Editors.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-6 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between">
+                                            <div>
+                                                <h4 className="text-sm font-bold text-white uppercase tracking-widest">GitHub Instance</h4>
+                                                <p className="text-[10px] text-slate-500 mt-1 uppercase">Connection state and repository sync nodes.</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-[9px] font-black text-primary uppercase tracking-[0.2em]">CONNECTED</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
