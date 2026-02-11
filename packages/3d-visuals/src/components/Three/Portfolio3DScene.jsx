@@ -41,7 +41,7 @@ const ProjectNode = ({ position, title, color }) => {
                     position={[0, -1, 0]}
                     fontSize={0.2}
                     color="white"
-                    font="/fonts/Inter-Bold.woff" // Assuming font exists or fallback
+                    font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeA.woff"
                     anchorX="center"
                     anchorY="middle"
                     opacity={hovered ? 1 : 0.5}
@@ -76,7 +76,7 @@ const SkillRing = () => {
                         fontSize={0.3}
                         color="#6366f1"
                         opacity={0.3}
-                        font="/fonts/Inter-Bold.woff"
+                        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeA.woff"
                     >
                         {skill}
                     </Text>
