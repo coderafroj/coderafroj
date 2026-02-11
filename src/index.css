@@ -1449,3 +1449,60 @@ li[data-type="taskItem"]>div {
 .react-flow__edge.selected .react-flow__edge-path {
   stroke: var(--elite-blue);
 }
+
+/* --- Elite SaaS & Modern Tech Utilities --- */
+.saas-card {
+  @apply relative overflow-hidden border transition-all duration-700;
+  background: rgba(255, 255, 255, 0.01);
+  border-color: rgba(255, 255, 255, 0.05);
+  border-radius: 2.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+}
+
+.saas-card:hover {
+  @apply bg-white/[0.03];
+  box-shadow: 0 0 80px -20px rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-5px) scale(1.01);
+}
+
+.solution-badge {
+  @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-[0.2em];
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  /* soft violet/blue */
+}
+
+.glow-border {
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes glow-move {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.kinetic-text {
+  @apply text-white font-black uppercase leading-none tracking-tighter;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.1));
+}
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .solution-grid {
+    grid-template-columns: 1fr;
+  }
+}

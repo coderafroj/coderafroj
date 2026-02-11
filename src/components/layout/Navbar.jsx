@@ -30,7 +30,7 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Protocol', path: '/', icon: <Terminal size={14} /> },
-        { name: 'Projects', path: '/projects', icon: <Code size={14} /> },
+        { name: 'Widgets', path: '/widgets', icon: <Code size={14} /> },
         { name: 'Notes', path: '/notes', icon: <BookOpen size={14} /> },
         { name: 'Control', path: '/github', icon: <Github size={14} /> },
         { name: 'Contact', path: '/contact', icon: <Mail size={14} /> },

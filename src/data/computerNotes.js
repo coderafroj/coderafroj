@@ -3096,7 +3096,8 @@ Sirf tab jab aapko millions of numbers store karne hon aur memory bachani ho. 99
     }
 ];
 
-export const staticNotes = [...originalStaticNotes, ...pythonDataTypes];
+export const computerNotes = originalStaticNotes;
+export const staticNotes = originalStaticNotes;
 
 
 

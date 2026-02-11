@@ -96,7 +96,7 @@ function App() {
               >
                 <Routes location={location} key={location.pathname}>
                   <Route path="/" element={<Home />} />
-                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/widgets" element={<Projects />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:slug" element={<BlogPost />} />
                   <Route path="/notes" element={<TutorialHub />} />

@@ -43,9 +43,9 @@ const Projects = () => {
     return (
         <div className="pt-40 pb-32 min-h-screen px-6">
             <SEO
-                title="Elite Projects Portfolio"
-                description="Explore Coderafroj's gallery of high-end digital projects, advanced web systems, and creative design experiments."
-                url="/projects"
+                title="Elite Widget Registry"
+                description="Explore the Coderafroj Widget Engine. A gallery of high-performance, interactive SaaS nodes for global deployment."
+                url="/widgets"
             />
             <div className="max-w-7xl mx-auto">
                 <header className="mb-24 text-center">
@@ -55,7 +55,7 @@ const Projects = () => {
                         className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-primary/5 border border-primary/20 mb-8"
                     >
                         <Terminal size={12} className="text-primary-glow" />
-                        <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-primary-glow uppercase">Codex__Archive v2.0</span>
+                        <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-primary-glow uppercase">Widget__Registry v4.2</span>
                     </motion.div>
 
                     <motion.h1
@@ -64,7 +64,7 @@ const Projects = () => {
                         transition={{ delay: 0.1 }}
                         className="text-6xl md:text-[7rem] font-black text-white tracking-tighter mb-10 uppercase leading-none"
                     >
-                        THE <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">CODERAFROJ</span>
+                        THE <span className="text-primary drop-shadow-[0_0_40px_rgba(47,129,247,0.3)]">REGISTRY</span>
                     </motion.h1>
 
                     <motion.p
@@ -73,7 +73,7 @@ const Projects = () => {
                         transition={{ delay: 0.2 }}
                         className="text-slate-400 max-w-2xl mx-auto text-xl leading-relaxed font-light"
                     >
-                        Index of deployed architectural systems and neural experiments established within the session.
+                        A global repository of high-end SaaS widgets. Architecturally verified and ready for deployment.
                     </motion.p>
                 </header>
 
