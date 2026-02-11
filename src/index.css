@@ -1415,7 +1415,8 @@ li[data-type="taskItem"]>div {
 }
 
 .elite-node-active {
-  @apply border-sky-500/50 shadow-[0_0_30px_rgba(14, 165, 233, 0.2)];
+  @apply border-sky-500/50;
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.2);
 }
 
 .haptic-feedback {
