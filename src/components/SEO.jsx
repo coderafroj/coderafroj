@@ -12,30 +12,69 @@ const SEO = ({ title, description, image, url, keywords, type = 'website', date,
     const seoTitle = title ? `${title} | ${siteTitle}` : siteTitle;
     const seoImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : defaultImage;
 
-    // Structured Data (JSON-LD)
+    // structured data (JSON-LD) - Enhanced for "High Level" SEO
     const structuredData = schema || {
         "@context": "https://schema.org",
-        "@type": type === 'article' ? "Article" : "WebSite",
-        "url": seoUrl,
-        "name": seoTitle,
-        "description": seoDescription,
-        "image": seoImage,
-        ...(type === 'article' && {
-            "headline": title,
-            "datePublished": date,
-            "author": {
-                "@type": "Person",
-                "name": author || "Coderafroj"
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": `${siteUrl}/#website`,
+                "url": siteUrl,
+                "name": "Coderafroj | Digital Architect",
+                "description": defaultDescription,
+                "publisher": {
+                    "@id": `${siteUrl}/#organization`
+                },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": `${siteUrl}/search?q={search_term_string}`,
+                    "query-input": "required name=search_term_string"
+                }
             },
-            "publisher": {
+            {
                 "@type": "Organization",
+                "@id": `${siteUrl}/#organization`,
                 "name": "Coderafroj",
+                "url": siteUrl,
                 "logo": {
                     "@type": "ImageObject",
-                    "url": `${siteUrl}/logo.png`
+                    "url": `${siteUrl}/logo.png`,
+                    "width": 512,
+                    "height": 512
+                },
+                "sameAs": [
+                    "https://github.com/coderafroj",
+                    "https://twitter.com/coderafroj",
+                    "https://linkedin.com/in/coderafroj"
+                ],
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "contact@coderafroj.com",
+                    "contactType": "customer support"
                 }
+            },
+            {
+                "@type": type === 'article' ? "Article" : "WebPage",
+                "@id": seoUrl,
+                "url": seoUrl,
+                "name": seoTitle,
+                "description": seoDescription,
+                "isPartOf": {
+                    "@id": `${siteUrl}/#website`
+                },
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": seoImage
+                },
+                ...(type === 'article' && {
+                    "headline": title,
+                    "datePublished": date,
+                    "author": {
+                        "@id": `${siteUrl}/#organization` // Assuming Coderafroj is the author
+                    }
+                })
             }
-        })
+        ]
     };
 
     return (

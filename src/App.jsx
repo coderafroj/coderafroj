@@ -31,6 +31,8 @@ const GitHubDashboard = lazy(() => import('./pages/GitHubDashboard'));
 const Contact = lazy(() => import('./pages/Contact'));
 const DesignViewer = lazy(() => import('./pages/DesignViewer'));
 
+import MobileTabBar from './components/layout/MobileTabBar';
+
 // Lazy Load Pages - Learning System
 const CourseIndex = lazy(() => import('./pages/Learn/CourseIndex'));
 const NotesLayout = lazy(() => import('./pages/Learn/NotesLayout'));
