@@ -1,35 +1,41 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { GitHubProvider } from './context/GitHubContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import IntroScene from './components/layout/IntroScene';
 import GlobalErrorBoundary from './components/GlobalErrorBoundary';
 import { AnimatePresence, motion } from 'framer-motion';
 
+// Lazy Load Heavy 3D & Layout Components
+const IntroScene = lazy(() => import('./components/layout/IntroScene'));
 
+// Lazy Load Pages - Core
+const Home = lazy(() => import('./pages/Home'));
+const Projects = lazy(() => import('./pages/Projects'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const TutorialHub = lazy(() => import('./pages/TutorialHub'));
+const TutorialViewer = lazy(() => import('./pages/TutorialViewer'));
 
+// Lazy Load Pages - Admin & Editors (Micro Frontend Candidates)
+const Admin = lazy(() => import('./pages/Admin'));
+const Login = lazy(() => import('./pages/Login'));
+const NoteEditor = lazy(() => import('./pages/NoteEditor'));
+const NotesAdmin = lazy(() => import('./pages/Admin/NotesAdmin'));
+const UltimateEditor = lazy(() => import('./pages/Admin/UltimateEditor'));
 
-import Home from './pages/Home';
-import Projects from './pages/Projects';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import Admin from './pages/Admin';
-import Login from './pages/Login';
-import TutorialHub from './pages/TutorialHub';
-import TutorialViewer from './pages/TutorialViewer';
-import Register from './pages/Register';
-import GitHubDashboard from './pages/GitHubDashboard';
-import NoteEditor from './pages/NoteEditor';
-import Contact from './pages/Contact';
-import MobileTabBar from './components/layout/MobileTabBar';
-import DesignViewer from './pages/DesignViewer';
-import CourseIndex from './pages/Learn/CourseIndex';
-import NotesLayout from './pages/Learn/NotesLayout';
-import TopicPage from './pages/Learn/TopicPage';
-import NotesAdmin from './pages/Admin/NotesAdmin';
-import UltimateEditor from './pages/Admin/UltimateEditor';
+// Lazy Load Pages - Auth & User
+const Register = lazy(() => import('./pages/Register'));
+const GitHubDashboard = lazy(() => import('./pages/GitHubDashboard'));
+const Contact = lazy(() => import('./pages/Contact'));
+const DesignViewer = lazy(() => import('./pages/DesignViewer'));
+
+// Lazy Load Pages - Learning System
+const CourseIndex = lazy(() => import('./pages/Learn/CourseIndex'));
+const NotesLayout = lazy(() => import('./pages/Learn/NotesLayout'));
+const TopicPage = lazy(() => import('./pages/Learn/TopicPage'));
+
 import './App.css';
 
 import { Toaster } from 'sonner';
@@ -71,7 +77,11 @@ function App() {
           }}
         />
         <AnimatePresence mode="wait">
-          {showIntro && <IntroScene onComplete={handleIntroComplete} />}
+          {showIntro && (
+            <Suspense fallback={null}>
+              <IntroScene onComplete={handleIntroComplete} />
+            </Suspense>
+          )}
         </AnimatePresence>
 
         <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -94,35 +104,41 @@ function App() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="flex-grow flex flex-col"
               >
-                <Routes location={location} key={location.pathname}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/widgets" element={<Projects />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/blog/:slug" element={<BlogPost />} />
-                  <Route path="/notes" element={<TutorialHub />} />
-                  <Route path="/notes/:tutorialId" element={<TutorialViewer />} />
-                  <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
-                  <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
+                <Suspense fallback={
+                  <div className="flex items-center justify-center min-h-[50vh] text-sky-500 font-mono tracking-widest text-xs animate-pulse">
+                    INITIALIZING MODULE...
+                  </div>
+                }>
+                  <Routes location={location} key={location.pathname}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/widgets" element={<Projects />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/notes" element={<TutorialHub />} />
+                    <Route path="/notes/:tutorialId" element={<TutorialViewer />} />
+                    <Route path="/tutorial/:tutorialId" element={<TutorialViewer />} />
+                    <Route path="/tutorial/:tutorialId/:chapterId" element={<TutorialViewer />} />
 
-                  {/* Legacy Admin Routes */}
-                  <Route path="/admin/notes/new" element={<NoteEditor />} />
-                  <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
-                  <Route path="/admin/notes" element={<UltimateEditor />} />
-                  <Route path="/admin" element={<UltimateEditor />} />
-                  <Route path="/login" element={<Login />} />
+                    {/* Legacy Admin Routes */}
+                    <Route path="/admin/notes/new" element={<NoteEditor />} />
+                    <Route path="/admin/notes/edit/:id" element={<NoteEditor />} />
+                    <Route path="/admin/notes" element={<UltimateEditor />} />
+                    <Route path="/admin" element={<UltimateEditor />} />
+                    <Route path="/login" element={<Login />} />
 
-                  {/* Register & Auth */}
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/github" element={<GitHubDashboard />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/design/:id" element={<DesignViewer />} />
+                    {/* Register & Auth */}
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/github" element={<GitHubDashboard />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/design/:id" element={<DesignViewer />} />
 
-                  {/* New Learning System Routes */}
-                  <Route path="/learn" element={<CourseIndex />} />
-                  <Route path="/learn/:courseId" element={<NotesLayout />}>
-                    <Route path=":topicSlug" element={<TopicPage />} />
-                  </Route>
-                </Routes>
+                    {/* New Learning System Routes */}
+                    <Route path="/learn" element={<CourseIndex />} />
+                    <Route path="/learn/:courseId" element={<NotesLayout />}>
+                      <Route path=":topicSlug" element={<TopicPage />} />
+                    </Route>
+                  </Routes>
+                </Suspense>
               </motion.div>
             </AnimatePresence>
           </main>
