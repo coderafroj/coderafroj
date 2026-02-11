@@ -22,7 +22,12 @@ const Login = () => {
         setError('');
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            if (userCredential.user.email !== 'coderafroj@gmail.com') {
+                await auth.signOut();
+                setError('UNAUTHORIZED: ADMIN_PRIVILEGES_REQUIRED');
+                return;
+            }
             navigate('/admin');
         } catch (err) {
             setError('ACCESS_DENIED: CREDENTIAL_MISMATCH');

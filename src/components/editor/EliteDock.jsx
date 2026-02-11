@@ -33,88 +33,122 @@ const EliteDock = ({
         <Box
             sx={{
                 position: 'fixed',
-                bottom: 30,
+                bottom: { xs: 12, md: 30 },
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 2000,
+                width: { xs: '94%', md: 'auto' },
+                maxWidth: { xs: '380px', md: 'none' },
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.5,
-                px: 2,
-                py: 1.5,
-                borderRadius: '100px',
-                background: 'rgba(10, 10, 20, 0.8)',
-                backdropFilter: 'blur(30px) saturate(150%)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                boxShadow: '0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 233, 0.1)',
+                borderRadius: '28px',
+                background: 'rgba(5, 5, 15, 0.95)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 30px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(14, 165, 233, 0.15)',
+                overflow: 'hidden',
+                px: 0.5,
+                py: 0.5
             }}
         >
-            {dockItems.map((item) => (
-                <Tooltip key={item.id} title={item.label} arrow placement="top">
-                    <motion.div
-                        whileHover={{ y: -8, scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="haptic-feedback"
-                    >
-                        <IconButton
-                            onClick={item.action}
-                            sx={{
-                                width: 54,
-                                height: 54,
-                                borderRadius: '50%',
-                                color: item.id === activeTab ? '#0ea5e9' : 'rgba(255, 255, 255, 0.5)',
-                                bgcolor: item.id === activeTab ? 'rgba(14, 165, 233, 0.1)' : 'transparent',
-                                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                                '&:hover': {
-                                    bgcolor: 'rgba(255, 255, 255, 0.05)',
-                                    color: item.color || 'white'
-                                }
-                            }}
-                        >
-                            {item.icon}
-                        </IconButton>
-                    </motion.div>
-                </Tooltip>
-            ))}
-
-            <div style={{ width: 1, height: 30, background: 'rgba(255, 255, 255, 0.1)', margin: '0 10px' }} />
-
-            <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            {/* Scrollable Items Block */}
+            <Box
+                className="no-scrollbar"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.2,
+                    overflowX: 'auto',
+                    flex: 1,
+                    px: 1,
+                    WebkitOverflowScrolling: 'touch',
+                    '&::-webkit-scrollbar': { display: 'none' },
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none',
+                    scrollSnapType: 'x mandatory',
+                }}
             >
-                <IconButton
-                    onClick={onSave}
-                    disabled={isSaving}
-                    sx={{
-                        width: 54,
-                        height: 54,
-                        borderRadius: '20px',
-                        bgcolor: '#0ea5e9',
-                        color: 'black',
-                        boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)',
-                        '&:hover': {
-                            bgcolor: '#38bdf8',
-                            boxShadow: '0 0 30px rgba(14, 165, 233, 0.5)',
-                        },
-                        '&.Mui-disabled': {
-                            bgcolor: 'rgba(14, 165, 233, 0.2)',
-                            color: 'rgba(0,0,0,0.3)'
-                        }
-                    }}
+                {dockItems.map((item) => {
+                    const isActive = item.id === activeTab;
+                    return (
+                        <Tooltip key={item.id} title={item.label} arrow placement="top">
+                            <Box sx={{ flexShrink: 0, scrollSnapAlign: 'center' }}>
+                                <motion.div
+                                    whileTap={{ scale: 0.85 }}
+                                    className="haptic-feedback"
+                                >
+                                    <IconButton
+                                        onClick={item.action}
+                                        sx={{
+                                            width: { xs: 50, md: 54 },
+                                            height: { xs: 50, md: 54 },
+                                            borderRadius: '22px',
+                                            color: isActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.4)',
+                                            bgcolor: isActive ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
+                                            position: 'relative',
+                                            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                                            '&:hover': {
+                                                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                                                color: 'white'
+                                            }
+                                        }}
+                                    >
+                                        {React.cloneElement(item.icon, {
+                                            size: 20,
+                                            strokeWidth: isActive ? 3 : 2
+                                        })}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="dock-active-glow"
+                                                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-1 bg-sky-500 rounded-full blur-sm"
+                                            />
+                                        )}
+                                    </IconButton>
+                                </motion.div>
+                            </Box>
+                        </Tooltip>
+                    );
+                })}
+            </Box>
+
+            <Box sx={{ width: '1px', height: 24, background: 'rgba(255, 255, 255, 0.1)', mx: 0.5, flexShrink: 0 }} />
+
+            {/* Fixed Save Block */}
+            <Box sx={{ px: 0.5, flexShrink: 0 }}>
+                <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.9 }}
                 >
-                    {isSaving ? (
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                        >
-                            <Zap size={22} />
-                        </motion.div>
-                    ) : (
-                        <Save size={22} strokeWidth={2.5} />
-                    )}
-                </IconButton>
-            </motion.div>
+                    <IconButton
+                        onClick={onSave}
+                        disabled={isSaving}
+                        sx={{
+                            width: { xs: 50, md: 54 },
+                            height: { xs: 50, md: 54 },
+                            borderRadius: '20px',
+                            bgcolor: isSaving ? 'rgba(56, 189, 248, 0.2)' : '#0ea5e9',
+                            color: 'black',
+                            boxShadow: '0 10px 25px rgba(14, 165, 233, 0.4)',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                                bgcolor: '#38bdf8',
+                                boxShadow: '0 15px 35px rgba(14, 165, 233, 0.6)',
+                            },
+                        }}
+                    >
+                        {isSaving ? (
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                            >
+                                <Zap size={20} fill="currentColor" />
+                            </motion.div>
+                        ) : (
+                            <Save size={20} strokeWidth={2.5} />
+                        )}
+                    </IconButton>
+                </motion.div>
+            </Box>
         </Box>
     );
 };

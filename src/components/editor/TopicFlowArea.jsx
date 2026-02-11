@@ -6,7 +6,9 @@ import ReactFlow, {
     addEdge,
     useNodesState,
     useEdgesState,
-    MarkerType
+    MarkerType,
+    Handle,
+    Position
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
@@ -16,21 +18,33 @@ const TopicNode = ({ data, selected }) => (
     <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className={`elite-node ${selected ? 'elite-node-active' : ''}`}
+        className={`elite-node relative group ${selected ? 'elite-node-active animate-pulse-glow shadow-[0_0_20px_rgba(14,165,233,0.3)]' : ''}`}
     >
+        <Handle
+            type="target"
+            position={Position.Top}
+            className="!w-2 !h-2 !bg-primary/40 !border-primary/20 hover:!bg-primary transition-colors"
+        />
+
         <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-2xl ${data.isNew ? 'bg-green-500/20 text-green-500' : 'bg-sky-500/10 text-sky-500'}`}>
+            <div className={`p-3 rounded-2xl transition-all duration-300 ${selected ? 'bg-primary text-white scale-110' : data.isNew ? 'bg-green-500/20 text-green-500' : 'bg-sky-500/10 text-sky-500 group-hover:bg-sky-500/20'}`}>
                 {data.isCourse ? <Category /> : <Article />}
             </div>
             <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                <p className={`text-[9px] font-black uppercase tracking-[0.2em] mb-1 transition-colors ${selected ? 'text-primary' : 'text-slate-500'}`}>
                     {data.category || 'Topic Module'}
                 </p>
-                <h3 className="text-sm font-bold text-white uppercase italic">
+                <h3 className={`text-sm font-bold uppercase italic transition-all ${selected ? 'text-white' : 'text-slate-200 group-hover:text-white'}`}>
                     {data.label}
                 </h3>
             </div>
         </div>
+
+        <Handle
+            type="source"
+            position={Position.Bottom}
+            className="!w-2 !h-2 !bg-primary/40 !border-primary/20 hover:!bg-primary transition-colors"
+        />
     </motion.div>
 );
 

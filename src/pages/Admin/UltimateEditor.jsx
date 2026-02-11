@@ -43,7 +43,7 @@ import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
 const lowlight = createLowlight(common);
 
 const UltimateEditor = () => {
-    const { isAuthenticated, selectedRepo, uploadFiles, fetchFileContent } = useGitHub();
+    const { isAuthenticated, user, selectedRepo, uploadFiles, fetchFileContent } = useGitHub();
 
     // Workflow State
     const [step, setStep] = useState('select'); // 'select', 'graph'
@@ -214,11 +214,12 @@ ${markdownContent}
         setEditorOpen(true);
     };
 
-    if (!isAuthenticated) return (
+    if (!isAuthenticated || user?.login !== 'coderafroj') return (
         <ThemeProvider theme={editorTheme}>
             <CssBaseline />
-            <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#030014' }}>
-                <h1 className="text-white text-2xl font-black italic uppercase">Authorization Required (/github)</h1>
+            <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', bgcolor: '#030014', gap: 2 }}>
+                <h1 className="text-white text-2xl font-black italic uppercase">Access Denied</h1>
+                <p className="text-slate-500 font-mono text-sm uppercase">Administrative Privileges Required (User: {user?.login || 'Not Authenticated'})</p>
             </Box>
         </ThemeProvider>
     );

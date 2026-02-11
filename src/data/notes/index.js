@@ -1,19 +1,29 @@
-import { computerFundamentals } from './computer-fundamentals';
-const fundamentals = computerFundamentals.topics;
-import { cProgramming } from './c-programming';
-import { pythonMasterclass } from './python-masterclass';
-const python = pythonMasterclass.topics;
-import { hardware } from './hardware';
-import { office } from './office';
+import { computerFundamentals as fundamentalData } from './computer-fundamentals';
+const fundamentals = fundamentalData.topics || fundamentalData;
+import { cProgramming as cData } from './c-programming';
+const cProgramming = cData.topics || cData;
+import { pythonMasterclass as pythonData } from './python-masterclass';
+const python = pythonData.topics || pythonData;
+import { hardware as hardwareData } from './hardware';
+const hardware = hardwareData.topics || hardwareData;
+import { office as officeData } from './office';
+const office = officeData.topics || officeData;
 import { iot as iotData } from './iot';
 const iot = iotData.topics || iotData;
-import { javascript } from './javascript';
-import { html } from './html';
-import { css } from './css';
-import { react } from './react';
-import { java } from './java';
-import { cpp } from './cpp';
-import { internet } from './internet';
+import { javascript as jsData } from './javascript';
+const javascript = jsData.topics || jsData;
+import { html as htmlData } from './html';
+const html = htmlData.topics || htmlData;
+import { css as cssData } from './css';
+const css = cssData.topics || cssData;
+import { react as reactData } from './react';
+const react = reactData.topics || reactData;
+import { java as javaData } from './java';
+const java = javaData.topics || javaData;
+import { cpp as cppData } from './cpp';
+const cpp = cppData.topics || cppData;
+import { internet as internetData } from './internet';
+const internet = internetData.topics || internetData;
 
 // Combine all notes into a single array for backward compatibility and search
 export const allNotes = [

@@ -1,14 +1,23 @@
-export const python = [        {
-        id: '',
-        slug: '',
-        title: '',
-        description: '',
-        tags: [''],
+
+export const python = [
+    {
+        id: 'intro-to-wsn',
+        slug: 'intro-to-wsn',
+        title: 'Introduction to Wireless Sensor Networks',
+        description: 'Basics of WSN, mobility support, and sensing technology.',
+        tags: ['IOT', 'Networking', 'Python'],
         category: 'Python Masterclass',
-        image: '',
+        image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80',
         createdAt: new Date('2026-02-05'),
         content: `
-1.2 Wireless Ad-hoc and Sensor Networks: The Ancestors without IP Wireless sensor networks (WSNs) were an emerging application field of microelectronics and communications in the first decade of the twenty-first century. In particular, WSNs promised wide support of interactions between people and their surroundings. The potential of a WSN can be seen in the three words behind the acronym: • “Wireless” puts the focus on the freedom that the elimination of wires gives, in terms of mobility support and ease of system deployment; • “Sensor” reflects the capability of sensing technology to provide the means to perceive and interact — in a wide sense — with the world; • “Networks” gives emphasis to the possibility of building systems whose functional capabilities are given by a plurality of communicating devices, possibly distributed over large areas.
+# Wireless Ad-hoc and Sensor Networks
+
+WSNs are an emerging application field of microelectronics and communications. They promise wide support of interactions between people and their surroundings.
+
+### Key Aspects:
+- **Wireless**: Freedom from wires, mobility support, easy deployment.
+- **Sensor**: Capability to perceive and interact with the world.
+- **Networks**: plurality of communicating devices distributed over large areas.
 `
-    },
+    }
 ];

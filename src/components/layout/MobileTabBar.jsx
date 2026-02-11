@@ -15,52 +15,65 @@ const MobileTabBar = () => {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-6 pt-2">
-            <div className="bg-black/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] flex items-center justify-around px-2 py-3 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
-                {/* Adaptive Glow Layer */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent pointer-events-none" />
+        <div className="md:hidden fixed bottom-1 left-4 right-4 z-50 pb-4 pt-2">
+            <div className="bg-black/80 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)] relative">
+                {/* Edge Fades for Slider Indication */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/60 to-transparent z-20 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/60 to-transparent z-20 pointer-events-none" />
 
-                {tabs.map((tab) => {
-                    const isActive = location.pathname === tab.path;
-                    return (
-                        <Link
-                            key={tab.name}
-                            to={tab.path}
-                            className={twMerge(
-                                "relative flex flex-col items-center justify-center flex-1 transition-all duration-500",
-                                isActive ? "text-primary-glow" : "text-slate-500"
-                            )}
-                        >
-                            <motion.div
-                                animate={isActive ? { scale: 1.15, y: -4 } : { scale: 1, y: 0 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                {/* Scrollable Container */}
+                <div className="flex items-center gap-1 px-4 py-2 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory relative z-10">
+                    {tabs.map((tab) => {
+                        const isActive = location.pathname === tab.path;
+                        return (
+                            <Link
+                                key={tab.name}
+                                to={tab.path}
                                 className={twMerge(
-                                    "p-2.5 rounded-2xl transition-all duration-300 relative z-10",
-                                    isActive ? "shadow-[0_10px_30px_rgba(99,102,241,0.2)]" : "hover:bg-white/5"
-                                )}
-                            >
-                                {tab.icon}
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="mobile-liquid-pill"
-                                        className="absolute inset-0 bg-primary/20 backdrop-blur-xl border border-primary/30 rounded-2xl -z-10"
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                    />
-                                )}
-                            </motion.div>
-
-                            <motion.span
-                                animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
-                                className={twMerge(
-                                    "text-[8px] font-black tracking-[0.2em] mt-1.5 uppercase transition-all duration-300",
+                                    "relative flex flex-col items-center justify-center min-w-[70px] flex-shrink-0 transition-all duration-500 snap-center py-1",
                                     isActive ? "text-primary-glow" : "text-slate-500"
                                 )}
                             >
-                                {tab.name}
-                            </motion.span>
-                        </Link>
-                    );
-                })}
+                                <motion.div
+                                    animate={isActive ? { scale: 1.1, y: -2 } : { scale: 1, y: 0 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                    className={twMerge(
+                                        "p-2.5 rounded-2xl transition-all duration-300 relative z-10",
+                                        isActive ? "bg-primary/20 shadow-[0_10px_30px_rgba(99,102,241,0.2)] border border-primary/30" : "hover:bg-white/5"
+                                    )}
+                                >
+                                    <div className="scale-90">
+                                        {tab.icon}
+                                    </div>
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="mobile-slider-active"
+                                            className="absolute inset-0 bg-primary/20 blur-md rounded-2xl -z-10"
+                                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                        />
+                                    )}
+                                </motion.div>
+
+                                <motion.span
+                                    animate={isActive ? { opacity: 1, scale: 1 } : { opacity: 0.6, scale: 0.9 }}
+                                    className={twMerge(
+                                        "text-[8px] font-black tracking-widest mt-1.5 uppercase transition-all duration-300",
+                                        isActive ? "text-primary-glow" : "text-slate-500"
+                                    )}
+                                >
+                                    {tab.name}
+                                </motion.span>
+
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="active-dot"
+                                        className="w-1 h-1 bg-primary rounded-full mt-1 shadow-[0_0_10px_rgba(59,130,246,0.8)]"
+                                    />
+                                )}
+                            </Link>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
