@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useGitHub } from '../../context/GitHubContext';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -43,7 +46,24 @@ import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
 const lowlight = createLowlight(common);
 
 const UltimateEditor = () => {
+    const navigate = useNavigate();
     const { isAuthenticated, user, selectedRepo, uploadFiles, fetchFileContent } = useGitHub();
+    const [firebaseUser, setFirebaseUser] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    // Firebase Authentication Check
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser && currentUser.email === 'coderafroj@gmail.com') {
+                setFirebaseUser(currentUser);
+            } else {
+                setFirebaseUser(null);
+                navigate('/login');
+            }
+            setAuthLoading(false);
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
     // Workflow State
     const [step, setStep] = useState('select'); // 'select', 'graph'
