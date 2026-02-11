@@ -10,9 +10,9 @@ export default defineConfig({
     federation({
       name: 'coderafroj-host',
       filename: 'remoteEntry.js',
-      // remotes: {
-      //   admin: 'http://localhost:5001/assets/remoteEntry.js', // Placeholder for future
-      // },
+      remotes: {
+        'remote-3d': 'http://localhost:5001/assets/remoteEntry.js',
+      },
       exposes: {
         './Navbar': './src/components/layout/Navbar.jsx',
         './Footer': './src/components/layout/Footer.jsx',
