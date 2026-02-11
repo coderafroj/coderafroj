@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function EliteWeather() {
     const [temp, setTemp] = useState(24);
     const [cityIndex, setCityIndex] = useState(0);
+    const [showForecast, setShowForecast] = useState(false);
     const cities = ['NEO_TOKIO', 'SYL_VALLEY', 'DUBAI_HUB', 'LONDON_SYS', 'DELHI_NODE'];
 
     useEffect(() => {
@@ -20,6 +21,14 @@ export default function EliteWeather() {
         }, 8000);
         return () => clearInterval(cityInterval);
     }, [cities.length]);
+
+    const ForecastNode = ({ time, icon: Icon, temp }) => (
+        <div className="flex flex-col items-center gap-1 p-2 bg-white/[0.02] border border-white/5 rounded-xl">
+            <span className="text-[7px] font-mono text-slate-500">{time}</span>
+            <Icon size={14} className="text-primary/60" />
+            <span className="text-[9px] font-black text-white italic">{temp}°C</span>
+        </div>
+    );
 
     return (
         <div className="space-y-6">
@@ -40,41 +49,62 @@ export default function EliteWeather() {
                         <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{cities[cityIndex]}_ATMOS_LINK</p>
                     </div>
                 </div>
-                <div className="text-right">
-                    <p className="text-xs font-bold text-white uppercase tracking-tighter">Clear_Sky</p>
-                    <div className="flex gap-1 justify-end mt-1">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="w-1 h-1 rounded-full bg-primary/40" />
-                        ))}
-                    </div>
-                </div>
+                <button
+                    onClick={() => setShowForecast(!showForecast)}
+                    className="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-[8px] font-mono text-primary-glow uppercase tracking-widest hover:bg-primary/20 transition-all"
+                >
+                    {showForecast ? 'HIDE_FORECAST' : 'SHOW_FORECAST'}
+                </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-                <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex items-center gap-3">
-                    <Wind size={14} className="text-sky-400" />
-                    <div>
-                        <p className="text-[8px] font-mono text-slate-500 uppercase">Wind</p>
-                        <p className="text-xs font-bold text-white">12km/h</p>
-                    </div>
-                </div>
-                <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex items-center gap-3">
-                    <Droplets size={14} className="text-blue-400" />
-                    <div>
-                        <p className="text-[8px] font-mono text-slate-500 uppercase">Humidity</p>
-                        <p className="text-xs font-bold text-white">42%</p>
-                    </div>
-                </div>
-            </div>
+            <AnimatePresence mode="wait">
+                {showForecast ? (
+                    <motion.div
+                        key="forecast"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="grid grid-cols-4 gap-2"
+                    >
+                        <ForecastNode time="14:00" icon={Sun} temp={26} />
+                        <ForecastNode time="18:00" icon={Cloud} temp={22} />
+                        <ForecastNode time="22:00" icon={CloudRain} temp={19} />
+                        <ForecastNode time="02:00" icon={Thermometer} temp={17} />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="stats"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="grid grid-cols-2 gap-3"
+                    >
+                        <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex items-center gap-3">
+                            <Wind size={14} className="text-sky-400" />
+                            <div>
+                                <p className="text-[8px] font-mono text-slate-500 uppercase">Wind</p>
+                                <p className="text-xs font-bold text-white">12km/h_W</p>
+                            </div>
+                        </div>
+                        <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl flex items-center gap-3">
+                            <Droplets size={14} className="text-blue-400" />
+                            <div>
+                                <p className="text-[8px] font-mono text-slate-500 uppercase">Precip</p>
+                                <p className="text-xs font-bold text-white">2.4mm</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            <div className="h-12 flex items-end gap-1 px-2">
-                {Array.from({ length: 20 }).map((_, i) => (
+            <div className="h-12 flex items-end gap-1 px-2 border-t border-white/5 pt-4">
+                {Array.from({ length: 24 }).map((_, i) => (
                     <motion.div
                         key={i}
                         initial={{ height: 4 }}
                         animate={{ height: Math.random() * 20 + 4 }}
-                        transition={{ repeat: Infinity, duration: 1, delay: i * 0.05 }}
-                        className="flex-1 bg-primary/20 rounded-full"
+                        transition={{ repeat: Infinity, duration: 2, delay: i * 0.1 }}
+                        className="flex-1 bg-primary/20 rounded-full hover:bg-primary/60 cursor-crosshair"
                     />
                 ))}
             </div>

@@ -12,18 +12,7 @@ import SEO from '../components/SEO';
 import WidgetWrapper from '../components/widgets/WidgetWrapper';
 import PurchaseModal from '../components/widgets/PurchaseModal';
 import WidgetMatrixFlow from '../components/widgets/WidgetMatrixFlow';
-
-// Library
-import EliteWeather from '../components/widgets/library/EliteWeather';
-import CyberQuotes from '../components/widgets/library/CyberQuotes';
-import SystemPulse from '../components/widgets/library/SystemPulse';
-import GitHubPulse from '../components/widgets/library/GitHubPulse';
-import StockTicker from '../components/widgets/library/StockTicker';
-import PomodoroTimer from '../components/widgets/library/PomodoroTimer';
-import TaskNode from '../components/widgets/library/TaskNode';
-import NetMatrix from '../components/widgets/library/NetMatrix';
-import NewsNode from '../components/widgets/library/NewsNode';
-import CurrencyNode from '../components/widgets/library/CurrencyNode';
+import WidgetGrid from '../components/widgets/WidgetGrid';
 
 export default function Home() {
     const { scrollY } = useScroll();
@@ -165,48 +154,8 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* The Widget Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <WidgetWrapper title="Weather_Node_v1" category="ATMOS" onUnlock={() => openPurchase('Weather_Node_v1')}>
-                        <EliteWeather />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Quote_Streamer" category="DATA" onUnlock={() => openPurchase('Quote_Streamer')}>
-                        <CyberQuotes />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="System_Pulse" category="KERNEL" onUnlock={() => openPurchase('System_Pulse')}>
-                        <SystemPulse />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="GitHub_Matrix" category="UPLINK" isLocked onUnlock={() => openPurchase('GitHub_Matrix')}>
-                        <GitHubPulse />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Finance_Ticker" category="MARKET" isLocked onUnlock={() => openPurchase('Finance_Ticker')}>
-                        <StockTicker />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Pomodoro_Core" category="FLOW" isLocked onUnlock={() => openPurchase('Pomodoro_Core')}>
-                        <PomodoroTimer />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Task_Registry" category="NODE" isLocked onUnlock={() => openPurchase('Task_Registry')}>
-                        <TaskNode />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Net_Matrix_v6" category="SIGNAL" isLocked onUnlock={() => openPurchase('Net_Matrix_v6')}>
-                        <NetMatrix />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Global_News_Feed" category="ARCHIVE" isLocked onUnlock={() => openPurchase('Global_News_Feed')}>
-                        <NewsNode />
-                    </WidgetWrapper>
-
-                    <WidgetWrapper title="Currency_Node" category="FOREX" isLocked onUnlock={() => openPurchase('Currency_Node')}>
-                        <CurrencyNode />
-                    </WidgetWrapper>
-                </div>
+                {/* The Dynamic Widget Grid */}
+                <WidgetGrid onUnlock={openPurchase} />
 
                 {/* React Flow Central Piece */}
                 <div className="mt-32 space-y-12">
