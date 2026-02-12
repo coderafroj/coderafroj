@@ -1,6 +1,7 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, Sphere, MeshTransmissionMaterial, Points, PointMaterial, Text } from '@react-three/drei';
+import { Float, Sphere, MeshTransmissionMaterial, Points, PointMaterial, Text, Html, Preload, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
+import ThreeErrorBoundary from './ThreeErrorBoundary';
 import * as THREE from 'three';
 
 const ProjectNode = ({ position, title, color }) => {
@@ -152,6 +153,19 @@ const NeuralNetwork = ({ positions }) => {
     );
 };
 
+const SceneLoader = () => {
+    return (
+        <Html center>
+            <div className="flex flex-col items-center justify-center">
+                <div className="w-12 h-12 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4" />
+                <div className="text-xs font-mono text-indigo-400 tracking-widest uppercase animate-pulse">
+                    Loading_Sim...
+                </div>
+            </div>
+        </Html>
+    );
+};
+
 const Portfolio3DScene = () => {
     const projects = [
         { pos: [-4, 2, -2], title: 'ECOMMERCE', color: '#6366f1' },
@@ -161,32 +175,43 @@ const Portfolio3DScene = () => {
     ];
 
     return (
-        <div className="w-full h-full absolute inset-0 z-0">
-            <Canvas
-                camera={{ position: [0, 0, 12], fov: 45 }}
-                gl={{
-                    antialias: false,
-                    powerPreference: 'low-power',
-                    stencil: false,
-                    alpha: true,
-                    depth: true
-                }}
-            >
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} color="#6366f1" />
-                <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
+        <div className="w-full h-full absolute inset-0 z-0 bg-[#02040a]">
+            <ThreeErrorBoundary>
+                <Canvas
+                    camera={{ position: [0, 0, 12], fov: 45 }}
+                    dpr={[1, 2]} // Optimize for pixel density
+                    gl={{
+                        antialias: false,
+                        powerPreference: 'high-performance', // Try high-performance, fallback accessed via boundary
+                        stencil: false,
+                        alpha: true,
+                        depth: true,
+                        failIfMajorPerformanceCaveat: false
+                    }}
+                >
+                    {/* Performance Optimizations */}
+                    <AdaptiveDpr pixelated />
+                    <AdaptiveEvents />
+                    <Preload all />
 
-                <StarField />
-                <SkillRing />
-                <NeuralNetwork positions={projects.map(p => p.pos)} />
+                    <Suspense fallback={<SceneLoader />}>
+                        <ambientLight intensity={0.5} />
+                        <pointLight position={[10, 10, 10]} intensity={1} color="#6366f1" />
+                        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
 
-                {projects.map((p, i) => (
-                    <ProjectNode key={i} position={p.pos} title={p.title} color={p.color} />
-                ))}
+                        <StarField />
+                        <SkillRing />
+                        <NeuralNetwork positions={projects.map(p => p.pos)} />
 
-                <Rig />
-                <fog attach="fog" args={['#02040a', 8, 20]} />
-            </Canvas>
+                        {projects.map((p, i) => (
+                            <ProjectNode key={i} position={p.pos} title={p.title} color={p.color} />
+                        ))}
+
+                        <Rig />
+                        <fog attach="fog" args={['#02040a', 8, 20]} />
+                    </Suspense>
+                </Canvas>
+            </ThreeErrorBoundary>
         </div>
     );
 };

@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, Sphere, Torus, MeshDistortMaterial } from '@react-three/drei';
+import { Float, Sphere, Torus, MeshDistortMaterial, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import ThreeErrorBoundary from './ThreeErrorBoundary';
 
 const Buddy = () => {
     const buddyRef = useRef();
@@ -83,13 +84,24 @@ const Buddy = () => {
 const CyberBuddy = () => {
     return (
         <div className="fixed inset-0 pointer-events-none z-[10000]">
-            <Canvas
-                camera={{ position: [0, 0, 5], fov: 50 }}
-            >
-                <ambientLight intensity={1} />
-                <pointLight position={[10, 10, 10]} intensity={2} color="#6366f1" />
-                <Buddy />
-            </Canvas>
+            <ThreeErrorBoundary fallback={null}>
+                <Canvas
+                    camera={{ position: [0, 0, 5], fov: 50 }}
+                    gl={{
+                        alpha: true,
+                        antialias: true,
+                        stencil: false,
+                        depth: true,
+                        powerPreference: "high-performance"
+                    }}
+                >
+                    <Suspense fallback={null}>
+                        <ambientLight intensity={1} />
+                        <pointLight position={[10, 10, 10]} intensity={2} color="#6366f1" />
+                        <Buddy />
+                    </Suspense>
+                </Canvas>
+            </ThreeErrorBoundary>
         </div>
     );
 };
