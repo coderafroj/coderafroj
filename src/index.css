@@ -10,6 +10,18 @@
     /* Deeper, more premium black */
     --bg-obsidian: #0a0a0a;
     --primary: #6366f1;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  :root {
     /* Indigo instead of basic blue */
     --primary-glow: #818cf8;
     --secondary: #ec4899;

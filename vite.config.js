@@ -7,19 +7,6 @@ import federation from '@originjs/vite-plugin-federation'
 export default defineConfig({
   plugins: [
     react(),
-    federation({
-      name: 'coderafroj-host',
-      filename: 'remoteEntry.js',
-      remotes: {
-        'remote-3d': 'http://localhost:5001/assets/remoteEntry.js',
-      },
-      exposes: {
-        './Navbar': './src/components/layout/Navbar.jsx',
-        './Footer': './src/components/layout/Footer.jsx',
-        './GitHubContext': './src/context/GitHubContext.jsx',
-      },
-      shared: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
-    })
   ],
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'firebase/app', 'firebase/auth', 'firebase/firestore', 'framer-motion', 'lucide-react', 'react-helmet-async'],
