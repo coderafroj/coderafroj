@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -6,6 +6,19 @@ import ProjectCard from '../components/ProjectCard';
 import { Sparkles, Terminal } from 'lucide-react';
 import SEO from '../components/SEO';
 import { projects as localProjects } from '../data/projects';
+
+// Lazy load widgets
+const QuoteWidget = lazy(() => import('../components/Widgets/QuoteWidget'));
+const WeatherWidget = lazy(() => import('../components/Widgets/WeatherWidget'));
+const NewsWidget = lazy(() => import('../components/Widgets/NewsWidget'));
+const CurrencyWidget = lazy(() => import('../components/Widgets/CurrencyWidget'));
+
+const widgetMap = {
+    QuoteWidget,
+    WeatherWidget,
+    NewsWidget,
+    CurrencyWidget
+};
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -99,18 +112,29 @@ const Projects = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <AnimatePresence mode="popLayout">
-                        {filteredProjects.map((project, index) => (
-                            <motion.div
-                                key={project.id}
-                                layout
-                                initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                                transition={{ duration: 0.5, delay: index * 0.05 }}
-                            >
-                                <ProjectCard project={project} />
-                            </motion.div>
-                        ))}
+                        {filteredProjects.map((project, index) => {
+                            const WidgetComponent = project.component ? widgetMap[project.component] : null;
+
+                            return (
+                                <motion.div
+                                    key={project.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                                    className="h-[500px]"
+                                >
+                                    {WidgetComponent ? (
+                                        <Suspense fallback={<div className="h-full w-full bg-white/5 animate-pulse rounded-2xl" />}>
+                                            <WidgetComponent />
+                                        </Suspense>
+                                    ) : (
+                                        <ProjectCard project={project} />
+                                    )}
+                                </motion.div>
+                            );
+                        })}
                     </AnimatePresence>
                 </div>
             </div>

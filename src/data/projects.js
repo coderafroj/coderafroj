@@ -1,7 +1,44 @@
 export const projects = [
     {
+        id: "widget-quote",
+        title: "Insight Node",
+        description: "A real-time motivational intelligence module. Delivers architecturally verified wisdom and technical insights.",
+        tags: ["Interactive", "API", "Wisdom"],
+        image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "QuoteWidget"
+    },
+    {
+        id: "widget-weather",
+        title: "Atmosphere Link",
+        description: "Global meteorological monitoring system. Provides high-fidelity weather metrics and environmental data syncing.",
+        tags: ["Live Data", "Weather", "Environment"],
+        image: "https://images.unsplash.com/photo-1592210633468-975c787e9b71?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "WeatherWidget"
+    },
+    {
+        id: "widget-news",
+        title: "Stream Intel",
+        description: "Aggregated global intelligence feed. Real-time technical and fiscal news streams for global operators.",
+        tags: ["News", "Aggregator", "Intel"],
+        image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "NewsWidget"
+    },
+    {
+        id: "widget-currency",
+        title: "Fiscal Bridge",
+        description: "High-performance currency conversion node. Real-time global exchange rates for architectural precision.",
+        tags: ["Fintech", "Live Rates", "Currency"],
+        image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "CurrencyWidget"
+    },
+    {
         id: 1,
         title: "Glassmorphism Dashboard",
+        // ... existing code ...
         description: "A premium administration interface utilizing advanced frosted-glass effects, neon glow accents, and dynamic background blur.",
         tags: ["Glassmorphism", "UI Concept", "React"],
         image: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&q=80&w=2000",
