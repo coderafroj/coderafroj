@@ -8,10 +8,10 @@ import SEO from '../components/SEO';
 import { projects as localProjects } from '../data/projects';
 
 // Lazy load widgets
-const QuoteWidget = lazy(() => import('../components/Widgets/QuoteWidget'));
-const WeatherWidget = lazy(() => import('../components/Widgets/WeatherWidget'));
-const NewsWidget = lazy(() => import('../components/Widgets/NewsWidget'));
-const CurrencyWidget = lazy(() => import('../components/Widgets/CurrencyWidget'));
+const QuoteWidget = lazy(() => import('../components/Widgets/QuoteWidget.jsx'));
+const WeatherWidget = lazy(() => import('../components/Widgets/WeatherWidget.jsx'));
+const NewsWidget = lazy(() => import('../components/Widgets/NewsWidget.jsx'));
+const CurrencyWidget = lazy(() => import('../components/Widgets/CurrencyWidget.jsx'));
 
 const widgetMap = {
     QuoteWidget,
