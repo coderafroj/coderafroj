@@ -12,12 +12,20 @@ const QuoteWidget = lazy(() => import('../components/widgets/QuoteWidget.jsx'));
 const WeatherWidget = lazy(() => import('../components/widgets/WeatherWidget.jsx'));
 const NewsWidget = lazy(() => import('../components/widgets/NewsWidget.jsx'));
 const CurrencyWidget = lazy(() => import('../components/widgets/CurrencyWidget.jsx'));
+const GitHubWidget = lazy(() => import('../components/widgets/GitHubWidget.jsx'));
+const CryptoPulseWidget = lazy(() => import('../components/widgets/CryptoPulseWidget.jsx'));
+const SystemHealthWidget = lazy(() => import('../components/widgets/SystemHealthWidget.jsx'));
+
+import SpotlightCard from '../components/widgets/SpotlightCard.jsx';
 
 const widgetMap = {
     QuoteWidget,
     WeatherWidget,
     NewsWidget,
-    CurrencyWidget
+    CurrencyWidget,
+    GitHubWidget,
+    CryptoPulseWidget,
+    SystemHealthWidget
 };
 
 const Projects = () => {
@@ -126,9 +134,11 @@ const Projects = () => {
                                     className="h-[500px]"
                                 >
                                     {WidgetComponent ? (
-                                        <Suspense fallback={<div className="h-full w-full bg-white/5 animate-pulse rounded-2xl" />}>
-                                            <WidgetComponent />
-                                        </Suspense>
+                                        <SpotlightCard className="h-full">
+                                            <Suspense fallback={<div className="h-full w-full bg-white/5 animate-pulse rounded-2xl" />}>
+                                                <WidgetComponent />
+                                            </Suspense>
+                                        </SpotlightCard>
                                     ) : (
                                         <ProjectCard project={project} />
                                     )}

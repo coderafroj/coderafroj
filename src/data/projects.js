@@ -36,6 +36,33 @@ export const projects = [
         component: "CurrencyWidget"
     },
     {
+        id: "widget-github",
+        title: "GitHub Pulse",
+        description: "Real-time open-source contribution metrics. Syncs directly with global development streams via high-level API.",
+        tags: ["GitHub", "Social", "Real-time"],
+        image: "https://images.unsplash.com/photo-1618401471353-b98aadebc25a?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "GitHubWidget"
+    },
+    {
+        id: "widget-crypto",
+        title: "Market Pulse",
+        description: "Live cryptocurrency surveillance module. High-fidelity tickers for global financial operators.",
+        tags: ["Crypto", "Market", "Fintech"],
+        image: "https://images.unsplash.com/photo-1621761191319-c6fb62004009?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "CryptoPulseWidget"
+    },
+    {
+        id: "widget-system",
+        title: "System Link",
+        description: "Core diagnostic surveillance system. Real-time load analysis and architectural health monitoring.",
+        tags: ["Systems", "Diagnostics", "Performance"],
+        image: "https://images.unsplash.com/photo-1558494949-ef010958618e?auto=format&fit=crop&q=80&w=2000",
+        category: "Interactive Widget",
+        component: "SystemHealthWidget"
+    },
+    {
         id: 1,
         title: "Glassmorphism Dashboard",
         // ... existing code ...

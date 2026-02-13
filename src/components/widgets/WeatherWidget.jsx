@@ -5,19 +5,19 @@ import { Cloud, Sun, CloudRain, CloudLightning, Wind, Thermometer, MapPin, Termi
 const WeatherWidget = () => {
     const [weather, setWeather] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [city, setCity] = useState("San Francisco"); // Default
+    const [locationName, setLocationName] = useState("Detecting...");
 
-    // Using a public API that doesn't strictly require a key for small use cases or mock data for demo
-    // OpenWeatherMap usually needs a key, so for this "SaaS concept" I'll use a mock if fetch fails
-    const fetchWeather = async () => {
+    const fetchWeather = async (query = "") => {
         setLoading(true);
         try {
-            // Placeholder URL - for a real SaaS, user would provide API key in env
-            // Using wttr.in for keyless demo-friendly fetching
-            const res = await fetch(`https://wttr.in/${city}?format=j1`);
+            // Using wttr.in for keyless fetching. If query is empty, it uses IP-based location.
+            const res = await fetch(`https://wttr.in/${query}?format=j1`);
             const data = await res.json();
 
             const current = data.current_condition[0];
+            const identity = data.nearest_area[0];
+
+            setLocationName(`${identity.areaName[0].value}, ${identity.country[0].value}`);
             setWeather({
                 temp: current.temp_C,
                 condition: current.weatherDesc[0].value,
@@ -27,21 +27,34 @@ const WeatherWidget = () => {
             });
         } catch (error) {
             console.error("Weather fetch error:", error);
-            // High-end Mock Data
             setWeather({
                 temp: 24,
-                condition: "Partly Cloudy",
+                condition: "Optimal",
                 humidity: 45,
                 wind: 12,
-                icon: "116"
+                icon: "113"
             });
+            setLocationName("Global Hub");
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchWeather();
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchWeather(`${latitude},${longitude}`);
+                },
+                (error) => {
+                    console.warn("Geolocation denied, using IP-based location.");
+                    fetchWeather(""); // Fallback to IP
+                }
+            );
+        } else {
+            fetchWeather("");
+        }
     }, []);
 
     const getWeatherIcon = (code) => {
@@ -64,9 +77,9 @@ const WeatherWidget = () => {
                     </div>
                     <span className="text-[10px] font-mono font-bold tracking-widest text-sky-400 uppercase">Atmosphere_Link</span>
                 </div>
-                <div className="flex items-center gap-1 text-slate-400">
-                    <MapPin size={10} />
-                    <span className="text-[9px] font-mono tracking-widest opacity-60 uppercase">{city}</span>
+                <div className="flex items-center gap-1 text-slate-400 truncate max-w-[150px]">
+                    <MapPin size={10} className="shrink-0" />
+                    <span className="text-[9px] font-mono tracking-widest opacity-60 uppercase truncate">{locationName}</span>
                 </div>
             </div>
 
@@ -89,7 +102,7 @@ const WeatherWidget = () => {
                                 <h4 className="text-5xl font-black text-white tracking-tighter">
                                     {weather.temp}°<span className="text-xl text-slate-500">C</span>
                                 </h4>
-                                <p className="text-xs font-mono text-slate-400 uppercase tracking-[0.2em] mt-1">{weather.condition}</p>
+                                <p className="text-xs font-mono text-slate-400 uppercase tracking-[0.2em] mt-1 line-clamp-1">{weather.condition}</p>
                             </div>
                         </motion.div>
                     )}
@@ -98,7 +111,7 @@ const WeatherWidget = () => {
 
             <div className="grid grid-cols-2 gap-4 mt-8">
                 <div className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center gap-3">
-                    <Wind size={14} className="text-slate-500" />
+                    <Wind size={14} className="text-slate-500 shadow-sm" />
                     <div>
                         <p className="text-[10px] text-slate-500 uppercase font-mono">Wind</p>
                         <p className="text-sm font-bold text-white uppercase">{weather?.wind} km/h</p>
