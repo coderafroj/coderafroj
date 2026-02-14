@@ -11,4 +11,17 @@ export const cProgramming = [            {
 **tuple** i sa mutble data tyep
 `
     },
+        {
+        id: '',
+        slug: '',
+        title: '',
+        description: '',
+        tags: [''],
+        category: 'C Programming',
+        image: '',
+        createdAt: new Date('2026-02-14'),
+        content: `
+Bjj
+`
+    },
 ];
