@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { OpenAI } from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AI_CONFIG } from '../../config/aiConfig';
 import {
@@ -18,9 +19,14 @@ const AIAssistantTray = ({ isOpen, onClose, editor, topicTitle }) => {
     const [response, setResponse] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // Initialize Gemini using centralized config
-    const genAI = new GoogleGenerativeAI(AI_CONFIG.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: AI_CONFIG.GEMINI_MODEL });
+    // Initialize AI Clients
+    const openai = AI_CONFIG.OPENAI_API_KEY ? new OpenAI({
+        apiKey: AI_CONFIG.OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+        baseURL: window.location.origin + '/api-openai/v1'
+    }) : null;
+    const genAI = AI_CONFIG.GEMINI_API_KEY ? new GoogleGenerativeAI(AI_CONFIG.GEMINI_API_KEY) : null;
+    const geminiModel = genAI ? genAI.getGenerativeModel({ model: AI_CONFIG.GEMINI_MODEL }) : null;
 
     const generateContent = async () => {
         if (!prompt) return;
@@ -28,9 +34,34 @@ const AIAssistantTray = ({ isOpen, onClose, editor, topicTitle }) => {
         setResponse('');
 
         try {
-            const fullPrompt = `Topic: ${topicTitle}\nTask: ${prompt}\nFormat the output in clean Markdown. Use a professional, technical but easy-to-understand Hinglish style if appropriate. Use headings, code blocks and lists.`;
-            const result = await model.generateContent(fullPrompt);
-            const text = result.response.text();
+            const systemPrompt = `You are an expert educational content architect for "Elite Architech" (coderafroj).
+            Topic: ${topicTitle}
+            Style: Technical but easy-to-understand Hinglish (Hindi + English mix).
+            Format: Clean Markdown with proper headings, bold text, code blocks, and lists.
+            Avoid generic introductions. Go straight to the architecture/content.`;
+
+            const fullPrompt = `Task: ${prompt}`;
+
+            let text = '';
+
+            if (openai) {
+                // Priority: OpenAI (ChatGPT)
+                const completion = await openai.chat.completions.create({
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: fullPrompt }
+                    ],
+                    model: "gpt-4o-mini", // Cost-effective and fast
+                });
+                text = completion.choices[0].message.content;
+            } else if (geminiModel) {
+                // Fallback: Gemini
+                const result = await geminiModel.generateContent(`${systemPrompt}\n\n${fullPrompt}`);
+                text = result.response.text();
+            } else {
+                throw new Error("No AI Configuration available. Please check system parameters.");
+            }
+
             setResponse(text);
         } catch (error) {
             console.error(error);

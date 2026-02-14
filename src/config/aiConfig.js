@@ -1,4 +1,5 @@
 export const AI_CONFIG = {
-    GEMINI_API_KEY: "AIzaSyAcaSgNCeve4kl7UUN0NoWj_Ypqs4P1l1Y",
-    GEMINI_MODEL: "gemini-1.5-flash"
+    GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY,
+    GEMINI_MODEL: "gemini-1.5-flash",
+    OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY
 };

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useGitHub } from '../../context/GitHubContext';
-import { useEditor } from '@tiptap/react';
+import { useEditor, Extension } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Markdown } from 'tiptap-markdown';
 import { Table } from '@tiptap/extension-table';
@@ -34,14 +34,55 @@ import { common, createLowlight } from 'lowlight';
 
 // Component Imports
 import editorTheme from '../../components/editor/EditorTheme';
-import { courses as staticCourses } from '../../data/notes';
+
 import LanguageSelector from '../../components/editor/LanguageSelector';
 import TopicFlowArea from '../../components/editor/TopicFlowArea';
 import EliteDock from '../../components/editor/EliteDock';
 import ModernEditorTray from '../../components/editor/ModernEditorTray';
 import AIAssistantTray from '../../components/editor/AIAssistantTray';
 import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
+import MissionHeadModal from '../../components/editor/MissionHeadModal';
 import { FirestoreService } from '../../services/FirestoreService';
+
+const FontSize = Extension.create({
+    name: 'fontSize',
+    addOptions() {
+        return {
+            types: ['textStyle'],
+        };
+    },
+    addAttributes() {
+        return {
+            fontSize: {
+                default: null,
+                parseHTML: element => element.style.fontSize.replace(/['"]+/g, ''),
+                renderHTML: attributes => {
+                    if (!attributes.fontSize) {
+                        return {};
+                    }
+                    return {
+                        style: `font-size: ${attributes.fontSize}`,
+                    };
+                },
+            },
+        };
+    },
+    addCommands() {
+        return {
+            setFontSize: fontSize => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize })
+                    .run();
+            },
+            unsetFontSize: () => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize: null })
+                    .removeEmptyTextStyle()
+                    .run();
+            },
+        };
+    },
+});
 
 // Lowlight setup
 const lowlight = createLowlight(common);
@@ -74,7 +115,7 @@ const UltimateEditor = () => {
     }, [navigate]);
 
     // Data State
-    const [courses, setCourses] = useState(staticCourses);
+    const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -110,8 +151,10 @@ const UltimateEditor = () => {
     const [editorOpen, setEditorOpen] = useState(false);
     const [aiOpen, setAiOpen] = useState(false);
     const [propsOpen, setPropsOpen] = useState(false);
+    const [missionModalOpen, setMissionModalOpen] = useState(false);
 
     const [metadata, setMetadata] = useState({
+        id: '',
         title: '',
         description: '',
         tags: '',
@@ -145,6 +188,7 @@ const UltimateEditor = () => {
             TextStyle,
             Color,
             FontFamily,
+            FontSize,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Placeholder.configure({ placeholder: 'Initialize mission content...' }),
             Underline,
@@ -162,6 +206,7 @@ const UltimateEditor = () => {
     useEffect(() => {
         if (selectedTopic) {
             setMetadata({
+                id: selectedTopic.id || '',
                 title: selectedTopic.title || '',
                 description: selectedTopic.description || '',
                 tags: selectedTopic.tags?.join(', ') || '',
@@ -222,7 +267,7 @@ const UltimateEditor = () => {
             });
 
             toast.success('Elite Cloud Sync Successful', {
-                description: `Node "${newTopicData.title}" has been pushed to Firestore.`,
+                description: `Mission "${newTopicData.title}" has been pushed to Firestore.`,
             });
         } catch (error) {
             console.error(error);
@@ -284,6 +329,12 @@ ${markdownContent}
 
     const handleDeleteTopic = async (topicId) => {
         if (!selectedCourse) return;
+        if (!topicId) {
+            // If No ID, it's a new unsaved mission. Just close.
+            setSelectedTopic(null);
+            setEditorOpen(false);
+            return;
+        }
         try {
             await FirestoreService.deleteNote(selectedCourse.id, topicId);
 
@@ -297,8 +348,8 @@ ${markdownContent}
                 return c;
             }));
 
-            toast.success('Node Deactivated', {
-                description: 'The selected topic has been removed from cloud storage.'
+            toast.success('Mission Deactivated', {
+                description: 'The selected mission has been removed from cloud storage.'
             });
 
             if (selectedTopic?.id === topicId) {
@@ -310,11 +361,30 @@ ${markdownContent}
         }
     };
 
+    const handleDeleteCourse = async (courseId) => {
+        if (!window.confirm(`Are you absolutely sure you want to delete the entire course "${courseId}"? This action is irreversible.`)) return;
+
+        try {
+            await FirestoreService.deleteCourse(courseId);
+            setCourses(prev => prev.filter(c => c.id !== courseId));
+            toast.success('Architecture Terminated', { description: `Course "${courseId}" deleted.` });
+            if (selectedCourse?.id === courseId) {
+                setStep('select');
+                setSelectedCourse(null);
+            }
+        } catch (err) {
+            toast.error('Deletion Failed', { description: err.message });
+        }
+    };
+
     const handleAddCourse = async (courseInfo) => {
         try {
+            const courseId = courseInfo.title.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            if (!courseId) throw new Error("Invalid Course Title for ID generation.");
+
             const newCourse = {
                 ...courseInfo,
-                id: courseInfo.title.toLowerCase().replace(/\s+/g, '-'),
+                id: courseId,
                 notes: []
             };
             await FirestoreService.addCourse(newCourse);
@@ -326,15 +396,22 @@ ${markdownContent}
     };
 
     const handleNewTopic = () => {
+        setMissionModalOpen(true);
+    };
+
+    const handleInitializeMission = ({ title, image }) => {
+        const tempId = title.toLowerCase().replace(/\s+/g, '-') || `mission-${Date.now()}`;
         setSelectedTopic(null);
         setMetadata({
-            title: '',
+            id: tempId,
+            title: title || '',
             description: '',
             tags: '',
-            image: '',
+            image: image || '',
             category: selectedCourse?.title || ''
         });
         editor?.commands.setContent('');
+        setMissionModalOpen(false);
         setEditorOpen(true);
     };
 
@@ -369,6 +446,7 @@ ${markdownContent}
                                     setStep('graph');
                                 }}
                                 onAddCourse={handleAddCourse}
+                                onDeleteCourse={handleDeleteCourse}
                                 searchQuery={searchQuery}
                                 onSearchQueryChange={setSearchQuery}
                                 loading={loading}
@@ -426,6 +504,12 @@ ${markdownContent}
                     onClose={() => setPropsOpen(false)}
                     isMobile={isMobile}
                     onDelete={handleDeleteTopic}
+                />
+
+                <MissionHeadModal
+                    isOpen={missionModalOpen}
+                    onClose={() => setMissionModalOpen(false)}
+                    onInitialize={handleInitializeMission}
                 />
 
             </Box>

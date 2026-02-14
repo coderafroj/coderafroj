@@ -9,14 +9,15 @@ import {
     Globe,
     Database,
     Search,
-    CheckCircle2
+    CheckCircle2,
+    Trash2
 } from 'lucide-react';
 
 import { Plus } from 'lucide-react';
 
-const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, searchQuery, onSearchQueryChange, loading }) => {
+const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, onDeleteCourse, searchQuery, onSearchQueryChange, loading }) => {
     const [isAdding, setIsAdding] = React.useState(false);
-    const [newCourse, setNewCourse] = React.useState({ title: '', description: '' });
+    const [newCourse, setNewCourse] = React.useState({ title: '', description: '', image: '' });
 
     const filteredCourses = (courses || []).filter(c =>
         (c.title || '').toLowerCase().includes((searchQuery || '').toLowerCase()) ||
@@ -26,7 +27,7 @@ const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, sear
     const handleSubmit = (e) => {
         e.preventDefault();
         onAddCourse(newCourse);
-        setNewCourse({ title: '', description: '' });
+        setNewCourse({ title: '', description: '', image: '' });
         setIsAdding(false);
     };
 
@@ -41,7 +42,7 @@ const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, sear
                     Select <span className="text-sky-500">Workspace</span>
                 </h2>
                 <p className="text-slate-500 max-w-md mx-auto">
-                    Choose a project to initialize the professional editor environment.
+                    Choose a project to initialize the professional editor environment or create a new mission.
                 </p>
             </motion.div>
 
@@ -81,11 +82,18 @@ const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, sear
                                 {({ checked }) => (
                                     <div className="flex flex-col w-full h-full min-h-[160px]">
                                         <div className="flex items-center justify-between mb-6">
-                                            <div className={`
-                          p-4 rounded-3xl transition-colors duration-300
-                          ${checked ? 'bg-sky-500 text-black' : 'bg-white/5 text-sky-500'}
-                        `}>
-                                                <Code2 size={28} />
+                                            <div className="flex items-center gap-4">
+                                                <div className={`
+                                                    p-4 rounded-3xl transition-colors duration-300
+                                                    ${checked ? 'bg-sky-500 text-black' : 'bg-white/5 text-sky-500'}
+                                                `}>
+                                                    <Code2 size={28} />
+                                                </div>
+                                                {course.image && (
+                                                    <div className="w-16 h-12 rounded-xl overflow-hidden border border-white/10">
+                                                        <img src={course.image} alt="" className="w-full h-full object-cover" />
+                                                    </div>
+                                                )}
                                             </div>
                                             {checked && (
                                                 <motion.div
@@ -108,6 +116,19 @@ const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, sear
                                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
                                                 {course.notes?.length || 0} Modules Loaded
                                             </span>
+                                        </div>
+
+                                        <div className="absolute bottom-8 right-8 z-20">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    onDeleteCourse(course.id);
+                                                }}
+                                                className="p-3 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                                                title="Terminate Architecture"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
                                         </div>
 
                                         <div className="absolute bottom-0 right-0 p-8 opacity-5">
@@ -168,6 +189,16 @@ const LanguageSelector = ({ courses, selectedCourse, onSelect, onAddCourse, sear
                                     onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
                                     className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-sky-500/50 transition-all h-24 resize-none placeholder:text-slate-700"
                                     placeholder="A brief overview of the course content..."
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-sky-500 block mb-2">Cover Image URL</label>
+                                <input
+                                    type="url"
+                                    value={newCourse.image}
+                                    onChange={(e) => setNewCourse({ ...newCourse, image: e.target.value })}
+                                    className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-sky-500/50 transition-all placeholder:text-slate-700"
+                                    placeholder="https://example.com/image.jpg"
                                 />
                             </div>
                             <div className="flex gap-4 pt-4">

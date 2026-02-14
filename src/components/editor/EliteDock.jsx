@@ -24,7 +24,7 @@ const EliteDock = ({
     const dockItems = [
         { id: 'home', icon: <Home size={22} />, label: 'Dashboard', action: onHome },
         { id: 'graph', icon: <Layout size={22} />, label: 'Topic Graph', action: onOpenGraph },
-        { id: 'add', icon: <Plus size={22} />, label: 'Add Topic', action: onAddTopic },
+        { id: 'add', icon: <Plus size={22} />, label: 'New Mission', action: onAddTopic },
         { id: 'ai', icon: <Zap size={22} />, label: 'AI Assistant', action: onToggleAI, color: '#0ea5e9' },
         { id: 'props', icon: <Settings size={22} />, label: 'Properties', action: onToggleProps },
     ];

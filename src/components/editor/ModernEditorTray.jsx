@@ -17,7 +17,16 @@ import {
     Redo,
     Smartphone,
     Eye,
-    Maximize2
+    Maximize2,
+    AlignCenter,
+    AlignLeft,
+    AlignRight,
+    Palette,
+    CheckSquare,
+    Highlighter,
+    Subscript as SubscriptIcon,
+    Superscript as SuperscriptIcon,
+    Baseline
 } from 'lucide-react';
 
 const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
@@ -91,6 +100,7 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
                             label="Italic"
                         />
                         <div className="h-8 w-[1px] bg-white/10 mx-2" />
+
                         <ToolbarButton
                             icon={Type}
                             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
@@ -98,10 +108,98 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
                             label="Heading 2"
                         />
                         <ToolbarButton
+                            icon={AlignLeft}
+                            onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                            active={editor.isActive({ textAlign: 'left' })}
+                            label="Align Left"
+                        />
+                        <ToolbarButton
+                            icon={AlignCenter}
+                            onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                            active={editor.isActive({ textAlign: 'center' })}
+                            label="Align Center"
+                        />
+                        <ToolbarButton
+                            icon={AlignRight}
+                            onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                            active={editor.isActive({ textAlign: 'right' })}
+                            label="Align Right"
+                        />
+
+                        <div className="h-8 w-[1px] bg-white/10 mx-2" />
+
+                        <ToolbarButton
+                            icon={Baseline}
+                            onClick={() => {
+                                const font = window.prompt('Mission Protocol: Enter Font (e.g. "Inter", "Monospace")');
+                                if (font) editor.chain().focus().setFontFamily(font).run();
+                            }}
+                            label="Font Family"
+                        />
+
+                        <ToolbarButton
+                            icon={Palette}
+                            onClick={() => {
+                                const color = window.prompt('Mission Protocol: Enter HEX Color (e.g. #3b82f6)');
+                                if (color) editor.chain().focus().setColor(color).run();
+                            }}
+                            active={editor.isActive('textStyle', { color: '#3b82f6' })}
+                            label="Text Color"
+                        />
+
+                        <div className="flex items-center bg-white/5 rounded-2xl border border-white/5 p-1 gap-1">
+                            {[
+                                { size: '12px', label: 'XS' },
+                                { size: '16px', label: 'SM' },
+                                { size: '20px', label: 'MD' },
+                                { size: '24px', label: 'LG' },
+                                { size: '32px', label: 'XL' },
+                                { size: '48px', label: '2XL' },
+                            ].map((f) => (
+                                <button
+                                    key={f.size}
+                                    onClick={() => editor.chain().focus().setFontSize(f.size).run()}
+                                    className={`px-2 py-1 rounded-xl text-[9px] font-black transition-all ${editor.isActive('textStyle', { fontSize: f.size }) ? 'bg-sky-500 text-black' : 'text-slate-500 hover:text-white'}`}
+                                >
+                                    {f.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <ToolbarButton
+                            icon={Highlighter}
+                            onClick={() => editor.chain().focus().toggleHighlight().run()}
+                            active={editor.isActive('highlight')}
+                            label="Highlight"
+                        />
+
+                        <div className="h-8 w-[1px] bg-white/10 mx-2" />
+
+                        <ToolbarButton
+                            icon={SubscriptIcon}
+                            onClick={() => editor.chain().focus().toggleSubscript().run()}
+                            active={editor.isActive('subscript')}
+                            label="Subscript"
+                        />
+
+                        <ToolbarButton
+                            icon={SuperscriptIcon}
+                            onClick={() => editor.chain().focus().toggleSuperscript().run()}
+                            active={editor.isActive('superscript')}
+                            label="Superscript"
+                        />
+
+                        <ToolbarButton
                             icon={Code}
                             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                             active={editor.isActive('codeBlock')}
                             label="Code Block"
+                        />
+                        <ToolbarButton
+                            icon={CheckSquare}
+                            onClick={() => editor.chain().focus().toggleTaskList().run()}
+                            active={editor.isActive('taskList')}
+                            label="Task List"
                         />
                         <ToolbarButton
                             icon={List}
@@ -119,8 +217,10 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
                         <ToolbarButton
                             icon={ImageIcon}
                             onClick={() => {
-                                const url = window.prompt('Mission Protocol: Enter Image URL');
-                                if (url) editor.chain().focus().setImage({ src: url }).run();
+                                const url = window.prompt('Mission Protocol: Enter Image URL (Suggest < 50KB)');
+                                if (url) {
+                                    editor.chain().focus().setImage({ src: url }).run();
+                                }
                             }}
                             label="Insert Image"
                         />

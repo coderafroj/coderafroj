@@ -32,7 +32,7 @@ const TopicNode = ({ data, selected }) => (
             </div>
             <div className="flex-1">
                 <p className={`text-[9px] font-black uppercase tracking-[0.2em] mb-1 transition-colors ${selected ? 'text-primary' : 'text-slate-500'}`}>
-                    {data.category || 'Topic Module'}
+                    {data.category || 'Mission Module'}
                 </p>
                 <h3 className={`text-sm font-bold uppercase italic transition-all ${selected ? 'text-white' : 'text-slate-200 group-hover:text-white'}`}>
                     {data.label}
@@ -131,7 +131,7 @@ const TopicFlowArea = ({ topics, onTopicSelect, onTopicDelete, selectedTopic, co
                     Visual Architect
                 </p>
                 <p className="text-xs text-slate-400 mt-1">
-                    Select a node to initialize editor sequence.
+                    Select a mission node to initialize editor sequence.
                 </p>
             </div>
         </div>

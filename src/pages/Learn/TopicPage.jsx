@@ -2,14 +2,37 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TopicViewer from './TopicViewer';
-import { getTopicBySlug, getCourseById } from '../../data/notes';
+import { FirestoreService } from '../../services/FirestoreService';
 
 const TopicPage = () => {
     const { courseId, topicSlug } = useParams();
     const navigate = useNavigate();
+    const [topic, setTopic] = React.useState(null);
+    const [course, setCourse] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-    const course = getCourseById(courseId);
-    const topic = getTopicBySlug(courseId, topicSlug);
+    useEffect(() => {
+        const loadTopic = async () => {
+            if (!courseId || !topicSlug) return;
+            try {
+                setLoading(true);
+                const cloudNotes = await FirestoreService.getNotes(courseId);
+                const cloudTopic = cloudNotes.find(n => n.slug === topicSlug || n.id === topicSlug);
+                const cloudCourses = await FirestoreService.getCourses();
+                const cloudCourse = cloudCourses.find(c => c.id === courseId);
+
+                if (cloudTopic) {
+                    setTopic(cloudTopic);
+                }
+                if (cloudCourse) {
+                    setCourse({ ...cloudCourse, notes: cloudNotes });
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadTopic();
+    }, [courseId, topicSlug]);
 
     // Calculate Next/Prev
     const currentIndex = course?.notes?.findIndex(n => n.id === topic?.id || n.slug === topic?.slug) ?? -1;
