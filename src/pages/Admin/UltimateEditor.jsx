@@ -34,13 +34,14 @@ import { common, createLowlight } from 'lowlight';
 
 // Component Imports
 import editorTheme from '../../components/editor/EditorTheme';
-import { courses } from '../../data/notes';
+import { courses as staticCourses } from '../../data/notes';
 import LanguageSelector from '../../components/editor/LanguageSelector';
 import TopicFlowArea from '../../components/editor/TopicFlowArea';
 import EliteDock from '../../components/editor/EliteDock';
 import ModernEditorTray from '../../components/editor/ModernEditorTray';
 import AIAssistantTray from '../../components/editor/AIAssistantTray';
 import PropertiesSidebar from '../../components/editor/PropertiesSidebar';
+import { FirestoreService } from '../../services/FirestoreService';
 
 // Lowlight setup
 const lowlight = createLowlight(common);
@@ -50,6 +51,13 @@ const UltimateEditor = () => {
     const { isAuthenticated, user, selectedRepo, uploadFiles, fetchFileContent } = useGitHub();
     const [firebaseUser, setFirebaseUser] = useState(null);
     const [authLoading, setAuthLoading] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Firebase Authentication Check
     useEffect(() => {
@@ -64,6 +72,32 @@ const UltimateEditor = () => {
         });
         return () => unsubscribe();
     }, [navigate]);
+
+    // Data State
+    const [courses, setCourses] = useState(staticCourses);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const cloudCourses = await FirestoreService.getCourses();
+                if (cloudCourses.length > 0) {
+                    // Pull notes for each course
+                    const coursesWithNotes = await Promise.all(cloudCourses.map(async (c) => {
+                        const notes = await FirestoreService.getNotes(c.id);
+                        return { ...c, notes };
+                    }));
+                    setCourses(coursesWithNotes);
+                }
+            } catch (err) {
+                console.error("Firestore Load Error:", err);
+                toast.error("Cloud data fetch failed. Using local fallback.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadData();
+    }, []);
 
     // Workflow State
     const [step, setStep] = useState('select'); // 'select', 'graph'
@@ -145,25 +179,6 @@ const UltimateEditor = () => {
         setIsSaving(true);
 
         try {
-            if (!selectedRepo) {
-                throw new Error('No repository selected. Please select your repository in the Command Center (/github) first.');
-            }
-
-            const idMap = {
-                'computer-fundamentals': 'computer-fundamentals',
-                'c-programming': 'c-programming',
-                'python-masterclass': 'python-masterclass',
-                'office-automation': 'office'
-                // ... add others as needed or use inference
-            };
-
-            const filename = idMap[selectedCourse.id] || selectedCourse.id.split('-')[0];
-            const fullPath = `src/data/notes/${filename}.js`;
-
-            const [owner, repoName] = selectedRepo.full_name.split('/');
-            const fileData = await fetchFileContent(owner, repoName, fullPath);
-            const content = fileData.content;
-
             const newTopicData = {
                 id: selectedTopic?.id || metadata.title.toLowerCase().replace(/\s+/g, '-'),
                 slug: selectedTopic?.slug || metadata.title.toLowerCase().replace(/\s+/g, '-'),
@@ -176,11 +191,68 @@ const UltimateEditor = () => {
                 content: editor.storage.markdown.getMarkdown()
             };
 
-            const markdownContent = newTopicData.content.replace(/`/g, '\\`');
+            // 1. Save to Cloud (Firestore) - FAST
+            await FirestoreService.saveNote(selectedCourse.id, newTopicData);
 
+            // 2. Update Local State
+            setCourses(prev => prev.map(c => {
+                if (c.id === selectedCourse.id) {
+                    const notes = c.notes || [];
+                    const exists = notes.find(n => n.id === newTopicData.id);
+                    return {
+                        ...c,
+                        notes: exists
+                            ? notes.map(n => n.id === newTopicData.id ? newTopicData : n)
+                            : [...notes, newTopicData]
+                    };
+                }
+                return c;
+            }));
+
+            // 3. Optional: Sync to GitHub (Background/Secondary)
+            // Keeping this for redundancy if user wants, but making it non-blocking
+            syncToGitHub(newTopicData);
+
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#0ea5e9', '#38bdf8', '#818cf8', '#06b6d4'],
+                zIndex: 4000
+            });
+
+            toast.success('Elite Cloud Sync Successful', {
+                description: `Node "${newTopicData.title}" has been pushed to Firestore.`,
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Sync Failed', { description: error.message });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const syncToGitHub = async (newTopicData) => {
+        if (!selectedRepo) return;
+        try {
+            const idMap = {
+                'computer-fundamentals': 'computer-fundamentals',
+                'c-programming': 'c-programming',
+                'python-masterclass': 'python-masterclass',
+                'office-automation': 'office'
+            };
+
+            const filename = idMap[selectedCourse.id] || selectedCourse.id.split('-')[0];
+            const fullPath = `src/data/notes/${filename}.js`;
+
+            const [owner, repoName] = selectedRepo.full_name.split('/');
+            const fileData = await fetchFileContent(owner, repoName, fullPath);
+            const content = fileData.content;
+
+            const markdownContent = newTopicData.content.replace(/`/g, '\\`');
             const topicRegex = new RegExp(`{\\s*id:\\s*['"]${newTopicData.id}['"][\\s\\S]*?content:\\s*\`[\\s\\S]*?\`\\s*},?`, 'm');
 
-            const newTopicString = `    {
+            const newTopicString = `{
         id: '${newTopicData.id}',
         slug: '${newTopicData.slug}',
         title: '${newTopicData.title}',
@@ -204,24 +276,52 @@ ${markdownContent}
             await uploadFiles([{
                 path: fullPath,
                 file: new Blob([updatedFileContent], { type: 'text/javascript' })
-            }], `Update note: ${newTopicData.title}`);
+            }], `Sync note: ${newTopicData.title}`);
+        } catch (err) {
+            console.warn("GitHub Sync Warning (Non-critical):", err.message);
+        }
+    };
 
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#0ea5e9', '#38bdf8', '#818cf8', '#06b6d4'],
-                zIndex: 4000
+    const handleDeleteTopic = async (topicId) => {
+        if (!selectedCourse) return;
+        try {
+            await FirestoreService.deleteNote(selectedCourse.id, topicId);
+
+            setCourses(prev => prev.map(c => {
+                if (c.id === selectedCourse.id) {
+                    return {
+                        ...c,
+                        notes: c.notes.filter(n => n.id !== topicId)
+                    };
+                }
+                return c;
+            }));
+
+            toast.success('Node Deactivated', {
+                description: 'The selected topic has been removed from cloud storage.'
             });
 
-            toast.success('Elite Cloud Sync Successful', {
-                description: `Node "${newTopicData.title}" has been pushed to GitHub.`,
-            });
-        } catch (error) {
-            console.error(error);
-            toast.error('Sync Failed', { description: error.message });
-        } finally {
-            setIsSaving(false);
+            if (selectedTopic?.id === topicId) {
+                setSelectedTopic(null);
+                setEditorOpen(false);
+            }
+        } catch (err) {
+            toast.error('Deletion Failed', { description: err.message });
+        }
+    };
+
+    const handleAddCourse = async (courseInfo) => {
+        try {
+            const newCourse = {
+                ...courseInfo,
+                id: courseInfo.title.toLowerCase().replace(/\s+/g, '-'),
+                notes: []
+            };
+            await FirestoreService.addCourse(newCourse);
+            setCourses(prev => [...prev, newCourse]);
+            toast.success('New Course Initialized', { description: `"${courseInfo.title}" is now ready.` });
+        } catch (err) {
+            toast.error('Course Creation Failed', { description: err.message });
         }
     };
 
@@ -268,8 +368,10 @@ ${markdownContent}
                                     setSelectedCourse(course);
                                     setStep('graph');
                                 }}
+                                onAddCourse={handleAddCourse}
                                 searchQuery={searchQuery}
                                 onSearchQueryChange={setSearchQuery}
+                                loading={loading}
                             />
                         </motion.div>
                     ) : (
@@ -283,6 +385,7 @@ ${markdownContent}
                                 topics={selectedCourse?.notes || []}
                                 courseTitle={selectedCourse?.title}
                                 onTopicSelect={setSelectedTopic}
+                                onTopicDelete={handleDeleteTopic}
                                 selectedTopic={selectedTopic}
                             />
 
@@ -321,6 +424,8 @@ ${markdownContent}
                     setMetadata={setMetadata}
                     open={propsOpen}
                     onClose={() => setPropsOpen(false)}
+                    isMobile={isMobile}
+                    onDelete={handleDeleteTopic}
                 />
 
             </Box>

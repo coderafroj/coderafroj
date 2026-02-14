@@ -50,11 +50,11 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
                     className="fixed inset-0 bg-[#030014] z-[2500] flex flex-col pt-4"
                 >
                     {/* Top Bar / Handle */}
-                    <div className="flex items-center justify-between px-8 py-4 border-b border-white/5">
-                        <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4 border-b border-white/5">
+                        <div className="flex items-center gap-3 md:gap-4">
                             <button
                                 onClick={onClose}
-                                className="p-3 bg-white/5 rounded-2xl text-slate-400 hover:text-white transition-colors"
+                                className="p-2 md:p-3 bg-white/5 rounded-xl md:rounded-2xl text-slate-400 hover:text-white transition-colors"
                             >
                                 <ChevronDown size={24} />
                             </button>
@@ -77,7 +77,7 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
                     </div>
 
                     {/* Floating Toolbar */}
-                    <div className="overflow-x-auto no-scrollbar py-6 px-8 flex items-center gap-3 border-b border-white/5 bg-slate-900/20 backdrop-blur-xl">
+                    <div className="overflow-x-auto no-scrollbar py-4 md:py-6 px-4 md:px-8 flex items-center gap-2 md:gap-3 border-b border-white/5 bg-slate-900/20 backdrop-blur-xl">
                         <ToolbarButton
                             icon={Bold}
                             onClick={() => editor.chain().focus().toggleBold().run()}
@@ -153,8 +153,8 @@ const ModernEditorTray = ({ isOpen, onClose, editor, topicTitle }) => {
 
                     {/* Editor Area */}
                     <div className="flex-1 overflow-y-auto bg-slate-900/10 custom-editor-scrollbar">
-                        <div className="max-w-4xl mx-auto px-8 py-16">
-                            <div className="prose prose-invert max-w-none focus:outline-none min-h-[70vh]">
+                        <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 md:py-16">
+                            <div className="prose prose-invert max-w-none focus:outline-none min-h-[70vh] text-sm md:text-base">
                                 <EditorContent editor={editor} />
                             </div>
                         </div>

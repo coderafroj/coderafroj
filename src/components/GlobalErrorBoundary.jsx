@@ -7,7 +7,7 @@ class GlobalErrorBoundary extends React.Component {
     }
 
     static getDerivedStateFromError(error) {
-        return { hasError: true };
+        return { hasError: true, error };
     }
 
     componentDidCatch(error, errorInfo) {
@@ -23,6 +23,12 @@ class GlobalErrorBoundary extends React.Component {
                         <p className="text-slate-400 font-light">
                             A momentary glitch was detected. We've paused to protect your session.
                         </p>
+                        {this.state.error && (
+                            <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
+                                <p className="text-red-500 font-mono text-[10px] uppercase tracking-wider">Error Insight</p>
+                                <p className="text-red-400 text-xs mt-1 font-mono">{this.state.error.message}</p>
+                            </div>
+                        )}
                         <button
                             onClick={() => window.location.reload()}
                             className="px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-widest rounded-full hover:scale-105 transition-all"
