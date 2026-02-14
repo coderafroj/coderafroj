@@ -6,7 +6,7 @@ import {
 import { Tag, Image, Category, Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile }) => {
+const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile, onDelete }) => {
     const width = 300;
 
     const handleChange = (field) => (event) => {
@@ -160,7 +160,7 @@ const PropertiesSidebar = ({ metadata, setMetadata, open, onClose, isMobile }) =
                 <button
                     onClick={() => {
                         if (window.confirm('TERMINATION_SEQUENCE: Are you sure you want to delete this protocol?')) {
-                            // This would call onDelete from props
+                            onDelete?.(metadata.id);
                         }
                     }}
                     className="w-full py-4 bg-red-500/5 border border-red-500/20 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-red-500 hover:text-white transition-all haptic-feedback"

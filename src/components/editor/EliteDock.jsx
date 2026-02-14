@@ -33,15 +33,14 @@ const EliteDock = ({
         <Box
             sx={{
                 position: 'fixed',
-                bottom: { xs: 12, md: 30 },
+                bottom: { xs: 8, md: 30 },
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 2000,
-                width: { xs: '94%', md: 'auto' },
-                maxWidth: { xs: '380px', md: 'none' },
+                width: { xs: 'calc(100% - 24px)', md: 'auto' },
                 display: 'flex',
                 alignItems: 'center',
-                borderRadius: '28px',
+                borderRadius: '24px',
                 background: 'rgba(5, 5, 15, 0.95)',
                 backdropFilter: 'blur(40px) saturate(180%)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',

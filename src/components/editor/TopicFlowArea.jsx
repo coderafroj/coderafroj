@@ -12,7 +12,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
-import { Article, Category } from '@mui/icons-material';
+import { Article, Category, Delete } from '@mui/icons-material';
 
 const TopicNode = ({ data, selected }) => (
     <motion.div
@@ -30,7 +30,7 @@ const TopicNode = ({ data, selected }) => (
             <div className={`p-3 rounded-2xl transition-all duration-300 ${selected ? 'bg-primary text-white scale-110' : data.isNew ? 'bg-green-500/20 text-green-500' : 'bg-sky-500/10 text-sky-500 group-hover:bg-sky-500/20'}`}>
                 {data.isCourse ? <Category /> : <Article />}
             </div>
-            <div>
+            <div className="flex-1">
                 <p className={`text-[9px] font-black uppercase tracking-[0.2em] mb-1 transition-colors ${selected ? 'text-primary' : 'text-slate-500'}`}>
                     {data.category || 'Topic Module'}
                 </p>
@@ -38,6 +38,19 @@ const TopicNode = ({ data, selected }) => (
                     {data.label}
                 </h3>
             </div>
+            {!data.isCourse && (
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (window.confirm(`Are you sure you want to delete "${data.label}"?`)) {
+                            data.onDelete?.(data.id);
+                        }
+                    }}
+                    className="p-2 text-slate-500 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                >
+                    <Delete fontSize="small" />
+                </button>
+            )}
         </div>
 
         <Handle
@@ -52,24 +65,24 @@ const nodeTypes = {
     topic: TopicNode,
 };
 
-const TopicFlowArea = ({ topics, onTopicSelect, selectedTopic, courseTitle }) => {
+const TopicFlowArea = ({ topics, onTopicSelect, onTopicDelete, selectedTopic, courseTitle }) => {
     const initialNodes = useMemo(() => {
         const nodes = [
             {
                 id: 'course-root',
                 type: 'topic',
                 position: { x: 250, y: 0 },
-                data: { label: courseTitle, isCourse: true, category: 'Root Course' },
+                data: { label: courseTitle, isCourse: true, category: 'Root Course', onDelete: onTopicDelete },
             },
             ...topics.map((topic, index) => ({
                 id: topic.id,
                 type: 'topic',
                 position: { x: 250, y: 150 + index * 120 },
-                data: { ...topic, label: topic.title },
+                data: { ...topic, label: topic.title, onDelete: onTopicDelete },
             })),
         ];
         return nodes;
-    }, [topics, courseTitle]);
+    }, [topics, courseTitle, onTopicDelete]);
 
     const initialEdges = useMemo(() => {
         return topics.map((topic) => ({
