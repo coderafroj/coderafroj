@@ -7,7 +7,7 @@ import { ArrowLeft, Calendar, Tag, Clock, Sparkles, AlertCircle, Github, Linkedi
 import ReactMarkdown from 'react-markdown';
 import SEO from '../components/SEO';
 
-import { allNotes } from '../data/notes';
+
 
 const NoteView = () => {
     const { id } = useParams();
@@ -22,13 +22,6 @@ const NoteView = () => {
 
     const fetchNote = async () => {
         try {
-            const staticNode = allNotes.find(n => n.id === id || n.slug === id);
-            if (staticNode) {
-                setNote({ ...staticNode, isStatic: true });
-                setLoading(false);
-                return;
-            }
-
             const docRef = doc(db, 'notes', id);
             const docSnap = await getDoc(docRef);
 
@@ -106,47 +99,49 @@ const NoteView = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         onClick={() => navigate('/notes')}
-                        className="inline-flex items-center gap-3 text-slate-500 hover:text-primary transition-all group mb-12"
+                        className="inline-flex items-center gap-3 text-slate-500 hover:text-sky-400 transition-all group mb-16 px-6 py-2 bg-white/5 rounded-full border border-white/5"
                     >
-                        <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform text-primary" />
-                        <span className="font-black text-[10px] uppercase tracking-[0.4em] italic underline decoration-white/5 underline-offset-8 group-hover:decoration-primary">Access Knowledge Bank</span>
+                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform text-sky-400" />
+                        <span className="font-black text-[10px] uppercase tracking-[0.4em] italic leading-none">Back_To_Nexus</span>
                     </motion.button>
 
-                    <div className="max-w-5xl mx-auto">
+                    <div className="max-w-6xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="flex flex-col items-center"
                         >
-                            <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-                                {note.isStatic && (
-                                    <span className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 text-primary-glow rounded-2xl border border-primary/20 text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_0_30px_rgba(47,129,247,0.2)]">
-                                        <Sparkles size={14} className="animate-pulse" /> Intel_Level: Alpha
-                                    </span>
-                                )}
-                                <span className="flex items-center gap-2 px-5 py-2.5 bg-white/2 text-slate-500 rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-[0.3em]">
-                                    <Clock size={14} className="text-primary/50" /> Transmission: Stable
+                            <div className="flex flex-wrap justify-center items-center gap-4 mb-12">
+                                <span className="flex items-center gap-2 px-6 py-3 bg-sky-500/10 text-sky-400 rounded-2xl border border-sky-500/20 text-[10px] font-black uppercase tracking-[0.3em] backdrop-blur-3xl shadow-[0_0_40px_rgba(14,165,233,0.15)]">
+                                    <Sparkles size={14} className="animate-pulse" /> Core_Node: Level_1
+                                </span>
+                                <span className="flex items-center gap-2 px-6 py-3 bg-white/2 text-slate-500 rounded-2xl border border-white/5 text-[10px] font-black uppercase tracking-[0.3em] backdrop-blur-3xl">
+                                    <Clock size={14} className="text-sky-500/50" /> Sync: Operational
                                 </span>
                             </div>
-                            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[0.85] uppercase italic mb-10 w-full text-center selection:bg-primary selection:text-white">
+
+                            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[0.8] uppercase italic mb-12 w-full text-center selection:bg-sky-500 selection:text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                                 {note.title}
                             </h1>
-                            <div className="flex flex-wrap justify-center items-center gap-8 text-slate-500 font-mono">
-                                <div className="flex items-center gap-4 bg-[#030014]/40 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-3xl shadow-2xl">
-                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent p-[1px]">
-                                        <div className="w-full h-full rounded-xl bg-black flex items-center justify-center text-[11px] font-black text-white uppercase italic">AF</div>
+
+                            <div className="flex flex-wrap justify-center items-center gap-8 font-mono">
+                                <div className="flex items-center gap-5 bg-white/[0.03] px-8 py-4 rounded-[2rem] border border-white/5 backdrop-blur-3xl shadow-2xl">
+                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 p-[1px] shadow-[0_0_20px_rgba(14,165,233,0.3)]">
+                                        <div className="w-full h-full rounded-2xl bg-slate-950 flex items-center justify-center text-xs font-black text-white uppercase italic">AF</div>
                                     </div>
                                     <div className="flex flex-col items-start leading-none">
-                                        <span className="text-[9px] uppercase tracking-widest text-slate-600 mb-1">Architect</span>
-                                        <span className="text-white font-black italic tracking-tighter uppercase">Coderafroj</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-slate-500 mb-1.5 font-black">Architect</span>
+                                        <span className="text-white font-black italic tracking-tighter uppercase text-base">Coderafroj</span>
                                     </div>
                                 </div>
-                                <div className="hidden sm:block h-10 w-px bg-white/5" />
-                                <div className="flex items-center gap-4 bg-[#030014]/40 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-3xl shadow-2xl">
-                                    <Calendar size={16} className="text-primary" />
+                                <div className="hidden sm:block h-12 w-[1px] bg-white/10" />
+                                <div className="flex items-center gap-5 bg-white/[0.03] px-8 py-4 rounded-[2rem] border border-white/5 backdrop-blur-3xl shadow-2xl">
+                                    <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center border border-white/5">
+                                        <Calendar size={18} className="text-sky-400" />
+                                    </div>
                                     <div className="flex flex-col items-start leading-none">
-                                        <span className="text-[9px] uppercase tracking-widest text-slate-600 mb-1">Timestamp</span>
-                                        <span className="text-white font-black uppercase tracking-tighter">
+                                        <span className="text-[9px] uppercase tracking-widest text-slate-500 mb-1.5 font-black">Timestamp</span>
+                                        <span className="text-white font-black uppercase tracking-tighter text-base">
                                             {note.createdAt?.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                                         </span>
                                     </div>
@@ -178,9 +173,21 @@ const NoteView = () => {
                             </div>
                         )}
 
-                        <div className="premium-markdown obsidian-card p-6 md:p-16 lg:p-24 rounded-[3rem] border-white/5 bg-[#030014]/60 backdrop-blur-3xl shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden relative">
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-                            <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
+                        <div className="premium-markdown obsidian-card p-6 md:p-20 lg:p-32 rounded-[4rem] border-white/10 bg-white/[0.01] backdrop-blur-3xl shadow-[0_50px_150px_rgba(0,0,0,0.8)] overflow-hidden relative group/content transition-all duration-700 hover:bg-white/[0.02] hover:border-sky-500/20">
+                            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-500/50 to-transparent" />
+                            <div className="absolute -top-24 -right-24 w-48 h-48 bg-sky-500/10 rounded-full blur-[80px] opacity-0 group-hover/content:opacity-100 transition-opacity" />
+                            <div className="prose prose-invert prose-sky max-w-none 
+                                prose-headings:font-black prose-headings:italic prose-headings:uppercase prose-headings:tracking-tighter
+                                prose-h1:text-6xl prose-h2:text-4xl prose-h3:text-2xl
+                                prose-p:text-slate-400 prose-p:leading-relaxed prose-p:text-lg
+                                prose-strong:text-white prose-strong:font-black
+                                prose-code:text-sky-400 prose-code:bg-sky-500/10 prose-code:px-2 prose-code:py-0.5 prose-code:rounded-lg prose-code:before:content-none prose-code:after:content-none
+                                prose-pre:bg-slate-950 prose-pre:border prose-pre:border-white/5 prose-pre:rounded-[2rem]
+                                prose-li:text-slate-400 prose-li:text-lg
+                                prose-blockquote:border-l-4 prose-blockquote:border-sky-500 prose-blockquote:bg-sky-500/5 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:rounded-r-3xl prose-blockquote:italic
+                            ">
+                                <ReactMarkdown>{note.content || note.description}</ReactMarkdown>
+                            </div>
                         </div>
 
                         {/* Social Share / Interaction */}

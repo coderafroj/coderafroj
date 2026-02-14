@@ -2,9 +2,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { courses } from '../../data/notes';
+import { courses as staticCourses } from '../../data/notes';
 import { BookOpen, Code, Terminal, Cpu, Database, FileText } from 'lucide-react';
 import SEO from '../../components/SEO';
+import { FirestoreService } from '../../services/FirestoreService';
 
 const icons = {
     'c-programming': Code,
@@ -15,6 +16,29 @@ const icons = {
 };
 
 const CourseIndex = () => {
+    const [courses, setCourses] = React.useState(staticCourses);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const loadCourses = async () => {
+            try {
+                const cloudCourses = await FirestoreService.getCourses();
+                if (cloudCourses.length > 0) {
+                    // Combine cloud courses with static ones for a full list
+                    // Use a Map to avoid duplicates by ID
+                    const courseMap = new Map();
+                    staticCourses.forEach(c => courseMap.set(c.id, c));
+                    cloudCourses.forEach(c => courseMap.set(c.id, { ...courseMap.get(c.id), ...c }));
+                    setCourses(Array.from(courseMap.values()));
+                }
+            } catch (err) {
+                console.error("Public Load Error:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadCourses();
+    }, []);
     return (
         <div className="min-h-screen pt-32 pb-20 px-6 sm:px-12 lg:px-24 infinite-canvas text-white">
             <SEO

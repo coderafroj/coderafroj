@@ -38,6 +38,7 @@ export const FirestoreService = {
 
     // Notes
     async getNotes(courseId) {
+        if (!courseId) throw new Error("Course ID is required to fetch notes.");
         const notesRef = collection(db, COURSES_COLLECTION, courseId, NOTES_COLLECTION);
         const q = query(notesRef, orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
@@ -45,6 +46,11 @@ export const FirestoreService = {
     },
 
     async saveNote(courseId, noteData) {
+        if (!courseId || !noteData?.id) {
+            const errorMsg = `Invalid Mission Path. Course ID (${courseId}) and Mission ID (${noteData?.id}) are required.`;
+            console.error("Missing path segments:", { courseId, noteId: noteData?.id });
+            throw new Error(errorMsg);
+        }
         const noteRef = doc(db, COURSES_COLLECTION, courseId, NOTES_COLLECTION, noteData.id);
         const data = {
             ...noteData,
@@ -58,6 +64,11 @@ export const FirestoreService = {
     },
 
     async deleteNote(courseId, noteId) {
+        if (!courseId || !noteId) {
+            const errorMsg = `Invalid Deactivation Path. Course ID (${courseId}) and Mission ID (${noteId}) are required.`;
+            console.error("Missing path segments for deletion:", { courseId, noteId });
+            throw new Error(errorMsg);
+        }
         await deleteDoc(doc(db, COURSES_COLLECTION, courseId, NOTES_COLLECTION, noteId));
     },
 

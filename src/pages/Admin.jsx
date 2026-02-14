@@ -8,7 +8,7 @@ import { Input, Textarea } from '../components/ui/Input';
 import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search, MessageSquare, Trash2, Mail, User, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import { staticNotes } from '../data/computerNotes';
+
 
 const Admin = () => {
     const [user, setUser] = useState(null);
@@ -297,7 +297,7 @@ const Admin = () => {
 
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                             {[
-                                                { label: 'Knowledge Nodes', count: notes.length + staticNotes.length, icon: <FileText />, color: 'primary' },
+                                                { label: 'Knowledge Nodes', count: notes.length, icon: <FileText />, color: 'primary' },
                                                 { label: 'Active Protocols', count: projects.length, icon: <Terminal />, color: 'secondary' },
                                                 { label: 'Signal Logs', count: posts.length, icon: <Sparkles />, color: 'accent' },
                                             ].map((stat, i) => (
@@ -311,9 +311,6 @@ const Admin = () => {
                                                     <p className="text-white/40 text-[10px] font-mono tracking-[0.2em] uppercase mb-1">{stat.label}</p>
                                                     <div className="flex items-end gap-2">
                                                         <p className="text-4xl font-black text-white">{stat.count}</p>
-                                                        {stat.label === 'Knowledge Nodes' && (
-                                                            <span className="text-[10px] text-primary/40 font-mono mb-2">({staticNotes.length} STATIC)</span>
-                                                        )}
                                                     </div>
                                                 </div>
                                             ))}

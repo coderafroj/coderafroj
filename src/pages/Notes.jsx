@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Tag, Sparkles, Search, Command, Zap } from 'lucide-react';
+import { BookOpen, Calendar, Tag, Sparkles, Search, Command, Zap, ArrowRight, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 
-import { staticNotes } from '../data/computerNotes';
+
 
 const Notes = () => {
     const [notes, setNotes] = useState([]);
@@ -31,16 +31,10 @@ const Notes = () => {
                 createdAt: doc.data().createdAt?.toDate()
             }));
 
-            const processedStatic = staticNotes.map(n => ({
-                ...n,
-                tags: [...(n.tags || []), 'System_Knowledge'],
-                isStatic: true
-            }));
-
-            setNotes([...processedStatic, ...firebaseNotes]);
+            setNotes(firebaseNotes);
         } catch (error) {
             console.error('Error fetching notes:', error);
-            setNotes(staticNotes.map(n => ({ ...n, isStatic: true, tags: [...(n.tags || []), 'System_Knowledge'] })));
+            setNotes([]);
         } finally {
             setLoading(false);
         }
@@ -83,19 +77,20 @@ const Notes = () => {
 
                 {/* Header Section */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-20 md:mb-32 relative"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center mb-24 md:mb-40 relative"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-2xl mb-8">
-                        <Command size={14} className="text-primary animate-pulse" />
-                        <span className="text-[10px] font-black font-mono text-slate-400 uppercase tracking-[0.3em]">Knowledge_Archive_v2.0</span>
+                    <div className="absolute inset-0 bg-primary/20 blur-[150px] -z-10 animate-pulse" />
+                    <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-sky-500/10 border border-sky-500/20 rounded-full mb-10 backdrop-blur-3xl">
+                        <Zap size={14} className="text-sky-400 animate-pulse" />
+                        <span className="text-[10px] font-black font-mono text-sky-400 uppercase tracking-[0.4em]">Knowledge Nexus_v3.0</span>
                     </div>
-                    <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-black text-white tracking-tighter uppercase italic leading-[0.85] mb-8">
-                        Logic <span className="text-primary text-glow-blue underline decoration-primary/20">Nexus</span>
+                    <h1 className="text-6xl sm:text-7xl md:text-9xl lg:text-[12rem] font-black text-white tracking-tighter uppercase italic leading-[0.8] mb-10 selection:bg-sky-500">
+                        Elite <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 drop-shadow-[0_0_30px_rgba(14,165,233,0.3)]">Archive</span>
                     </h1>
-                    <p className="text-slate-500 text-sm md:text-xl max-w-2xl mx-auto font-medium leading-relaxed px-4 uppercase tracking-widest italic opacity-60">
-                        Decrypting core concepts in Computer Science & Digital Architecture.
+                    <p className="text-slate-400 text-sm md:text-xl max-w-3xl mx-auto font-black leading-relaxed px-4 uppercase tracking-[0.3em] italic opacity-80">
+                        The ultimate repository of high-level <span className="text-white border-b-2 border-sky-500/50">Computing Architecture</span> & Advanced Protocols.
                     </p>
                 </motion.div>
 
@@ -169,48 +164,56 @@ const Notes = () => {
                                 to={`/notes/${note.id}`}
                                 className="group block h-full"
                             >
-                                <div className="obsidian-card p-4 md:p-6 rounded-[2.5rem] border-white/5 flex flex-col h-full hover:border-primary/50 transition-all duration-700 relative overflow-hidden group">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                                <div className="obsidian-card group/item p-2 rounded-[3.5rem] border-white/5 flex flex-col h-full hover:border-sky-500/50 transition-all duration-700 relative overflow-hidden bg-white/[0.02] backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-700" />
 
-                                    {note.image && (
-                                        <div className="mb-6 rounded-[2rem] overflow-hidden border border-white/5 aspect-video relative">
-                                            <img
-                                                src={note.image}
-                                                alt={note.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-60" />
-                                            {note.isStatic && (
-                                                <div className="absolute top-4 left-4 px-3 py-1 bg-primary/20 backdrop-blur-md rounded-xl border border-primary/30 flex items-center gap-2">
-                                                    <Sparkles size={12} className="text-primary-glow animate-pulse" />
-                                                    <span className="text-[9px] font-black text-white uppercase tracking-widest">Verified</span>
+                                    <div className="p-4 md:p-6 flex flex-col h-full">
+                                        <div className="mb-8 rounded-[2.8rem] overflow-hidden border border-white/10 aspect-[16/10] relative shadow-2xl">
+                                            {note.image ? (
+                                                <img
+                                                    src={note.image}
+                                                    alt={note.title}
+                                                    className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-1000"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                                                    <BookOpen size={48} className="text-sky-500/20" />
                                                 </div>
                                             )}
+                                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030014] to-transparent" />
+                                            <div className="absolute top-6 left-6 px-4 py-2 bg-sky-500/20 backdrop-blur-xl rounded-2xl border border-sky-500/30">
+                                                <span className="text-[9px] font-black text-sky-400 uppercase tracking-[0.2em]">Alpha_Protocol</span>
+                                            </div>
                                         </div>
-                                    )}
 
-                                    <div className="flex-1 relative z-10">
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{note.category || 'Documentation'}</span>
-                                            <div className="h-px flex-1 bg-white/5" />
+                                        <div className="flex-1 px-4">
+                                            <div className="flex items-center gap-3 mb-6">
+                                                <span className="text-[10px] font-black text-sky-500 uppercase tracking-[0.4em] italic">{note.category || 'Architecture'}</span>
+                                                <div className="h-[1px] flex-1 bg-gradient-to-r from-sky-500/30 to-transparent" />
+                                            </div>
+                                            <h3 className="text-3xl md:text-4xl font-black text-white mb-6 group-hover/item:text-sky-400 transition-all tracking-tighter uppercase italic leading-[0.9]">
+                                                {note.title}
+                                            </h3>
+                                            <p className="text-slate-400 text-xs md:text-sm mb-8 line-clamp-3 leading-relaxed opacity-70 group-hover/item:opacity-100 transition-opacity uppercase tracking-widest font-bold font-mono">
+                                                {note.description}
+                                            </p>
                                         </div>
-                                        <h3 className="text-2xl md:text-3xl font-black text-white mb-4 group-hover:text-primary transition-colors tracking-tighter uppercase italic leading-none">
-                                            {note.title}
-                                        </h3>
-                                        <p className="text-slate-500 text-xs md:text-sm mb-6 line-clamp-2 leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity uppercase tracking-wider font-bold">
-                                            {note.description}
-                                        </p>
-                                    </div>
 
-                                    <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-auto relative z-10">
-                                        <div className="flex items-center gap-3 text-slate-600">
-                                            <Calendar size={14} className="text-primary/50" />
-                                            <span className="text-[10px] font-black uppercase tracking-widest">
-                                                {note.createdAt?.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}
-                                            </span>
-                                        </div>
-                                        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-primary group-hover:bg-primary/20 transition-all duration-500">
-                                            <Zap size={16} className="text-slate-600 group-hover:text-primary transition-colors group-hover:scale-110" />
+                                        <div className="flex items-center justify-between p-6 bg-white/[0.03] rounded-[2.5rem] border border-white/5 mt-auto group-hover/item:border-sky-500/20 transition-all">
+                                            <div className="flex items-center gap-4 text-slate-500">
+                                                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center border border-white/5">
+                                                    <Calendar size={16} className="text-sky-500/60" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-[8px] uppercase tracking-widest text-slate-600 font-bold">Deployed</span>
+                                                    <span className="text-[10px] font-black text-white uppercase tracking-tighter">
+                                                        {note.createdAt?.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center border border-sky-500/20 group-hover/item:bg-sky-500 group-hover/item:text-black transition-all duration-500 shadow-xl">
+                                                <ArrowRight size={20} className="group-hover/item:translate-x-1 transition-transform" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

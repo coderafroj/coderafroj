@@ -4,22 +4,39 @@ import { useParams, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, BookOpen, LayoutGrid } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './Sidebar';
-import { getCourseById } from '../../data/notes';
+import { FirestoreService } from '../../services/FirestoreService';
 
 const NotesLayout = () => {
     const { courseId } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [course, setCourse] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const course = getCourseById(courseId);
-
-    // Redirect if course not found
+    // Sync course and its missions from Firestore
     useEffect(() => {
-        if (courseId && !course) {
-            navigate('/learn');
-        }
-    }, [courseId, course, navigate]);
+        const syncData = async () => {
+            if (!courseId) return;
+            try {
+                setLoading(true);
+                const cloudCourses = await FirestoreService.getCourses();
+                const cloudCourse = cloudCourses.find(c => c.id === courseId);
+
+                if (cloudCourse) {
+                    const cloudNotes = await FirestoreService.getNotes(courseId);
+                    setCourse({ ...cloudCourse, notes: cloudNotes });
+                } else {
+                    navigate('/learn');
+                }
+            } catch (err) {
+                console.error("Layout Sync Error:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        syncData();
+    }, [courseId, navigate]);
 
     // Close sidebar on route change (mobile)
     useEffect(() => {

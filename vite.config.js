@@ -8,6 +8,15 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  server: {
+    proxy: {
+      '/api-openai': {
+        target: 'https://api.openai.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-openai/, ''),
+      },
+    },
+  },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'firebase/app', 'firebase/auth', 'firebase/firestore', 'framer-motion', 'lucide-react', 'react-helmet-async'],
   },
