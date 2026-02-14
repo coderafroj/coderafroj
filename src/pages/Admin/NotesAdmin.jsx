@@ -239,8 +239,9 @@ const NotesAdmin = () => {
                 category: metadata.category || selectedCourse.title,
                 image: metadata.image,
                 createdAt: selectedTopic?.createdAt || new Date().toISOString().split('T')[0],
-                content: editor.storage.markdown.getMarkdown()
+                content: editor.getHTML() // Save as HTML (TipTap's native format)
             };
+
 
             // JS File Injection Logic (Regex Magic)
             let updatedFileContent = content;

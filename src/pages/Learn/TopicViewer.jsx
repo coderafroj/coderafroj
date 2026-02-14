@@ -155,56 +155,73 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
                 prose-img:rounded-3xl prose-img:border prose-img:border-white/5 prose-img:my-12
                 prose-ul:list-none prose-ul:pl-0
                 prose-li:pl-8 prose-li:relative prose-li:my-4 prose-li:before:content-[''] prose-li:before:absolute prose-li:before:left-0 prose-li:before:top-[0.8em] prose-li:before:w-2 prose-li:before:h-[2px] prose-li:before:bg-blue-500
+                prose-table:border-collapse prose-table:w-full prose-table:my-8
+                prose-th:border prose-th:border-white/10 prose-th:bg-white/5 prose-th:p-3 prose-th:text-left prose-th:font-black prose-th:text-white
+                prose-td:border prose-td:border-white/10 prose-td:p-3 prose-td:text-slate-300
             ">
-                <ReactMarkdown
-                    components={{
-                        code({ node, inline, className, children, ...props }) {
-                            const match = /language-(\w+)/.exec(className || '');
-                            return !inline && match ? (
-                                <div className="code-mac-case group">
-                                    <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
-                                    <div className="code-mac-header">
-                                        <div className="flex items-center gap-6">
-                                            <div className="flex gap-2">
-                                                <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                                                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                                                <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                {(() => {
+                    // Check if content contains HTML tags (from TipTap editor)
+                    const hasHTML = /<[^>]*>/g.test(topic.content);
+
+                    if (hasHTML) {
+                        // Render HTML content directly
+                        return <div dangerouslySetInnerHTML={{ __html: topic.content }} />;
+                    } else {
+                        // Render as Markdown (for older content or plain text)
+                        return (
+                            <ReactMarkdown
+                                components={{
+                                    code({ node, inline, className, children, ...props }) {
+                                        const match = /language-(\w+)/.exec(className || '');
+                                        return !inline && match ? (
+                                            <div className="code-mac-case group">
+                                                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
+                                                <div className="code-mac-header">
+                                                    <div className="flex items-center gap-6">
+                                                        <div className="flex gap-2">
+                                                            <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                                                            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                                                            <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                                                        </div>
+                                                        <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.3em]">{match[1]} package</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+                                                        <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Live_Module</span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-8 md:p-12 overflow-x-auto custom-scrollbar bg-black/40 backdrop-blur-sm">
+                                                    <SyntaxHighlighter
+                                                        style={vscDarkPlus}
+                                                        language={match[1]}
+                                                        PreTag="div"
+                                                        customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '18px', lineHeight: '1.7', fontFamily: '"JetBrains Mono", monospace' }}
+                                                        {...props}
+                                                    >
+                                                        {String(children).replace(/\n$/, '')}
+                                                    </SyntaxHighlighter>
+                                                </div>
+                                                <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">
+                                                        Click_to_Clone
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.3em]">{match[1]} package</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
-                                            <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Live_Module</span>
-                                        </div>
-                                    </div>
-                                    <div className="p-8 md:p-12 overflow-x-auto custom-scrollbar bg-black/40 backdrop-blur-sm">
-                                        <SyntaxHighlighter
-                                            style={vscDarkPlus}
-                                            language={match[1]}
-                                            PreTag="div"
-                                            customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '18px', lineHeight: '1.7', fontFamily: '"JetBrains Mono", monospace' }}
-                                            {...props}
-                                        >
-                                            {String(children).replace(/\n$/, '')}
-                                        </SyntaxHighlighter>
-                                    </div>
-                                    <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">
-                                            Click_to_Clone
-                                        </button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <code className={className} {...props}>
-                                    {children}
-                                </code>
-                            );
-                        }
-                    }}
-                >
-                    {topic.content}
-                </ReactMarkdown>
+                                        ) : (
+                                            <code className={className} {...props}>
+                                                {children}
+                                            </code>
+                                        );
+                                    }
+                                }}
+                            >
+                                {topic.content}
+                            </ReactMarkdown>
+                        );
+                    }
+                })()}
             </article>
+
 
             {/* Premium Module Navigation */}
             <div className="mt-32 pt-16 border-t border-white/5">
