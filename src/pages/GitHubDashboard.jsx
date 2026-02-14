@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useGitHub } from '../context/GitHubContext';
 import GitHubAuth from '../components/GitHub/GitHubAuth';
 import GitHubRepoList from '../components/GitHub/GitHubRepoList';
@@ -58,26 +59,35 @@ const GitHubDashboard = () => {
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/5 blur-[150px] rounded-full opacity-30" />
                 <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-accent/5 blur-[150px] rounded-full opacity-30" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#030014]" />
-                <div className="coderafroj-grid coderafroj-grid-pulse opacity-10" />
             </div>
 
-            {/* Mobile Header */}
-            <div className="lg:hidden flex items-center justify-between mb-8 relative z-20">
-                <div className="flex items-center gap-3">
-                    <img src={user.avatar_url} alt={user.login} className="w-10 h-10 rounded-xl border border-white/10" />
-                    <h2 className="text-lg font-black text-white uppercase tracking-tighter italic">@{user.login}</h2>
+            {/* Top Navigation Bar (Mobile & Desktop) */}
+            <div className="flex items-center justify-between mb-8 md:mb-12 py-4 border-b border-white/5 sticky top-0 bg-[#030014]/80 backdrop-blur-xl z-[100] -mx-4 px-4">
+                <div className="flex items-center gap-4">
+                    <Link to="/" className="p-2.5 rounded-xl bg-white/5 border border-white/5 text-slate-400 hover:text-white transition-all">
+                        <Layout className="w-5 h-5" />
+                    </Link>
+                    <div className="h-6 w-[1px] bg-white/10" />
+                    <div className="flex items-center gap-2">
+                        <img src={user.avatar_url} alt={user.login} className="w-8 h-8 rounded-lg border border-white/10" />
+                        <span className="text-[10px] font-black text-white uppercase tracking-widest hidden sm:block">@{user.login}</span>
+                    </div>
                 </div>
-                <Button
-                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="p-3 bg-white/5 border border-white/10 rounded-xl"
-                >
-                    {isSidebarOpen ? <CloseIcon className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
-                </Button>
+
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={logout}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all"
+                    >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span className="hidden xs:block">Logout</span>
+                    </button>
+                </div>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start relative z-10">
-                {/* Desktop/Mobile Sidebar */}
-                <aside className={`${isSidebarOpen ? 'block fixed inset-0 z-50 p-6 bg-black/90 backdrop-blur-2xl' : 'hidden'} lg:block lg:relative lg:inset-auto lg:p-0 lg:bg-transparent lg:backdrop-blur-none w-full lg:w-72 space-y-4 flex-shrink-0 lg:sticky lg:top-10 transition-all duration-300`}>
+                {/* Sidebar - Hidden on mobile, integrated into tabs */}
+                <aside className="hidden lg:block w-72 space-y-4 flex-shrink-0 sticky top-24 transition-all duration-300">
                     <motion.div
                         initial={false}
                         animate={{ opacity: 1, x: 0 }}
@@ -332,25 +342,25 @@ const GitHubDashboard = () => {
                 </main>
             </div>
 
-            {/* Mobile Bottom Tab Bar - Fixed at bottom on mobile */}
-            <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0d1117] border-t border-[#30363d] z-30">
-                <div className="flex items-center justify-around px-4 py-3">
-                    {navigationTabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-all ${activeTab === tab.id
-                                ? 'text-primary bg-primary/10'
-                                : 'text-slate-400 hover:text-white'
-                                }`}
-                        >
-                            {tab.icon}
-                            <span className="text-[9px] font-bold uppercase tracking-wider">{tab.label.split(' ')[0]}</span>
-                        </button>
-                    ))}
+            {/* Mobile Bottom Tab Bar (Integrated Actions) */}
+            {!selectedRepo && (
+                <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-black/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-2 z-[100] shadow-2xl">
+                    <div className="flex items-center gap-2">
+                        {navigationTabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-2xl transition-all ${activeTab === tab.id ? 'bg-primary text-black' : 'text-slate-500 hover:text-white'
+                                    }`}
+                            >
+                                {tab.icon}
+                                <span className="text-[8px] font-black uppercase tracking-widest">{tab.label}</span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </div >
+            )}
+        </div>
     );
 };
 
