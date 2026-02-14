@@ -35,7 +35,7 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
             className="w-full max-w-5xl mx-auto pb-20"
         >
             {/* Elite Top Navigation Bar */}
-            <div className="flex items-center justify-between mb-12 py-6 border-b border-white/5 sticky top-0 bg-[#030014]/80 backdrop-blur-xl z-20 -mx-4 px-4">
+            <div className="flex items-center justify-between mb-8 md:mb-12 py-4 border-b border-white/5 sticky top-0 bg-[#030014]/90 backdrop-blur-xl z-30 -mx-4 px-4">
                 <div className="flex items-center gap-4">
                     <div className="relative">
                         <button
@@ -106,56 +106,55 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
             </div>
 
             {/* Header */}
-            <header className="mb-24 mt-12">
+            <header className="mb-16 mt-8 md:mt-16">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex flex-wrap gap-3 mb-12"
+                    className="flex flex-wrap gap-2 mb-8"
                 >
                     {topic.tags?.map(tag => (
-                        <span key={tag} className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.25em] bg-white/5 text-blue-400 border border-white/5 backdrop-blur-md">
+                        <span key={tag} className="px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] bg-white/5 text-blue-400 border border-white/10 backdrop-blur-md">
                             #{tag.toUpperCase()}
                         </span>
                     ))}
                 </motion.div>
 
-                <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-12 leading-[0.85] uppercase tracking-tighter reveal-text">
-                    <span className="block opacity-20">01_</span>
-                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/40">{topic.title}</span>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-8 leading-[0.9] uppercase tracking-tighter reveal-text">
+                    <span className="block opacity-20 text-xs tracking-[0.5em] mb-2">SEQUENCE_01</span>
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/60">{topic.title}</span>
                 </h1>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="inline-flex items-center p-3 pr-10 rounded-[2rem] bg-white/[0.03] border border-white/5 backdrop-blur-xl shadow-2xl"
+                    className="inline-flex items-center p-2.5 pr-8 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-xl"
                 >
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-[0_0_40px_rgba(99,102,241,0.4)] animate-glow-pulse">
-                        <Calendar size={24} className="text-white" />
+                    <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center border border-blue-500/30">
+                        <Calendar size={18} className="text-blue-400" />
                     </div>
-                    <div className="ml-6 flex flex-col">
-                        <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 leading-none mb-2">Protocol_Initialize</span>
-                        <span className="text-lg text-white font-mono font-black tracking-tight">
-                            {new Date(topic.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                    <div className="ml-4 flex flex-col">
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-white/30 leading-none mb-1">Initialized</span>
+                        <span className="text-sm text-white font-mono font-bold">
+                            {new Date(topic.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                         </span>
                     </div>
                 </motion.div>
             </header>
 
-            {/* Content */}
-            <article className="prose prose-invert prose-2xl max-w-none 
-                prose-p:leading-[1.8] prose-p:text-white/70 prose-p:font-light prose-p:tracking-tight
+            {/* Content Area */}
+            <article className="prose prose-invert prose-base md:prose-lg max-w-none 
+                prose-p:leading-[1.7] prose-p:text-slate-300/90 prose-p:font-normal
                 prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tighter prose-headings:text-white
-                prose-h2:text-4xl md:prose-h2:text-6xl prose-h2:mt-32 prose-h2:mb-12 prose-h2:flex prose-h2:items-center prose-h2:gap-6
-                prose-h2:before:content-[''] prose-h2:before:w-12 prose-h2:before:h-[2px] prose-h2:before:bg-blue-500
-                prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:text-blue-400 prose-h3:mt-16
-                prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-a:font-bold prose-a:underline-offset-8
+                prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-20 prose-h2:mb-8
+                prose-h3:text-xl md:prose-h3:text-2xl prose-h3:text-blue-400 prose-h3:mt-12
+                prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-a:font-bold
                 prose-strong:text-white prose-strong:font-black
-                prose-code:text-indigo-300 prose-code:font-mono prose-code:font-bold prose-code:bg-white/5 prose-code:px-2 prose-code:py-0.5 prose-code:rounded-lg prose-code:before:content-none prose-code:after:content-none
+                prose-code:text-sky-300 prose-code:font-mono prose-code:bg-white/5 prose-code:px-2 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
                 prose-pre:p-0 prose-pre:bg-transparent prose-pre:border-none
-                prose-img:rounded-[2.5rem] prose-img:shadow-[0_40px_100px_rgba(0,0,0,0.8)] prose-img:border prose-img:border-white/5 prose-img:my-20
+                prose-img:rounded-3xl prose-img:border prose-img:border-white/5 prose-img:my-12
                 prose-ul:list-none prose-ul:pl-0
-                prose-li:pl-10 prose-li:relative prose-li:my-6 prose-li:before:content-[''] prose-li:before:absolute prose-li:before:left-0 prose-li:before:top-[0.8em] prose-li:before:w-3 prose-li:before:h-[2px] prose-li:before:bg-blue-500
+                prose-li:pl-8 prose-li:relative prose-li:my-4 prose-li:before:content-[''] prose-li:before:absolute prose-li:before:left-0 prose-li:before:top-[0.8em] prose-li:before:w-2 prose-li:before:h-[2px] prose-li:before:bg-blue-500
             ">
                 <ReactMarkdown
                     components={{

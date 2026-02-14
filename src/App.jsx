@@ -45,6 +45,8 @@ import { Toaster } from 'sonner';
 function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isSpecialModule = location.pathname.startsWith('/github') || location.pathname.startsWith('/learn');
+  const hideGlobalUI = isAdmin || isSpecialModule;
 
   // Only show intro once per session
   const [showIntro, setShowIntro] = React.useState(() => {
@@ -96,7 +98,7 @@ function App() {
               </div>
             )}
 
-            {!isAdmin && <Navbar />}
+            {!hideGlobalUI && <Navbar />}
             <main className="flex-grow relative z-10 flex flex-col">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -145,8 +147,8 @@ function App() {
                 </motion.div>
               </AnimatePresence>
             </main>
-            {!isAdmin && <Footer />}
-            {!isAdmin && <MobileTabBar />}
+            {!hideGlobalUI && <Footer />}
+            {!hideGlobalUI && <MobileTabBar />}
           </div>
         </GitHubProvider>
       </HelmetProvider>
