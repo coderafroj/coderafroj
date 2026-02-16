@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronRight, ChevronLeft, Home, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TutorialLayout = ({ tutorialData }) => {
@@ -198,6 +199,7 @@ const TutorialLayout = ({ tutorialData }) => {
                     >
                         <div className="markdown-content">
                             <ReactMarkdown
+                                rehypePlugins={[rehypeRaw]}
                                 components={{
                                     h1: ({ node, ...props }) => <h1 className="text-4xl md:text-5xl font-black mb-8 pb-4 border-b border-gray-800 text-white" {...props} />,
                                     h2: ({ node, ...props }) => <h2 className="text-2xl md:text-3xl font-bold mt-12 mb-6 text-white" {...props} />,
@@ -206,6 +208,7 @@ const TutorialLayout = ({ tutorialData }) => {
                                     ul: ({ node, ...props }) => <ul className="list-disc list-inside my-4 space-y-2 text-gray-300" {...props} />,
                                     ol: ({ node, ...props }) => <ol className="list-decimal list-inside my-4 space-y-2 text-gray-300" {...props} />,
                                     li: ({ node, ...props }) => <li className="ml-4" {...props} />,
+                                    img: ({ node, ...props }) => <img {...props} className="rounded-xl border border-white/10 shadow-2xl my-6 w-full object-cover" />,
                                     blockquote: ({ node, ...props }) => (
                                         <div className="border-l-4 border-green-500 bg-[#161b22] p-6 my-8 rounded-r-xl shadow-lg relative overflow-hidden group">
                                             <div className="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-green-500 select-none">"</div>

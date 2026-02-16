@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -35,7 +36,7 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
             className="w-full max-w-5xl mx-auto pb-20"
         >
             {/* Elite Top Navigation Bar */}
-            <div className="flex items-center justify-between mb-8 md:mb-12 py-4 border-b border-white/5 sticky top-0 bg-[#030014]/90 backdrop-blur-xl z-30 -mx-4 px-4">
+            <div className="flex items-center justify-between mb-8 md:mb-12 py-4 border-b border-white/5 bg-[#030014]/90 backdrop-blur-xl z-30 -mx-4 px-4">
                 <div className="flex items-center gap-4">
                     <div className="relative">
                         <button
@@ -159,67 +160,60 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
                 prose-th:border prose-th:border-white/10 prose-th:bg-white/5 prose-th:p-3 prose-th:text-left prose-th:font-black prose-th:text-white
                 prose-td:border prose-td:border-white/10 prose-td:p-3 prose-td:text-slate-300
             ">
-                {(() => {
-                    // Check if content contains HTML tags (from TipTap editor)
-                    const hasHTML = /<[^>]*>/g.test(topic.content);
-
-                    if (hasHTML) {
-                        // Render HTML content directly
-                        return <div dangerouslySetInnerHTML={{ __html: topic.content }} />;
-                    } else {
-                        // Render as Markdown (for older content or plain text)
-                        return (
-                            <ReactMarkdown
-                                components={{
-                                    code({ node, inline, className, children, ...props }) {
-                                        const match = /language-(\w+)/.exec(className || '');
-                                        return !inline && match ? (
-                                            <div className="code-mac-case group">
-                                                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
-                                                <div className="code-mac-header">
-                                                    <div className="flex items-center gap-6">
-                                                        <div className="flex gap-2">
-                                                            <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                                                            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                                                            <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
-                                                        </div>
-                                                        <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.3em]">{match[1]} package</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
-                                                        <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Live_Module</span>
-                                                    </div>
-                                                </div>
-                                                <div className="p-8 md:p-12 overflow-x-auto custom-scrollbar bg-black/40 backdrop-blur-sm">
-                                                    <SyntaxHighlighter
-                                                        style={vscDarkPlus}
-                                                        language={match[1]}
-                                                        PreTag="div"
-                                                        customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '18px', lineHeight: '1.7', fontFamily: '"JetBrains Mono", monospace' }}
-                                                        {...props}
-                                                    >
-                                                        {String(children).replace(/\n$/, '')}
-                                                    </SyntaxHighlighter>
-                                                </div>
-                                                <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">
-                                                        Click_to_Clone
-                                                    </button>
-                                                </div>
+                return (
+                <ReactMarkdown
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                        img: ({ node, ...props }) => (
+                            <img {...props} className="rounded-3xl border border-white/10 shadow-2xl my-8 w-full object-cover" />
+                        ),
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || '');
+                            return !inline && match ? (
+                                <div className="code-mac-case group my-8">
+                                    <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
+                                    <div className="code-mac-header">
+                                        <div className="flex items-center gap-6">
+                                            <div className="flex gap-2">
+                                                <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
                                             </div>
-                                        ) : (
-                                            <code className={className} {...props}>
-                                                {children}
-                                            </code>
-                                        );
-                                    }
-                                }}
-                            >
-                                {topic.content}
-                            </ReactMarkdown>
-                        );
-                    }
-                })()}
+                                            <span className="text-[10px] font-mono font-black text-white/40 uppercase tracking-[0.3em]">{match[1]} package</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
+                                            <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Live_Module</span>
+                                        </div>
+                                    </div>
+                                    <div className="p-8 md:p-12 overflow-x-auto custom-scrollbar bg-black/40 backdrop-blur-sm">
+                                        <SyntaxHighlighter
+                                            style={vscDarkPlus}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            customStyle={{ margin: 0, padding: 0, background: 'transparent', fontSize: '18px', lineHeight: '1.7', fontFamily: '"JetBrains Mono", monospace' }}
+                                            {...props}
+                                        >
+                                            {String(children).replace(/\n$/, '')}
+                                        </SyntaxHighlighter>
+                                    </div>
+                                    <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-white transition-colors">
+                                            Click_to_Clone
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        }
+                    }}
+                >
+                    {topic.content}
+                </ReactMarkdown>
+                );
             </article>
 
 

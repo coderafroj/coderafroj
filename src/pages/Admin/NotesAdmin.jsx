@@ -21,6 +21,7 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { common, createLowlight } from 'lowlight';
+import ReactMarkdown from 'react-markdown'; // For Preview Mode
 
 const lowlight = createLowlight(common);
 import { motion, AnimatePresence } from 'framer-motion';
@@ -32,7 +33,8 @@ import {
     Heading2, Heading3, CheckSquare, Highlighter,
     Subscript as SubscriptIcon, Superscript as SuperscriptIcon,
     TerminalSquare, Maximize2, Minimize2, PanelLeft,
-    PanelLeftClose, ArrowLeft, Loader2, FilePlus, Globe
+    PanelLeftClose, ArrowLeft, Loader2, FilePlus, Globe,
+    Sparkles, Eye, EyeOff
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { courses as initialCourses } from '../../data/notes';
@@ -77,6 +79,7 @@ const NotesAdmin = () => {
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [showMetaSidebar, setShowMetaSidebar] = useState(false);
     const [aiOpen, setAiOpen] = useState(false);
+    const [isPreviewMode, setIsPreviewMode] = useState(false); // NEW: Preview Mode
 
     // New Course State
     const [newCourseName, setNewCourseName] = useState('');
@@ -101,6 +104,8 @@ const NotesAdmin = () => {
                 image: selectedTopic.image || '',
                 category: selectedTopic.category || ''
             });
+            // Smart Content Loading: Handle both Markdown (new/migrated) and HTML (legacy)
+            // Tiptap's tiptap-markdown extension usually handles markdown content in setContent automatically
             editor?.commands.setContent(selectedTopic.content || '');
         } else if (view === 'editor' && !selectedTopic) {
             // Creating new topic
@@ -124,15 +129,27 @@ const NotesAdmin = () => {
                 underline: false
             }),
             CodeBlockLowlight.configure({ lowlight }),
-            Markdown,
+            Markdown.configure({
+                html: false, // Force Markdown output
+                transformPastedText: true,
+                transformCopiedText: true,
+                break: true // Convert hard breaks to <br> or  
+            }),
             Table.configure({ resizable: true }),
             TableRow, TableCell, TableHeader,
-            Image, Link, TaskList, TaskItem.configure({ nested: true }),
+            Image.configure({ inline: true }),
+            Link.configure({ openOnClick: false }),
+            TaskList, TaskItem.configure({ nested: true }),
             Typography, Highlight.configure({ multipart: true }),
             Subscript, Superscript,
             Placeholder.configure({ placeholder: 'Start writing your masterclass content...' }),
         ],
         content: '',
+        editorProps: {
+            attributes: {
+                class: 'prose prose-invert prose-lg max-w-none focus:outline-none min-h-[300px]',
+            },
+        },
     });
 
     // --- ACTIONS ---
@@ -153,24 +170,19 @@ const NotesAdmin = () => {
             // 2. Create the Content File
             const newFileContent = `export const ${varName} = [\n    // New course topics will appear here\n];\n`;
 
-            // 3. Prepare Index Update (This is complex to do via text replace safely, but we'll try best effort)
-            // We need to fetch current index.js
+            // 3. Prepare Index Update
             const indexFile = await fetchFileContent(selectedRepo.owner.login, selectedRepo.name, 'src/data/notes/index.js');
             let indexContent = indexFile.content;
 
-            // Inject Import
             const importStmt = `import { ${varName} } from './${slug}';\n`;
             indexContent = importStmt + indexContent;
 
-            // Inject into noteCategories
             const categoryEntry = `    ${varName}: {\n        title: '${newCourseName}',\n        description: 'New User Created Course',\n        notes: ${varName}\n    },`;
             indexContent = indexContent.replace('export const noteCategories = {', `export const noteCategories = {\n${categoryEntry}`);
 
-            // Inject into courses array
             const courseEntry = `    { id: '${slug}', ...noteCategories.${varName} },`;
             indexContent = indexContent.replace('export const courses = [', `export const courses = [\n${courseEntry}`);
 
-            // Inject into allNotes (Simplified)
             indexContent = indexContent.replace('export const allNotes = [', `export const allNotes = [\n    ...${varName},`);
 
             // 4. Upload Files
@@ -216,18 +228,17 @@ const NotesAdmin = () => {
             const repoPath = `src/data/notes/${selectedCourse.id.replace('-masterclass', '')}.js`;
             const [owner, repoName] = selectedRepo.full_name.split('/');
 
-            // Fetch current file
             let fileData;
             try {
                 fileData = await fetchFileContent(owner, repoName, repoPath);
             } catch (e) {
-                // If it's a new course file we just created locally but hasn't synced fully?
-                // Or if the course ID doesn't match the filename exactly.
-                // Fallback to searching or erroring.
                 throw new Error(`File access error: ${repoPath}`);
             }
 
             const content = fileData.content;
+
+            // Get Markdown Content from Tiptap Storage
+            const markdownContent = editor.storage.markdown.getMarkdown();
 
             // Prepare Data
             const newTopicData = {
@@ -239,13 +250,11 @@ const NotesAdmin = () => {
                 category: metadata.category || selectedCourse.title,
                 image: metadata.image,
                 createdAt: selectedTopic?.createdAt || new Date().toISOString().split('T')[0],
-                content: editor.getHTML() // Save as HTML (TipTap's native format)
+                content: markdownContent // Save as Markdown
             };
 
-
-            // JS File Injection Logic (Regex Magic)
+            // JS File Injection Logic
             let updatedFileContent = content;
-            // Check if topic exists
             const topicRegex = new RegExp(`{\\s*id:\\s*['"]${newTopicData.id}['"][\\s\\S]*?content:\\s*\`[\\s\\S]*?\`\\s*},?`, 'm');
 
             const newTopicString = `    {
@@ -269,7 +278,6 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                 if (arrayEndRegex.test(content)) {
                     updatedFileContent = content.replace(arrayEndRegex, `    ${newTopicString},\n];`);
                 } else {
-                    // Fallback append/create
                     updatedFileContent += `\n// Recovery append\nexport const append_${newTopicData.id} = ${newTopicString};`;
                 }
             }
@@ -277,15 +285,15 @@ ${newTopicData.content.replace(/`/g, '\\`')}
             await uploadFiles([{
                 path: repoPath,
                 file: new Blob([updatedFileContent], { type: 'text/javascript' })
-            }], `Update Topic: ${newTopicData.title}`);
+            }], `Update Topic (MD): ${newTopicData.title}`);
 
             setStatus({ type: 'success', message: 'Memory Synced Successfully' });
 
-            // Update local state largely for UI feedback
+            // Update local state
             if (activeTopicIndex >= 0) {
                 const updatedNotes = [...selectedCourse.notes];
-                updatedNotes[activeTopicIndex] = { ...newTopicData, content: newTopicData.content }; // Store as markdown or existing struct
-                // Need to update deeply nested state... might be easier to just refresh
+                updatedNotes[activeTopicIndex] = { ...newTopicData };
+                // Deep update strategy (ideally use context or refetch)
             }
 
         } catch (error) {
@@ -294,6 +302,13 @@ ${newTopicData.content.replace(/`/g, '\\`')}
         } finally {
             setIsSaving(false);
             setTimeout(() => setStatus({ message: '' }), 3000);
+        }
+    };
+
+    const addImage = () => {
+        const url = window.prompt('Enter Image URL');
+        if (url) {
+            editor.chain().focus().setImage({ src: url }).run();
         }
     };
 
@@ -324,24 +339,30 @@ ${newTopicData.content.replace(/`/g, '\\`')}
     if (!isAuthenticated) return <AccessDenied />;
 
     return (
-        <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 max-w-[1600px] mx-auto overflow-hidden">
+        <div className="min-h-screen pt-24 pb-20 px-4 md:px-8 max-w-[1900px] mx-auto overflow-hidden bg-black text-white selection:bg-primary/30">
             {/* GLOBAL HEADER */}
             <div className="flex items-center justify-between mb-8">
                 <div>
                     {view === 'courses' ? (
-                        <h1 className="text-3xl font-black text-white uppercase tracking-tighter">
-                            Admin <span className="text-primary italic">Console</span>
+                        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500 uppercase tracking-tighter">
+                            Admin <span className="text-primary italic">Command</span>
                         </h1>
                     ) : (
-                        <div className="flex items-center gap-3">
-                            <Button variant="ghost" className="p-2" onClick={() => {
+                        <div className="flex items-center gap-4">
+                            <Button variant="ghost" className="p-2 hover:bg-white/10 rounded-full" onClick={() => {
                                 if (view === 'editor') setView('topics');
                                 else setView('courses');
                             }}>
                                 <ArrowLeft className="w-6 h-6 text-white" />
                             </Button>
                             <h2 className="text-2xl font-bold text-white uppercase tracking-wide">
-                                {view === 'topics' ? selectedCourse?.title : 'Editor'}
+                                {view === 'topics' ? selectedCourse?.title : (
+                                    <span className="flex items-center gap-2">
+                                        <span className="text-slate-500">{selectedCourse?.title}</span>
+                                        <ChevronRight size={16} />
+                                        <span className="text-primary">Editor</span>
+                                    </span>
+                                )}
                             </h2>
                         </div>
                     )}
@@ -351,12 +372,12 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                 <AnimatePresence>
                     {status.message && (
                         <motion.div
-                            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                            className={`px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-widest flex items-center gap-2
-                                ${status.type === 'error' ? 'bg-red-500/10 border-red-500 text-red-500' : 'bg-green-500/10 border-green-500 text-green-500'}
+                            initial={{ opacity: 0, y: -20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+                            className={`px-6 py-2 rounded-full border backdrop-blur-xl shadow-2xl z-50 fixed top-6 right-1/2 translate-x-1/2 text-sm font-bold uppercase tracking-widest flex items-center gap-3
+                                ${status.type === 'error' ? 'bg-red-500/20 border-red-500 text-red-500' : 'bg-green-500/20 border-green-500 text-green-500'}
                              `}
                         >
-                            {status.type === 'info' && <Loader2 className="w-3 h-3 animate-spin" />}
+                            {status.type === 'info' && <Loader2 className="w-4 h-4 animate-spin" />}
                             {status.message}
                         </motion.div>
                     )}
@@ -373,43 +394,53 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                         className="space-y-8"
                     >
                         {/* Create Course Section */}
-                        <div className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 flex flex-col md:flex-row gap-4 items-center">
-                            <div className="p-3 bg-primary/10 rounded-full text-primary">
-                                <Globe size={24} />
-                            </div>
-                            <div className="flex-1 w-full">
-                                <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1">New Knowledge Domain</h3>
-                                <p className="text-xs text-slate-500">Create a new language or course category.</p>
-                            </div>
-                            <div className="flex w-full md:w-auto gap-2">
-                                <input
-                                    value={newCourseName}
-                                    onChange={(e) => setNewCourseName(e.target.value)}
-                                    placeholder="Enter Language Name..."
-                                    className="h-10 bg-black/40 border border-white/10 rounded-xl px-4 text-sm text-white focus:border-primary/50 outline-none min-w-[200px]"
-                                />
-                                <Button onClick={handleCreateCourse} disabled={isCreatingCourse} className="h-10 bg-primary text-white px-6 rounded-xl">
-                                    {isCreatingCourse ? <Loader2 className="animate-spin" /> : 'Create'}
-                                </Button>
+                        <div className="relative overflow-hidden p-8 rounded-[2rem] border border-white/10 bg-[#0A0A0A] group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="relative z-10 flex flex-col md:flex-row gap-6 items-center">
+                                <div className="p-4 bg-primary/20 rounded-2xl text-primary border border-primary/20 shadow-[0_0_30px_rgba(var(--primary),0.3)]">
+                                    <Globe size={32} />
+                                </div>
+                                <div className="flex-1 w-full text-center md:text-left">
+                                    <h3 className="text-lg font-black text-white uppercase tracking-wider mb-1">Initialize New Domain</h3>
+                                    <p className="text-sm text-slate-400">Expand the knowledge base with a new masterclass module.</p>
+                                </div>
+                                <div className="flex w-full md:w-auto gap-3">
+                                    <input
+                                        value={newCourseName}
+                                        onChange={(e) => setNewCourseName(e.target.value)}
+                                        placeholder="Enter Domain Name..."
+                                        className="h-12 bg-black/40 border border-white/10 rounded-xl px-5 text-sm text-white focus:border-primary/50 outline-none min-w-[250px] shadow-inner"
+                                    />
+                                    <Button
+                                        onClick={handleCreateCourse}
+                                        disabled={isCreatingCourse}
+                                        className="h-12 bg-primary hover:bg-primary/90 text-white px-8 rounded-xl font-bold uppercase tracking-wider shadow-lg shadow-primary/20"
+                                    >
+                                        {isCreatingCourse ? <Loader2 className="animate-spin" /> : 'Create'}
+                                    </Button>
+                                </div>
                             </div>
                         </div>
 
                         {/* Courses Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {courses.map(course => (
                                 <button
                                     key={course.id}
                                     onClick={() => { setSelectedCourse(course); setView('topics'); }}
-                                    className="obsidian-card p-6 rounded-3xl border-white/5 bg-white/2 hover:bg-white/5 hover:border-primary/30 transition-all text-left group relative overflow-hidden"
+                                    className="relative group p-8 rounded-[2rem] border border-white/5 bg-[#0A0A0A] hover:bg-[#111] hover:border-primary/30 transition-all duration-300 text-left overflow-hidden"
                                 >
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Layers size={60} />
+                                    <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity duration-500 transform group-hover:scale-110">
+                                        <Layers size={80} />
                                     </div>
-                                    <h3 className="text-lg font-black text-white uppercase tracking-tight mb-2 group-hover:text-primary transition-colors">{course.title}</h3>
-                                    <p className="text-xs text-slate-400 font-medium line-clamp-2">{course.description || 'No description available.'}</p>
-                                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
-                                        <span className="text-[10px] font-mono text-slate-500">{course.notes?.length || 0} MODULES</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-500 group-hover:translate-x-1 transition-transform" />
+                                    <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-3 group-hover:text-primary transition-colors">{course.title}</h3>
+                                    <p className="text-sm text-slate-500 font-medium line-clamp-2 leading-relaxed">{course.description || 'No description available.'}</p>
+                                    <div className="mt-6 pt-6 border-t border-white/5 flex justify-between items-center text-xs font-mono text-slate-500">
+                                        <span>{course.notes?.length || 0} MODULES</span>
+                                        <div className="flex items-center gap-2 group-hover:text-white transition-colors">
+                                            <span>ACCESS</span>
+                                            <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                                        </div>
                                     </div>
                                 </button>
                             ))}
@@ -424,10 +455,12 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                         className="space-y-6"
                     >
                         {/* Action Bar */}
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-slate-400 text-sm font-mono uppercase">Modules in {selectedCourse.title}</h3>
-                            <Button onClick={() => { setSelectedTopic(null); setView('editor'); }} className="bg-primary hover:bg-primary/90 text-white rounded-xl flex items-center gap-2">
-                                <Plus size={16} /> <span className="text-xs font-bold uppercase">New Topic</span>
+                        <div className="flex justify-between items-center bg-[#0A0A0A] p-4 rounded-2xl border border-white/5">
+                            <h3 className="text-slate-400 text-sm font-mono uppercase tracking-widest pl-2">
+                                / {selectedCourse.title.toUpperCase()} / MODULES
+                            </h3>
+                            <Button onClick={() => { setSelectedTopic(null); setView('editor'); }} className="bg-primary hover:bg-primary/90 text-white rounded-xl flex items-center gap-2 px-6 py-3 shadow-lg shadow-primary/20">
+                                <Plus size={18} /> <span className="text-xs font-bold uppercase tracking-wider">New Topic</span>
                             </Button>
                         </div>
 
@@ -436,26 +469,35 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                                 <button
                                     key={topic.id}
                                     onClick={() => { setSelectedTopic(topic); setView('editor'); }}
-                                    className="p-4 rounded-xl border border-white/5 bg-white/2 hover:bg-white/5 flex items-center justify-between group transition-all"
+                                    className="p-5 rounded-xl border border-white/5 bg-[#0A0A0A] hover:bg-white/5 hover:border-white/10 flex items-center justify-between group transition-all duration-200"
                                 >
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-slate-500 font-black text-lg">
+                                    <div className="flex items-center gap-6">
+                                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-slate-500 font-black text-xl group-hover:bg-primary/20 group-hover:text-primary transition-colors">
                                             {topic.title.charAt(0)}
                                         </div>
                                         <div className="text-left">
-                                            <h4 className="text-sm font-bold text-white group-hover:text-primary transition-colors">{topic.title}</h4>
-                                            <p className="text-[10px] text-slate-500 uppercase tracking-widest">{topic.slug}</p>
+                                            <h4 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{topic.title}</h4>
+                                            <p className="text-xs text-slate-600 font-mono uppercase tracking-widest mt-1">{topic.slug}</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[10px] bg-white/5 px-2 py-1 rounded text-slate-400">{topic.tags?.length || 0} Tags</span>
-                                        <ChevronRight size={16} className="text-slate-600 group-hover:text-white" />
+                                    <div className="flex items-center gap-6">
+                                        <div className="flex gap-2">
+                                            {topic.tags?.slice(0, 3).map((tag, i) => (
+                                                <span key={i} className="text-[10px] bg-white/5 px-2 py-1 rounded-md text-slate-400 uppercase tracking-wider border border-white/5">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <ChevronRight size={20} className="text-slate-700 group-hover:text-white transition-colors" />
                                     </div>
                                 </button>
                             ))}
                             {(!selectedCourse.notes || selectedCourse.notes.length === 0) && (
-                                <div className="p-12 text-center border border-dashed border-white/10 rounded-3xl text-slate-500">
-                                    <p className="text-sm">No topics found in this course.</p>
+                                <div className="py-20 text-center border-2 border-dashed border-white/10 rounded-3xl text-slate-600">
+                                    <p className="text-lg font-medium">No topics found in this course.</p>
+                                    <Button variant="link" onClick={() => { setSelectedTopic(null); setView('editor'); }} className="mt-4 text-primary">
+                                        Create one now
+                                    </Button>
                                 </div>
                             )}
                         </div>
@@ -466,76 +508,133 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                 {view === 'editor' && (
                     <motion.div
                         key="editor" initial="initial" animate="animate" exit="exit" variants={pageVariants}
-                        className="h-[calc(100vh-140px)] flex gap-4"
+                        className="h-[calc(100vh-160px)] flex gap-4"
                     >
                         {/* META SIDEBAR (Collapsible) */}
                         <AnimatePresence>
                             {showMetaSidebar && (
                                 <motion.div
-                                    initial={{ width: 0, opacity: 0 }} animate={{ width: 300, opacity: 1 }} exit={{ width: 0, opacity: 0 }}
-                                    className="bg-black/40 border-r border-white/10 overflow-hidden shrink-0 flex flex-col h-full rounded-l-2xl z-20"
+                                    initial={{ width: 0, opacity: 0 }} animate={{ width: 350, opacity: 1 }} exit={{ width: 0, opacity: 0 }}
+                                    className="bg-[#0A0A0A] border-r border-white/10 overflow-hidden shrink-0 flex flex-col h-full rounded-l-2xl z-20 shadow-2xl"
                                 >
-                                    <div className="p-4 border-b border-white/10 flex justify-between items-center">
-                                        <span className="text-xs font-bold uppercase text-slate-400">Metadata</span>
-                                        <Button variant="ghost" size="sm" onClick={() => setShowMetaSidebar(false)}><PanelLeftClose size={14} /></Button>
+                                    <div className="p-5 border-b border-white/10 flex justify-between items-center bg-white/2">
+                                        <span className="text-xs font-bold uppercase text-primary tracking-widest flex items-center gap-2">
+                                            <SettingsIcon /> Metadata
+                                        </span>
+                                        <Button variant="ghost" size="sm" onClick={() => setShowMetaSidebar(false)} className="hover:bg-white/10 rounded-lg"><PanelLeftClose size={16} /></Button>
                                     </div>
-                                    <div className="p-4 space-y-4 overflow-y-auto">
-                                        <InputGroup label="Title" value={metadata.title} onChange={v => setMetadata({ ...metadata, title: v })} icon={<Type size={14} />} />
+                                    <div className="p-6 space-y-6 overflow-y-auto custom-scrollbar">
+                                        <InputGroup label="Title" value={metadata.title} onChange={v => setMetadata({ ...metadata, title: v })} icon={<Type size={16} />} />
                                         <InputGroup label="Description" value={metadata.description} onChange={v => setMetadata({ ...metadata, description: v })} textarea />
-                                        <InputGroup label="Tags" value={metadata.tags} onChange={v => setMetadata({ ...metadata, tags: v })} icon={<Hash size={14} />} />
-                                        <InputGroup label="Image URL" value={metadata.image} onChange={v => setMetadata({ ...metadata, image: v })} icon={<ImageIcon size={14} />} />
+                                        <InputGroup label="Tags" value={metadata.tags} onChange={v => setMetadata({ ...metadata, tags: v })} icon={<Hash size={16} />} />
+                                        <InputGroup label="Image URL" value={metadata.image} onChange={v => setMetadata({ ...metadata, image: v })} icon={<ImageIcon size={16} />} />
+                                        <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+                                            <h5 className="text-xs font-bold text-primary mb-2 uppercase tracking-wide">Status</h5>
+                                            <div className="flex items-center gap-2 text-xs text-slate-400">
+                                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                                Active Editing Session
+                                            </div>
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}
                         </AnimatePresence>
 
                         {/* EDITOR SURFACE */}
-                        <div className={`flex-1 flex flex-col obsidian-card rounded-2xl md:rounded-[2rem] border-white/10 bg-black/40 overflow-hidden relative ${isFocusMode ? 'fixed inset-0 z-50 rounded-none' : ''}`}>
-                            {/* Toolbar */}
-                            <div className="h-14 border-b border-white/5 bg-white/2 flex items-center justify-between px-2 md:px-4 backdrop-blur-xl">
-                                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar mask-linear-fade flex-1">
+                        <div className={`flex-1 flex flex-col rounded-[2rem] border border-white/10 bg-[#0A0A0A] overflow-hidden relative shadow-2xl ${isFocusMode ? 'fixed inset-0 z-[100] rounded-none border-0' : ''}`}>
+
+                            {/* Toolbar - Cyber Style */}
+                            <div className="h-16 border-b border-white/5 bg-[#111]/80 backdrop-blur-xl flex items-center justify-between px-4 z-20">
+                                <div className="flex items-center gap-1 overflow-x-auto no-scrollbar mask-linear-fade flex-1 py-2">
                                     {!showMetaSidebar && !isFocusMode && (
-                                        <Button variant="ghost" onClick={() => setShowMetaSidebar(true)} className="mr-2 text-slate-400 hover:text-white"><PanelLeft size={18} /></Button>
+                                        <Button variant="ghost" onClick={() => setShowMetaSidebar(true)} className="mr-3 text-slate-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-colors"><PanelLeft size={20} /></Button>
                                     )}
-                                    <div className="h-4 w-[1px] bg-white/10 mx-1 mobile-hidden" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor?.isActive('bold')} icon={<Bold size={16} />} />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor?.isActive('italic')} icon={<Italic size={16} />} />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor?.isActive('code')} icon={<Code size={16} />} />
+                                    <div className="h-6 w-[1px] bg-white/10 mx-2 mobile-hidden" />
 
-                                    <div className="h-4 w-[1px] bg-white/10 mx-1" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor?.isActive('bold')} icon={<Bold size={18} />} tooltip="Bold" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor?.isActive('italic')} icon={<Italic size={18} />} tooltip="Italic" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor?.isActive('code')} icon={<Code size={18} />} tooltip="Inline Code" />
 
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor?.isActive('heading', { level: 2 })} icon={<Heading2 size={16} />} />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor?.isActive('bulletList')} icon={<List size={16} />} />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor?.isActive('codeBlock')} icon={<TerminalSquare size={16} />} />
+                                    <div className="h-6 w-[1px] bg-white/10 mx-2" />
 
-                                    <div className="h-4 w-[1px] bg-white/10 mx-1" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor?.isActive('heading', { level: 1 })} icon={<Heading1 size={18} />} tooltip="H1" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor?.isActive('heading', { level: 2 })} icon={<Heading2 size={18} />} tooltip="H2" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor?.isActive('bulletList')} icon={<List size={18} />} tooltip="List" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor?.isActive('codeBlock')} icon={<TerminalSquare size={18} />} tooltip="Code Block" />
+                                    <ToolbarButton onClick={addImage} icon={<ImageIcon size={18} />} tooltip="Insert Image" />
+
+                                    <div className="h-6 w-[1px] bg-white/10 mx-2" />
 
                                     <ToolbarButton
                                         onClick={() => setAiOpen(true)}
                                         active={aiOpen}
-                                        icon={<Sparkles size={16} className="text-sky-500" />}
+                                        icon={<Sparkles size={18} className="text-sky-500" />}
                                         title="AI Assistant"
+                                        tooltip="AI Help"
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-2 pl-2 border-l border-white/10">
+                                <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+                                    {/* Preview Toggle */}
+                                    <Button
+                                        variant="ghost"
+                                        onClick={() => setIsPreviewMode(!isPreviewMode)}
+                                        className={`p-2 rounded-lg transition-all flex items-center gap-2 ${isPreviewMode ? 'text-primary bg-primary/10' : 'text-slate-400'}`}
+                                        title="Toggle Preview"
+                                    >
+                                        {isPreviewMode ? <Eye size={20} /> : <EyeOff size={20} />}
+                                        <span className="hidden md:inline text-xs font-bold uppercase">{isPreviewMode ? 'Preview' : 'Edit'}</span>
+                                    </Button>
+
+                                    <div className="h-6 w-[1px] bg-white/10" />
+
                                     <Button
                                         onClick={handleSaveTopic}
                                         disabled={isSaving}
-                                        className="bg-primary text-white h-8 px-4 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:scale-105 transition-transform"
+                                        className="bg-primary hover:bg-primary/90 text-white h-9 px-5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 transition-all"
                                     >
-                                        {isSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
-                                        <span className="hidden md:inline">Save</span>
+                                        {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                        <span className="hidden md:inline">Save Cloud</span>
                                     </Button>
-                                    <Button variant="ghost" onClick={() => setIsFocusMode(!isFocusMode)} className="text-slate-400 hover:text-white">
-                                        {isFocusMode ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                                    <Button variant="ghost" onClick={() => setIsFocusMode(!isFocusMode)} className="text-slate-400 hover:text-white p-2">
+                                        {isFocusMode ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
                                     </Button>
                                 </div>
                             </div>
 
-                            {/* Tiptap Area */}
-                            <div className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 lg:px-16">
-                                <EditorContent editor={editor} className="tiptap-editor-surface max-w-4xl mx-auto min-h-[500px]" />
+                            {/* Content Area */}
+                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#0A0A0A] relative">
+                                {isPreviewMode ? (
+                                    <div className="w-full h-full p-8 md:p-12 lg:px-24">
+                                        <div className="prose prose-invert prose-lg max-w-4xl mx-auto prose-p:leading-relaxed prose-headings:font-bold prose-a:text-primary">
+                                            <ReactMarkdown
+                                                components={{
+                                                    code: ({ node, inline, className, children, ...props }) => {
+                                                        const match = /language-(\w+)/.exec(className || '');
+                                                        return !inline ? (
+                                                            <div className="mockup-code-container relative group">
+                                                                <code className="block bg-[#161b22] p-4 rounded-lg overflow-x-auto text-sm font-mono border border-white/10 my-4" {...props}>
+                                                                    {children}
+                                                                </code>
+                                                            </div>
+                                                        ) : (
+                                                            <code className="bg-white/10 text-primary px-1.5 py-0.5 rounded text-sm font-mono border border-white/5" {...props}>{children}</code>
+                                                        );
+                                                    },
+                                                    img: ({ node, ...props }) => (
+                                                        <img {...props} className="rounded-xl border border-white/10 shadow-2xl my-6" />
+                                                    )
+                                                }}
+                                            >
+                                                {editor?.storage.markdown.getMarkdown()}
+                                            </ReactMarkdown>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="w-full h-full p-6 md:p-8 lg:px-16" onClick={() => editor?.chain().focus().run()}>
+                                        <EditorContent editor={editor} className="tiptap-editor-surface max-w-4xl mx-auto min-h-[500px] outline-none" />
+                                    </div>
+                                )}
                             </div>
 
                             <AIAssistantTray
@@ -556,20 +655,20 @@ ${newTopicData.content.replace(/`/g, '\\`')}
 // --- SUBCOMPONENTS ---
 
 const InputGroup = ({ label, value, onChange, icon, textarea }) => (
-    <div className="space-y-1.5">
-        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">{label}</label>
+    <div className="space-y-2 group">
+        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-focus-within:text-primary transition-colors">{label}</label>
         <div className="relative">
-            {icon && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">{icon}</div>}
+            {icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">{icon}</div>}
             {textarea ? (
                 <textarea
                     value={value} onChange={e => onChange(e.target.value)}
-                    className="w-full h-20 bg-black/20 border border-white/5 rounded-xl p-3 text-xs text-white resize-none focus:border-primary/50 outline-none"
+                    className="w-full h-24 bg-white/5 border border-white/5 rounded-xl p-4 text-xs text-white resize-none focus:border-primary/50 focus:bg-white/10 outline-none transition-all placeholder:text-slate-600"
                     placeholder={`Enter ${label.toLowerCase()}...`}
                 />
             ) : (
                 <input
                     type="text" value={value} onChange={e => onChange(e.target.value)}
-                    className={`w-full h-10 bg-black/20 border border-white/5 rounded-xl pr-3 text-xs text-white focus:border-primary/50 outline-none ${icon ? 'pl-9' : 'pl-3'}`}
+                    className={`w-full h-12 bg-white/5 border border-white/5 rounded-xl pr-4 text-xs text-white focus:border-primary/50 focus:bg-white/10 outline-none transition-all placeholder:text-slate-600 ${icon ? 'pl-11' : 'pl-4'}`}
                     placeholder={`Enter ${label.toLowerCase()}...`}
                 />
             )}
@@ -577,22 +676,36 @@ const InputGroup = ({ label, value, onChange, icon, textarea }) => (
     </div>
 );
 
-const ToolbarButton = ({ onClick, active, icon }) => (
+const ToolbarButton = ({ onClick, active, icon, tooltip }) => (
     <button
         onClick={onClick}
-        className={`p-2 rounded-lg transition-all ${active ? 'bg-primary text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+        title={tooltip}
+        className={`p-2.5 rounded-lg transition-all duration-200 relative group overflow-hidden ${active ? 'bg-primary text-white shadow-[0_0_15px_rgba(var(--primary),0.4)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
     >
-        {icon}
+        <div className="relative z-10">{icon}</div>
+        {active && <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent" />}
     </button>
+);
+
+const SettingsIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
 );
 
 const AccessDenied = () => (
     <div className="min-h-screen flex items-center justify-center p-6 bg-black">
-        <div className="text-center space-y-4">
-            <Github className="w-16 h-16 text-primary mx-auto opacity-20" />
-            <h2 className="text-2xl font-black text-white uppercase italic">Access Restricted</h2>
-            <p className="text-slate-500 max-w-md mx-auto">Authenticate via Command Center to access the Neural Admin interface.</p>
-            <Button onClick={() => window.location.href = '/github'} className="mt-4">Login</Button>
+        <div className="text-center space-y-6 relative">
+            <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full" />
+            <div className="relative z-10">
+                <Github className="w-20 h-20 text-white mx-auto opacity-20 mb-4" />
+                <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter">Access Restricted</h2>
+                <p className="text-slate-500 max-w-md mx-auto mt-2">Authenticate via Command Center to access the Neural Admin interface.</p>
+                <Button onClick={() => window.location.href = '/github'} className="mt-8 bg-white text-black hover:bg-white/90 px-8 py-3 rounded-xl font-bold uppercase tracking-wider">
+                    Initiate Login
+                </Button>
+            </div>
         </div>
     </div>
 );
