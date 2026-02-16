@@ -59,11 +59,16 @@ export default function DevLibrary() {
                     <div className="absolute inset-0 flex items-center justify-center">
                         <Loader2 size={24} className="text-primary animate-spin" />
                     </div>
+                ) : error ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-red-400">
+                        <span className="text-xs font-mono uppercase tracking-widest">Connection Error</span>
+                        <button onClick={fetchBooks} className="mt-2 text-[10px] underline">Retry Protocol</button>
+                    </div>
                 ) : (
                     <div className="grid grid-cols-1 gap-3">
                         <AnimatePresence mode="wait">
                             {books.map((book, index) => {
-                                const info = book.volumeInfo;
+                                const info = book.volumeInfo || {};
                                 const thumbnail = info.imageLinks?.thumbnail?.replace('http:', 'https:') || '';
 
                                 return (
@@ -87,7 +92,7 @@ export default function DevLibrary() {
                                         <div className="flex-1 min-w-0 flex flex-col justify-between">
                                             <div>
                                                 <h4 className="text-xs font-bold text-white truncate group-hover:text-indigo-400 transition-colors">
-                                                    {info.title}
+                                                    {info.title || 'Untitled Volume'}
                                                 </h4>
                                                 <p className="text-[10px] text-slate-500 truncate mt-0.5">
                                                     {info.authors?.[0] || 'Unknown Author'}
