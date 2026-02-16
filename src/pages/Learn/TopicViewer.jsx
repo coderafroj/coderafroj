@@ -5,6 +5,7 @@ import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion, AnimatePresence } from 'framer-motion';
+import MermaidRenderer from '../../components/MermaidRenderer';
 import { Calendar, Tag, Share2, Printer, ChevronLeft, ChevronRight, Menu, CheckCircle2, LayoutGrid } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -160,7 +161,6 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
                 prose-th:border prose-th:border-white/10 prose-th:bg-white/5 prose-th:p-3 prose-th:text-left prose-th:font-black prose-th:text-white
                 prose-td:border prose-td:border-white/10 prose-td:p-3 prose-td:text-slate-300
             ">
-                return (
                 <ReactMarkdown
                     rehypePlugins={[rehypeRaw]}
                     components={{
@@ -169,6 +169,12 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
                         ),
                         code({ node, inline, className, children, ...props }) {
                             const match = /language-(\w+)/.exec(className || '');
+                            const isMermaid = match && match[1] === 'mermaid';
+
+                            if (!inline && isMermaid) {
+                                return <MermaidRenderer chart={String(children).replace(/\n$/, '')} />;
+                            }
+
                             return !inline && match ? (
                                 <div className="code-mac-case group my-8">
                                     <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-[2rem] opacity-0 group-hover:opacity-100 transition duration-1000 blur-2xl" />
@@ -213,7 +219,6 @@ const TopicViewer = ({ topic, prevTopic, nextTopic, courseId, course }) => {
                 >
                     {topic.content}
                 </ReactMarkdown>
-                );
             </article>
 
 

@@ -20,8 +20,11 @@ import { Typography } from '@tiptap/extension-typography';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
 import { common, createLowlight } from 'lowlight';
 import ReactMarkdown from 'react-markdown'; // For Preview Mode
+import '../../styles/editor.css'; // Custom Editor Styles
 
 const lowlight = createLowlight(common);
 import { motion, AnimatePresence } from 'framer-motion';
@@ -34,7 +37,7 @@ import {
     Subscript as SubscriptIcon, Superscript as SuperscriptIcon,
     TerminalSquare, Maximize2, Minimize2, PanelLeft,
     PanelLeftClose, ArrowLeft, Loader2, FilePlus, Globe,
-    Sparkles, Eye, EyeOff
+    Sparkles, Eye, EyeOff, Palette, Workflow
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { courses as initialCourses } from '../../data/notes';
@@ -79,6 +82,8 @@ const NotesAdmin = () => {
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [showMetaSidebar, setShowMetaSidebar] = useState(false);
     const [aiOpen, setAiOpen] = useState(false);
+    const [showElementsMenu, setShowElementsMenu] = useState(false); // NEW: Elements Menu State
+    const [showColorPicker, setShowColorPicker] = useState(false); // NEW: Color Picker State
     const [isPreviewMode, setIsPreviewMode] = useState(false); // NEW: Preview Mode
 
     // New Course State
@@ -104,8 +109,7 @@ const NotesAdmin = () => {
                 image: selectedTopic.image || '',
                 category: selectedTopic.category || ''
             });
-            // Smart Content Loading: Handle both Markdown (new/migrated) and HTML (legacy)
-            // Tiptap's tiptap-markdown extension usually handles markdown content in setContent automatically
+            // Smart Content Loading
             editor?.commands.setContent(selectedTopic.content || '');
         } else if (view === 'editor' && !selectedTopic) {
             // Creating new topic
@@ -133,7 +137,7 @@ const NotesAdmin = () => {
                 html: false, // Force Markdown output
                 transformPastedText: true,
                 transformCopiedText: true,
-                break: true // Convert hard breaks to <br> or  
+                break: true
             }),
             Table.configure({ resizable: true }),
             TableRow, TableCell, TableHeader,
@@ -142,6 +146,7 @@ const NotesAdmin = () => {
             TaskList, TaskItem.configure({ nested: true }),
             Typography, Highlight.configure({ multipart: true }),
             Subscript, Superscript,
+            TextStyle, Color,
             Placeholder.configure({ placeholder: 'Start writing your masterclass content...' }),
         ],
         content: '',
@@ -165,7 +170,7 @@ const NotesAdmin = () => {
             // 1. Generate Slugs & Filenames
             const slug = newCourseName.toLowerCase().replace(/\s+/g, '-');
             const fileName = `${slug}.js`;
-            const varName = slug.replace(/-([a-z])/g, (g) => g[1].toUpperCase()); // camelCase for variable
+            const varName = slug.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 
             // 2. Create the Content File
             const newFileContent = `export const ${varName} = [\n    // New course topics will appear here\n];\n`;
@@ -236,8 +241,6 @@ const NotesAdmin = () => {
             }
 
             const content = fileData.content;
-
-            // Get Markdown Content from Tiptap Storage
             const markdownContent = editor.storage.markdown.getMarkdown();
 
             // Prepare Data
@@ -289,11 +292,10 @@ ${newTopicData.content.replace(/`/g, '\\`')}
 
             setStatus({ type: 'success', message: 'Memory Synced Successfully' });
 
-            // Update local state
+            // Update local state (Optimistic)
             if (activeTopicIndex >= 0) {
                 const updatedNotes = [...selectedCourse.notes];
                 updatedNotes[activeTopicIndex] = { ...newTopicData };
-                // Deep update strategy (ideally use context or refetch)
             }
 
         } catch (error) {
@@ -551,17 +553,114 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                                     )}
                                     <div className="h-6 w-[1px] bg-white/10 mx-2 mobile-hidden" />
 
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor?.isActive('bold')} icon={<Bold size={18} />} tooltip="Bold" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor?.isActive('italic')} icon={<Italic size={18} />} tooltip="Italic" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor?.isActive('code')} icon={<Code size={18} />} tooltip="Inline Code" />
+                                    {/* ELEMENTS MENU (Canva Style) */}
+                                    <div className="relative">
+                                        <Button
+                                            onClick={() => setShowElementsMenu(!showElementsMenu)}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all font-bold uppercase text-[10px] tracking-widest ${showElementsMenu ? 'bg-white text-black' : 'bg-white/5 text-white hover:bg-white/10'}`}
+                                        >
+                                            <Plus size={16} /> Elements
+                                        </Button>
+                                        <AnimatePresence>
+                                            {showElementsMenu && (
+                                                <>
+                                                    <div className="fixed inset-0 z-30" onClick={() => setShowElementsMenu(false)} />
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                        className="absolute top-full left-0 mt-3 w-64 bg-[#1e1e2e] border border-white/10 rounded-2xl shadow-2xl p-2 z-40 flex flex-col gap-1 overflow-hidden"
+                                                    >
+                                                        <div className="px-3 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500">Insert Component</div>
+                                                        <button onClick={() => { editor.chain().focus().toggleHeading({ level: 1 }).run(); setShowElementsMenu(false); }} className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group">
+                                                            <Heading1 size={18} className="text-purple-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Main Heading</span>
+                                                        </button>
+                                                        <button onClick={() => { editor.chain().focus().toggleHeading({ level: 2 }).run(); setShowElementsMenu(false); }} className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group">
+                                                            <Heading2 size={18} className="text-pink-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Sub Heading</span>
+                                                        </button>
+                                                        <button onClick={() => { editor.chain().focus().toggleBulletList().run(); setShowElementsMenu(false); }} className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group">
+                                                            <List size={18} className="text-blue-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Bullet List</span>
+                                                        </button>
+                                                        <button onClick={() => { editor.chain().focus().toggleCodeBlock().run(); setShowElementsMenu(false); }} className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group">
+                                                            <TerminalSquare size={18} className="text-green-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Code Block</span>
+                                                        </button>
+                                                        <button onClick={() => { addImage(); setShowElementsMenu(false); }} className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group">
+                                                            <ImageIcon size={18} className="text-yellow-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Image</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                editor.chain().focus().insertContent(`\n\`\`\`mermaid\ngraph TD;\n    A[Start] --> B{Decision};\n    B -- Yes --> C[Result 1];\n    B -- No --> D[Result 2];\n\`\`\`\n`).run();
+                                                                setShowElementsMenu(false);
+                                                            }}
+                                                            className="flex items-center gap-3 px-3 py-2 hover:bg-white/5 rounded-lg text-left group"
+                                                        >
+                                                            <Workflow size={18} className="text-red-400 group-hover:scale-110 transition-transform" />
+                                                            <span className="text-sm font-bold text-slate-300 group-hover:text-white">Flowchart</span>
+                                                        </button>
+                                                    </motion.div>
+                                                </>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
 
                                     <div className="h-6 w-[1px] bg-white/10 mx-2" />
 
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor?.isActive('heading', { level: 1 })} icon={<Heading1 size={18} />} tooltip="H1" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor?.isActive('heading', { level: 2 })} icon={<Heading2 size={18} />} tooltip="H2" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor?.isActive('bulletList')} icon={<List size={18} />} tooltip="List" />
-                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor?.isActive('codeBlock')} icon={<TerminalSquare size={18} />} tooltip="Code Block" />
-                                    <ToolbarButton onClick={addImage} icon={<ImageIcon size={18} />} tooltip="Insert Image" />
+                                    {/* COLOR PICKER (Canva Style) */}
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setShowColorPicker(!showColorPicker)}
+                                            className="w-8 h-8 rounded-full border-2 border-white/20 hover:border-white transition-all overflow-hidden relative"
+                                            style={{ background: editor.getAttributes('textStyle').color || 'linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)' }}
+                                        >
+                                        </button>
+
+                                        <AnimatePresence>
+                                            {showColorPicker && (
+                                                <>
+                                                    <div className="fixed inset-0 z-30" onClick={() => setShowColorPicker(false)} />
+                                                    <motion.div
+                                                        initial={{ opacity: 0, scale: 0.9 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        exit={{ opacity: 0, scale: 0.9 }}
+                                                        className="absolute top-full left-0 mt-3 p-4 bg-[#1e1e2e] border border-white/10 rounded-2xl shadow-2xl w-48 z-40 grid grid-cols-4 gap-2"
+                                                    >
+                                                        {/* Brand Colors */}
+                                                        {['#ffffff', '#94a3b8', '#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#06b6d4', '#3b82f6', '#6366f1', '#a855f7', '#d946ef', '#ec4899'].map(color => (
+                                                            <button
+                                                                key={color}
+                                                                onClick={() => { editor.chain().focus().setColor(color).run(); setShowColorPicker(false); }}
+                                                                className="w-8 h-8 rounded-full border border-white/10 hover:scale-110 transition-transform"
+                                                                style={{ backgroundColor: color }}
+                                                            />
+                                                        ))}
+                                                        {/* Custom Picker */}
+                                                        <div className="col-span-4 mt-2 pt-2 border-t border-white/10">
+                                                            <label className="flex items-center gap-2 text-[10px] font-bold uppercase text-slate-400 cursor-pointer hover:text-white">
+                                                                <Palette size={14} /> Custom
+                                                                <input
+                                                                    type="color"
+                                                                    onInput={event => editor.chain().focus().setColor(event.target.value).run()}
+                                                                    className="w-0 h-0 opacity-0"
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                    </motion.div>
+                                                </>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+
+                                    <div className="h-6 w-[1px] bg-white/10 mx-2" />
+
+                                    {/* Standard Formatting (Bold/Italic) */}
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor?.isActive('bold')} icon={<Bold size={18} />} tooltip="Bold" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor?.isActive('italic')} icon={<Italic size={18} />} tooltip="Italic" />
+                                    <ToolbarButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor?.isActive('code')} icon={<Code size={18} />} tooltip="Inline Code" />
 
                                     <div className="h-6 w-[1px] bg-white/10 mx-2" />
 
@@ -569,7 +668,7 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                                         onClick={() => setAiOpen(true)}
                                         active={aiOpen}
                                         icon={<Sparkles size={18} className="text-sky-500" />}
-                                        title="AI Assistant"
+                                        title="AI"
                                         tooltip="AI Help"
                                     />
                                 </div>
@@ -603,7 +702,7 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                             </div>
 
                             {/* Content Area */}
-                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#0A0A0A] relative">
+                            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#0A0A0A] relative flex flex-col">
                                 {isPreviewMode ? (
                                     <div className="w-full h-full p-8 md:p-12 lg:px-24">
                                         <div className="prose prose-invert prose-lg max-w-4xl mx-auto prose-p:leading-relaxed prose-headings:font-bold prose-a:text-primary">
@@ -646,45 +745,45 @@ ${newTopicData.content.replace(/`/g, '\\`')}
                         </div>
                     </motion.div>
                 )}
-
             </AnimatePresence>
         </div>
     );
 };
 
-// --- SUBCOMPONENTS ---
+// Toolbar Button Component
+const ToolbarButton = ({ onClick, active, icon, tooltip, title }) => (
+    <Button
+        variant="ghost"
+        onClick={onClick}
+        className={`p-2 rounded-lg transition-all flex items-center gap-2 ${active ? 'bg-white text-black shadow-lg shadow-white/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+        title={tooltip}
+    >
+        {icon}
+        {title && <span className="text-[10px] font-bold uppercase tracking-wider hidden md:inline">{title}</span>}
+    </Button>
+);
 
+// Input Group Component
 const InputGroup = ({ label, value, onChange, icon, textarea }) => (
-    <div className="space-y-2 group">
-        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-focus-within:text-primary transition-colors">{label}</label>
+    <div className="group">
+        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block group-focus-within:text-primary transition-colors">{label}</label>
         <div className="relative">
             {icon && <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">{icon}</div>}
             {textarea ? (
                 <textarea
-                    value={value} onChange={e => onChange(e.target.value)}
-                    className="w-full h-24 bg-white/5 border border-white/5 rounded-xl p-4 text-xs text-white resize-none focus:border-primary/50 focus:bg-white/10 outline-none transition-all placeholder:text-slate-600"
-                    placeholder={`Enter ${label.toLowerCase()}...`}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:border-primary/50 outline-none min-h-[100px] resize-none transition-all focus:bg-white/10"
                 />
             ) : (
                 <input
-                    type="text" value={value} onChange={e => onChange(e.target.value)}
-                    className={`w-full h-12 bg-white/5 border border-white/5 rounded-xl pr-4 text-xs text-white focus:border-primary/50 focus:bg-white/10 outline-none transition-all placeholder:text-slate-600 ${icon ? 'pl-11' : 'pl-4'}`}
-                    placeholder={`Enter ${label.toLowerCase()}...`}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    className={`w-full bg-white/5 border border-white/10 rounded-xl h-12 text-sm text-white focus:border-primary/50 outline-none transition-all focus:bg-white/10 ${icon ? 'pl-11 pr-4' : 'px-4'}`}
                 />
             )}
         </div>
     </div>
-);
-
-const ToolbarButton = ({ onClick, active, icon, tooltip }) => (
-    <button
-        onClick={onClick}
-        title={tooltip}
-        className={`p-2.5 rounded-lg transition-all duration-200 relative group overflow-hidden ${active ? 'bg-primary text-white shadow-[0_0_15px_rgba(var(--primary),0.4)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
-    >
-        <div className="relative z-10">{icon}</div>
-        {active && <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent" />}
-    </button>
 );
 
 const SettingsIcon = () => (

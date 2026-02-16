@@ -6,6 +6,7 @@ import { Menu, X, ChevronRight, ChevronLeft, Home, ChevronDown } from 'lucide-re
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import { motion, AnimatePresence } from 'framer-motion';
+import MermaidRenderer from '../../components/MermaidRenderer';
 
 const TutorialLayout = ({ tutorialData }) => {
     const { chapterId } = useParams();
@@ -218,6 +219,13 @@ const TutorialLayout = ({ tutorialData }) => {
                                         </div>
                                     ),
                                     code: ({ node, inline, className, children, ...props }) => {
+                                        const match = /language-(\w+)/.exec(className || '');
+                                        const isMermaid = match && match[1] === 'mermaid';
+
+                                        if (!inline && isMermaid) {
+                                            return <MermaidRenderer chart={String(children).replace(/\n$/, '')} />;
+                                        }
+
                                         return inline ? (
                                             <code className="bg-gray-800 text-green-400 px-1.5 py-0.5 rounded text-sm font-mono border border-gray-700" {...props}>{children}</code>
                                         ) : (
