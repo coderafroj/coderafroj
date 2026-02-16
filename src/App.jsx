@@ -37,6 +37,7 @@ import MobileTabBar from './components/layout/MobileTabBar';
 const CourseIndex = lazy(() => import('./pages/Learn/CourseIndex'));
 const NotesLayout = lazy(() => import('./pages/Learn/NotesLayout'));
 const TopicPage = lazy(() => import('./pages/Learn/TopicPage'));
+const GeneratedTutorialViewer = lazy(() => import('./pages/Learn/GeneratedTutorialViewer'));
 
 import './App.css';
 
@@ -142,6 +143,7 @@ function App() {
                       <Route path="/learn/:courseId" element={<NotesLayout />}>
                         <Route path=":topicSlug" element={<TopicPage />} />
                       </Route>
+                      <Route path="/ai-tutorial/:slug" element={<GeneratedTutorialViewer />} />
                     </Routes>
                   </Suspense>
                 </motion.div>
