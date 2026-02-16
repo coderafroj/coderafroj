@@ -12,8 +12,10 @@ import TaskNode from './library/TaskNode';
 import NetMatrix from './library/NetMatrix';
 import NewsNode from './library/NewsNode';
 import CurrencyNode from './library/CurrencyNode';
+import DevLibrary from './library/DevLibrary';
 
 const WIDGETS_CONFIG = [
+    { id: 'dev-library', title: 'Knowledge_Hub_AI', category: 'LEARN', component: <DevLibrary />, isLocked: false },
     { id: 'weather', title: 'Weather_Node_v1', category: 'ATMOS', component: <EliteWeather />, isLocked: false },
     { id: 'quotes', title: 'Quote_Streamer', category: 'DATA', component: <CyberQuotes />, isLocked: false },
     { id: 'pulse', title: 'System_Pulse', category: 'KERNEL', component: <SystemPulse />, isLocked: false },
