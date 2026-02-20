@@ -95,11 +95,11 @@ class ElitePDFExtractor:
             "createdAt": "2026-02-17"
         }
         
+        prev_titles = set()
         print(f"Segmenting {filename} into topics...")
         
         for i, page in enumerate(doc):
             blocks = page.get_text("dict")["blocks"]
-            # Add images for this page at the top of the page's content
             if i in img_map:
                 for img_path in img_map[i]:
                     current_topic["content"] += f"\n![Image]({img_path})\n"
@@ -107,46 +107,59 @@ class ElitePDFExtractor:
             for b in blocks:
                 if "lines" in b:
                     for l in b["lines"]:
-                        for s in l["spans"]:
-                            text = s["text"].strip()
-                            if not text: continue
+                        # Join spans to handle split titles
+                        line_text = "".join([s["text"] for s in l["spans"]]).strip()
+                        if not line_text: continue
+                        
+                        # Use the average size or max size for the line
+                        max_size = max([s["size"] for s in l["spans"]])
+                        size = round(max_size, 1)
+                        
+                        if size >= h1_size and len(line_text) < 100:
+                            # Clean the text (remove page numbers etc)
+                            clean_text = re.sub(r'\s+Page\s+\d+\s*$', '', line_text, flags=re.IGNORECASE).strip()
                             
-                            size = round(s["size"], 1)
+                            # Skip if it's the same as current title or a frequent header
+                            if clean_text.lower() in prev_titles or clean_text.lower() == current_topic["title"].lower():
+                                current_topic["content"] += f"\n# {line_text}\n"
+                                continue
+
+                            if current_topic["content"].strip():
+                                topics.append(current_topic)
                             
-                            if size >= h1_size and len(text) < 100:
-                                # New major topic
-                                if current_topic["content"].strip():
-                                    topics.append(current_topic)
-                                
-                                title = text
-                                current_topic = {
-                                    "title": title,
-                                    "slug": self.slugify(f"{prefix}-{title}"),
-                                    "description": f"Module from {filename}: {title}",
-                                    "tags": [prefix, "Elite"],
-                                    "content": f"# {title}\n\n",
-                                    "createdAt": "2026-02-17"
-                                }
-                            elif size >= h2_size and len(text) < 100:
-                                current_topic["content"] += f"\n## {text}\n"
-                            elif size >= h3_size and len(text) < 100:
-                                current_topic["content"] += f"\n### {text}\n"
-                            else:
-                                current_topic["content"] += text + " "
-                        current_topic["content"] += "\n"
+                            prev_titles.add(clean_text.lower())
+                            current_topic = {
+                                "title": clean_text,
+                                "slug": self.slugify(f"{prefix}-{clean_text}"),
+                                "description": f"Module from {filename}: {clean_text}",
+                                "tags": [prefix, "Elite"],
+                                "content": f"# {clean_text}\n\n",
+                                "createdAt": "2026-02-17"
+                            }
+                        elif size >= h2_size and len(line_text) < 100:
+                            current_topic["content"] += f"\n## {line_text}\n"
+                        elif size >= h3_size and len(line_text) < 100:
+                            current_topic["content"] += f"\n### {line_text}\n"
+                        else:
+                            current_topic["content"] += line_text + " "
                     current_topic["content"] += "\n"
+                current_topic["content"] += "\n"
 
         if current_topic["content"].strip():
             topics.append(current_topic)
 
+        # Filter out empty/tiny topics (e.g. cover pages or repetitive headers)
+        # Minimum 100 characters to be considered a valid tutorial module
+        final_topics = [t for t in topics if len(t["content"].strip()) > 100]
+        
         # Save each topic as a JSON
-        for t in topics:
+        for t in final_topics:
             out_path = os.path.join(self.output_dir, f"{t['slug']}.json")
             with open(out_path, 'w', encoding='utf-8') as f:
                 json.dump(t, f, indent=2)
         
-        print(f"Total topics generated: {len(topics)}")
-        return topics
+        print(f"Total valid topics generated: {len(final_topics)}")
+        return final_topics
 
     def run(self):
         files = [f for f in os.listdir(self.book_dir) if f.lower().endswith('.pdf')]
