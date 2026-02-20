@@ -34,7 +34,7 @@ if not API_KEY:
     print("Error: VITE_GEMINI_API_KEY not found in .env file.")
     sys.exit(1)
 
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key={API_KEY}"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={API_KEY}"
 
 def extract_text_from_pdf(pdf_path):
     """Extracts text from a PDF file."""
@@ -142,10 +142,12 @@ def main():
 
         print(f"Extracted {len(raw_text)} characters from {pdf_file}. Generating content...")
         
-        # Rate limit handling (simple sleep)
-        time.sleep(2) 
+        # Rate limit handling (Flash tier is more lenient)
+        print("Waiting 20s for API quota reset...")
+        time.sleep(20) 
         
-        tutorial_data = generate_tutorial_content(raw_text)
+        # Process first 15k chars as summary tutorial
+        tutorial_data = generate_tutorial_content(raw_text[:15000])
         
         if tutorial_data:
             output_dir = os.path.join("src", "data", "generated_tutorials")

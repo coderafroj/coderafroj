@@ -6,6 +6,31 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Tag, Bot } from 'lucide-react';
+import mermaid from 'mermaid';
+
+mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    securityLevel: 'loose',
+    fontFamily: '"Outfit", sans-serif'
+});
+
+const Mermaid = ({ chart }) => {
+    const [svg, setSvg] = useState('');
+    useEffect(() => {
+        const render = async () => {
+            try {
+                const { svg } = await mermaid.render(`mermaid-${Math.random().toString(36).substr(2, 9)}`, chart);
+                setSvg(svg);
+            } catch (err) {
+                console.error("Mermaid fail:", err);
+            }
+        };
+        render();
+    }, [chart]);
+
+    return <div className="my-8 overflow-x-auto flex justify-center bg-white/[0.02] p-8 rounded-2xl border border-white/5" dangerouslySetInnerHTML={{ __html: svg }} />;
+};
 
 export default function GeneratedTutorialViewer() {
     const { slug } = useParams();
@@ -120,6 +145,9 @@ export default function GeneratedTutorialViewer() {
                         components={{
                             code({ node, inline, className, children, ...props }) {
                                 const match = /language-(\w+)/.exec(className || '')
+                                if (match && match[1] === 'mermaid') {
+                                    return <Mermaid chart={String(children)} />;
+                                }
                                 return !inline && match ? (
                                     <SyntaxHighlighter
                                         style={vscDarkPlus}

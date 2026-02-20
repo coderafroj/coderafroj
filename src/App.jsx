@@ -38,6 +38,7 @@ const CourseIndex = lazy(() => import('./pages/Learn/CourseIndex'));
 const NotesLayout = lazy(() => import('./pages/Learn/NotesLayout'));
 const TopicPage = lazy(() => import('./pages/Learn/TopicPage'));
 const GeneratedTutorialViewer = lazy(() => import('./pages/Learn/GeneratedTutorialViewer'));
+const PremiumTutorialViewer = lazy(() => import('./pages/Learn/PremiumTutorialViewer'));
 
 import './App.css';
 
@@ -46,7 +47,9 @@ import { Toaster } from 'sonner';
 function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
-  const isSpecialModule = location.pathname.startsWith('/github') || location.pathname.startsWith('/learn');
+  const isSpecialModule = location.pathname.startsWith('/github') ||
+    location.pathname.startsWith('/learn') ||
+    location.pathname.startsWith('/premium-tutorial');
   const hideGlobalUI = isAdmin || isSpecialModule;
 
   // Only show intro once per session
@@ -144,6 +147,7 @@ function App() {
                         <Route path=":topicSlug" element={<TopicPage />} />
                       </Route>
                       <Route path="/ai-tutorial/:slug" element={<GeneratedTutorialViewer />} />
+                      <Route path="/premium-tutorial/:slug" element={<PremiumTutorialViewer />} />
                     </Routes>
                   </Suspense>
                 </motion.div>
