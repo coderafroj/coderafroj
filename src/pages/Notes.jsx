@@ -23,15 +23,37 @@ const Notes = () => {
 
     const fetchNotes = async () => {
         try {
+            // Fetch Firebase Notes
             const q = query(collection(db, 'notes'), orderBy('createdAt', 'desc'));
             const snapshot = await getDocs(q);
             const firebaseNotes = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data(),
-                createdAt: doc.data().createdAt?.toDate()
+                createdAt: doc.data().createdAt?.toDate() || new Date(),
+                type: 'note'
             }));
 
-            setNotes(firebaseNotes);
+            // Fetch Generated Tutorials (JSON)
+            const tutorialModules = import.meta.glob('../data/generated_tutorials/*.json', { eager: true });
+            const generatedTutorials = Object.values(tutorialModules).map((module) => {
+                const data = module.default || module;
+                return {
+                    id: data.slug,
+                    title: data.title,
+                    description: data.description,
+                    content: data.content,
+                    tags: data.tags || [],
+                    slug: data.slug,
+                    category: 'Course Module',
+                    createdAt: new Date(data.createdAt || Date.now()),
+                    type: 'tutorial'
+                };
+            });
+
+            // Merge and Sort
+            const allContent = [...firebaseNotes, ...generatedTutorials].sort((a, b) => b.createdAt - a.createdAt);
+
+            setNotes(allContent);
         } catch (error) {
             console.error('Error fetching notes:', error);
             setNotes([]);
@@ -161,7 +183,7 @@ const Notes = () => {
                             transition={{ delay: (index % 3) * 0.1 }}
                         >
                             <Link
-                                to={`/notes/${note.id}`}
+                                to={note.type === 'tutorial' ? `/learn/tutorial/${note.id}` : `/notes/${note.id}`}
                                 className="group block h-full"
                             >
                                 <div className="obsidian-card group/item p-2 rounded-[3.5rem] border-white/5 flex flex-col h-full hover:border-sky-500/50 transition-all duration-700 relative overflow-hidden bg-white/[0.02] backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">

@@ -5,12 +5,15 @@ import { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc 
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
-import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search, MessageSquare, Trash2, Mail, User, Clock } from 'lucide-react';
+import { useRef } from 'react';
+import { LogOut, Plus, LayoutDashboard, FileText, Book, Layers, Terminal, Eye, Edit3, Sparkles, Code, PlusCircle, Bold, Italic, Link as LinkIcon, Image as ImageIcon, Code2, Zap, ArrowRight, Search, MessageSquare, Trash2, Mail, User, Clock, Heading, Palette, Type } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 
 const Admin = () => {
+    const editorRef = useRef(null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -37,6 +40,20 @@ const Admin = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
+
+    const applyFormat = (prefix, suffix) => {
+        const textarea = editorRef.current;
+        if (!textarea) return;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = content.substring(start, end);
+        const newContent = content.substring(0, start) + prefix + selectedText + suffix + content.substring(end);
+        setContent(newContent);
+        setTimeout(() => {
+            textarea.focus();
+            textarea.setSelectionRange(start + prefix.length, end + prefix.length);
+        }, 0);
+    };
 
     const fetchData = async () => {
         const tSnap = await getDocs(collection(db, 'tutorials'));
@@ -504,32 +521,38 @@ const Admin = () => {
                                                         </label>
                                                         {previewMode ? (
                                                             <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[400px] overflow-y-auto coderafroj-markdown">
-                                                                <ReactMarkdown className="markdown-content prose prose-invert max-w-none">
+                                                                <ReactMarkdown rehypePlugins={[rehypeRaw]} className="markdown-content prose prose-invert max-w-none">
                                                                     {content || "*CONTENT_EMPTY*"}
                                                                 </ReactMarkdown>
                                                             </div>
                                                         ) : (
                                                             <div className="space-y-4">
-                                                                <div className="flex gap-2 p-2 bg-white/5 rounded-2xl border border-white/5">
-                                                                    {[
-                                                                        { icon: <Bold size={16} />, prefix: '**', suffix: '**', label: 'Bold' },
-                                                                        { icon: <Italic size={16} />, prefix: '_', suffix: '_', label: 'Italic' },
-                                                                        { icon: <LinkIcon size={16} />, prefix: '[', suffix: '](url)', label: 'Link' },
-                                                                        { icon: <ImageIcon size={16} />, prefix: '![alt](', suffix: ')', label: 'Image' },
-                                                                        { icon: <Code2 size={16} />, prefix: '```\n', suffix: '\n```', label: 'Code' },
-                                                                    ].map((tool, i) => (
-                                                                        <button
-                                                                            key={i}
-                                                                            type="button"
-                                                                            title={tool.label}
-                                                                            onClick={() => setContent(prev => prev + tool.prefix + tool.suffix)}
-                                                                            className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"
+                                                                <div className="flex flex-wrap gap-2 p-2 bg-white/5 rounded-2xl border border-white/5">
+                                                                    <button type="button" title="Heading 1" onClick={() => applyFormat('# ', '')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Heading size={16} /><span className="text-[10px] ml-1 font-bold">1</span></button>
+                                                                    <button type="button" title="Heading 2" onClick={() => applyFormat('## ', '')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Heading size={16} /><span className="text-[10px] ml-1 font-bold">2</span></button>
+                                                                    <button type="button" title="Bold" onClick={() => applyFormat('**', '**')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Bold size={16} /></button>
+                                                                    <button type="button" title="Italic" onClick={() => applyFormat('_', '_')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Italic size={16} /></button>
+                                                                    <button type="button" title="Link" onClick={() => applyFormat('[', '](url)')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><LinkIcon size={16} /></button>
+                                                                    <button type="button" title="Image" onClick={() => applyFormat('![alt](', ')')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><ImageIcon size={16} /></button>
+                                                                    <button type="button" title="Code Block" onClick={() => applyFormat('```\n', '\n```')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Code2 size={16} /></button>
+                                                                    <div className="relative flex items-center justify-center p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all cursor-pointer group">
+                                                                        <Palette size={16} />
+                                                                        <input type="color" className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => applyFormat(`<span style="color:${e.target.value}">`, '</span>')} />
+                                                                    </div>
+                                                                    <div className="relative flex items-center justify-center p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all cursor-pointer group">
+                                                                        <Type size={16} />
+                                                                        <select
+                                                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                                                            onChange={(e) => applyFormat(`<span style="font-family:${e.target.value}">`, '</span>')}
                                                                         >
-                                                                            {tool.icon}
-                                                                        </button>
-                                                                    ))}
+                                                                            <option value="sans-serif">Default</option>
+                                                                            <option value="'Courier New', monospace">Monospace</option>
+                                                                            <option value="'Times New Roman', serif">Serif</option>
+                                                                            <option value="'Brush Script MT', cursive">Cursive</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                                <Textarea value={content} onChange={e => setContent(e.target.value)} required rows={15} placeholder="# Start writing your note in Markdown..." className="bg-white/5 border-white/10 p-10 rounded-3xl focus:border-primary/50 font-mono text-sm leading-relaxed" />
+                                                                <Textarea ref={editorRef} value={content} onChange={e => setContent(e.target.value)} required rows={15} placeholder="# Start writing your note in Markdown..." className="bg-white/5 border-white/10 p-10 rounded-3xl focus:border-primary/50 font-mono text-sm leading-relaxed" />
                                                             </div>
                                                         )}
                                                     </div>
@@ -564,32 +587,38 @@ const Admin = () => {
                                                     <label className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase">CORE_CONTENT_MATRIX</label>
                                                     {previewMode ? (
                                                         <div className="obsidian-card p-10 rounded-3xl border-white/10 min-h-[500px] overflow-y-auto coderafroj-markdown">
-                                                            <ReactMarkdown className="markdown-content prose prose-invert max-w-none">
+                                                            <ReactMarkdown rehypePlugins={[rehypeRaw]} className="markdown-content prose prose-invert max-w-none">
                                                                 {content || "*CONTENT_MATRIX_EMPTY*"}
                                                             </ReactMarkdown>
                                                         </div>
                                                     ) : (
                                                         <div className="space-y-4">
-                                                            <div className="flex gap-2 p-2 bg-white/5 rounded-2xl border border-white/5">
-                                                                {[
-                                                                    { icon: <Bold size={16} />, prefix: '**', suffix: '**', label: 'Bold' },
-                                                                    { icon: <Italic size={16} />, prefix: '_', suffix: '_', label: 'Italic' },
-                                                                    { icon: <LinkIcon size={16} />, prefix: '[', suffix: '](url)', label: 'Link' },
-                                                                    { icon: <ImageIcon size={16} />, prefix: '![alt](', suffix: ')', label: 'Image' },
-                                                                    { icon: <Code2 size={16} />, prefix: '```\n', suffix: '\n```', label: 'Code' },
-                                                                ].map((tool, i) => (
-                                                                    <button
-                                                                        key={i}
-                                                                        type="button"
-                                                                        title={tool.label}
-                                                                        onClick={() => setContent(prev => prev + tool.prefix + tool.suffix)}
-                                                                        className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"
+                                                            <div className="flex flex-wrap gap-2 p-2 bg-white/5 rounded-2xl border border-white/5">
+                                                                <button type="button" title="Heading 1" onClick={() => applyFormat('# ', '')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Heading size={16} /><span className="text-[10px] ml-1 font-bold">1</span></button>
+                                                                <button type="button" title="Heading 2" onClick={() => applyFormat('## ', '')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Heading size={16} /><span className="text-[10px] ml-1 font-bold">2</span></button>
+                                                                <button type="button" title="Bold" onClick={() => applyFormat('**', '**')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Bold size={16} /></button>
+                                                                <button type="button" title="Italic" onClick={() => applyFormat('_', '_')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Italic size={16} /></button>
+                                                                <button type="button" title="Link" onClick={() => applyFormat('[', '](url)')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><LinkIcon size={16} /></button>
+                                                                <button type="button" title="Image" onClick={() => applyFormat('![alt](', ')')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><ImageIcon size={16} /></button>
+                                                                <button type="button" title="Code Block" onClick={() => applyFormat('```\n', '\n```')} className="p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all"><Code2 size={16} /></button>
+                                                                <div className="relative flex items-center justify-center p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all cursor-pointer group">
+                                                                    <Palette size={16} />
+                                                                    <input type="color" className="absolute inset-0 opacity-0 cursor-pointer" onChange={(e) => applyFormat(`<span style="color:${e.target.value}">`, '</span>')} />
+                                                                </div>
+                                                                <div className="relative flex items-center justify-center p-3 text-dim-text hover:text-primary-glow hover:bg-white/5 rounded-xl transition-all cursor-pointer group">
+                                                                    <Type size={16} />
+                                                                    <select
+                                                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                                                        onChange={(e) => applyFormat(`<span style="font-family:${e.target.value}">`, '</span>')}
                                                                     >
-                                                                        {tool.icon}
-                                                                    </button>
-                                                                ))}
+                                                                        <option value="sans-serif">Default</option>
+                                                                        <option value="'Courier New', monospace">Monospace</option>
+                                                                        <option value="'Times New Roman', serif">Serif</option>
+                                                                        <option value="'Brush Script MT', cursive">Cursive</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                            <Textarea value={content} onChange={e => setContent(e.target.value)} required rows={20} placeholder="# START COMPOSING..." className="bg-white/5 border-white/10 p-10 rounded-3xl focus:border-primary/50 font-mono text-sm leading-relaxed" />
+                                                            <Textarea ref={editorRef} value={content} onChange={e => setContent(e.target.value)} required rows={20} placeholder="# START COMPOSING..." className="bg-white/5 border-white/10 p-10 rounded-3xl focus:border-primary/50 font-mono text-sm leading-relaxed" />
                                                         </div>
                                                     )}
                                                 </div>
