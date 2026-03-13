@@ -1,0 +1,20 @@
+{
+  "name": "studio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx sanity dev",
+    "build": "npx sanity build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sanity": "^3.0.0",
+    "lucide-react": "latest",
+    "styled-components": "^6.0.0",
+    "@sanity/vision": "^3.0.0"
+  },
+  "type": "module"
+}

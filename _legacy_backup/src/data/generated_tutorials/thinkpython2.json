@@ -1,0 +1,11 @@
+{
+  "title": "thinkpython2",
+  "slug": "thinkpython2",
+  "description": "Notes from thinkpython2.pdf",
+  "tags": [
+    "thinkpython2",
+    "Premium"
+  ],
+  "content": "\n## Think Python\n\n\nHow to Think Like a Computer Scientist \n\n2nd Edition, Version 2.4.0 \n\n\n## Think Python\n\n\nHow to Think Like a Computer Scientist \n\n2nd Edition, Version 2.4.0 \n\nAllen Downey \n\nGreen Tea Press \n\nNeedham, Massachusetts \n\nCopyright \u00a9 2015 Allen Downey. \n\nGreen Tea Press 9 Washburn Ave Needham MA 02492 \n\nPermission is granted to copy, distribute, and/or modify this document under the terms of the Creative Commons Attribution-NonCommercial 3.0 Unported License, which is available at http: //creativecommons.org/licenses/by-nc/3.0/. \n\nThe original form of this book is LATEX source code. Compiling this LATEX source has the effect of gen- erating a device-independent representation of a textbook, which can be converted to other formats and printed. \n\nThe LATEX source for this book is available from http://www.thinkpython.com \n\n",
+  "createdAt": "2026-02-17"
+}
