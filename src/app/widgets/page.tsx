@@ -5,9 +5,12 @@ import {
   Star, MessageSquare, Instagram, Layout, 
   ArrowRight, Code, ExternalLink, Sparkles 
 } from "lucide-react";
+import { useState } from "react";
+import EmbedModal from "@/components/EmbedModal";
 
 const widgetTypes = [
   {
+    id: "review-carousel",
     title: "Review Carousel",
     desc: "Sync with Google Reviews or Trustpilot. 100% customizable slider with auto-fetch.",
     icon: Star,
@@ -22,6 +25,7 @@ const widgetTypes = [
     )
   },
   {
+    id: "floating-chat",
     title: "Floating Chat",
     desc: "WhatsApp, Messenger, or Live Chat bubble. Convert visitors with instant communication.",
     icon: MessageSquare,
@@ -36,6 +40,7 @@ const widgetTypes = [
     )
   },
   {
+    id: "insta-grid",
     title: "Instagram Feed",
     desc: "Showcase your social proof with a live-syncing grid of your latest Instagram posts.",
     icon: Instagram,
@@ -47,6 +52,7 @@ const widgetTypes = [
     )
   },
   {
+    id: "sales-proof",
     title: "Sales Popup",
     desc: "Create urgency with real-time conversion notifications. 'Someone just bought...' alerts.",
     icon: Sparkles,
@@ -64,6 +70,8 @@ const widgetTypes = [
 ];
 
 export default function WidgetsPage() {
+  const [selectedWidget, setSelectedWidget] = useState<{id: string, name: string} | null>(null);
+
   return (
     <div className="container max-w-7xl mx-auto py-20 px-4">
       <motion.div 
@@ -104,7 +112,10 @@ export default function WidgetsPage() {
                     <p className="text-xs text-neutral-500 font-medium">Updated 2 days ago</p>
                   </div>
                 </div>
-                <button className="p-3 rounded-2xl glass hover:bg-white/10 transition-colors">
+                <button 
+                  onClick={() => setSelectedWidget({id: widget.id, name: widget.title})}
+                  className="p-3 rounded-2xl glass hover:bg-white/10 transition-colors"
+                >
                   <Code size={20} className="text-neutral-400" />
                 </button>
               </div>
@@ -120,16 +131,29 @@ export default function WidgetsPage() {
             </div>
 
             <div className="px-8 pb-8 pt-0 flex gap-4">
-              <button className="flex-1 py-4 rounded-2xl bg-white text-black font-bold flex items-center justify-center gap-2 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+              <button 
+                onClick={() => setSelectedWidget({id: widget.id, name: widget.title})}
+                className="flex-1 py-4 rounded-2xl bg-white text-black font-black flex items-center justify-center gap-2 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+              >
                 Install Now <ArrowRight size={18} />
               </button>
-              <button className="px-6 rounded-2xl glass border-white/5 hover:bg-white/10 transition-colors">
+              <button 
+                onClick={() => window.open(`/embed/${widget.id}`, '_blank')}
+                className="px-6 rounded-2xl glass border-white/5 hover:bg-white/10 transition-colors"
+              >
                 <ExternalLink size={20} />
               </button>
             </div>
           </motion.div>
         ))}
       </div>
+
+      <EmbedModal 
+        isOpen={!!selectedWidget} 
+        onClose={() => setSelectedWidget(null)} 
+        widgetId={selectedWidget?.id || ""} 
+        widgetName={selectedWidget?.name || ""} 
+      />
 
       <motion.div 
         initial={{ opacity: 0 }}

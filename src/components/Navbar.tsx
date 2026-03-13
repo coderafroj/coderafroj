@@ -1,19 +1,27 @@
-"use client";
-
 import Link from "next/link";
-import { Code2, Github, Twitter, Menu, X, Rocket } from "lucide-react";
+import { Code2, Github, Twitter, Menu, X, Rocket, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import OrderForm from "./OrderForm";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+    // Listen for custom trigger from homepage
+    const handleOpenOrder = () => setIsOrderFormOpen(true);
+    window.addEventListener('open-order-form', handleOpenOrder);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('open-order-form', handleOpenOrder);
+    };
   }, []);
 
   const navLinks = [
@@ -62,6 +70,12 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="hidden lg:flex items-center gap-4">
+          <button 
+            onClick={() => setIsOrderFormOpen(true)}
+            className="group px-6 py-2.5 rounded-xl border border-primary/30 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all flex items-center gap-2"
+          >
+            <Plus size={14} /> Order Software
+          </button>
           <Link href="/login" className="px-6 py-2.5 rounded-xl text-sm font-bold text-neutral-400 hover:text-white transition-colors">
             Log in
           </Link>
@@ -78,6 +92,8 @@ export function Navbar() {
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
+
+      <OrderForm isOpen={isOrderFormOpen} onClose={() => setIsOrderFormOpen(false)} />
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -100,9 +116,20 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="h-px bg-white/5 my-4" />
-              <div className="grid grid-cols-2 gap-4">
-                <Link href="/login" className="py-4 rounded-2xl glass text-center font-bold">Log in</Link>
-                <Link href="/signup" className="py-4 rounded-2xl bg-white text-black text-center font-black">Sign up</Link>
+              <div className="grid grid-cols-1 gap-4">
+                <button 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsOrderFormOpen(true);
+                  }}
+                  className="py-4 rounded-2xl bg-primary text-white text-center font-black"
+                >
+                  Order Custom Software
+                </button>
+                <div className="grid grid-cols-2 gap-4">
+                  <Link href="/login" className="py-4 rounded-2xl glass text-center font-bold">Log in</Link>
+                  <Link href="/signup" className="py-4 rounded-2xl bg-white text-black text-center font-black">Sign up</Link>
+                </div>
               </div>
             </div>
           </motion.div>

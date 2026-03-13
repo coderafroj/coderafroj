@@ -1,5 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { Code2, Blocks, ShoppingCart, Wrench, FileCode2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  Code2, Blocks, ShoppingCart, Wrench, 
+  FileCode2, ArrowRight, Rocket 
+} from "lucide-react";
 
 const features = [
   {
@@ -59,30 +65,77 @@ export default function Home() {
         </h1>
         
         <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Everything you need to ship products faster. From embeddable widgets and premium code templates to powerful online developer tools.
+          From advanced embeddable widgets and premium code templates to <strong>custom enterprise software</strong> built to solve your unique business problems.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link 
-            href="/tools" 
-            className="px-8 py-4 rounded-full bg-foreground text-background font-semibold hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
+            className="px-8 py-4 rounded-full bg-primary text-white font-black hover:scale-105 transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
           >
-            Explore Tools <ArrowRight className="w-4 h-4" />
-          </Link>
+            Build My Software <Rocket className="w-4 h-4" />
+          </button>
           <Link 
-            href="/marketplace" 
+            href="/widgets" 
             className="px-8 py-4 rounded-full glass font-semibold hover:bg-white/10 transition-colors"
           >
-            Browse Marketplace
+            Explore Widgets
           </Link>
         </div>
+      </section>
+
+      {/* Software Solutions Section */}
+      <section className="py-20 px-4 max-w-7xl mx-auto relative">
+         <div className="absolute top-1/2 left-0 w-[500px] h-px bg-gradient-to-r from-primary to-transparent opacity-20" />
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div 
+               initial={{ opacity: 0, x: -30 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               className="space-y-8"
+            >
+               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9]">
+                  We build <br />
+                  <span className="text-neutral-500 italic uppercase">Software</span> <br />
+                  that solves <br />
+                  <span className="neon-text">Problems.</span>
+               </h2>
+               <p className="text-xl text-neutral-400 leading-relaxed italic">
+                  "Kodarafroj isn't just a platform; it's a partner in your tech journey. 
+                  Whether you need a simple script or a massive enterprise web app, our dev 
+                  team delivers perfection."
+               </p>
+               <div className="flex flex-wrap gap-4">
+                  {["Web Apps", "Mobile Apps", "Custom Tools", "API Integration", "AI Agents"].map(s => (
+                     <div key={s} className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-sm font-bold text-neutral-500">{s}</div>
+                  ))}
+               </div>
+            </motion.div>
+            <div className="relative">
+               <div className="aspect-square glass rounded-[3rem] p-12 flex flex-col justify-center border-dashed border-primary/40 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
+                  <div className="relative z-10 text-center">
+                     <div className="w-20 h-20 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-8 animate-pulse">
+                        <Rocket size={40} className="text-primary" />
+                     </div>
+                     <h3 className="text-3xl font-bold mb-4">Start your Project</h3>
+                     <p className="text-neutral-500 mb-8 italic">Get a production-ready MVP in as little as 1 week.</p>
+                     <button 
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
+                        className="w-full py-5 rounded-2xl bg-white text-black font-black hover:bg-neutral-200 transition-all"
+                     >
+                        Get a Quote
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
       </section>
 
       {/* Features Grid */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">A complete ecosystem</h2>
-          <p className="text-neutral-400">Five powerful platforms combined into one seamless experience.</p>
+          <p className="text-neutral-400">Everything from atomic components to complex custom systems.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
