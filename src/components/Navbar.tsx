@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Code2, Github, Twitter, Menu, X, Rocket, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
