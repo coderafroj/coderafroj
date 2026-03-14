@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Rocket, Brain, Code, X, CheckCircle2 } from "lucide-react";
+import { X, CheckCircle2 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -42,7 +42,6 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
   };
 
   const projectTypes = ["Web App", "Mobile App", "Desktop Software", "Automation Script", "Custom Tool"];
-  const budgets = ["Small (<$500)", "Medium ($500-$2k)", "Large ($2k+)", "Enterprise/Custom"];
 
   return (
     <AnimatePresence>
@@ -74,7 +73,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                 <form onSubmit={handleSubmit}>
                   <div className="mb-10 text-center">
                     <h2 className="text-3xl font-black tracking-tighter mb-2">Order Custom Software</h2>
-                    <p className="text-neutral-500 italic">Tell us your problem, we'll build the solution.</p>
+                    <p className="text-neutral-500 italic">Tell us your problem, we&apos;ll build the solution.</p>
                   </div>
 
                   {step === 1 ? (

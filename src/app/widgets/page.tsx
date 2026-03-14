@@ -20,7 +20,7 @@ const widgetTypes = [
         <div className="flex gap-1 mb-3 text-yellow-500">
           {[1,2,3,4,5].map(i => <Star key={i} size={14} className="fill-current" />)}
         </div>
-        <p className="text-neutral-400 text-sm italic">"The best service I've ever used. Highly recommended!"</p>
+        <p className="text-neutral-400 text-sm italic">&quot;The best service I&apos;ve ever used. Highly recommended!&quot;</p>
       </div>
     )
   },
@@ -162,7 +162,7 @@ export default function WidgetsPage() {
         className="mt-20 p-12 glass rounded-[3rem] border border-white/5 text-center relative overflow-hidden"
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px] -z-10" />
-        <h2 className="text-3xl font-bold mb-4">Can't find what you need?</h2>
+        <h2 className="text-3xl font-bold mb-4">Can&apos;t find what you need?</h2>
         <p className="text-neutral-400 mb-8 max-w-xl mx-auto">Our developers are constantly building new primitives. Suggest a widget and get it for free.</p>
         <button className="px-8 py-4 rounded-2xl bg-neutral-900 border border-white/10 hover:border-primary/50 transition-all font-bold">Request a Widget</button>
       </motion.div>

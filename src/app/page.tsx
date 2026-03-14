@@ -100,9 +100,9 @@ export default function Home() {
                   <span className="neon-text">Problems.</span>
                </h2>
                <p className="text-xl text-neutral-400 leading-relaxed italic">
-                  "Kodarafroj isn't just a platform; it's a partner in your tech journey. 
+                  &quot;Kodarafroj isn&apos;t just a platform; it&apos;s a partner in your tech journey. 
                   Whether you need a simple script or a massive enterprise web app, our dev 
-                  team delivers perfection."
+                  team delivers perfection.&quot;
                </p>
                <div className="flex flex-wrap gap-4">
                   {["Web Apps", "Mobile Apps", "Custom Tools", "API Integration", "AI Agents"].map(s => (
@@ -158,6 +158,18 @@ export default function Home() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-20 px-4 max-w-3xl mx-auto text-center">
+         <h2 className="text-4xl font-bold mb-6">Can&apos;t find what you need?</h2>
+         <p className="text-neutral-400 mb-8 italic">We custom build any logic, API, or interface you can imagine.</p>
+         <button 
+           onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
+           className="px-10 py-4 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all shadow-2xl"
+         >
+           Contact Sales
+         </button>
       </section>
     </div>
   );

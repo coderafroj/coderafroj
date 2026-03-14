@@ -14,8 +14,9 @@ interface EmbedModalProps {
 export default function EmbedModal({ isOpen, onClose, widgetId, widgetName }: EmbedModalProps) {
   const [copied, setCopied] = useState(false);
   
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
   const embedCode = `<iframe 
-  src="${window.location.origin}/embed/${widgetId}" 
+  src="${origin}/embed/${widgetId}" 
   width="100%" height="400" 
   frameborder="0" 
   style="border-radius: 20px;"
