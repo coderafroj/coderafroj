@@ -4,8 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { 
   Code2, Blocks, ShoppingCart, Wrench, 
-  FileCode2, ArrowRight, Rocket 
+  FileCode2, ArrowRight, Rocket, Sparkles,
+  ChevronRight, Laptop, Cpu, ShieldCheck, Globe
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const features = [
   {
@@ -45,85 +47,159 @@ const features = [
   },
 ];
 
+const stats = [
+  { label: "Active Users", value: "10K+", icon: Globe },
+  { label: "Deployments", value: "50K+", icon: Rocket },
+  { label: "Uptime", value: "99.9%", icon: ShieldCheck },
+  { label: "Components", value: "200+", icon: Cpu },
+];
+
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden pb-24">
       {/* Background glow effects */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-10" />
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[150px] -z-10" />
-
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] -z-10 animate-pulse" />
+      <div className="absolute top-1/2 right-1/4 w-[700px] h-[700px] bg-secondary/10 rounded-full blur-[120px] -z-10" />
+      
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 text-center max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full glass border-primary/30 text-primary text-sm font-medium">
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          The Ultimate Developer Ecosystem
-        </div>
+      <section className="relative pt-44 pb-32 px-4 text-center max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 mb-10 rounded-full glass border border-white/10 text-primary text-sm font-bold tracking-wide"
+        >
+          <Sparkles className="w-4 h-4" />
+          CODING THE FUTURE OF THE WEB
+        </motion.div>
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
-          Build Faster with <br />
-          <span className="neon-text">Kodarafroj</span>
-        </h1>
+        <motion.h1 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-6xl md:text-9xl font-black tracking-tight mb-8 mask-text leading-[0.9]"
+        >
+          Build Faster <br />
+          <span className="neon-text">Than Ever.</span>
+        </motion.h1>
         
-        <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-          From advanced embeddable widgets and premium code templates to <strong>custom enterprise software</strong> built to solve your unique business problems.
-        </p>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-xl md:text-2xl text-neutral-400 mb-16 max-w-3xl mx-auto leading-relaxed lg:px-12"
+        >
+          A premium ecosystem for modern developers. From high-performance <strong>SaaS utilities</strong> to custom enterprise solutions that scale worldwide.
+        </motion.p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+        >
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-            className="px-8 py-4 rounded-full bg-primary text-white font-black hover:scale-105 transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]"
+            className="group px-10 py-5 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all flex items-center gap-3 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(139,92,246,0.6)]"
           >
-            Build My Software <Rocket className="w-4 h-4" />
+            Start Your Project <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
           <Link 
             href="/widgets" 
-            className="px-8 py-4 rounded-full glass font-semibold hover:bg-white/10 transition-colors"
+            className="px-10 py-5 rounded-2xl glass font-bold hover:bg-white/10 transition-colors flex items-center gap-2 group"
           >
-            Explore Widgets
+            Explore Widgets <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
+        </motion.div>
+
+        {/* Floating Demo Image / Video placeholder */}
+        <motion.div 
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, type: "spring", stiffness: 50 }}
+          className="mt-24 relative max-w-5xl mx-auto"
+        >
+           <div className="absolute inset-0 bg-primary/20 blur-[120px] -z-10 rounded-[3rem]" />
+           <div className="aspect-video glass-card border-white/5 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="h-full w-full flex items-center justify-center">
+                 <div className="text-center space-y-4">
+                    <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+                       <Laptop size={48} className="text-primary" />
+                    </div>
+                    <h3 className="text-3xl font-black italic mask-text">Kodarafroj Dashboard</h3>
+                    <p className="text-neutral-500 font-bold uppercase tracking-widest text-sm italic">Production Ready • Scalable • Secure</p>
+                 </div>
+              </div>
+           </div>
+        </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((stat, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="text-center space-y-2 p-8 glass-card border-white/[0.03]"
+            >
+              <stat.icon className="w-6 h-6 text-primary mx-auto mb-4" />
+              <div className="text-4xl font-black">{stat.value}</div>
+              <div className="text-neutral-500 font-bold uppercase tracking-[0.2em] text-[10px]">{stat.label}</div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Software Solutions Section */}
-      <section className="py-20 px-4 max-w-7xl mx-auto relative">
+      <section className="py-32 px-4 max-w-7xl mx-auto relative">
          <div className="absolute top-1/2 left-0 w-[500px] h-px bg-gradient-to-r from-primary to-transparent opacity-20" />
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div 
                initial={{ opacity: 0, x: -30 }}
                whileInView={{ opacity: 1, x: 0 }}
-               className="space-y-8"
+               viewport={{ once: true }}
+               className="space-y-10"
             >
-               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9]">
-                  We build <br />
-                  <span className="text-neutral-500 italic uppercase">Software</span> <br />
-                  that solves <br />
-                  <span className="neon-text">Problems.</span>
+               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.8] italic">
+                  WE BUILD <br />
+                  <span className="text-neutral-700 uppercase not-italic">ENTERPRISE</span> <br />
+                  <span className="neon-text not-italic uppercase">SOFTWARE.</span>
                </h2>
-               <p className="text-xl text-neutral-400 leading-relaxed italic">
-                  &quot;Kodarafroj isn&apos;t just a platform; it&apos;s a partner in your tech journey. 
-                  Whether you need a simple script or a massive enterprise web app, our dev 
-                  team delivers perfection.&quot;
+               <p className="text-2xl text-neutral-400 leading-relaxed italic border-l-4 border-primary pl-8">
+                  &quot;Kodarafroj isn&apos;t just a platform; it&apos;s a strategic partner. 
+                  We don&apos;t just write code; we architect solutions that dominate industries.&quot;
                </p>
-               <div className="flex flex-wrap gap-4">
-                  {["Web Apps", "Mobile Apps", "Custom Tools", "API Integration", "AI Agents"].map(s => (
-                     <div key={s} className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-sm font-bold text-neutral-500">{s}</div>
+               <div className="flex flex-wrap gap-3">
+                  {["Next.js SSR", "Cloud Architecture", "AI Integration", "Real-time Systems", "Fintech"].map(s => (
+                     <div key={s} className="px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold text-neutral-400">{s}</div>
                   ))}
                </div>
+               <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
+                  className="px-10 py-5 rounded-2xl bg-primary text-white font-black hover:neon-glow transition-all flex items-center gap-2 group"
+               >
+                  Consult Now <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+               </button>
             </motion.div>
+            
             <div className="relative">
-               <div className="aspect-square glass rounded-[3rem] p-12 flex flex-col justify-center border-dashed border-primary/40 relative overflow-hidden group">
+               <div className="aspect-square glass rounded-[4rem] p-16 flex flex-col justify-center border-dashed border-primary/20 relative overflow-hidden group">
                   <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
-                  <div className="relative z-10 text-center">
-                     <div className="w-20 h-20 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-8 animate-pulse">
-                        <Rocket size={40} className="text-primary" />
+                  <div className="relative z-10 text-center space-y-8">
+                     <div className="w-24 h-24 rounded-3xl bg-primary/20 flex items-center justify-center mx-auto animate-float">
+                        <Cpu size={48} className="text-primary" />
                      </div>
-                     <h3 className="text-3xl font-bold mb-4">Start your Project</h3>
-                     <p className="text-neutral-500 mb-8 italic">Get a production-ready MVP in as little as 1 week.</p>
+                     <h3 className="text-4xl font-black tracking-tight">Need Custom Logic?</h3>
+                     <p className="text-neutral-400 font-medium italic">Get a production-ready MVP in as little as 1 week.</p>
                      <button 
                         onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-                        className="w-full py-5 rounded-2xl bg-white text-black font-black hover:bg-neutral-200 transition-all"
+                        className="w-full py-6 rounded-2xl bg-white text-black font-black hover:bg-neutral-200 transition-all flex items-center justify-center gap-2 text-lg"
                      >
-                        Get a Quote
+                        Get a Free Quote <Code2 className="w-6 h-6" />
                      </button>
                   </div>
                </div>
@@ -132,44 +208,59 @@ export default function Home() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">A complete ecosystem</h2>
-          <p className="text-neutral-400">Everything from atomic components to complex custom systems.</p>
+      <section className="py-32 px-4 max-w-7xl mx-auto">
+        <div className="text-center mb-24 space-y-4">
+          <h2 className="text-5xl md:text-6xl font-black tracking-tighter">THE ECOSYSTEM.</h2>
+          <p className="text-xl text-neutral-500 max-w-2xl mx-auto italic">Everything you need to build, deploy, and scale high-performance applications.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
             <Link 
               key={idx} 
               href={feature.href}
-              className="group glass-card p-8 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+              className="group glass-card p-10 hover:-translate-y-4 transition-all duration-500 relative overflow-hidden"
             >
-              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${feature.color}`} />
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 bg-gradient-to-br ${feature.color}`} />
               
-              <div className={`w-14 h-14 rounded-2xl mb-6 flex items-center justify-center bg-gradient-to-br ${feature.color} bg-opacity-10`}>
-                <feature.icon className="w-7 h-7 text-white" />
+              <div className={`w-16 h-16 rounded-2xl mb-8 flex items-center justify-center bg-gradient-to-br ${feature.color} bg-opacity-10 group-hover:scale-110 transition-transform duration-500`}>
+                <feature.icon className="w-8 h-8 text-white" />
               </div>
               
-              <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-              <p className="text-neutral-400 leading-relaxed group-hover:text-neutral-300 transition-colors">
+              <h3 className="text-2xl font-black mb-4 tracking-tight">{feature.title}</h3>
+              <p className="text-neutral-400 leading-relaxed text-lg group-hover:text-neutral-300 transition-colors">
                 {feature.description}
               </p>
+              
+              <div className="mt-8 flex items-center gap-2 text-primary font-bold opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 uppercase text-xs tracking-widest">
+                 Learn More <ArrowRight size={14} />
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 max-w-3xl mx-auto text-center">
-         <h2 className="text-4xl font-bold mb-6">Can&apos;t find what you need?</h2>
-         <p className="text-neutral-400 mb-8 italic">We custom build any logic, API, or interface you can imagine.</p>
-         <button 
-           onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-           className="px-10 py-4 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all shadow-2xl"
-         >
-           Contact Sales
-         </button>
+      <section className="py-32 px-4 max-w-5xl mx-auto relative overflow-hidden">
+         <div className="absolute inset-0 bg-primary/10 blur-[150px] -z-10 rounded-full" />
+         <div className="glass-card p-16 md:p-24 text-center border-white/5 space-y-10">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+               LET&apos;S BUILD <br />
+               SOMETHING <span className="neon-text uppercase">LEGENDARY.</span>
+            </h2>
+            <p className="text-2xl text-neutral-400 italic">No project is too complex. No idea is too ambitious.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
+                  className="px-12 py-6 rounded-2xl bg-white text-black font-black text-xl hover:scale-105 transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]"
+                >
+                  Contact Sales
+                </button>
+                <Link href="/market" className="px-12 py-6 rounded-2xl glass font-black text-xl border-white/10 hover:bg-white/10 transition-all">
+                   View Marketplace
+                </Link>
+            </div>
+         </div>
       </section>
     </div>
   );

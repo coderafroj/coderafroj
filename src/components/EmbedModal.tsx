@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Copy, Check, Code, ExternalLink } from "lucide-react";
+import { X, Copy, Check, ExternalLink, Sparkles, Terminal, ShieldCheck, Share2 } from "lucide-react";
 import { useState } from "react";
 
 interface EmbedModalProps {
@@ -19,7 +19,7 @@ export default function EmbedModal({ isOpen, onClose, widgetId, widgetName }: Em
   src="${origin}/embed/${widgetId}" 
   width="100%" height="400" 
   frameborder="0" 
-  style="border-radius: 20px;"
+  style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);"
 ></iframe>`;
 
   const handleCopy = () => {
@@ -37,64 +37,82 @@ export default function EmbedModal({ isOpen, onClose, widgetId, widgetName }: Em
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-black/85 backdrop-blur-2xl"
           />
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-2xl glass-card p-1 rounded-[2.5rem] overflow-hidden"
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            className="relative w-full max-w-3xl glass-card p-1 rounded-[3.5rem] overflow-hidden bg-gradient-to-tr from-white/10 to-transparent"
           >
-            <div className="bg-neutral-950 p-8 md:p-10 rounded-[2.3rem]">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-3xl font-black tracking-tighter mb-1">Get Embed Code</h2>
-                  <p className="text-neutral-500 font-medium">Deploy <span className="text-primary italic">{widgetName}</span> to any website.</p>
+            <div className="bg-neutral-950 p-10 md:p-14 rounded-[3.3rem]">
+              <div className="flex items-center justify-between mb-12">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-white/10 text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+                     <Terminal size={12} />
+                     DEPLOYMENT_READY
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-1 mask-text italic">
+                    EXTRACT <br /> <span className="neon-text not-italic uppercase">PRIMITIVE.</span>
+                  </h2>
+                  <p className="text-neutral-500 font-bold italic border-l-2 border-primary/20 pl-6">Deploy <span className="text-primary not-italic uppercase font-black text-xs tracking-widest">{widgetName}</span> to any machine.</p>
                 </div>
                 <button 
                   onClick={onClose}
-                  className="p-3 rounded-full glass hover:bg-white/10 transition-colors"
+                  className="p-4 rounded-full glass hover:bg-white/10 transition-colors z-20"
                 >
-                  <X size={24} />
+                  <X size={24} className="text-neutral-500" />
                 </button>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-10">
                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-3xl blur opacity-20 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                    <div className="relative bg-black/60 border border-white/10 rounded-2xl p-6 font-mono text-sm text-blue-300/80 break-all leading-relaxed h-48 overflow-auto">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition duration-1000" />
+                    <div className="relative bg-black/60 border border-white/10 rounded-3xl p-10 font-mono text-xs md:text-sm text-blue-300/60 break-all leading-relaxed h-56 overflow-auto scrollbar-hide selection:bg-primary/20">
                       {embedCode}
                     </div>
                     <button 
                       onClick={handleCopy}
-                      className="absolute top-4 right-4 px-4 py-2 rounded-xl bg-white text-black font-bold text-xs flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl"
+                      className="absolute top-6 right-6 px-6 py-3 rounded-2xl bg-white text-black font-black text-xs flex items-center gap-3 hover:scale-105 active:scale-95 transition-all shadow-2xl"
                     >
-                      {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-                      {copied ? "Copied!" : "Copy Code"}
+                      {copied ? <Check size={18} className="text-emerald-500" /> : <Copy size={18} />}
+                      {copied ? "COPIED_HASH" : "COPY_PAYLOAD"}
                     </button>
                  </div>
 
-                 <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-2xl border border-white/5 bg-white/5 space-y-2">
-                       <h4 className="text-xs font-black text-neutral-500 uppercase tracking-widest">Setup Instructions</h4>
-                       <p className="text-[10px] text-neutral-400 leading-relaxed italic">
-                          Simply copy the code above and paste it within the HTML `body` of your website. The widget works with WordPress, Webflow, Shopify, and custom HTML.
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-8 rounded-[2rem] border border-white/5 bg-white/[0.02] space-y-4">
+                       <h4 className="text-[10px] font-black text-neutral-600 uppercase tracking-[0.3em] flex items-center gap-2">
+                         <ShieldCheck size={14} className="text-emerald-500" />
+                         SYSTEM_REQUIREMENTS
+                       </h4>
+                       <p className="text-[11px] text-neutral-400 leading-relaxed italic font-medium">
+                          Inject the payload into any HTML host. Fully compatible with WordPress, Webflow, Shopify, and cross-platform machine nodes.
                        </p>
                     </div>
-                    <div className="p-4 rounded-2xl border border-white/5 bg-white/5 space-y-2 text-center flex flex-col justify-center items-center">
-                       <Code size={20} className="text-primary mb-2" />
-                       <p className="text-[10px] font-bold">WANT API ACCESS?</p>
-                       <button className="mt-1 text-[10px] underline text-neutral-500 hover:text-white transition-colors">Request Dev Portal</button>
+                    <div className="p-8 rounded-[2rem] border border-white/5 bg-white/[0.02] flex flex-col justify-center items-center text-center space-y-4 group/box">
+                       <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/10 group-hover/box:scale-110 transition-transform">
+                          <Sparkles size={24} className="text-primary" />
+                       </div>
+                       <div className="space-y-1">
+                          <p className="text-[10px] font-black tracking-widest text-neutral-500 uppercase">Need API Access?</p>
+                          <button className="text-xs font-black text-white underline underline-offset-4 hover:text-primary transition-colors">REQUEST_TOKEN</button>
+                       </div>
                     </div>
                  </div>
 
-                 <button 
-                  onClick={() => window.open(`/embed/${widgetId}`, '_blank')}
-                  className="w-full py-4 glass border-white/5 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition-all"
-                 >
-                   Open Preview <ExternalLink size={16} />
-                 </button>
+                 <div className="flex gap-4">
+                    <button 
+                      onClick={() => window.open(`/embed/${widgetId}`, '_blank')}
+                      className="flex-1 py-6 glass border-white/10 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-white/5 transition-all active:scale-95"
+                    >
+                      SIMULATE_ENVIRONMENT <ExternalLink size={18} />
+                    </button>
+                    <button className="w-20 py-6 glass border-white/10 rounded-[2rem] flex items-center justify-center hover:bg-white/10 transition-colors">
+                       <Share2 size={24} className="text-neutral-500" />
+                    </button>
+                 </div>
               </div>
             </div>
           </motion.div>
