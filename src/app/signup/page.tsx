@@ -22,7 +22,18 @@ export default function SignupPage() {
     setError("");
     
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Create user document in Firestore
+      const user = userCredential.user;
+      const { doc, setDoc, serverTimestamp } = await import("firebase/firestore");
+      const { db } = await import("@/lib/firebase");
+      
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        role: "user", // default role
+        createdAt: serverTimestamp(),
+      });
+
       window.location.href = "/";
     } catch (err: any) {
       setError(err.message || "Failed to create an account");
