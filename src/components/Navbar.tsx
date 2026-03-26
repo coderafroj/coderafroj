@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Menu, X, Sparkles, Code2, 
   Blocks, ShoppingCart, Wrench, FileCode2,
-  Plus, LogIn, UserPlus, Cpu, CreditCard, LayoutDashboard, Crown
+  Plus, LogIn, UserPlus, CpuIcon as Cpu, CreditCard, LayoutDashboard, Crown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import OrderForm from "./OrderForm";

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { 
   Code2, Blocks, ShoppingCart, Wrench, 
   FileCode2, ArrowRight, Rocket, Sparkles,
-  ChevronRight, Laptop, Cpu, ShieldCheck, Globe
+  ChevronRight, Laptop, CpuIcon as Cpu, ShieldCheck, Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
