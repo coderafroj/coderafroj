@@ -62,11 +62,11 @@ export default function Home() {
       <div className="absolute top-1/2 right-1/4 w-[700px] h-[700px] bg-secondary/10 rounded-full blur-[120px] -z-10" />
       
       {/* Hero Section */}
-      <section className="relative pt-44 pb-32 px-4 text-center max-w-7xl mx-auto">
+      <section className="relative pt-24 pb-16 md:pt-44 md:pb-32 px-4 text-center max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-10 rounded-full glass border border-white/10 text-primary text-sm font-bold tracking-wide"
+          className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 md:mb-10 rounded-full glass border border-white/10 text-primary text-xs md:text-sm font-bold tracking-wide"
         >
           <Sparkles className="w-4 h-4" />
           CODING THE FUTURE OF THE WEB
@@ -76,7 +76,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-6xl md:text-9xl font-black tracking-tight mb-8 mask-text leading-[0.9]"
+          className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tight mb-6 md:mb-8 mask-text leading-[0.9]"
         >
           Build Faster <br />
           <span className="neon-text">Than Ever.</span>
@@ -86,7 +86,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-xl md:text-2xl text-neutral-400 mb-16 max-w-3xl mx-auto leading-relaxed lg:px-12"
+          className="text-lg md:text-2xl text-neutral-400 mb-10 md:mb-16 max-w-3xl mx-auto leading-relaxed lg:px-12"
         >
           A premium ecosystem for modern developers. From high-performance <strong>SaaS utilities</strong> to custom enterprise solutions that scale worldwide.
         </motion.p>
@@ -99,13 +99,13 @@ export default function Home() {
         >
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-            className="group px-10 py-5 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all flex items-center gap-3 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(139,92,246,0.6)]"
+            className="w-full sm:w-auto group px-10 py-5 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all flex items-center justify-center gap-3 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(139,92,246,0.6)]"
           >
             Start Your Project <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
           <Link 
             href="/widgets" 
-            className="px-10 py-5 rounded-2xl glass font-bold hover:bg-white/10 transition-colors flex items-center gap-2 group"
+            className="w-full sm:w-auto px-10 py-5 rounded-2xl glass font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 group"
           >
             Explore Widgets <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -144,7 +144,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="text-center space-y-2 p-8 glass-card border-white/[0.03]"
+              className="text-center space-y-2 p-6 md:p-8 glass-card border-white/[0.03]"
             >
               <stat.icon className="w-6 h-6 text-primary mx-auto mb-4" />
               <div className="text-4xl font-black">{stat.value}</div>
@@ -164,12 +164,12 @@ export default function Home() {
                viewport={{ once: true }}
                className="space-y-10"
             >
-               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.8] italic">
+               <h2 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] md:leading-[0.8] italic">
                   WE BUILD <br />
                   <span className="text-neutral-700 uppercase not-italic">ENTERPRISE</span> <br />
                   <span className="neon-text not-italic uppercase">SOFTWARE.</span>
                </h2>
-               <p className="text-2xl text-neutral-400 leading-relaxed italic border-l-4 border-primary pl-8">
+               <p className="text-lg md:text-2xl text-neutral-400 leading-relaxed italic border-l-4 border-primary pl-6 md:pl-8">
                   &quot;Kodarafroj isn&apos;t just a platform; it&apos;s a strategic partner. 
                   We don&apos;t just write code; we architect solutions that dominate industries.&quot;
                </p>
@@ -187,7 +187,7 @@ export default function Home() {
             </motion.div>
             
             <div className="relative">
-               <div className="aspect-square glass rounded-[4rem] p-16 flex flex-col justify-center border-dashed border-primary/20 relative overflow-hidden group">
+               <div className="aspect-video sm:aspect-square glass rounded-[2rem] md:rounded-[4rem] p-8 md:p-16 flex flex-col justify-center border-dashed border-primary/20 relative overflow-hidden group">
                   <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
                   <div className="relative z-10 text-center space-y-8">
                      <div className="w-24 h-24 rounded-3xl bg-primary/20 flex items-center justify-center mx-auto animate-float">
@@ -209,8 +209,8 @@ export default function Home() {
 
       {/* Features Grid */}
       <section className="py-32 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-24 space-y-4">
-          <h2 className="text-5xl md:text-6xl font-black tracking-tighter">THE ECOSYSTEM.</h2>
+        <div className="text-center mb-16 md:mb-24 space-y-4">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter">THE ECOSYSTEM.</h2>
           <p className="text-xl text-neutral-500 max-w-2xl mx-auto italic">Everything you need to build, deploy, and scale high-performance applications.</p>
         </div>
 
@@ -243,8 +243,8 @@ export default function Home() {
       {/* Final CTA */}
       <section className="py-32 px-4 max-w-5xl mx-auto relative overflow-hidden">
          <div className="absolute inset-0 bg-primary/10 blur-[150px] -z-10 rounded-full" />
-         <div className="glass-card p-16 md:p-24 text-center border-white/5 space-y-10">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+         <div className="glass-card p-10 md:p-24 text-center border-white/5 space-y-10">
+            <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
                LET&apos;S BUILD <br />
                SOMETHING <span className="neon-text uppercase">LEGENDARY.</span>
             </h2>
@@ -252,11 +252,11 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
                 <button 
                   onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-                  className="px-12 py-6 rounded-2xl bg-white text-black font-black text-xl hover:scale-105 transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]"
+                  className="w-full sm:w-auto px-12 py-6 rounded-2xl bg-white text-black font-black text-xl hover:scale-105 transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]"
                 >
                   Contact Sales
                 </button>
-                <Link href="/market" className="px-12 py-6 rounded-2xl glass font-black text-xl border-white/10 hover:bg-white/10 transition-all">
+                <Link href="/market" className="w-full sm:w-auto px-12 py-6 rounded-2xl glass font-black text-xl border-white/10 hover:bg-white/10 transition-all text-center">
                    View Marketplace
                 </Link>
             </div>

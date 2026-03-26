@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Menu, X, Sparkles, Code2, 
   Blocks, ShoppingCart, Wrench, FileCode2,
-  Plus, LogIn, UserPlus
+  Plus, LogIn, UserPlus, Cpu, CreditCard, LayoutDashboard, Crown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import OrderForm from "./OrderForm";
@@ -38,16 +38,22 @@ export function Navbar() {
     const handleOpenOrder = () => setIsOrderFormOpen(true);
     window.addEventListener('open-order-form', handleOpenOrder);
     
+    // Close menu and modal on route change
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMobileMenuOpen(false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsOrderFormOpen(false);
+    
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener('open-order-form', handleOpenOrder);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 pt-4",
+        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 px-4 pt-4",
         isScrolled ? "pb-4" : "pb-0"
       )}
     >
@@ -161,56 +167,98 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Sidebar */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden pt-4 overflow-hidden"
-            >
-              <div className="flex flex-col gap-2 pb-6">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/5 border border-white/5 text-neutral-300 text-lg font-bold"
-                  >
-                    <div className="flex items-center gap-3">
-                      <link.icon className="w-5 h-5 text-primary" />
-                      {link.name}
-                    </div>
-                    <motion.div whileHover={{ x: 5 }}>
-                      <Plus className="rotate-45" size={16} />
-                    </motion.div>
-                  </Link>
-                ))}
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="fixed inset-0 h-screen bg-black/80 backdrop-blur-md z-[101] lg:hidden"
+              />
+              
+              {/* Sidebar content */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed top-0 right-0 w-[85%] max-w-[340px] h-screen bg-neutral-950 border-l border-white/10 z-[102] p-8 flex flex-col lg:hidden shadow-2xl"
+              >
+                <div className="flex items-center justify-between mb-10">
+                   <div className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-primary" />
+                      <span className="font-black text-sm tracking-tighter uppercase">Menu</span>
+                   </div>
+                   <button 
+                     onClick={() => setIsMobileMenuOpen(false)}
+                     className="p-2 rounded-xl glass border-white/5 text-neutral-400"
+                   >
+                     <X size={20} />
+                   </button>
+                </div>
+
+                <div className="flex flex-col gap-2 overflow-y-auto flex-1 scrollbar-hide">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between px-5 py-4 rounded-xl border transition-all text-sm font-bold",
+                        pathname === link.href 
+                          ? "bg-primary/10 border-primary/20 text-primary" 
+                          : "bg-white/5 border-white/5 text-neutral-400"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <link.icon className="w-4 h-4" />
+                        {link.name}
+                      </div>
+                      {link.premium && (
+                        <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-md font-black italic">PRO</span>
+                      )}
+                    </Link>
+                  ))}
+                </div>
                 
-                <div className="h-px bg-white/5 my-4" />
-                
-                <div className="grid grid-cols-1 gap-3">
+                <div className="pt-8 mt-auto space-y-3">
                    <button 
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       setIsOrderFormOpen(true);
                     }}
-                    className="py-4 rounded-2xl bg-primary text-white font-black flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                   >
-                    <Plus size={18} /> Order Custom Software
+                    <Plus size={16} /> Order Software
                   </button>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="py-4 rounded-2xl glass text-center font-bold flex items-center justify-center gap-2">
-                       <LogIn size={18} /> Log in
-                    </Link>
-                    <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)} className="py-4 rounded-2xl bg-white text-black text-center font-black flex items-center justify-center gap-2">
-                       Sign up <UserPlus size={18} />
-                    </Link>
-                  </div>
+                  
+                  {!user ? (
+                    <div className="grid grid-cols-2 gap-3">
+                      <Link href="/login" className="py-4 rounded-xl glass border-white/10 text-center text-xs font-bold flex items-center justify-center gap-2">
+                         <LogIn size={14} /> Log in
+                      </Link>
+                      <Link href="/signup" className="py-4 rounded-xl bg-white text-black text-center text-xs font-black flex items-center justify-center gap-2">
+                         Sign up <UserPlus size={14} />
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
+                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black">
+                          {user.email?.[0].toUpperCase()}
+                       </div>
+                       <div className="flex flex-col min-w-0">
+                          <span className="text-[10px] font-black text-white leading-none mb-1 uppercase tracking-widest truncate">{user.email}</span>
+                          <span className="text-[8px] text-neutral-500 leading-none">{profile?.role || 'User'} Tier</span>
+                       </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </nav>
