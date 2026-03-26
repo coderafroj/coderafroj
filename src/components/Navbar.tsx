@@ -186,77 +186,83 @@ export function Navbar() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="fixed top-0 right-0 w-[85%] max-w-[340px] h-screen bg-neutral-950 border-l border-white/10 z-[102] p-8 flex flex-col lg:hidden shadow-2xl"
+                className="fixed top-0 right-0 w-[85%] max-w-[340px] h-[100dvh] bg-neutral-950 border-l border-white/10 z-[102] p-0 flex flex-col lg:hidden shadow-2xl overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-10">
-                   <div className="flex items-center gap-2">
-                      <Sparkles className="w-5 h-5 text-primary" />
-                      <span className="font-black text-sm tracking-tighter uppercase">Menu</span>
-                   </div>
-                   <button 
-                     onClick={() => setIsMobileMenuOpen(false)}
-                     className="p-2 rounded-xl glass border-white/5 text-neutral-400"
-                   >
-                     <X size={20} />
-                   </button>
-                </div>
+                <div className="flex-1 overflow-y-auto p-8 pt-10 scrollbar-hide">
+                  <div className="flex items-center justify-between mb-10">
+                     <div className="flex items-center gap-2">
+                        <Sparkles className="w-5 h-5 text-primary" />
+                        <span className="font-black text-sm tracking-tighter uppercase">Menu</span>
+                     </div>
+                     <button 
+                       onClick={() => setIsMobileMenuOpen(false)}
+                       className="p-2 rounded-xl glass border-white/5 text-neutral-400"
+                     >
+                       <X size={20} />
+                     </button>
+                  </div>
 
-                <div className="flex flex-col gap-2 overflow-y-auto flex-1 scrollbar-hide">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={cn(
-                        "flex items-center justify-between px-5 py-4 rounded-xl border transition-all text-sm font-bold",
-                        pathname === link.href 
-                          ? "bg-primary/10 border-primary/20 text-primary" 
-                          : "bg-white/5 border-white/5 text-neutral-400"
-                      )}
+                  <div className="flex flex-col gap-2">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          "flex items-center justify-between px-5 py-4 rounded-xl border transition-all text-sm font-bold",
+                          pathname === link.href 
+                            ? "bg-primary/10 border-primary/20 text-primary" 
+                            : "bg-white/5 border-white/5 text-neutral-400"
+                        )}
+                      >
+                        <div className="flex items-center gap-3">
+                          <link.icon className="w-4 h-4" />
+                          {link.name}
+                        </div>
+                        {link.premium && (
+                          <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-md font-black italic">PRO</span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                  
+                  <div className="pt-8 space-y-3 pb-8">
+                     <button 
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsOrderFormOpen(true);
+                      }}
+                      className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                     >
-                      <div className="flex items-center gap-3">
-                        <link.icon className="w-4 h-4" />
-                        {link.name}
+                      <Plus size={16} /> Order Software
+                    </button>
+                    
+                    {!user ? (
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link href="/login" className="py-4 rounded-xl glass border-white/10 text-center text-xs font-bold flex items-center justify-center gap-2">
+                           <LogIn size={14} /> Log in
+                        </Link>
+                        <Link href="/signup" className="py-4 rounded-xl bg-white text-black text-center text-xs font-black flex items-center justify-center gap-2">
+                           Sign up <UserPlus size={14} />
+                        </Link>
                       </div>
-                      {link.premium && (
-                        <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-md font-black italic">PRO</span>
-                      )}
-                    </Link>
-                  ))}
+                    ) : (
+                      <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black">
+                            {user.email?.[0].toUpperCase()}
+                         </div>
+                         <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] font-black text-white leading-none mb-1 uppercase tracking-widest truncate">{user.email}</span>
+                            <span className="text-[8px] text-neutral-500 leading-none">{profile?.role || 'User'} Tier</span>
+                         </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
-                <div className="pt-8 mt-auto space-y-3">
-                   <button 
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      setIsOrderFormOpen(true);
-                    }}
-                    className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
-                  >
-                    <Plus size={16} /> Order Software
-                  </button>
-                  
-                  {!user ? (
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link href="/login" className="py-4 rounded-xl glass border-white/10 text-center text-xs font-bold flex items-center justify-center gap-2">
-                         <LogIn size={14} /> Log in
-                      </Link>
-                      <Link href="/signup" className="py-4 rounded-xl bg-white text-black text-center text-xs font-black flex items-center justify-center gap-2">
-                         Sign up <UserPlus size={14} />
-                      </Link>
-                    </div>
-                  ) : (
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
-                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-black">
-                          {user.email?.[0].toUpperCase()}
-                       </div>
-                       <div className="flex flex-col min-w-0">
-                          <span className="text-[10px] font-black text-white leading-none mb-1 uppercase tracking-widest truncate">{user.email}</span>
-                          <span className="text-[8px] text-neutral-500 leading-none">{profile?.role || 'User'} Tier</span>
-                       </div>
-                    </div>
-                  )}
-                </div>
+                {/* Decorative glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -z-10" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary/10 blur-3xl -z-10" />
               </motion.div>
             </>
           )}

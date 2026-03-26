@@ -17,15 +17,19 @@ export async function POST(req: Request) {
         "X-Title": "Kodarafroj AI Architect",
       },
       body: JSON.stringify({
-        model: "openai/gpt-4o-mini", // Cost-effective but powerful
+        model: "anthropic/claude-3.5-sonnet:beta", 
         messages: [
           {
             role: "system",
-            content: "You are the Kodarafroj AI Architect. Your task is to provide high-level technical architectures, folder structures, and implementation plans for software projects. Use Markdown. Be concise, professional, and focus on scalability."
+            content: `You are the Kodarafroj Elite AI Architect. 
+            Your mission is to engineer high-performance, enterprise-grade software architectures.
+            Provide detailed technical specifications, modular folder structures (following Clean Architecture), 
+            and a step-by-step implementation path with focus on scalability, security, and edge-case handling.
+            Output must be in professional Markdown. Use a tone that is technical, innovative, and authoritative.`
           },
           {
             role: "user",
-            content: `Project Requirements: ${prompt}\n\nExisting Context: ${context || "None"}`
+            content: `MISSION_PROMPT: ${prompt}\n\nTECHNICAL_CONTEXT: ${context || "None"}`
           }
         ],
       }),

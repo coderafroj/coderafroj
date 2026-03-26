@@ -6,7 +6,7 @@ import {
   Terminal, Sparkles, Send, Bot, 
   Cpu, Code2, Rocket, Lock, 
   ChevronRight, ArrowRight, RefreshCw,
-  Layout, Database, Shield
+  Layout, Database, Shield, Copy, Check
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import Link from "next/link";
@@ -16,6 +16,14 @@ export default function AIArchitectPage() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyResults = () => {
+    if (!result) return;
+    navigator.clipboard.writeText(result);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleGenerate = async () => {
     if (!prompt || loading || !isPro) return;

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, Send, ArrowRight, ChevronLeft, Rocket } from "lucide-react";
+import { X, CheckCircle2, Send, ArrowRight, ChevronLeft, Rocket, Sparkles, RefreshCw } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,10 +25,31 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
     budget: "Medium ($500 - $2000)",
   });
 
+  const handleEnhance = async () => {
+    if (!formData.description || isEnhancing) return;
+    setIsEnhancing(true);
+    try {
+      const response = await fetch("/api/ai/enhance-requirement", {
+        method: "POST",
+        body: JSON.stringify({ prompt: formData.description }),
+      });
+      const data = await response.json();
+      if (data.enhanced) {
+        setFormData({ ...formData, description: data.enhanced });
+      }
+    } catch (error) {
+      console.error("Enhance error:", error);
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
+      const { collection, addDoc, serverTimestamp } = await import("firebase/firestore");
+      const { db } = await import("@/lib/firebase");
       await addDoc(collection(db, "orders"), {
         ...formData,
         status: "pending",
@@ -170,8 +192,19 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 ml-2">MISSION_DETAILS</label>
+                      <div className="space-y-3 relative group/area">
+                        <div className="flex items-center justify-between ml-2">
+                           <label className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600">MISSION_DETAILS</label>
+                           <button 
+                             type="button"
+                             onClick={handleEnhance}
+                             disabled={!formData.description || isEnhancing}
+                             className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1.5 px-3 py-1 rounded-full glass border-primary/20 hover:bg-primary/10 transition-all disabled:opacity-30"
+                           >
+                             {isEnhancing ? <RefreshCw size={10} className="animate-spin" /> : <Sparkles size={10} />}
+                             {isEnhancing ? "ENHANCING..." : "AI_ENHANCE"}
+                           </button>
+                        </div>
                         <textarea 
                           required
                           className="w-full h-44 bg-black/40 border border-white/10 rounded-[2rem] px-8 py-6 outline-none focus:ring-2 focus:ring-primary/40 resize-none font-medium italic transition-all"
