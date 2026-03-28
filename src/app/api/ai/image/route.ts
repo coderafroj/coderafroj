@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { InferenceClient } from "@huggingface/inference";
 
 export async function POST(req: Request) {
   try {
@@ -14,25 +13,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "HF_TOKEN is not configured" }, { status: 500 });
     }
 
-    const client = new InferenceClient(token);
+    const res = await fetch(
+      "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ inputs: prompt })
+      }
+    );
 
-    const response = await client.textToImage({
-      provider: "nscale",
-      model: "stabilityai/stable-diffusion-xl-base-1.0",
-      inputs: prompt,
-      parameters: { num_inference_steps: 30 },
-    });
-    
-    // Cast to Blob as it actually returns a Blob despite TS typings
-    const imageBlob = response as unknown as Blob;
+    if (!res.ok) {
+       const errText = await res.text();
+       throw new Error(`HF Error: ${res.status} - ${errText}`);
+    }
 
-    const arrayBuffer = await imageBlob.arrayBuffer();
+    const blob = await res.blob();
+    const arrayBuffer = await blob.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
     return new NextResponse(buffer, {
       status: 200,
       headers: {
-        "Content-Type": imageBlob.type || "image/png",
+        "Content-Type": blob.type || "image/jpeg",
         "Cache-Control": "no-store",
       },
     });
