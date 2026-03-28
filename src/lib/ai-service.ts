@@ -15,11 +15,12 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
   const { systemInstruction, userPrompt, maxTokens, temperature } = options;
 
   // 1. Try Groq (Ultra-Fast)
-  if (process.env.GROQ_API_KEY) {
+  const groqKey = process.env.GROQ_API_KEY || process.env.GROQ_api_KEY;
+  if (groqKey) {
     try {
       console.log("Attempting Groq...");
       const groq = new OpenAI({
-        apiKey: process.env.GROQ_API_KEY,
+        apiKey: groqKey,
         baseURL: "https://api.groq.com/openai/v1",
       });
 
