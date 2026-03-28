@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import RazorpayScript, { loadRazorpay } from "@/components/RazorpayScript";
 
 type ToolType = "code_gen" | "blog" | "linkedin" | "explain" | "project_gen" | "audit";
@@ -228,6 +229,42 @@ export default function ToolsPage() {
           <div className="flex items-center gap-4 border-b border-white/5 pb-6">
             <Wand2 className="text-accent" />
             <h2 className="text-3xl font-black tracking-tight uppercase italic">AI Labs <span className="text-neutral-700 not-italic">_Beta</span></h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            {/* Coding Teacher */}
+            <Link href="/tools/coding-teacher" className="block w-full">
+              <motion.div 
+                whileHover={{ y: -8 }}
+                className="glass-card p-1 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_0_60px_rgba(59,130,246,0.15)] bg-gradient-to-br from-white/5 to-transparent h-full cursor-pointer flex flex-col justify-center items-center text-center py-12"
+              >
+                  <div className="w-16 h-16 rounded-3xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-500 mb-6">
+                    <Zap size={32} />
+                  </div>
+                  <h3 className="text-2xl font-black tracking-tight mb-2">Coding Teacher</h3>
+                  <p className="text-[10px] text-neutral-500 font-black uppercase tracking-widest mb-6">Mistral Neural Mentorship</p>
+                  <div className="px-6 py-3 rounded-xl bg-blue-500/10 text-blue-500 font-black text-sm flex items-center gap-2 border border-blue-500/20 active:scale-95 transition-all">
+                    OPEN MENTOR <ExternalLink size={16} />
+                  </div>
+              </motion.div>
+            </Link>
+
+            {/* Image Studio */}
+            <Link href="/tools/image-generator" className="block w-full">
+              <motion.div 
+                whileHover={{ y: -8 }}
+                className="glass-card p-1 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_0_60px_rgba(236,72,153,0.15)] bg-gradient-to-bl from-white/5 to-transparent h-full cursor-pointer flex flex-col justify-center items-center text-center py-12"
+              >
+                  <div className="w-16 h-16 rounded-3xl bg-pink-500/10 flex items-center justify-center border border-pink-500/20 text-pink-500 mb-6">
+                    <Sparkles size={32} />
+                  </div>
+                  <h3 className="text-2xl font-black tracking-tight mb-2">Image Studio</h3>
+                  <p className="text-[10px] text-neutral-500 font-black uppercase tracking-widest mb-6">SDXL Rendering Engine</p>
+                  <div className="px-6 py-3 rounded-xl bg-pink-500/10 text-pink-500 font-black text-sm flex items-center gap-2 border border-pink-500/20 active:scale-95 transition-all">
+                    OPEN STUDIO <ExternalLink size={16} />
+                  </div>
+              </motion.div>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
