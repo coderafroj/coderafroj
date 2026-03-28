@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useState } from "react";
+import { loadRazorpay } from "@/components/RazorpayScript";
 
 const plans = [
   {
@@ -55,6 +57,52 @@ const plans = [
 ];
 
 export default function PricingPage() {
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handlePayment = async (plan: typeof plans[0]) => {
+    if (plan.price === "0") {
+      alert("You are already on the current plan.");
+      return;
+    }
+    if (plan.price === "Custom") {
+      window.location.href = "mailto:enterprise@kodarafroj.com";
+      return;
+    }
+
+    setLoadingPlan(plan.name);
+    try {
+      const res = await fetch("/api/payments/razorpay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: parseInt(plan.price), currency: "USD" })
+      });
+      
+      const order = await res.json();
+      const rzp = await loadRazorpay();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_SQGeMDUiZJJzNQ",
+        amount: order.amount,
+        currency: order.currency,
+        name: "Kodarafroj Ecosystem",
+        description: `Upgrade to ${plan.name}`,
+        order_id: order.id,
+        handler: async (response: any) => {
+          alert(`Success! Upgraded to ${plan.name} plan.`);
+        },
+        theme: { color: "#8B5CF6" },
+      };
+
+      const razorpayInstance = new (window as any).Razorpay(options);
+      razorpayInstance.open();
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Payment failed. Please try again.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   return (
     <div className="relative min-h-screen pb-32 pt-44 px-4 overflow-hidden">
       {/* Background patterns */}
@@ -118,14 +166,17 @@ export default function PricingPage() {
                 </div>
 
                 <button 
+                  onClick={() => handlePayment(plan)}
+                  disabled={loadingPlan === plan.name}
                   className={cn(
                     "w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2",
                     plan.premium 
                       ? "bg-primary text-white hover:neon-glow" 
-                      : "bg-white/5 border border-white/10 text-neutral-400 hover:bg-white/10"
+                      : "bg-white/5 border border-white/10 text-neutral-400 hover:bg-white/10",
+                    loadingPlan === plan.name && "opacity-70 cursor-wait"
                   )}
                 >
-                  {plan.buttonText} <ArrowRight size={18} />
+                  {loadingPlan === plan.name ? "PROCESSING..." : plan.buttonText} <ArrowRight size={18} />
                 </button>
               </div>
             </motion.div>

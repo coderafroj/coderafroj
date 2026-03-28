@@ -134,18 +134,18 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.9 }}
-            className="relative w-full max-w-4xl h-full md:h-auto max-h-[90vh] bg-neutral-900 md:rounded-[3rem] border border-white/5 flex flex-col overflow-hidden shadow-[0_0_100px_-20px_rgba(139,92,246,0.2)]"
+            className="relative w-full max-w-4xl h-auto max-h-[95vh] bg-neutral-900 md:rounded-[2.5rem] border border-white/5 flex flex-col overflow-hidden shadow-[0_0_100px_-20px_rgba(139,92,246,0.2)]"
           >
             {/* Header Area */}
-            <div className="p-8 md:p-12 pb-6 border-b border-white/5 flex items-start justify-between bg-gradient-to-b from-white/[0.02] to-transparent">
-              <div className="space-y-3">
+            <div className="p-6 md:p-8 pb-4 border-b border-white/5 flex items-start justify-between bg-gradient-to-b from-white/[0.02] to-transparent">
+              <div className="space-y-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest">
                   <Rocket size={12} /> Step {step} of 3
                 </div>
                 <h2 className="text-3xl md:text-5xl font-black italic tracking-tighter leading-none">
                   MANUFACTURE <span className="text-primary not-italic">SOFTWARE.</span>
                 </h2>
-                <p className="text-sm text-white/40 font-medium">Expert architectural assessment for your next big project.</p>
+                <p className="text-sm text-white/40 font-medium">Expert architectural assessment for your project.</p>
               </div>
               <button 
                 onClick={onClose}
@@ -157,7 +157,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 overflow-y-auto p-8 md:p-12 pt-10 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
               {!submitted ? (
                 <div className="max-w-2xl mx-auto w-full">
                   {step === 1 && (
@@ -166,7 +166,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
-                      className="space-y-10"
+                      className="space-y-6"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
@@ -230,7 +230,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
-                      className="space-y-10"
+                      className="space-y-6"
                     >
                       <div className="space-y-4">
                         <label className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-1">BUDGET_PROJECTION</label>
@@ -268,7 +268,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                         </div>
                         <textarea 
                           required
-                          className="w-full h-48 bg-white/[0.03] border border-white/5 rounded-[2.5rem] px-8 py-6 outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 resize-none font-medium italic transition-all text-lg leading-relaxed placeholder:text-white/10"
+                          className="w-full h-32 bg-white/[0.03] border border-white/5 rounded-[2.5rem] px-8 py-6 outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/40 resize-none font-medium italic transition-all text-lg leading-relaxed placeholder:text-white/10"
                           placeholder="What engineering marvel are we building?"
                           value={formData.description}
                           onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -298,9 +298,9 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
                       key="step3"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="space-y-10"
+                      className="space-y-6"
                     >
-                      <div className="p-8 rounded-[2.5rem] bg-white/[0.02] border border-white/5 space-y-8 relative overflow-hidden">
+                      <div className="p-6 md:p-8 rounded-[2.5rem] bg-white/[0.02] border border-white/5 space-y-6 relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-6 opacity-10">
                            <ShieldCheck size={120} className="text-primary" />
                         </div>
@@ -371,7 +371,7 @@ export default function OrderForm({ isOpen, onClose }: OrderFormProps) {
             </div>
 
             {/* Footer Area - Branding */}
-            <div className="p-8 border-t border-white/5 flex items-center justify-between bg-black/40">
+            <div className="p-6 md:p-8 border-t border-white/5 flex items-center justify-between bg-black/40">
                <div className="flex items-center gap-2">
                   <Sparkles size={14} className="text-primary" />
                   <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">KODARAFROJ ENGINEERING LABS</span>

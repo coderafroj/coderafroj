@@ -4,14 +4,15 @@ export async function POST(req: Request) {
   try {
     const { prompt, context } = await req.json();
 
-    if (!process.env.OPENROUTER_API_KEY) {
+    const apiKey = process.env.OPENROUTER_API_KEY || "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";
+    if (!apiKey) {
       return NextResponse.json({ error: "API Key not configured" }, { status: 500 });
     }
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://kodarafroj.com", // Optional, for OpenRouter tracking
         "X-Title": "Kodarafroj AI Architect",
