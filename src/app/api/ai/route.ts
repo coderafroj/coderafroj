@@ -1,18 +1,10 @@
 import { NextResponse } from "next/server";
 import { OpenAI } from "openai";
+import { fallBackToGemini } from "@/lib/gemini-fallback";
 
 export async function POST(req: Request) {
   try {
     const { type, prompt, context } = await req.json();
-
-    if (!process.env.HF_TOKEN) {
-      return NextResponse.json({ error: "HF Token not configured" }, { status: 500 });
-    }
-
-    const client = new OpenAI({
-      baseURL: "https://router.huggingface.co/v1",
-      apiKey: process.env.HF_TOKEN,
-    });
 
     let systemPrompt = "You are a helpful AI assistant.";
     let model = "Qwen/Qwen2.5-72B-Instruct"; // Generic powerful free model
@@ -70,18 +62,38 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Invalid tool type" }, { status: 400 });
     }
 
-    const chatCompletion = await client.chat.completions.create({
-      model: model,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: `PROMPT: ${prompt}\n\nCONTEXT: ${context || "None"}` },
-      ],
-    });
+    const finalPrompt = `PROMPT: ${prompt}\n\nCONTEXT: ${context || "None"}`;
 
-    return NextResponse.json({ 
-       result: chatCompletion.choices[0]?.message?.content,
-       model_used: model 
-    });
+    if (process.env.HF_TOKEN) {
+      try {
+        const client = new OpenAI({
+          baseURL: "https://router.huggingface.co/v1",
+          apiKey: process.env.HF_TOKEN,
+        });
+
+        const chatCompletion = await client.chat.completions.create({
+          model: model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: finalPrompt },
+          ],
+        });
+
+        const text = chatCompletion.choices[0]?.message?.content;
+        if (text) {
+          return NextResponse.json({ 
+             result: text,
+             model_used: model 
+          });
+        }
+      } catch (hfError: any) {
+        console.warn("HF Suite Failed, falling back to Gemini:", hfError.message);
+      }
+    }
+
+    console.log("Using Gemini Fallback for AI Suite");
+    const fallbackText = await fallBackToGemini(systemPrompt, finalPrompt);
+    return NextResponse.json({ result: fallbackText, model_used: "gemini-1.5-flash (Fallback)" });
 
   } catch (error: any) {
     console.error("AI Suite Route Error:", error);
