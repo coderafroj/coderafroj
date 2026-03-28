@@ -36,7 +36,12 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
       const text = chatCompletion.choices[0]?.message?.content;
       if (text) return { text, provider: "groq" };
     } catch (error: any) {
-      console.warn("Groq Failed:", error.message);
+      console.error("Groq Failure Details:", {
+        message: error.message,
+        status: error.status,
+        name: error.name,
+        stack: error.stack
+      });
     }
   }
 
@@ -62,12 +67,15 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
       const text = chatCompletion.choices[0]?.message?.content;
       if (text) return { text, provider: "huggingface" };
     } catch (error: any) {
-      console.warn("Hugging Face Failed:", error.message);
-      // Continue to next provider if it's a rate limit or server error
+      console.error("Hugging Face Failure Details:", {
+        message: error.message,
+        status: error.status,
+        name: error.name
+      });
     }
   }
 
-  // 2. Try OpenAI (Stable & Paid)
+  // 3. Try OpenAI (Stable & Paid)
   if (process.env.OPENAI_API_KEY) {
     try {
       console.log("Attempting OpenAI...");
@@ -76,7 +84,7 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
       });
 
       const chatCompletion = await openai.chat.completions.create({
-        model: "gpt-4o-mini", // Cost-effective and powerful
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemInstruction },
           { role: "user", content: userPrompt },
@@ -88,12 +96,15 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
       const text = chatCompletion.choices[0]?.message?.content;
       if (text) return { text, provider: "openai" };
     } catch (error: any) {
-      console.warn("OpenAI Failed:", error.message);
-      // Continue to next provider
+      console.error("OpenAI Failure Details:", {
+        message: error.message,
+        status: error.status,
+        name: error.name
+      });
     }
   }
 
-  // 3. Final Fallback: Gemini (Reliable)
+  // 4. Final Fallback: Gemini (Reliable)
   if (process.env.GEMINI_API_KEY) {
     try {
       console.log("Attempting Gemini (Final Fallback)...");
@@ -107,8 +118,11 @@ export async function generateAIResponse(options: AIServiceOptions): Promise<{ t
       const text = result.response.text();
       if (text) return { text, provider: "gemini" };
     } catch (error: any) {
-      console.error("Gemini Fallback also failed:", error.message);
-      throw new Error("All AI providers failed. Please try again later.");
+      console.error("Gemini Failure Details:", {
+        message: error.message,
+        name: error.name
+      });
+      throw new Error(`All AI providers failed. Last Error (Gemini): ${error.message}`);
     }
   }
 
