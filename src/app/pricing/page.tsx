@@ -81,7 +81,7 @@ export default function PricingPage() {
       const rzp = await loadRazorpay();
 
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_SQGeMDUiZJJzNQ",
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         name: "Kodarafroj Ecosystem",

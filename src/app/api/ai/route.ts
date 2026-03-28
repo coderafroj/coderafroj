@@ -1,16 +1,21 @@
 import { NextResponse } from "next/server";
+import { OpenAI } from "openai";
 
 export async function POST(req: Request) {
   try {
     const { type, prompt, context } = await req.json();
 
-    const apiKey = process.env.OPENROUTER_API_KEY || "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";
-    if (!apiKey) {
-      return NextResponse.json({ error: "API Key not configured" }, { status: 500 });
+    if (!process.env.HF_TOKEN) {
+      return NextResponse.json({ error: "HF Token not configured" }, { status: 500 });
     }
 
+    const client = new OpenAI({
+      baseURL: "https://router.huggingface.co/v1",
+      apiKey: process.env.HF_TOKEN,
+    });
+
     let systemPrompt = "You are a helpful AI assistant.";
-    let model = "openai/gpt-4o-mini"; // Default fast model
+    let model = "mistralai/Mistral-7B-Instruct-v0.2"; // Generic powerful free model
 
     switch (type) {
       case "code_gen":
@@ -20,7 +25,7 @@ export async function POST(req: Request) {
         - Ensure TypeScript safety and optimal performance.
         - Include brief but high-level architectural explanations.
         - Output only the code and the technical summary.`;
-        model = "anthropic/claude-3.5-sonnet"; 
+        model = "mistralai/Mistral-7B-Instruct-v0.2"; 
         break;
       case "blog":
         systemPrompt = `You are a World-Class Content Strategist and Technical Writer. 
@@ -42,7 +47,7 @@ export async function POST(req: Request) {
         - Use analogies for complex parts.
         - Break down the logic step-by-step.
         - Highlight "Gotchas", best practices, and performance tips.`;
-        model = "anthropic/claude-3-haiku";
+        model = "mistralai/Mistral-7B-Instruct-v0.2";
         break;
       case "project_gen":
         systemPrompt = `You are an Elite AI Systems Architect. 
@@ -51,7 +56,7 @@ export async function POST(req: Request) {
         - Recommend the best tech stack for the given requirements.
         - Provide initial setup steps, essential dependencies, and key architectural decisions.
         - Output must be technical, precise, and innovative.`;
-        model = "anthropic/claude-3.5-sonnet";
+        model = "mistralai/Mistral-7B-Instruct-v0.2";
         break;
       case "audit":
         systemPrompt = `You are a High-Level Security Researcher and Senior Code Auditor. 
@@ -59,42 +64,27 @@ export async function POST(req: Request) {
         - Target: Security vulnerabilities (XSS, SQLi, etc.), Performance bottlenecks, and Anti-patterns.
         - Provide a severity rating for each finding (Critical, High, Medium, Low).
         - Include specific, actionable code fixes for every issue found.`;
-        model = "anthropic/claude-3.5-sonnet";
+        model = "mistralai/Mistral-7B-Instruct-v0.2";
         break;
       default:
         return NextResponse.json({ error: "Invalid tool type" }, { status: 400 });
     }
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "X-Title": "Kodarafroj AI Ecosystem",
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `PROMPT: ${prompt}\n\nCONTEXT: ${context || "None"}` }
-        ],
-      }),
+    const chatCompletion = await client.chat.completions.create({
+      model: model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: `PROMPT: ${prompt}\n\nCONTEXT: ${context || "None"}` },
+      ],
     });
-
-    const data = await response.json();
-    
-    if (data.error) {
-       console.error("OpenRouter API Error:", data.error);
-       return NextResponse.json({ error: data.error.message || "Failed to fetch from AI" }, { status: 500 });
-    }
 
     return NextResponse.json({ 
-       result: data.choices?.[0]?.message?.content,
-       model_used: data.model 
+       result: chatCompletion.choices[0]?.message?.content,
+       model_used: model 
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("AI Suite Route Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
   }
 }
