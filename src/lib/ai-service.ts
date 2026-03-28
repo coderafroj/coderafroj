@@ -1,7 +1,7 @@
 import { OpenAI } from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export type AIProvider = "huggingface" | "openai" | "gemini";
+export type AIProvider = "huggingface" | "openai" | "gemini" | "groq";
 
 interface AIServiceOptions {
   model?: string;
@@ -14,7 +14,33 @@ interface AIServiceOptions {
 export async function generateAIResponse(options: AIServiceOptions): Promise<{ text: string; provider: AIProvider }> {
   const { systemInstruction, userPrompt, maxTokens, temperature } = options;
 
-  // 1. Try Hugging Face (Free & Limited)
+  // 1. Try Groq (Ultra-Fast)
+  if (process.env.GROQ_API_KEY) {
+    try {
+      console.log("Attempting Groq...");
+      const groq = new OpenAI({
+        apiKey: process.env.GROQ_API_KEY,
+        baseURL: "https://api.groq.com/openai/v1",
+      });
+
+      const chatCompletion = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile", // Very powerful and fast
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: userPrompt },
+        ],
+        max_tokens: maxTokens || 2048,
+        temperature: temperature || 0.7,
+      });
+
+      const text = chatCompletion.choices[0]?.message?.content;
+      if (text) return { text, provider: "groq" };
+    } catch (error: any) {
+      console.warn("Groq Failed:", error.message);
+    }
+  }
+
+  // 2. Try Hugging Face (Free & Limited)
   if (process.env.HF_TOKEN) {
     try {
       console.log("Attempting Hugging Face...");
