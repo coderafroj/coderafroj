@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     });
 
     let systemPrompt = "You are a helpful AI assistant.";
-    let model = "mistralai/Mistral-7B-Instruct-v0.2"; // Generic powerful free model
+    let model = "Qwen/Qwen2.5-72B-Instruct"; // Generic powerful free model
 
     switch (type) {
       case "code_gen":
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
         - Ensure TypeScript safety and optimal performance.
         - Include brief but high-level architectural explanations.
         - Output only the code and the technical summary.`;
-        model = "mistralai/Mistral-7B-Instruct-v0.2"; 
+        model = "Qwen/Qwen2.5-72B-Instruct"; 
         break;
       case "blog":
         systemPrompt = `You are a World-Class Content Strategist and Technical Writer. 
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
         - Use analogies for complex parts.
         - Break down the logic step-by-step.
         - Highlight "Gotchas", best practices, and performance tips.`;
-        model = "mistralai/Mistral-7B-Instruct-v0.2";
+        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       case "project_gen":
         systemPrompt = `You are an Elite AI Systems Architect. 
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         - Recommend the best tech stack for the given requirements.
         - Provide initial setup steps, essential dependencies, and key architectural decisions.
         - Output must be technical, precise, and innovative.`;
-        model = "mistralai/Mistral-7B-Instruct-v0.2";
+        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       case "audit":
         systemPrompt = `You are a High-Level Security Researcher and Senior Code Auditor. 
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
         - Target: Security vulnerabilities (XSS, SQLi, etc.), Performance bottlenecks, and Anti-patterns.
         - Provide a severity rating for each finding (Critical, High, Medium, Low).
         - Include specific, actionable code fixes for every issue found.`;
-        model = "mistralai/Mistral-7B-Instruct-v0.2";
+        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       default:
         return NextResponse.json({ error: "Invalid tool type" }, { status: 400 });

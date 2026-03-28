@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     });
 
     const chatCompletion = await client.chat.completions.create({
-      model: "mistralai/Mistral-7B-Instruct-v0.2",
+      model: "Qwen/Qwen2.5-72B-Instruct",
       messages: [
         {
           role: "system",
