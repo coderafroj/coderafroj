@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { InferenceClient } from "@huggingface/inference";
+import { OpenAI } from "openai";
 
 export async function POST(req: Request) {
   try {
@@ -14,9 +14,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    const client = new InferenceClient(token);
+    const client = new OpenAI({
+      baseURL: "https://router.huggingface.co/v1",
+      apiKey: token,
+    });
 
-    const chatCompletion = await client.chatCompletion({
+    const chatCompletion = await client.chat.completions.create({
       model: "mistralai/Mistral-7B-Instruct-v0.2",
       messages: [
         { 
