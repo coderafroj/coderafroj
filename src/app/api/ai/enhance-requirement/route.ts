@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai";
-import { fallBackToGemini } from "@/lib/gemini-fallback";
+import { generateAIResponse } from "@/lib/ai-service";
 
 export async function POST(req: Request) {
   try {
@@ -14,33 +13,12 @@ Be concise (under 150 words).`;
 
     const finalPrompt = `Original Prompt: ${prompt}\n\nEnhance this for a professional development order.`;
 
-    if (process.env.HF_TOKEN) {
-      try {
-        const client = new OpenAI({
-          baseURL: "https://router.huggingface.co/v1",
-          apiKey: process.env.HF_TOKEN,
-        });
+    const { text } = await generateAIResponse({
+      systemInstruction: systemPrompt,
+      userPrompt: finalPrompt,
+    });
 
-        const chatCompletion = await client.chat.completions.create({
-          model: "Qwen/Qwen2.5-72B-Instruct",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: finalPrompt }
-          ],
-        });
-
-        const text = chatCompletion.choices[0]?.message?.content;
-        if (text) {
-          return NextResponse.json({ enhanced: text });
-        }
-      } catch (hfError: any) {
-        console.warn("HF Suite Failed for Enhance Requirement, falling back to Gemini:", hfError.message);
-      }
-    }
-
-    console.log("Using Gemini Fallback for Enhance Requirement");
-    const fallbackText = await fallBackToGemini(systemPrompt, finalPrompt);
-    return NextResponse.json({ enhanced: fallbackText });
+    return NextResponse.json({ enhanced: text });
 
   } catch (error: any) {
     console.error("Enhance Route Error:", error);

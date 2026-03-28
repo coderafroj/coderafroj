@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai";
-import { fallBackToGemini } from "@/lib/gemini-fallback";
+import { generateAIResponse } from "@/lib/ai-service";
 
 export async function POST(req: Request) {
   try {
     const { type, prompt, context } = await req.json();
 
     let systemPrompt = "You are a helpful AI assistant.";
-    let model = "Qwen/Qwen2.5-72B-Instruct"; // Generic powerful free model
+    let model = "Qwen/Qwen2.5-72B-Instruct";
 
     switch (type) {
       case "code_gen":
@@ -17,7 +16,6 @@ export async function POST(req: Request) {
         - Ensure TypeScript safety and optimal performance.
         - Include brief but high-level architectural explanations.
         - Output only the code and the technical summary.`;
-        model = "Qwen/Qwen2.5-72B-Instruct"; 
         break;
       case "blog":
         systemPrompt = `You are a World-Class Content Strategist and Technical Writer. 
@@ -39,7 +37,6 @@ export async function POST(req: Request) {
         - Use analogies for complex parts.
         - Break down the logic step-by-step.
         - Highlight "Gotchas", best practices, and performance tips.`;
-        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       case "project_gen":
         systemPrompt = `You are an Elite AI Systems Architect. 
@@ -48,7 +45,6 @@ export async function POST(req: Request) {
         - Recommend the best tech stack for the given requirements.
         - Provide initial setup steps, essential dependencies, and key architectural decisions.
         - Output must be technical, precise, and innovative.`;
-        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       case "audit":
         systemPrompt = `You are a High-Level Security Researcher and Senior Code Auditor. 
@@ -56,7 +52,6 @@ export async function POST(req: Request) {
         - Target: Security vulnerabilities (XSS, SQLi, etc.), Performance bottlenecks, and Anti-patterns.
         - Provide a severity rating for each finding (Critical, High, Medium, Low).
         - Include specific, actionable code fixes for every issue found.`;
-        model = "Qwen/Qwen2.5-72B-Instruct";
         break;
       default:
         return NextResponse.json({ error: "Invalid tool type" }, { status: 400 });
@@ -64,36 +59,16 @@ export async function POST(req: Request) {
 
     const finalPrompt = `PROMPT: ${prompt}\n\nCONTEXT: ${context || "None"}`;
 
-    if (process.env.HF_TOKEN) {
-      try {
-        const client = new OpenAI({
-          baseURL: "https://router.huggingface.co/v1",
-          apiKey: process.env.HF_TOKEN,
-        });
+    const { text, provider } = await generateAIResponse({
+      systemInstruction: systemPrompt,
+      userPrompt: finalPrompt,
+      model: model
+    });
 
-        const chatCompletion = await client.chat.completions.create({
-          model: model,
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: finalPrompt },
-          ],
-        });
-
-        const text = chatCompletion.choices[0]?.message?.content;
-        if (text) {
-          return NextResponse.json({ 
-             result: text,
-             model_used: model 
-          });
-        }
-      } catch (hfError: any) {
-        console.warn("HF Suite Failed, falling back to Gemini:", hfError.message);
-      }
-    }
-
-    console.log("Using Gemini Fallback for AI Suite");
-    const fallbackText = await fallBackToGemini(systemPrompt, finalPrompt);
-    return NextResponse.json({ result: fallbackText, model_used: "gemini-1.5-flash (Fallback)" });
+    return NextResponse.json({ 
+      result: text,
+      model_used: provider === "huggingface" ? model : provider 
+    });
 
   } catch (error: any) {
     console.error("AI Suite Route Error:", error);

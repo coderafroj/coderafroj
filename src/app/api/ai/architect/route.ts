@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai";
-import { fallBackToGemini } from "@/lib/gemini-fallback";
+import { generateAIResponse } from "@/lib/ai-service";
 
 export async function POST(req: Request) {
   try {
@@ -14,36 +13,15 @@ Output must be in professional Markdown. Use a tone that is technical, innovativ
 
     const finalPrompt = `MISSION_PROMPT: ${prompt}\n\nTECHNICAL_CONTEXT: ${context || "None"}`;
 
-    if (process.env.HF_TOKEN) {
-      try {
-        const client = new OpenAI({
-          baseURL: "https://router.huggingface.co/v1",
-          apiKey: process.env.HF_TOKEN,
-        });
+    const { text, provider } = await generateAIResponse({
+      systemInstruction: systemPrompt,
+      userPrompt: finalPrompt,
+    });
 
-        const chatCompletion = await client.chat.completions.create({
-          model: "Qwen/Qwen2.5-72B-Instruct",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: finalPrompt }
-          ],
-        });
-
-        const text = chatCompletion.choices[0]?.message?.content;
-        if (text) {
-          return NextResponse.json({
-             result: text,
-             model_used: "Qwen/Qwen2.5-72B-Instruct"
-          });
-        }
-      } catch (hfError: any) {
-        console.warn("HF Suite Failed for Architect, falling back to Gemini:", hfError.message);
-      }
-    }
-
-    console.log("Using Gemini Fallback for AI Architect");
-    const fallbackText = await fallBackToGemini(systemPrompt, finalPrompt);
-    return NextResponse.json({ result: fallbackText, model_used: "gemini-1.5-flash (Fallback)" });
+    return NextResponse.json({ 
+      result: text,
+      model_used: provider === "huggingface" ? "Qwen/Qwen2.5-72B-Instruct" : provider 
+    });
 
   } catch (error: any) {
     console.error("AI Architect Route Error:", error);

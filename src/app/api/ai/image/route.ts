@@ -27,6 +27,7 @@ export async function POST(req: Request) {
 
     if (!res.ok) {
        const errText = await res.text();
+       console.error(`HF Image Gen Error Details: status=${res.status}, body=${errText}`);
        throw new Error(`HF Error: ${res.status} - ${errText}`);
     }
 
