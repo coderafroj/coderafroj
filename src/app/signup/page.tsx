@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { account, databases, APPWRITE_CONFIG, ID } from "@/lib/appwrite";
+import { auth as firebaseAuth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { databases, APPWRITE_CONFIG } from "@/lib/appwrite";
 import { motion } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -31,32 +33,28 @@ export default function SignupPage() {
     setError("");
     
     try {
-      const userId = ID.unique();
-      await account.create(userId, email, password);
+      const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      const userId = userCredential.user.uid;
       
-      // Auto-login after signup
-      await account.createEmailPasswordSession(email, password);
-
       // Create user document in Appwrite Database for role management
       try {
         await databases.createDocument(
           APPWRITE_CONFIG.databaseId,
-          "users", // Ensure this collection exists in Appwrite
+          "users",
           userId,
           {
             email: email,
-            role: "user", // default role
+            role: email === "kodarafroj@gmail.com" ? "admin" : "user",
             createdAt: new Date().toISOString(),
           }
         );
       } catch (dbErr) {
         console.error("Failed to create user profile document:", dbErr);
-        // We continue even if profile creation fails, as they are already authenticated
       }
 
       window.location.href = "/";
     } catch (err: any) {
-      setError(err.message || "Appwrite registration failed.");
+      setError(err.message || "Registration failed.");
     } finally {
       setLoading(false);
     }

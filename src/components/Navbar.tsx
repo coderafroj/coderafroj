@@ -8,20 +8,20 @@ import {
   Menu, X, Sparkles, Code2, 
   Blocks, ShoppingCart, Wrench, FileCode2,
   Plus, LogIn, UserPlus, CpuIcon as Cpu, CreditCard, LayoutDashboard, Crown,
-  ArrowRight
+  ArrowRight, BookOpen
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import OrderForm from "./OrderForm";
 import { useAuth } from "@/hooks/use-auth";
 
 const navLinks = [
+  { name: "Documentation", href: "/docs", icon: BookOpen },
   { name: "Tools", href: "/tools", icon: Code2 },
   { name: "Widgets", href: "/widgets", icon: Blocks },
+  { name: "Resources", href: "/resources", icon: FileCode2 },
   { name: "Marketplace", href: "/marketplace", icon: ShoppingCart },
   { name: "SaaS", href: "/saas", icon: Wrench },
-  { name: "Resources", href: "/resources", icon: FileCode2 },
   { name: "AI Architect", href: "/tools/ai-architect", icon: Cpu, premium: true },
-  { name: "Pricing", href: "/pricing", icon: CreditCard },
 ];
 
 export function Navbar() {

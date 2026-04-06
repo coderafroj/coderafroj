@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { account } from "@/lib/appwrite";
+import { auth } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -30,18 +31,13 @@ export default function LoginPage() {
     setError("");
     
     try {
-      // First, delete any existing session to start fresh
-      try {
-        await account.deleteSession('current');
-      } catch (e) { /* No session exists */ }
-
-      await account.createEmailPasswordSession(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       setIsSuccess(true);
       setTimeout(() => {
         window.location.href = "/admin";
       }, 1500);
     } catch (err: any) {
-      setError(err.message || "Appwrite Handshake failed. Invalid credentials.");
+      setError(err.message || "Authentication failed. Invalid credentials.");
     } finally {
       setLoading(false);
     }

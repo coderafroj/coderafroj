@@ -103,19 +103,25 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
         >
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-order-form'))}
-            className="w-full sm:w-auto group px-10 py-5 rounded-2xl bg-white text-black font-black hover:scale-105 transition-all flex items-center justify-center gap-3 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(139,92,246,0.6)]"
+            className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white text-black font-black hover:bg-emerald-400 transition-all flex items-center justify-center gap-3 shadow-2xl active:scale-95 text-xs md:text-sm uppercase tracking-widest"
           >
-            Start Your Project <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Start Your Project <Rocket size={20} />
           </button>
           <Link 
-            href="/widgets" 
-            className="w-full sm:w-auto px-10 py-5 rounded-2xl glass font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 group"
+            href="/docs" 
+            className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-black hover:bg-emerald-500/20 transition-all flex items-center justify-center gap-3 shadow-xl active:scale-95 text-xs md:text-sm uppercase tracking-widest"
           >
-            Explore Widgets <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            Read Documentation <BookOpen size={20} />
+          </Link>
+          <Link 
+            href="/widgets" 
+            className="w-full sm:w-auto px-10 py-5 rounded-2xl glass border border-white/5 font-black text-neutral-500 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center gap-3 active:scale-95 text-xs md:text-sm uppercase tracking-widest"
+          >
+            Explore Widgets <ChevronRight size={20} />
           </Link>
         </motion.div>
 

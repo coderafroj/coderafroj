@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { account, databases, APPWRITE_CONFIG } from "@/lib/appwrite";
-import { Models } from "appwrite";
+import { databases, APPWRITE_CONFIG } from "@/lib/appwrite";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { auth as firebaseAuth } from "@/lib/firebase";
 
 export interface UserProfile {
   uid: string;
@@ -11,7 +12,7 @@ export interface UserProfile {
 }
 
 export function useAuth() {
-  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,40 +20,38 @@ export function useAuth() {
     try {
       const response = await databases.getDocument(
         APPWRITE_CONFIG.databaseId,
-        "users", // Assuming a 'users' collection exists
+        "users",
         uid
       );
       
       setProfile({
         uid: uid,
         email: email,
-        role: (response.role as "user" | "pro" | "admin") || "user"
+        role: (response.role as "user" | "pro" | "admin") || 
+              (email === "kodarafroj@gmail.com" ? "admin" : "user")
       });
     } catch (error) {
-      // If profile doc doesn't exist, fallback to default user role
       setProfile({
         uid: uid,
         email: email,
-        role: "user"
+        role: email === "kodarafroj@gmail.com" ? "admin" : "user"
       });
     }
   };
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const sessionUser = await account.get();
-        setUser(sessionUser);
-        await fetchProfile(sessionUser.$id, sessionUser.email);
-      } catch (error) {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+        await fetchProfile(firebaseUser.uid, firebaseUser.email || "");
+      } else {
         setUser(null);
         setProfile(null);
-      } finally {
-        setLoading(false);
       }
-    };
+      setLoading(false);
+    });
 
-    checkSession();
+    return () => unsubscribe();
   }, []);
 
   return { 

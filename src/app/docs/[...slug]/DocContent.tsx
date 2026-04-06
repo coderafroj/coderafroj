@@ -59,19 +59,19 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
 
   if (!doc) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center space-y-10">
-        <div className="w-24 h-24 rounded-[2rem] bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-           <ShieldCheck size={48} className="text-red-500 opacity-40 shadow-[0_0_20px_rgba(239,68,68,0.3)]" />
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center space-y-8">
+        <div className="w-20 h-20 rounded-3xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+           <ShieldCheck size={40} className="text-red-500 opacity-60" />
         </div>
-        <div className="space-y-4">
-          <h1 className="text-5xl font-black italic tracking-tighter uppercase">PROTOCOL_MISSING</h1>
-          <p className="text-neutral-500 italic font-medium max-w-md mx-auto">
-            The requested documentation node could not be located in the central repository. 
-            Possible data corruption or unauthorized entry.
+        <div className="space-y-3">
+          <h1 className="text-4xl font-black tracking-tight uppercase">Document Not Found</h1>
+          <p className="text-neutral-500 max-w-sm mx-auto font-medium">
+            The requested documentation could not be located. 
+            It may have been moved or the link is incorrect.
           </p>
         </div>
-        <Link href="/docs" className="px-10 py-4 bg-white text-black font-black rounded-2xl hover:bg-emerald-400 transition-all uppercase tracking-widest text-xs neon-glow">
-           RETURN_TO_BASE
+        <Link href="/docs" className="px-8 py-3 bg-white text-black font-black rounded-xl hover:bg-emerald-400 transition-all uppercase tracking-widest text-[10px]">
+           Return to Docs
         </Link>
       </div>
     );
@@ -79,76 +79,62 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-16"
+      className="space-y-12 pb-32"
     >
       {/* Breadcrumbs */}
-      <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 mb-8 border-b border-white/5 pb-8">
-         <span className="hover:text-white transition-colors cursor-pointer">DOCS</span>
-         <ChevronRight size={12} className="text-neutral-800" />
-         <span className="text-emerald-500 italic">/{doc.slug}</span>
+      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-neutral-500 mb-8 border-b border-white/5 pb-6">
+         <Link href="/docs" className="hover:text-emerald-500 transition-colors">Documentation</Link>
+         <ChevronRight size={10} className="text-neutral-800" />
+         <span className="text-white italic">{doc.title}</span>
       </div>
 
-      <header className="space-y-8 relative">
-        <div className="absolute -left-12 top-0 bottom-0 w-2 bg-gradient-to-b from-emerald-500/20 to-transparent rounded-full blur-[1px]" />
-        
-        <div className="space-y-4">
+      <header className="space-y-10 relative">
+        <div className="space-y-6">
            {isAdmin && (
              <Link 
                href={`/admin/docs/edit/${doc.id}`}
-               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-emerald-500/30 text-emerald-500 text-[9px] font-black uppercase tracking-[0.2em] mb-4 hover:bg-emerald-500/10 transition-colors"
+               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase tracking-wider hover:bg-emerald-500/20 transition-colors"
              >
-                <Edit3 size={12} /> PROTOCOL_OWNER_OVERRIDE
+                <Edit3 size={10} /> Edit Protocol
              </Link>
            )}
-           <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-[0.85] mask-text uppercase">
+           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white uppercase italic leading-[0.9]">
               {doc.title}
            </h1>
         </div>
 
-        <div className="flex flex-wrap gap-8 pt-4">
+        <div className="flex flex-wrap gap-8 py-6 border-y border-white/5">
            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                 <Clock size={16} className="text-neutral-500" />
-              </div>
               <div className="flex flex-col">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-700">MODIFIED</span>
-                 <span className="text-xs font-black italic text-neutral-400">{new Date(doc.lastUpdated.toMillis()).toLocaleDateString()}</span>
+                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-600">Last Modified</span>
+                 <span className="text-xs font-bold text-neutral-400">{new Date(doc.lastUpdated.toMillis()).toLocaleDateString()}</span>
               </div>
            </div>
            
            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                 <User size={16} className="text-neutral-500" />
-              </div>
               <div className="flex flex-col">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-700">AUTHOR</span>
-                 <span className="text-xs font-black italic text-neutral-400">{doc.author || "CORE_LAB"}</span>
+                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-600">Author</span>
+                 <span className="text-xs font-bold text-neutral-400">{doc.author || "Kodarafroj Hub"}</span>
               </div>
            </div>
 
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                 <Terminal size={16} className="text-emerald-500" />
-              </div>
-              <div className="flex flex-col">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">ENCRYPTION</span>
-                 <span className="text-xs font-black italic text-neutral-400">AES-256_ACTIVE</span>
+           <div className="flex items-center gap-3 ml-auto">
+              <div className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-neutral-500">
+                 PRO_VERIFIED
               </div>
            </div>
         </div>
 
         {doc.description && (
-           <p className="text-2xl text-neutral-500 italic font-medium leading-relaxed max-w-3xl border-l-2 border-white/5 pl-10 mt-12">
+           <p className="text-xl text-neutral-400 italic font-medium leading-relaxed max-w-3xl">
               {doc.description}
            </p>
         )}
       </header>
 
-      <div className="py-20 border-y border-white/5 relative">
-         <div className="absolute top-0 right-0 w-32 h-[1px] bg-emerald-500/40" />
-         <div className="absolute bottom-0 left-0 w-32 h-[1px] bg-emerald-500/40" />
+      <div className="py-12 border-b border-white/5">
          {doc.content.startsWith('{') ? (
             <NovelRenderer content={doc.content} />
          ) : (
@@ -156,25 +142,27 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
          )}
       </div>
 
-      <footer className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
-         <div className="space-y-4">
-            <h4 className="text-sm font-black italic uppercase tracking-widest text-white/90">WAS THIS RELEVANT?</h4>
+      <footer className="pt-24 flex flex-col md:flex-row justify-between items-center gap-12">
+         <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-[10px] font-black italic uppercase tracking-widest text-neutral-600">Was this guide helpful?</h4>
             <div className="flex gap-4">
-               <button className="px-8 py-3 rounded-2xl glass border-white/10 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all text-[10px] font-black uppercase tracking-widest">TRANSACTION_VALID</button>
-               <button className="px-8 py-3 rounded-2xl glass border-white/10 hover:bg-red-500/10 hover:text-red-500 transition-all text-[10px] font-black uppercase tracking-widest">REPORT_FAILURE</button>
+               <button className="px-6 py-2.5 rounded-xl border border-white/10 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all text-[9px] font-black uppercase tracking-widest">Yes</button>
+               <button className="px-6 py-2.5 rounded-xl border border-white/10 hover:bg-white/10 hover:text-white transition-all text-[9px] font-black uppercase tracking-widest">No</button>
             </div>
          </div>
 
-         <div className="p-8 glass rounded-[2.5rem] border border-white/10 relative group cursor-pointer overflow-hidden max-w-xs">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="flex items-center gap-4 mb-4">
-               <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:neon-glow transition-all">
-                  <ExternalLink size={20} className="text-neutral-500" />
-               </div>
-               <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400 italic">NEXT_MODULE</span>
+         <Link 
+           href="/docs"
+           className="flex items-center gap-4 p-6 rounded-3xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all group"
+         >
+            <div className="text-right">
+               <span className="text-[9px] font-black uppercase tracking-widest text-neutral-600 block mb-1">Return to hub</span>
+               <span className="text-lg font-black italic group-hover:text-emerald-500 transition-colors uppercase">Browse Docs</span>
             </div>
-            <h5 className="text-xl font-black italic tracking-tight group-hover:text-emerald-500 transition-colors">ADVANCED_PROTOCOLS</h5>
-         </div>
+            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-neutral-600 group-hover:text-emerald-500 transition-colors">
+               <ArrowRight size={20} />
+            </div>
+         </Link>
       </footer>
     </motion.div>
   );
