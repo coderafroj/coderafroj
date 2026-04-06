@@ -35,10 +35,19 @@ export default function NovelEditor({ initialValue, onChange }: NovelEditorProps
   const extensions = [...defaultExtensions];
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full group/editor">
+      {/* Protocol Status Bar */}
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-3 px-3 py-1.5 rounded-full glass border border-white/5 opacity-0 group-hover/editor:opacity-100 transition-opacity pointer-events-none">
+         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse" />
+         <span className="text-[8px] font-black uppercase tracking-[0.2em] text-neutral-500">PROTOCOL_ACTIVE // SECURE_SYNC</span>
+      </div>
+
       <EditorRoot>
         <EditorContent
-          className="relative min-h-[500px] w-full border-stone-200 bg-white p-12 px-8 sm:rounded-lg sm:border sm:shadow-lg dark:border-stone-800 dark:bg-black"
+          className={cn(
+            "relative min-h-[500px] w-full border-stone-200 bg-white p-12 px-8 sm:rounded-lg sm:border sm:shadow-lg dark:border-stone-800 dark:bg-black",
+            "prose prose-lg dark:prose-invert prose-headings:font-black prose-headings:italic prose-headings:tracking-tighter prose-p:leading-relaxed max-w-full"
+          )}
           {...(initialValue && { defaultValue: JSON.parse(initialValue) })}
           extensions={extensions}
           editorProps={{
@@ -46,7 +55,7 @@ export default function NovelEditor({ initialValue, onChange }: NovelEditorProps
               keydown: (_view, event) => handleCommandNavigation(event),
             },
             attributes: {
-              class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
+              class: `focus:outline-none max-w-full`,
             },
           }}
           onUpdate={({ editor }) => {

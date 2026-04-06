@@ -25,7 +25,7 @@ export default function NovelRenderer({ content, className }: NovelRendererProps
   }
 
   return (
-    <div className={cn("prose prose-invert max-w-none novel-renderer", className)}>
+    <div className={cn("max-w-none novel-renderer", className)}>
       <EditorRoot>
         <EditorContent
           initialContent={jsonContent}
@@ -33,7 +33,7 @@ export default function NovelRenderer({ content, className }: NovelRendererProps
           editable={false}
           editorProps={{
             attributes: {
-              class: "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+              class: "prose prose-lg dark:prose-invert prose-headings:font-black prose-headings:italic prose-headings:tracking-tighter prose-p:leading-relaxed focus:outline-none max-w-full",
             },
           }}
         />
