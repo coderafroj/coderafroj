@@ -41,15 +41,9 @@ export default function AdminDashboard() {
     fetchData();
   }, [isAdmin]);
 
-  if (authLoading) return null;
-  if (!isAdmin) return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-       <div className="glass-card p-12 text-center max-w-md">
-          <ShieldCheck size={64} className="mx-auto text-secondary mb-6" />
-          <h2 className="text-3xl font-black italic mb-4">ACCESS_DENIED</h2>
-          <p className="text-neutral-500 mb-8 italic">Unauthorized entry detected. Incident logged in security protocol.</p>
-          <Link href="/" className="px-8 py-3 bg-white text-black font-black rounded-xl">BACK_TO_TERMINAL</Link>
-       </div>
+  if (loading) return (
+    <div className="h-screen flex items-center justify-center p-4">
+       <div className="w-10 h-10 rounded-full border-2 border-emerald-500/20 border-t-emerald-500 animate-spin" />
     </div>
   );
 
