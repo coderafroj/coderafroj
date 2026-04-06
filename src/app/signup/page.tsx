@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { auth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { account, databases, APPWRITE_CONFIG, ID } from "@/lib/appwrite";
 import { motion } from "framer-motion";
+import { 
+  ShieldCheck, 
+  Lock, 
+  Cpu, 
+  Terminal, 
+  UserPlus, 
+  ArrowRight,
+  AlertCircle
+} from "lucide-react";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -23,92 +31,101 @@ export default function SignupPage() {
     setError("");
     
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Create user document in Firestore
-      const user = userCredential.user;
-      const { doc, setDoc, serverTimestamp } = await import("firebase/firestore");
-      const { db } = await import("@/lib/firebase");
+      const userId = ID.unique();
+      await account.create(userId, email, password);
       
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        role: "user", // default role
-        createdAt: serverTimestamp(),
-      });
+      // Auto-login after signup
+      await account.createEmailPasswordSession(email, password);
+
+      // Create user document in Appwrite Database for role management
+      try {
+        await databases.createDocument(
+          APPWRITE_CONFIG.databaseId,
+          "users", // Ensure this collection exists in Appwrite
+          userId,
+          {
+            email: email,
+            role: "user", // default role
+            createdAt: new Date().toISOString(),
+          }
+        );
+      } catch (dbErr) {
+        console.error("Failed to create user profile document:", dbErr);
+        // We continue even if profile creation fails, as they are already authenticated
+      }
 
       window.location.href = "/";
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to create an account");
+    } catch (err: any) {
+      setError(err.message || "Appwrite registration failed.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      {/* Static background for better performance */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] -z-10" />
+    <div className="min-h-screen bg-[#030303] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Gradients... */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)] -z-10" />
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10" />
+      <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[150px] -z-10" />
 
       <motion.div 
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="max-w-md w-full glass-card p-8 rounded-2xl"
+        className="max-w-md w-full glass-card p-12 rounded-[3.5rem] border-white/5 bg-white/[0.01] shadow-2xl relative"
       >
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-neutral-400">
-            Already have an account?{" "}
-            <Link href="/login" className="font-medium text-primary hover:text-primary/80">
-              Sign in Instead
-            </Link>
-          </p>
+        <div className="absolute top-0 right-0 p-8">
+           <div className="w-10 h-10 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center justify-center">
+              <Cpu size={16} className="text-neutral-700" />
+           </div>
         </div>
+
+        <div className="text-center space-y-6 mb-12">
+          <div className="w-20 h-20 rounded-3xl bg-primary/10 border border-primary/10 flex items-center justify-center mx-auto shadow-[0_0_40px_rgba(168,85,247,0.1)]">
+             <UserPlus size={40} className="text-primary" />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-4xl font-black italic tracking-tighter uppercase">NEW_IDENTITY</h1>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 block">Initialize System Credentials</p>
+          </div>
+        </div>
+
         <form className="mt-8 space-y-6" onSubmit={handleSignup}>
-          <div className="space-y-4 rounded-md shadow-sm">
-            <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1" htmlFor="email-address">
-                Email address
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-600 pl-4 mb-1">
+                 <Terminal size={12} /> EMAIL_ID
               </label>
               <input
-                id="email-address"
-                name="email"
                 type="email"
-                autoComplete="email"
                 required
-                className="relative block w-full rounded-lg border-0 bg-white/5 py-2.5 px-3 text-foreground ring-1 ring-inset ring-white/10 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-primary/50 transition-all text-white"
                 placeholder="developer@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1" htmlFor="password">
-                Password
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-600 pl-4 mb-1">
+                 <Lock size={12} /> SECURE_PASSWORD
               </label>
               <input
-                id="password"
-                name="password"
                 type="password"
                 required
-                className="relative block w-full rounded-lg border-0 bg-white/5 py-2.5 px-3 text-foreground ring-1 ring-inset ring-white/10 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-primary/50 transition-all text-white"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-300 mb-1" htmlFor="confirm-password">
-                Confirm Password
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-600 pl-4 mb-1">
+                 <ShieldCheck size={12} /> CONFIRM_KEY
               </label>
               <input
-                id="confirm-password"
-                name="confirmPassword"
                 type="password"
                 required
-                className="relative block w-full rounded-lg border-0 bg-white/5 py-2.5 px-3 text-foreground ring-1 ring-inset ring-white/10 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-primary/50 transition-all text-white"
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -117,19 +134,28 @@ export default function SignupPage() {
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center bg-red-500/10 py-2 rounded">
-              {error}
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3">
+               <AlertCircle size={14} className="text-red-500 flex-shrink-0" />
+               <span className="text-[9px] font-black uppercase tracking-widest text-red-500">{error}</span>
             </div>
           )}
 
-          <div>
+          <div className="pt-4 space-y-6">
             <button
               type="submit"
               disabled={loading}
-              className="flex w-full justify-center rounded-lg bg-primary px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative flex w-full justify-center overflow-hidden rounded-2xl bg-white px-12 py-5 text-xs font-black uppercase tracking-widest text-black shadow-2xl transition-all hover:bg-primary hover:text-white disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Sign up"}
+              <span className="relative z-10 flex items-center gap-3">
+                {loading ? "INITIALIZING..." : "CREATE_IDENTITY"} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </span>
             </button>
+            
+            <p className="text-center">
+              <Link href="/login" className="text-[10px] font-black uppercase tracking-widest text-neutral-600 hover:text-primary transition-colors italic">
+                Existing_credential_login
+              </Link>
+            </p>
           </div>
         </form>
       </motion.div>

@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { account } from "@/lib/appwrite";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -31,13 +30,18 @@ export default function LoginPage() {
     setError("");
     
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // First, delete any existing session to start fresh
+      try {
+        await account.deleteSession('current');
+      } catch (e) { /* No session exists */ }
+
+      await account.createEmailPasswordSession(email, password);
       setIsSuccess(true);
       setTimeout(() => {
         window.location.href = "/admin";
       }, 1500);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Handshake failed. Invalid credentials.");
+    } catch (err: any) {
+      setError(err.message || "Appwrite Handshake failed. Invalid credentials.");
     } finally {
       setLoading(false);
     }
@@ -45,10 +49,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#030303] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Dynamic Grid Background */}
+      {/* Background Grids... (Same as before) */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)] -z-10" />
-      
-      {/* Glow Effects */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[150px] -z-10" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10" />
 
@@ -68,7 +70,7 @@ export default function LoginPage() {
              <ShieldCheck size={40} className="text-emerald-500 group-hover:scale-110 transition-transform duration-500" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-4xl font-black italic tracking-tighter uppercase">EXECUTIVE_GATEWAY</h1>
+            <h1 className="text-4xl font-black italic tracking-tighter uppercase">APPWRITE_AUTH</h1>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 block">System Authentication Required</p>
           </div>
         </div>
@@ -104,7 +106,7 @@ export default function LoginPage() {
                   type="email"
                   required
                   placeholder="name@provider.com"
-                  className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all placeholder:text-neutral-800"
+                  className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all placeholder:text-neutral-800 text-white"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -119,7 +121,7 @@ export default function LoginPage() {
                     type={showPassword ? "text" : "password"}
                     required
                     placeholder="••••••••"
-                    className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all placeholder:text-neutral-800 pr-14"
+                    className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all placeholder:text-neutral-800 pr-14 text-white"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />

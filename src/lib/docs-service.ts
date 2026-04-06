@@ -1,18 +1,5 @@
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
-  setDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  where, 
-  orderBy, 
-  Timestamp,
-  addDoc
-} from "firebase/firestore";
-import { db } from "./firebase";
+import { databases, APPWRITE_CONFIG, ID } from "./appwrite";
+import { Query } from "appwrite";
 
 export interface DocCategory {
   id: string;
@@ -24,89 +11,145 @@ export interface DocCategory {
 export interface DocumentationDoc {
   id: string;
   title: string;
-  slug: string; // URL slug like 'getting-started'
-  content: string; // Markdown content
+  slug: string;
+  content: string;
   categoryId: string;
-  order: number;
-  lastUpdated: Timestamp;
-  author?: string;
   description?: string;
+  author?: string;
+  lastUpdated: any; // Appwrite returns ISO dates as strings
+  order: number;
 }
 
-const DOCS_COLLECTION = "documentation";
-const CATEGORIES_COLLECTION = "doc_categories";
-
 export const docsService = {
-  // Categories
-  async getCategories() {
-    const q = query(collection(db, CATEGORIES_COLLECTION), orderBy("order", "asc"));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as DocCategory));
+  // --- Categories ---
+  async getCategories(): Promise<DocCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        APPWRITE_CONFIG.databaseId,
+        APPWRITE_CONFIG.categoriesCollectionId,
+        [Query.orderAsc("order")]
+      );
+      return response.documents.map(doc => ({
+        id: doc.$id,
+        name: doc.name,
+        slug: doc.slug,
+        order: doc.order
+      }));
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
   },
 
-  async addCategory(data: Omit<DocCategory, "id">) {
-    return await addDoc(collection(db, CATEGORIES_COLLECTION), data);
-  },
-
-  async updateCategory(id: string, data: Partial<DocCategory>) {
-    const ref = doc(db, CATEGORIES_COLLECTION, id);
-    return await updateDoc(ref, data);
-  },
-
-  async deleteCategory(id: string) {
-    const ref = doc(db, CATEGORIES_COLLECTION, id);
-    return await deleteDoc(ref);
-  },
-
-  // Documentation Docs
-  async getDocs() {
-    const q = query(collection(db, DOCS_COLLECTION), orderBy("order", "asc"));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as DocumentationDoc));
-  },
-
-  async getDocsByCategory(categoryId: string) {
-    const q = query(
-      collection(db, DOCS_COLLECTION), 
-      where("categoryId", "==", categoryId),
-      orderBy("order", "asc")
+  async addCategory(category: Omit<DocCategory, "id">): Promise<void> {
+    await databases.createDocument(
+      APPWRITE_CONFIG.databaseId,
+      APPWRITE_CONFIG.categoriesCollectionId,
+      ID.unique(),
+      category
     );
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as DocumentationDoc));
   },
 
-  async getDocBySlug(slug: string) {
-    const q = query(collection(db, DOCS_COLLECTION), where("slug", "==", slug));
-    const snap = await getDocs(q);
-    if (snap.empty) return null;
-    const d = snap.docs[0];
-    return { id: d.id, ...d.data() } as DocumentationDoc;
+  // --- Documentation Pages ---
+  async getDocs(): Promise<DocumentationDoc[]> {
+    try {
+      const response = await databases.listDocuments(
+        APPWRITE_CONFIG.databaseId,
+        APPWRITE_CONFIG.docsCollectionId,
+        [Query.orderAsc("order")]
+      );
+      return response.documents.map(doc => ({
+        id: doc.$id,
+        title: doc.title,
+        slug: doc.slug,
+        content: doc.content,
+        categoryId: doc.categoryId,
+        description: doc.description,
+        author: doc.author,
+        lastUpdated: { toMillis: () => new Date(doc.$updatedAt).getTime() }, // Keep compatibility with existing UI
+        order: doc.order
+      }));
+    } catch (error) {
+      console.error("Error fetching docs:", error);
+      return [];
+    }
   },
 
-  async getDocById(id: string) {
-    const ref = doc(db, DOCS_COLLECTION, id);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) return null;
-    return { id: snap.id, ...snap.data() } as DocumentationDoc;
+  async getDocBySlug(slug: string): Promise<DocumentationDoc | null> {
+    try {
+      const response = await databases.listDocuments(
+        APPWRITE_CONFIG.databaseId,
+        APPWRITE_CONFIG.docsCollectionId,
+        [Query.equal("slug", slug)]
+      );
+      if (response.documents.length === 0) return null;
+      const doc = response.documents[0];
+      return {
+        id: doc.$id,
+        title: doc.title,
+        slug: doc.slug,
+        content: doc.content,
+        categoryId: doc.categoryId,
+        description: doc.description,
+        author: doc.author,
+        lastUpdated: { toMillis: () => new Date(doc.$updatedAt).getTime() },
+        order: doc.order
+      };
+    } catch (error) {
+       console.error("Error fetching doc by slug:", error);
+       return null;
+    }
   },
 
-  async addDoc(data: Omit<DocumentationDoc, "id" | "lastUpdated">) {
-    return await addDoc(collection(db, DOCS_COLLECTION), {
-      ...data,
-      lastUpdated: Timestamp.now()
-    });
+  async getDocById(id: string): Promise<DocumentationDoc | null> {
+    try {
+      const doc = await databases.getDocument(
+        APPWRITE_CONFIG.databaseId,
+        APPWRITE_CONFIG.docsCollectionId,
+        id
+      );
+      return {
+        id: doc.$id,
+        title: doc.title,
+        slug: doc.slug,
+        content: doc.content,
+        categoryId: doc.categoryId,
+        description: doc.description,
+        author: doc.author,
+        lastUpdated: { toMillis: () => new Date(doc.$updatedAt).getTime() },
+        order: doc.order
+      };
+    } catch (error) {
+       console.error("Error fetching doc by id:", error);
+       return null;
+    }
   },
 
-  async updateDoc(id: string, data: Partial<DocumentationDoc>) {
-    const ref = doc(db, DOCS_COLLECTION, id);
-    return await updateDoc(ref, {
-      ...data,
-      lastUpdated: Timestamp.now()
-    });
+  async addDoc(doc: Omit<DocumentationDoc, "id" | "lastUpdated">): Promise<void> {
+    await databases.createDocument(
+      APPWRITE_CONFIG.databaseId,
+      APPWRITE_CONFIG.docsCollectionId,
+      ID.unique(),
+      doc
+    );
   },
 
-  async deleteDoc(id: string) {
-    const ref = doc(db, DOCS_COLLECTION, id);
-    return await deleteDoc(ref);
+  async updateDoc(id: string, data: Partial<DocumentationDoc>): Promise<void> {
+    // Remove lastUpdated if it exists as it's handled by Appwrite
+    const { lastUpdated, ...updateData } = data;
+    await databases.updateDocument(
+      APPWRITE_CONFIG.databaseId,
+      APPWRITE_CONFIG.docsCollectionId,
+      id,
+      updateData
+    );
+  },
+
+  async deleteDoc(id: string): Promise<void> {
+    await databases.deleteDocument(
+      APPWRITE_CONFIG.databaseId,
+      APPWRITE_CONFIG.docsCollectionId,
+      id
+    );
   }
 };

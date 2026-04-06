@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { account, databases, APPWRITE_CONFIG } from "@/lib/appwrite";
+import { Models } from "appwrite";
 
 export interface UserProfile {
   uid: string;
@@ -12,46 +11,55 @@ export interface UserProfile {
 }
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
+  const fetchProfile = async (uid: string, email: string) => {
+    try {
+      const response = await databases.getDocument(
+        APPWRITE_CONFIG.databaseId,
+        "users", // Assuming a 'users' collection exists
+        uid
+      );
       
-      if (firebaseUser) {
-        // Fetch custom profile from Firestore
-        try {
-          const docRef = doc(db, "users", firebaseUser.uid);
-          const docSnap = await getDoc(docRef);
-          
-          if (docSnap.exists()) {
-            setProfile({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              ...docSnap.data()
-            } as UserProfile);
-          } else {
-            // If document doesn't exist, treat as basic user
-            setProfile({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              role: "user"
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
-      } else {
-        setProfile(null);
-      }
-      
-      setLoading(false);
-    });
+      setProfile({
+        uid: uid,
+        email: email,
+        role: (response.role as "user" | "pro" | "admin") || "user"
+      });
+    } catch (error) {
+      // If profile doc doesn't exist, fallback to default user role
+      setProfile({
+        uid: uid,
+        email: email,
+        role: "user"
+      });
+    }
+  };
 
-    return () => unsubscribe();
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const sessionUser = await account.get();
+        setUser(sessionUser);
+        await fetchProfile(sessionUser.$id, sessionUser.email);
+      } catch (error) {
+        setUser(null);
+        setProfile(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
   }, []);
 
-  return { user, profile, loading, isAdmin: profile?.role === "admin", isPro: profile?.role === "pro" || profile?.role === "admin" };
+  return { 
+    user, 
+    profile, 
+    loading, 
+    isAdmin: profile?.role === "admin", 
+    isPro: profile?.role === "pro" || profile?.role === "admin" 
+  };
 }

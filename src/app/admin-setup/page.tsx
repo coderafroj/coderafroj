@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { db } from "@/lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { databases, APPWRITE_CONFIG } from "@/lib/appwrite";
 import { motion } from "framer-motion";
 import { ShieldAlert, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -15,18 +14,22 @@ export default function AdminSetupPage() {
 
   const makeAdmin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!uid) return setError("Please enter your User UID from Firebase or signup.");
+    if (!uid) return setError("Please enter your User UID from Appwrite Console or signup.");
     setLoading(true);
     setError("");
     
     try {
-      const userRef = doc(db, "users", uid);
-      await updateDoc(userRef, {
-        role: "admin"
-      });
+      await databases.updateDocument(
+        APPWRITE_CONFIG.databaseId,
+        "users", // Ensure this collection exists
+        uid,
+        {
+          role: "admin"
+        }
+      );
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to update role. Make sure the UID is correct.");
+      setError(err.message || "Failed to update role. Make sure the UID is correct and the 'users' collection exists.");
     } finally {
       setLoading(false);
     }
@@ -47,10 +50,10 @@ export default function AdminSetupPage() {
            </div>
            
            <div className="space-y-4">
-              <h1 className="text-3xl font-black italic tracking-tighter uppercase">ADMIN_ELEVATION</h1>
+              <h1 className="text-3xl font-black italic tracking-tighter uppercase">APPWRITE_ELEVATION</h1>
               <p className="text-sm text-neutral-500 font-medium italic leading-relaxed">
-                 Enter your unique USER_ID to elevate your credentials to ADMIN_LEVEL_4. 
-                 You can find your UID after signing up in the Firebase console or by checking your profile.
+                 Enter your Appwrite USER_ID to elevate your credentials to ADMIN. 
+                 You can find your UID after signing up in the console.
               </p>
            </div>
 
@@ -62,7 +65,7 @@ export default function AdminSetupPage() {
               >
                  <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-4">
                     <CheckCircle2 className="text-emerald-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Access Granted. Reboot system.</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Access Granted. Proceed to Login.</span>
                  </div>
                  <Link href="/login" className="flex items-center justify-center gap-3 bg-white text-black py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-emerald-400 transition-all w-full neon-glow">
                     PROCEED_TO_LOGIN <ArrowRight size={18} />
@@ -73,8 +76,8 @@ export default function AdminSetupPage() {
                  <input 
                    value={uid}
                    onChange={(e) => setUid(e.target.value)}
-                   placeholder="PASTE_USER_UID_HERE"
-                   className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all text-center"
+                   placeholder="PASTE_APPWRITE_UID_HERE"
+                   className="w-full bg-black/40 border border-white/5 rounded-2xl p-5 text-sm font-black italic outline-none focus:border-emerald-500/50 transition-all text-center text-white"
                  />
                  {error && <p className="text-red-500 text-[10px] font-black uppercase tracking-widest">{error}</p>}
                  <button 
