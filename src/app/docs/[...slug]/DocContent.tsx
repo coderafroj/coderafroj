@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { docsService, DocumentationDoc } from "@/lib/docs-service";
 import MarkdownRenderer from "@/components/docs/MarkdownRenderer";
+import NovelRenderer from "@/components/docs/NovelRenderer";
 import { 
   Calendar, 
   User, 
@@ -148,7 +149,11 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
       <div className="py-20 border-y border-white/5 relative">
          <div className="absolute top-0 right-0 w-32 h-[1px] bg-emerald-500/40" />
          <div className="absolute bottom-0 left-0 w-32 h-[1px] bg-emerald-500/40" />
-         <MarkdownRenderer content={doc.content} />
+         {doc.content.startsWith('{') ? (
+            <NovelRenderer content={doc.content} />
+         ) : (
+            <MarkdownRenderer content={doc.content} />
+         )}
       </div>
 
       <footer className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">

@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { 
   Code2, Blocks, ShoppingCart, Wrench, 
   FileCode2, ArrowRight, Rocket, Sparkles,
-  ChevronRight, Laptop, CpuIcon as Cpu, ShieldCheck, Globe
+  ChevronRight, Laptop, CpuIcon as Cpu, ShieldCheck, Globe,
+  BookOpen
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,13 @@ const features = [
     icon: Wrench,
     href: "/saas",
     color: "from-orange-400 to-red-500",
+  },
+  {
+    title: "System Documentation",
+    description: "Deep-dive into our technical architecture, API references, and specialized engineering protocols.",
+    icon: BookOpen,
+    href: "/docs",
+    color: "from-emerald-500 to-teal-400",
   },
   {
     title: "Free Resources",

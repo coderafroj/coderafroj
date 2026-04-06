@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import MarkdownRenderer from "@/components/docs/MarkdownRenderer";
+import NovelRenderer from "@/components/docs/NovelRenderer";
+import NovelEditor from "./NovelEditor";
 import { 
   Save, 
   Trash2, 
@@ -343,13 +345,10 @@ export default function DocEditor({ initialData, onSave, onDelete }: DocEditorPr
             <div className="flex-1 flex overflow-hidden">
                {/* Editor Input */}
                {(view === "edit" || view === "split") && (
-                  <div className={cn("flex-1 h-full border-r border-white/5 bg-black/10 relative", view === "edit" ? "w-full" : "w-1/2")}>
-                     <textarea 
-                       ref={textareaRef}
-                       value={content}
-                       onChange={(e) => setContent(e.target.value)}
-                       className="w-full h-full bg-transparent p-12 outline-none font-mono text-sm leading-relaxed text-neutral-300 resize-none transition-colors focus:bg-white/[0.01] custom-scrollbar"
-                       placeholder="# INITIALIZE_DOCUMENTATION_PROTOCOL..."
+                  <div className={cn("flex-1 h-full border-r border-white/5 bg-black/10 relative overflow-y-auto custom-scrollbar", view === "edit" ? "w-full" : "w-1/2")}>
+                     <NovelEditor 
+                        initialValue={content} 
+                        onChange={setContent} 
                      />
                   </div>
                )}
@@ -358,7 +357,11 @@ export default function DocEditor({ initialData, onSave, onDelete }: DocEditorPr
                {(view === "preview" || view === "split") && (
                   <div className={cn("h-full overflow-y-auto p-12 bg-[#050505] custom-scrollbar prose-invert", view === "preview" ? "flex-1" : "w-1/2")}>
                      {content ? (
-                        <MarkdownRenderer content={content} />
+                        content.startsWith('{') ? (
+                           <NovelRenderer content={content} />
+                        ) : (
+                           <MarkdownRenderer content={content} />
+                        )
                      ) : (
                         <div className="h-full flex flex-col items-center justify-center space-y-4 opacity-20">
                            <div className="w-16 h-[2px] bg-white" />

@@ -59,7 +59,7 @@ export function useAuth() {
     user, 
     profile, 
     loading, 
-    isAdmin: profile?.role === "admin", 
-    isPro: profile?.role === "pro" || profile?.role === "admin" 
+    isAdmin: profile?.email === "kodarafroj@gmail.com" || profile?.role === "admin", 
+    isPro: profile?.role === "pro" || (profile?.email === "kodarafroj@gmail.com" || profile?.role === "admin") 
   };
 }
