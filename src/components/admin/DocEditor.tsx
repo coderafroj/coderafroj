@@ -135,7 +135,7 @@ export default function DocEditor({ initialData, onSave, onDelete }: DocEditorPr
 
     setUploading(true);
     try {
-      const url = await storageService.uploadFile(file, "docs/images/");
+      const url = await storageService.uploadFile(file);
       insertText(`\n![${file.name}](${url})\n`);
     } catch (err) {
       alert("Image upload failed.");
