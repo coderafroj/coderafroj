@@ -5,16 +5,10 @@ import { docsService, DocumentationDoc } from "@/lib/docs-service";
 import MarkdownRenderer from "@/components/docs/MarkdownRenderer";
 import NovelRenderer from "@/components/docs/NovelRenderer";
 import { 
-  Calendar, 
-  User, 
-  ArrowLeft, 
   ArrowRight, 
   Edit3, 
-  ExternalLink,
   ChevronRight,
-  Terminal,
-  ShieldCheck,
-  Clock
+  ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
@@ -64,13 +58,13 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
            <ShieldCheck size={40} className="text-red-500 opacity-60" />
         </div>
         <div className="space-y-3">
-          <h1 className="text-4xl font-black tracking-tight uppercase">Document Not Found</h1>
-          <p className="text-neutral-500 max-w-sm mx-auto font-medium">
+          <h1 className="text-4xl font-bold tracking-tight text-white">Document Not Found</h1>
+          <p className="text-zinc-500 max-w-sm mx-auto font-medium text-sm">
             The requested documentation could not be located. 
             It may have been moved or the link is incorrect.
           </p>
         </div>
-        <Link href="/docs" className="px-8 py-3 bg-white text-black font-black rounded-xl hover:bg-emerald-400 transition-all uppercase tracking-widest text-[10px]">
+        <Link href="/docs" className="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-emerald-400 transition-all text-xs">
            Return to Docs
         </Link>
       </div>
@@ -84,10 +78,10 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
       className="space-y-12 pb-32"
     >
       {/* Breadcrumbs */}
-      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-neutral-500 mb-8 border-b border-white/5 pb-6">
+      <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-8 border-b border-white/5 pb-6">
          <Link href="/docs" className="hover:text-emerald-500 transition-colors">Documentation</Link>
-         <ChevronRight size={10} className="text-neutral-800" />
-         <span className="text-white italic">{doc.title}</span>
+         <ChevronRight size={10} className="text-zinc-800" />
+         <span className="text-zinc-300">{doc.title}</span>
       </div>
 
       <header className="space-y-10 relative">
@@ -95,12 +89,12 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
            {isAdmin && (
              <Link 
                href={`/admin/docs/edit/${doc.id}`}
-               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase tracking-wider hover:bg-emerald-500/20 transition-colors"
+               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-bold uppercase tracking-wider hover:bg-emerald-500/20 transition-colors"
              >
-                <Edit3 size={10} /> Edit Protocol
+                <Edit3 size={10} /> Edit Guide
              </Link>
            )}
-           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-white uppercase italic leading-[0.9]">
+           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white leading-[1.1]">
               {doc.title}
            </h1>
         </div>
@@ -108,27 +102,27 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
         <div className="flex flex-wrap gap-8 py-6 border-y border-white/5">
            <div className="flex items-center gap-3">
               <div className="flex flex-col">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-600">Last Modified</span>
-                 <span className="text-xs font-bold text-neutral-400">{new Date(doc.lastUpdated.toMillis()).toLocaleDateString()}</span>
+                 <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-600">Last Modified</span>
+                 <span className="text-sm font-semibold text-zinc-400">{new Date(doc.lastUpdated.toMillis()).toLocaleDateString()}</span>
               </div>
            </div>
            
            <div className="flex items-center gap-3">
               <div className="flex flex-col">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-neutral-600">Author</span>
-                 <span className="text-xs font-bold text-neutral-400">{doc.author || "Kodarafroj Hub"}</span>
+                 <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-600">Author</span>
+                 <span className="text-sm font-semibold text-zinc-400">{doc.author || "Kodarafroj Hub"}</span>
               </div>
            </div>
 
            <div className="flex items-center gap-3 ml-auto">
-              <div className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-neutral-500">
+              <div className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold text-zinc-500">
                  PRO_VERIFIED
               </div>
            </div>
         </div>
 
         {doc.description && (
-           <p className="text-xl text-neutral-400 italic font-medium leading-relaxed max-w-3xl">
+           <p className="text-xl text-zinc-400 font-medium leading-relaxed max-w-3xl">
               {doc.description}
            </p>
         )}
@@ -144,10 +138,10 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
 
       <footer className="pt-24 flex flex-col md:flex-row justify-between items-center gap-12">
          <div className="space-y-4 text-center md:text-left">
-            <h4 className="text-[10px] font-black italic uppercase tracking-widest text-neutral-600">Was this guide helpful?</h4>
+            <h4 className="text-xs font-bold text-zinc-600">Was this guide helpful?</h4>
             <div className="flex gap-4">
-               <button className="px-6 py-2.5 rounded-xl border border-white/10 hover:bg-emerald-500/10 hover:text-emerald-500 transition-all text-[9px] font-black uppercase tracking-widest">Yes</button>
-               <button className="px-6 py-2.5 rounded-xl border border-white/10 hover:bg-white/10 hover:text-white transition-all text-[9px] font-black uppercase tracking-widest">No</button>
+               <button className="px-6 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-emerald-500/10 hover:text-emerald-500 transition-all text-xs font-bold">Yes</button>
+               <button className="px-6 py-2.5 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/10 transition-all text-xs font-bold">No</button>
             </div>
          </div>
 
@@ -156,10 +150,10 @@ export default function DocContent({ initialDoc, slug }: DocContentProps) {
            className="flex items-center gap-4 p-6 rounded-3xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all group"
          >
             <div className="text-right">
-               <span className="text-[9px] font-black uppercase tracking-widest text-neutral-600 block mb-1">Return to hub</span>
-               <span className="text-lg font-black italic group-hover:text-emerald-500 transition-colors uppercase">Browse Docs</span>
+               <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 block mb-1 text-xs">Return to hub</span>
+               <span className="text-lg font-bold group-hover:text-emerald-500 transition-colors">Browse Documentation</span>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-neutral-600 group-hover:text-emerald-500 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-emerald-500 transition-colors">
                <ArrowRight size={20} />
             </div>
          </Link>

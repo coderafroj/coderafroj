@@ -14,60 +14,37 @@ export default function AdminLayout({
   const { isAdmin, loading: authLoading } = useAuth();
 
   if (authLoading) return (
-    <div className="min-h-screen bg-[#030303] flex flex-col items-center justify-center p-8 text-center">
-       <div className="relative mb-12">
-          <div className="w-32 h-32 rounded-full border border-white/5 flex items-center justify-center relative overflow-hidden">
-             <div className="absolute inset-0 bg-emerald-500/10 animate-pulse" />
-             <div className="w-16 h-16 rounded-full border-t-2 border-emerald-500 animate-spin" />
-          </div>
-          <div className="absolute inset-0 border border-emerald-500/20 rounded-full animate-ping opacity-20" />
+    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-8 text-center">
+       <div className="relative mb-8">
+          <div className="w-16 h-16 border-4 border-zinc-900 border-t-emerald-500 rounded-full animate-spin" />
        </div>
-       <div className="space-y-4">
-          <h2 className="text-xl font-black italic tracking-[0.3em] uppercase text-white/90">SECURE_GATEWAY_INITIALIZING</h2>
-          <div className="flex gap-1 justify-center">
-             {[1,2,3,4,5].map(i => (
-                <motion.div 
-                  key={i}
-                  animate={{ opacity: [0.2, 1, 0.2] }}
-                  transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.2 }}
-                  className="w-1 h-3 bg-emerald-500 rounded-full"
-                />
-             ))}
-          </div>
+       <div className="space-y-2">
+          <h2 className="text-xl font-bold tracking-tight text-white">Initializing Dashboard</h2>
+          <p className="text-sm text-zinc-500">Authenticating terminal session...</p>
        </div>
     </div>
   );
 
   if (!isAdmin) return (
-    <div className="min-h-screen bg-[#030303] flex items-center justify-center p-4 relative overflow-hidden">
-       {/* Background noise/grids */}
-       <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.02)_1px,transparent_1px)] bg-[size:100px_100px] -z-10" />
-       
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-4 relative overflow-hidden">
        <motion.div 
-         initial={{ opacity: 0, y: 30 }}
-         animate={{ opacity: 1, y: 0 }}
-         className="max-w-xl w-full glass-card p-16 text-center rounded-[4rem] border-red-500/20 bg-red-500/[0.01] shadow-[0_0_100px_rgba(239,68,68,0.05)]"
+         initial={{ opacity: 0, scale: 0.95 }}
+         animate={{ opacity: 1, scale: 1 }}
+         className="max-w-md w-full p-12 text-center rounded-3xl border border-white/5 bg-white/[0.01]"
        >
-          <div className="w-28 h-28 rounded-[2.5rem] bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-12 shadow-[0_0_50px_rgba(239,68,68,0.2)] group hover:scale-105 transition-transform duration-500">
-             <ShieldCheck size={56} className="text-red-500 animate-pulse" />
+          <div className="w-20 h-20 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-10">
+             <ShieldCheck size={40} className="text-red-500" />
           </div>
-          <div className="space-y-4 mb-12">
-             <h2 className="text-5xl font-black italic tracking-tighter uppercase leading-none">PROTOCOL_ERROR</h2>
-             <p className="text-xs font-black uppercase tracking-[0.3em] text-red-500/50">ACCESS_DENIED // UNAUTHORIZED_ENTRY</p>
+          <div className="space-y-3 mb-10">
+             <h2 className="text-3xl font-bold tracking-tight text-white uppercase">Unauthorized Access</h2>
+             <p className="text-sm font-medium text-zinc-500">Administrative privileges required.</p>
           </div>
-          <p className="text-neutral-500 mb-16 italic leading-[1.8] text-lg max-w-sm mx-auto">
-             Critical security breach detected. Your identity does not match the executive command protocols. 
-             This incident has been logged in the secure vault.
+          <p className="text-zinc-500 mb-12 text-sm leading-relaxed max-w-[280px] mx-auto">
+             You do not have the required permissions to access this console. Please sign in with an authorized account.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6">
-             <Link href="/login" className="flex-1 py-6 bg-white text-black font-black rounded-3xl hover:bg-emerald-400 hover:neon-glow transition-all uppercase tracking-[0.2em] text-[10px]">RE_AUTHENTICATE</Link>
-             <Link href="/" className="flex-1 py-6 glass border border-white/10 rounded-3xl font-black text-neutral-500 hover:text-white transition-all uppercase tracking-[0.2em] text-[10px]">BACK_TO_TERMINAL</Link>
-          </div>
-          
-          <div className="mt-12 pt-8 border-t border-red-500/10 flex items-center justify-center gap-4 text-[9px] font-black uppercase tracking-widest text-red-500/30">
-             <span>VAULT_INIT: FAILED</span>
-             <span className="w-1 h-1 rounded-full bg-red-500/30" />
-             <span>LOG_ID: {Math.random().toString(36).substring(7).toUpperCase()}</span>
+          <div className="flex flex-col gap-3">
+             <Link href="/login" className="py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all text-sm">Sign In</Link>
+             <Link href="/" className="py-4 bg-transparent border border-white/10 text-zinc-400 font-bold rounded-xl hover:bg-white/5 transition-all text-sm">Return Home</Link>
           </div>
        </motion.div>
     </div>
