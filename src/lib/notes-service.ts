@@ -10,22 +10,20 @@ export interface Note {
     isPinned?: boolean;
     isPublic?: boolean;
     slug?: string;
-    createdAt?: string;
-    updatedAt?: string;
+    $createdAt?: string;
+    $updatedAt?: string;
 }
 
 const NOTES_COLLECTION_ID = APPWRITE_CONFIG.docsCollectionId;
 
 export const notesService = {
-    async createNote(note: Omit<Note, "$id" | "createdAt" | "updatedAt">) {
+    async createNote(note: Omit<Note, "$id" | "$createdAt" | "$updatedAt">) {
         return await databases.createDocument(
             APPWRITE_CONFIG.databaseId,
             NOTES_COLLECTION_ID,
             ID.unique(),
             {
                 ...note,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
             }
         );
     },
@@ -36,7 +34,7 @@ export const notesService = {
                 APPWRITE_CONFIG.databaseId,
                 NOTES_COLLECTION_ID,
                 [
-                    Query.orderDesc("updatedAt"),
+                    Query.orderDesc("$updatedAt"),
                     Query.limit(limit),
                     Query.offset(offset)
                 ]
@@ -55,7 +53,6 @@ export const notesService = {
             id,
             {
                 ...note,
-                updatedAt: new Date().toISOString()
             }
         );
     },

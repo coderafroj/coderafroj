@@ -30,16 +30,23 @@ export function useAuth() {
         uid: uid,
         email: email,
         role: (response.role as "user" | "pro" | "admin") || 
-              (email === "kodarafroj@gmail.com" ? "admin" : "user"),
+              (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com" ? "admin" : "user"),
         name: response.name || email.split('@')[0]
       });
-    } catch (error) {
-      // Fallback if document doesn't exist yet
-      console.warn("Profile not found in Appwrite, using fallback.");
+    } catch (error: any) {
+      // Handle the case where document doesn't exist yet (404)
+      if (error.code === 404) {
+        console.log("No profile found in Appwrite for this user. Using fallback.");
+      } else {
+        console.error("Error fetching profile:", error);
+      }
+      
+      const fallbackRole = (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com") ? "admin" : "user";
+      
       setProfile({
         uid: uid,
         email: email,
-        role: email === "kodarafroj@gmail.com" ? "admin" : "user"
+        role: fallbackRole
       });
     }
   };

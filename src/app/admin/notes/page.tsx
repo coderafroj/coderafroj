@@ -95,8 +95,11 @@ export default function NotesPage() {
       setIsModalOpen(false);
       resetForm();
       fetchNotes();
-    } catch (err) {
-      console.error(err);
+      // Success feedback
+      console.log("Memory committed successfully.");
+    } catch (err: any) {
+      console.error("Critical Commit Error:", err);
+      alert(`Commit Failed: ${err.message || "Unknown neural disruption"}`);
     } finally {
       setSaving(false);
     }
@@ -158,7 +161,7 @@ export default function NotesPage() {
 
   const filteredNotes = notes.filter(n => 
     n.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    n.content.toLowerCase().includes(searchQuery.toLowerCase())
+    (typeof n.content === 'string' ? n.content : JSON.stringify(n.content)).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const pinnedNotes = filteredNotes.filter(n => n.isPinned);
@@ -572,7 +575,7 @@ function NoteCard({ note, onEdit, onDelete, viewMode }: { note: Note, onEdit: (n
         </div>
         <div className="flex items-center gap-4">
            <div className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.3em] hidden lg:block mr-4">
-              MOD://{new Date(note.updatedAt || "").toLocaleDateString()}
+              MOD://{new Date(note.$updatedAt || note.$createdAt || "").toLocaleDateString()}
            </div>
            <div className="flex items-center gap-3">
               <button 
@@ -630,7 +633,7 @@ function NoteCard({ note, onEdit, onDelete, viewMode }: { note: Note, onEdit: (n
 
        <div className="mt-auto flex items-center justify-between pt-8 border-t border-white/5">
           <div className="flex items-center gap-3 text-[10px] font-black text-zinc-800 px-2 uppercase tracking-[0.2em]">
-             <Calendar size={14} className="text-zinc-800" /> {new Date(note.updatedAt || "").toLocaleDateString()}
+             <Calendar size={14} className="text-zinc-800" /> {new Date(note.$updatedAt || note.$createdAt || "").toLocaleDateString()}
           </div>
           <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-500">
              <button 
