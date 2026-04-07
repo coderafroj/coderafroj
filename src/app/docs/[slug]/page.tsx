@@ -56,7 +56,7 @@ export default async function DocView({ params }: PageProps) {
 
            <div className="flex flex-wrap items-center gap-6 pt-2">
               <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
-                 <Calendar size={14} /> Published {new Date(doc.createdAt || "").toLocaleDateString()}
+                 <Calendar size={14} /> Published {new Date(doc.$createdAt || doc.$updatedAt || "").toLocaleDateString()}
               </div>
               <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
                  <Globe size={14} /> Shared publicly
