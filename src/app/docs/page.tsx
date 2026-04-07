@@ -58,29 +58,29 @@ export default function DocsLandingPage() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-24 space-y-24">
+    <div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-24 space-y-16 md:space-y-24">
       {/* Simple Hero Section */}
       <motion.section 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-8"
+        className="text-center space-y-6 md:space-y-8"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[11px] font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] md:text-[11px] font-bold uppercase tracking-wider">
            Documentation Hub
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white max-w-4xl mx-auto leading-[1.1]">
+        <h1 className="text-3xl md:text-6xl font-bold tracking-tight text-white max-w-4xl mx-auto leading-[1.2] md:leading-[1.1]">
            Comprehensive guides for the <span className="text-emerald-500">Kodarafroj</span> ecosystem.
         </h1>
-        <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm md:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed px-4 md:px-0">
            Everything you need to integrate, scale, and master our platform. 
            Access foundational systems and advanced development protocols.
         </p>
         
-        <div className="flex justify-center gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4 px-6 sm:px-0">
            {docs.length > 0 && (
              <Link 
                href={`/docs/${docs[0].slug}`} 
-               className="px-8 py-3.5 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all text-sm flex items-center gap-2"
+               className="px-8 py-3.5 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 transition-all text-sm flex items-center justify-center gap-2"
              >
                 Get Started <ArrowRight size={18} />
              </Link>
@@ -88,7 +88,7 @@ export default function DocsLandingPage() {
            <Link 
              href="https://github.com/coderafroj" 
              target="_blank"
-             className="px-8 py-3.5 border border-white/10 rounded-xl font-bold text-zinc-400 hover:text-white hover:bg-white/[0.03] transition-all text-sm flex items-center gap-2"
+             className="px-8 py-3.5 border border-white/10 rounded-xl font-bold text-zinc-400 hover:text-white hover:bg-white/[0.03] transition-all text-sm flex items-center justify-center gap-2"
            >
               GitHub <Terminal size={18} />
            </Link>
@@ -96,7 +96,7 @@ export default function DocsLandingPage() {
       </motion.section>
 
       {/* Categories Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
          {features.map((f, i) => (
            <motion.div 
              key={i}
@@ -104,21 +104,21 @@ export default function DocsLandingPage() {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true }}
              transition={{ delay: i * 0.1 }}
-             className="p-8 rounded-3xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-emerald-500/20 transition-all group"
+             className="p-6 md:p-8 rounded-3xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-emerald-500/20 transition-all group"
            >
-              <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-10 border border-white/5 bg-zinc-900 group-hover:bg-emerald-500/10 group-hover:text-emerald-500 transition-all")}>
-                 <f.icon size={24} className="text-zinc-400 group-hover:text-emerald-500 transition-colors" />
+              <div className={cn("w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-6 md:mb-10 border border-white/5 bg-zinc-900 group-hover:bg-emerald-500/10 group-hover:text-emerald-500 transition-all")}>
+                 <f.icon size={20} className={cn("text-zinc-400 group-hover:text-emerald-500 transition-colors md:size-6")} />
               </div>
-              <h3 className="text-xl font-bold mb-3 tracking-tight text-white group-hover:text-emerald-500 transition-colors">
+              <h3 className="text-lg md:text-xl font-bold mb-2 tracking-tight text-white group-hover:text-emerald-500 transition-colors">
                 {f.title === "CORE_PROTOCOLS" ? "Architecture & Core Systems" : 
                  f.title === "NEURAL_LINK APIs" ? "AI & Machine Learning APIs" :
                  f.title === "KINETIC_MOTION" ? "UI & Animation Systems" :
                  f.title === "SECURE_VAULT" ? "Security & Auth Guards" : f.title}
               </h3>
-              <p className="text-sm text-zinc-500 leading-relaxed mb-10 font-medium">
+              <p className="text-[13px] md:text-sm text-zinc-500 leading-relaxed mb-6 md:mb-10 font-medium">
                  {f.desc}
               </p>
-              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-600 group-hover:text-emerald-500 transition-colors">
+              <div className="flex items-center gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-600 group-hover:text-emerald-500 transition-colors">
                  Read Guides <ArrowUpRight size={14} />
               </div>
            </motion.div>
@@ -126,32 +126,32 @@ export default function DocsLandingPage() {
       </section>
 
       {/* Getting Started Section */}
-      <section className="space-y-10">
-         <div className="flex items-center justify-between border-b border-white/5 pb-6">
-            <h2 className="text-xl font-bold tracking-tight text-white">Recent Updates</h2>
-            <Link href="/docs/all" className="text-[11px] font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">Browse all guides</Link>
+      <section className="space-y-8 md:space-y-10">
+         <div className="flex items-center justify-between border-b border-white/5 pb-6 px-2 md:px-0">
+            <h2 className="text-lg md:text-xl font-bold tracking-tight text-white">Recent Updates</h2>
+            <Link href="/docs/all" className="text-[10px] md:text-[11px] font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">Browse all</Link>
          </div>
 
          {loading ? (
             <div className="flex items-center gap-3">
                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-               <span className="text-[12px] font-medium text-zinc-600">Syncing hub data...</span>
+               <span className="text-[11px] md:text-[12px] font-medium text-zinc-600">Syncing hub data...</span>
             </div>
          ) : docs.length === 0 ? (
-            <p className="text-zinc-600">No documentation entries available yet.</p>
+            <p className="text-zinc-600 px-2 md:px-0 text-sm">No documentation entries available yet.</p>
          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                {docs.slice(0, 4).map((doc) => (
                  <Link 
                    key={doc.id}
                    href={`/docs/${doc.slug}`}
-                   className="flex items-center justify-between p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-emerald-500/20 transition-all group"
+                   className="flex items-center justify-between p-5 md:p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-emerald-500/20 transition-all group"
                  >
-                    <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center text-zinc-600 group-hover:text-emerald-500 transition-colors">
+                    <div className="flex items-center gap-3 md:gap-4">
+                       <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-zinc-900 flex items-center justify-center text-zinc-600 group-hover:text-emerald-500 transition-colors">
                           <BookOpen size={18} />
                        </div>
-                       <span className="font-medium text-zinc-400 group-hover:text-white transition-colors">{doc.title}</span>
+                       <span className="font-medium text-zinc-400 group-hover:text-white transition-colors text-sm md:text-base truncate max-w-[140px] xs:max-w-none">{doc.title}</span>
                     </div>
                     <ChevronRight size={16} className="text-zinc-800 group-hover:text-emerald-500 transition-colors" />
                  </Link>
@@ -161,8 +161,8 @@ export default function DocsLandingPage() {
       </section>
 
       {/* Simple Footer */}
-      <footer className="pt-24 pb-12 text-center">
-         <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-800">
+      <footer className="pt-16 md:pt-24 pb-8 md:pb-12 text-center">
+         <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-800">
             Kodarafroj Hub © 2026 • Documentation System
          </p>
       </footer>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { 
   ChevronRight, 
   BookOpen, 
+  X,
   Search,
   Workflow
 } from "lucide-react";
@@ -13,7 +14,12 @@ import { docsService, DocCategory, DocumentationDoc } from "@/lib/docs-service";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function DocsSidebar() {
+interface DocsSidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function DocsSidebar({ isOpen, onClose }: DocsSidebarProps) {
   const pathname = usePathname();
   const [categories, setCategories] = useState<DocCategory[]>([]);
   const [docs, setDocs] = useState<DocumentationDoc[]>([]);
@@ -73,9 +79,13 @@ export default function DocsSidebar() {
   }
 
   return (
-    <aside className="w-80 border-r border-white/5 h-full flex flex-col bg-zinc-950 sticky top-0 overflow-hidden">
-      <div className="p-8 border-b border-white/5">
-        <div className="flex items-center gap-3 mb-8">
+    <aside className={cn(
+      "w-80 border-r border-white/5 h-full flex flex-col bg-zinc-950 sticky top-0 overflow-hidden transition-transform duration-300 z-[60]",
+      "lg:translate-x-0 lg:static lg:block",
+      isOpen ? "translate-x-0 fixed inset-y-0 left-0" : "-translate-x-full fixed inset-y-0 left-0"
+    )}>
+      <div className="p-8 border-b border-white/5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
               <BookOpen size={20} className="text-emerald-500" />
            </div>
@@ -85,6 +95,17 @@ export default function DocsSidebar() {
            </div>
         </div>
 
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="lg:hidden w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-500 hover:text-white transition-colors"
+          >
+            <X size={18} />
+          </button>
+        )}
+      </div>
+
+      <div className="p-8 border-b border-white/5 hidden lg:block">
         <div className="relative group">
            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-emerald-500 transition-colors" />
            <input 
@@ -141,6 +162,7 @@ export default function DocsSidebar() {
                            <Link 
                                key={doc.id} 
                                href={`/docs/${doc.slug}`}
+                               onClick={() => onClose?.()}
                                className={cn(
                                  "flex items-center gap-3 py-2 px-3 rounded-lg text-[13px] font-medium transition-all group/item",
                                  isActive 

@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { account } from "@/lib/appwrite";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -31,7 +30,7 @@ export default function LoginPage() {
     setError("");
     
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await account.createEmailPasswordSession(email, password);
       setIsSuccess(true);
       setTimeout(() => {
         window.location.href = "/admin";
@@ -45,7 +44,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#030303] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Grids... (Same as before) */}
+      {/* Background Grids */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)] -z-10" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[150px] -z-10" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10" />
@@ -153,11 +152,14 @@ export default function LoginPage() {
                   </span>
                 </button>
                 
-                <p className="text-center">
+                <div className="flex flex-col items-center gap-4">
                   <Link href="/signup" className="text-[10px] font-black uppercase tracking-widest text-neutral-600 hover:text-emerald-500 transition-colors italic">
                     Request_access_protocol
                   </Link>
-                </p>
+                  <Link href="/forgot-password" className="text-[10px] font-black uppercase tracking-widest text-neutral-700 hover:text-white transition-colors italic border-b border-white/5 pb-1">
+                    Reset_identity_key
+                  </Link>
+                </div>
               </div>
             </motion.form>
           )}

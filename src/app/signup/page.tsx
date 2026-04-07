@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { auth as firebaseAuth } from "@/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { databases, APPWRITE_CONFIG } from "@/lib/appwrite";
+import { account, databases, APPWRITE_CONFIG, ID } from "@/lib/appwrite";
 import { motion } from "framer-motion";
 import { 
   ShieldCheck, 
@@ -33,8 +31,12 @@ export default function SignupPage() {
     setError("");
     
     try {
-      const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-      const userId = userCredential.user.uid;
+      // Create account in Appwrite
+      const user = await account.create(ID.unique(), email, password);
+      const userId = user.$id;
+      
+      // Auto login after signup to create session
+      await account.createEmailPasswordSession(email, password);
       
       // Create user document in Appwrite Database for role management
       try {
@@ -62,7 +64,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-[#030303] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Gradients... */}
+      {/* Background Gradients */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)] -z-10" />
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -z-10" />
       <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[150px] -z-10" />
