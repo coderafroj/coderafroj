@@ -1,12 +1,10 @@
 import nextra from "nextra";
 
 const withNextra = nextra({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.tsx",
+  // Nextra 4 options go here
 });
 
 export default withNextra({
-  // Your existing Next.js config
   images: {
     remotePatterns: [
       {

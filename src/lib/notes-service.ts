@@ -60,6 +60,24 @@ export const notesService = {
         );
     },
 
+    async getNoteBySlug(slug: string) {
+        try {
+            const res = await databases.listDocuments(
+                APPWRITE_CONFIG.databaseId,
+                NOTES_COLLECTION_ID,
+                [
+                    Query.equal("slug", slug),
+                    Query.equal("isPublic", true),
+                    Query.limit(1)
+                ]
+            );
+            return res.documents[0] as unknown as Note;
+        } catch (error) {
+            console.error("Error fetching note by slug:", error);
+            return null;
+        }
+    },
+
     async deleteNote(id: string) {
         return await databases.deleteDocument(
             APPWRITE_CONFIG.databaseId,

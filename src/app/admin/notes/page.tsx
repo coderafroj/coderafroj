@@ -24,6 +24,7 @@ import {
   Activity,
   Paperclip,
   FileUp,
+  Globe,
   Link as LinkIcon,
   ExternalLink
 } from "lucide-react";
@@ -48,6 +49,8 @@ export default function NotesPage() {
     content: "" as any, // Novel JSON or Plain Text
     category: "General",
     isPinned: false,
+    isPublic: false,
+    slug: "",
     tags: ""
   });
 
@@ -78,6 +81,8 @@ export default function NotesPage() {
         content: typeof formData.content === 'string' ? formData.content : JSON.stringify(formData.content),
         category: formData.category,
         isPinned: formData.isPinned,
+        isPublic: formData.isPublic,
+        slug: formData.slug || formData.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, ''),
         tags: formData.tags.split(",").map(t => t.trim()).filter(t => t !== "")
       };
 
@@ -124,6 +129,8 @@ export default function NotesPage() {
       content: parsedContent,
       category: note.category || "General",
       isPinned: note.isPinned || false,
+      isPublic: note.isPublic || false,
+      slug: note.slug || "",
       tags: note.tags?.join(", ") || ""
     });
     setIsModalOpen(true);
@@ -131,7 +138,7 @@ export default function NotesPage() {
 
   const resetForm = () => {
     setEditingNote(null);
-    setFormData({ title: "", content: "", category: "General", isPinned: false, tags: "" });
+    setFormData({ title: "", content: "", category: "General", isPinned: false, isPublic: false, slug: "", tags: "" });
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -405,6 +412,42 @@ export default function NotesPage() {
                                      <span className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest block mt-0.5">PRIORITY_TRUE</span>
                                   </div>
                                </label>
+
+                               <div className="h-px bg-white/5" />
+
+                               <div className="space-y-4 pt-2">
+                                  <label className="flex items-center gap-4 cursor-pointer group">
+                                     <input 
+                                       type="checkbox" 
+                                       checked={formData.isPublic}
+                                       onChange={(e) => setFormData({...formData, isPublic: e.target.checked})}
+                                       className="hidden"
+                                     />
+                                     <div className={cn(
+                                       "w-10 h-10 rounded-2xl border-2 flex items-center justify-center transition-all",
+                                       formData.isPublic ? "border-blue-500 bg-blue-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)]" : "border-white/10 group-hover:border-zinc-700"
+                                     )}>
+                                        {formData.isPublic && <Globe size={18} />}
+                                     </div>
+                                     <div>
+                                        <span className="text-[10px] font-black text-white uppercase tracking-widest block">Publish to Public Docs</span>
+                                        <span className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest block mt-0.5">NEXTRA_SYNC_ENABLED</span>
+                                     </div>
+                                  </label>
+
+                                  {formData.isPublic && (
+                                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
+                                       <label className="text-[9px] font-black uppercase tracking-widest text-zinc-700 px-1">SEO_SLUG_IDENTIFIER</label>
+                                       <input 
+                                         type="text" 
+                                         value={formData.slug}
+                                         onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                                         placeholder="my-custom-doc-slug"
+                                         className="w-full bg-blue-500/5 border border-blue-500/20 rounded-2xl py-3 px-4 text-[10px] font-bold text-blue-400 outline-none focus:border-blue-500/50 transition-all font-mono"
+                                       />
+                                    </div>
+                                  )}
+                               </div>
                             </div>
 
                             <div className="p-8 rounded-[3rem] bg-emerald-500/5 border border-emerald-500/10 space-y-4">
