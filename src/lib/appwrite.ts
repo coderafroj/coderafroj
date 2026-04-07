@@ -3,8 +3,8 @@ import { Client, Account, Databases, Storage, ID } from "appwrite";
 const client = new Client();
 
 client
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1")
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "project-tor-69d36094003741ad3f33");
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://tor.cloud.appwrite.io/v1")
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "69d36094003741ad3f33");
 
 export const account = new Account(client);
 export const databases = new Databases(client);
