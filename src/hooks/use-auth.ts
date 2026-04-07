@@ -34,20 +34,43 @@ export function useAuth() {
         name: response.name || email.split('@')[0]
       });
     } catch (error: any) {
-      // Handle the case where document doesn't exist yet (404)
       if (error.code === 404) {
-        console.log("No profile found in Appwrite for this user. Using fallback.");
+        console.log("No profile found. Attempting to provision identity...");
+        try {
+          const fallbackRole = (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com") ? "admin" : "user";
+          
+          await databases.createDocument(
+            APPWRITE_CONFIG.databaseId,
+            "users",
+            uid,
+            {
+              role: fallbackRole,
+              name: email.split('@')[0]
+            }
+          );
+          
+          setProfile({
+            uid: uid,
+            email: email,
+            role: fallbackRole,
+            name: email.split('@')[0]
+          });
+        } catch (createErr: any) {
+          console.error("Critical Identity Error:", createErr);
+          setProfile({
+            uid: uid,
+            email: email,
+            role: (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com") ? "admin" : "user"
+          });
+        }
       } else {
         console.error("Error fetching profile:", error);
+        setProfile({
+          uid: uid,
+          email: email,
+          role: (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com") ? "admin" : "user"
+        });
       }
-      
-      const fallbackRole = (email === "kodarafroj@gmail.com" || email === "koderafroj@gmail.com") ? "admin" : "user";
-      
-      setProfile({
-        uid: uid,
-        email: email,
-        role: fallbackRole
-      });
     }
   };
 

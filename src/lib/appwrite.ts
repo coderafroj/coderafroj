@@ -13,8 +13,8 @@ export { ID };
 
 // Configuration Constants
 export const APPWRITE_CONFIG = {
-    databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "main",
-    docsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_DOCS_COLLECTION_ID || "documentation",
+    databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || "69d3663b002679897103",
+    docsCollectionId: process.env.NEXT_PUBLIC_APPWRITE_DOCS_COLLECTION_ID || "docs",
     categoriesCollectionId: process.env.NEXT_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID || "doc_categories",
-    bucketId: process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID || "doc_images"
+    bucketId: process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID || "69d360bf000d35a35ea6"
 };
