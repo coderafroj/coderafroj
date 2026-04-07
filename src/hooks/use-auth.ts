@@ -45,19 +45,31 @@ export function useAuth() {
   };
 
   useEffect(() => {
-    // Current auth uses Firebase, keeping it for now but profiles in Appwrite
-    const unsubscribe = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        await fetchProfile(firebaseUser.uid, firebaseUser.email || "");
-      } else {
+    const checkAuth = async () => {
+      try {
+        const appwriteUser = await account.get();
+        if (appwriteUser) {
+          // Map Appwrite user to Firebase-like structure if needed, or just use as is
+          setUser({
+            uid: appwriteUser.$id,
+            email: appwriteUser.email,
+            displayName: appwriteUser.name,
+          } as any);
+          await fetchProfile(appwriteUser.$id, appwriteUser.email);
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
         setUser(null);
         setProfile(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
+    checkAuth();
   }, []);
 
   const isAdmin = profile?.email === "kodarafroj@gmail.com" || profile?.email === "koderafroj@gmail.com" || profile?.role === "admin";
