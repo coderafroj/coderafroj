@@ -1,102 +1,118 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Sidebar } from "@/components/admin/Sidebar";
 import { useAuth } from "@/hooks/use-auth";
-import AdminNav from "@/components/admin/AdminNav";
-import { ShieldCheck, Menu, X, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { Bell, Search, User, LogOut, Search as SearchIcon, ShieldAlert } from "lucide-react";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { isAdmin, loading: authLoading } = useAuth();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { profile, isAdmin, loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
 
-  if (authLoading) return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-8 text-center text-white">
-       <div className="relative mb-8">
-          <div className="w-16 h-16 border-4 border-zinc-900 border-t-emerald-500 rounded-full animate-spin shadow-[0_0_20px_rgba(16,185,129,0.2)]" />
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loading && !isAdmin && mounted) {
+      router.push("/login");
+    }
+  }, [loading, isAdmin, router, mounted]);
+
+  if (loading || !mounted) {
+    return (
+      <div className="h-screen w-full bg-zinc-950 flex items-center justify-center">
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="w-16 h-16 rounded-3xl bg-emerald-500/20 border-2 border-emerald-500/50 flex items-center justify-center"
+        >
+          <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+       <div className="h-screen w-full bg-zinc-950 flex items-center justify-center p-8 text-center">
+          <div className="max-w-md space-y-6">
+             <div className="w-20 h-20 rounded-[2.5rem] bg-red-500/10 border-2 border-red-500/20 flex items-center justify-center mx-auto text-red-500 shadow-2xl shadow-red-500/10">
+                <ShieldAlert size={40} />
+             </div>
+             <h1 className="text-3xl font-black tracking-tight text-white mb-2">Access Denied</h1>
+             <p className="text-zinc-500 font-medium leading-relaxed italic">You do not have administrative privileges to access this area. If you believe this is an error, please contact system support.</p>
+             <button 
+                onClick={() => router.push("/")}
+                className="px-8 py-3 bg-white text-black font-black rounded-2xl hover:bg-zinc-200 transition-all active:scale-95"
+             >
+                Return to Safety
+             </button>
+          </div>
        </div>
-       <div className="space-y-2">
-          <h2 className="text-xl font-bold tracking-tight uppercase tracking-widest text-emerald-500">Initializing Session</h2>
-          <p className="text-xs text-zinc-500 font-bold uppercase tracking-[0.2em]">Authenticating Administrative Link...</p>
-       </div>
-    </div>
-  );
-
-  if (!isAdmin) return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-4 relative overflow-hidden text-white">
-       <div className="absolute inset-0 bg-emerald-500/[0.02] filter blur-[100px] pointer-events-none" />
-       <motion.div 
-         initial={{ opacity: 0, scale: 0.95 }}
-         animate={{ opacity: 1, scale: 1 }}
-         className="max-w-md w-full p-10 md:p-12 text-center rounded-[2.5rem] border border-white/5 bg-zinc-900/20 backdrop-blur-3xl shadow-2xl"
-       >
-          <div className="w-20 h-20 rounded-3xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-10">
-             <ShieldCheck size={40} className="text-red-500" />
-          </div>
-          <div className="space-y-3 mb-10">
-             <h2 className="text-2xl md:text-3xl font-black tracking-tight uppercase italic leading-none">Access <br /> <span className="text-red-500 not-italic">Restricted.</span></h2>
-             <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest leading-none">Security Protocol Active</p>
-          </div>
-          <p className="text-zinc-600 mb-12 text-[13px] leading-relaxed max-w-[280px] mx-auto font-medium">
-             Unauthorized terminal access detected. Your account does not have administrative clearance for this sector.
-          </p>
-          <div className="flex flex-col gap-3">
-             <Link href="/login" className="py-4 bg-white text-black font-bold rounded-2xl hover:bg-zinc-200 transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-2 group">
-                Sign In <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-             </Link>
-             <Link href="/" className="py-4 bg-transparent border border-white/5 text-zinc-600 font-bold rounded-2xl hover:bg-white/5 transition-all text-xs uppercase tracking-widest">Exit to Hub</Link>
-          </div>
-       </motion.div>
-    </div>
-  );
+    );
+  }
 
   return (
-    <div className="flex h-screen bg-zinc-950 text-white selection:bg-emerald-500/30 selection:text-emerald-500 overflow-hidden relative">
-      {/* Mobile Top Bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between shadow-2xl">
-         <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center border border-white/10">
-               <ShieldCheck size={16} className="text-black" />
-            </div>
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">Staff Only</span>
-         </div>
-         <button 
-           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-           className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-400 hover:text-white transition-colors border border-white/5"
-         >
-           {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-         </button>
-      </div>
+    <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-emerald-500 selection:text-black">
+      <Sidebar />
+      
+      <main className="md:ml-[80px] lg:ml-[280px] min-h-screen transition-all duration-300">
+        {/* Top Header */}
+        <header className="sticky top-0 z-40 h-20 bg-zinc-950/40 backdrop-blur-3xl border-b border-white/5 px-8 flex items-center justify-between">
+           <div className="flex-1 max-w-sm relative group hidden sm:block">
+              <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-emerald-500 transition-colors" />
+              <input 
+                type="text" 
+                placeholder="Search commands, docs, or logs..."
+                className="w-full bg-white/[0.03] border border-white/5 rounded-2xl py-2.5 pl-12 pr-4 text-xs font-semibold placeholder:text-zinc-700 outline-none focus:border-emerald-500/50 focus:bg-emerald-500/5 transition-all"
+              />
+           </div>
 
-      <AdminNav isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+           <div className="flex items-center gap-6 ml-auto">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/5">
+                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                 <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Live Sync</span>
+              </div>
 
-      {/* Sidebar Backdrop (Mobile-only) */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-30 lg:hidden"
-          />
-        )}
-      </AnimatePresence>
+              <div className="h-6 w-px bg-white/10 hidden sm:block" />
 
-      <main className="flex-1 h-full relative overflow-y-auto w-full pt-16 lg:pt-0 scroll-smooth">
-          {/* Subtle Ambient Background */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] -z-10 rounded-full" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/[0.02] blur-[100px] -z-10 rounded-full" />
-          
-          <div className="relative z-10 w-full min-h-full">
-             {children}
-          </div>
+              <button className="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 text-zinc-500 hover:text-white transition-all hover:bg-white/5 relative">
+                 <Bell size={20} />
+                 <span className="absolute top-2 right-2 w-2 h-2 bg-emerald-500 rounded-full border-2 border-zinc-950" />
+              </button>
+
+              <div className="flex items-center gap-4 pl-2 cursor-pointer group">
+                 <div className="text-right hidden md:block">
+                    <p className="text-[11px] font-black text-white leading-none mb-1 group-hover:text-emerald-500 transition-colors">{profile?.email?.split('@')[0] || "Admin"}</p>
+                    <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-[0.2em] leading-none">Security Clearance</p>
+                 </div>
+                 <div className="w-10 h-10 rounded-2xl bg-zinc-900 border-2 border-white/10 flex items-center justify-center text-emerald-500 font-black group-hover:border-emerald-500/50 transition-all transition-all overflow-hidden bg-[url('https://api.dicebear.com/7.x/pixel-art/svg?seed=admin')] bg-cover" />
+              </div>
+           </div>
+        </header>
+
+        {/* Content Container */}
+        <div className="p-8 pb-32">
+           <AnimatePresence mode="wait">
+             <motion.div
+               key={pathname}
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
+               transition={{ duration: 0.3, ease: "easeOut" }}
+             >
+                {children}
+             </motion.div>
+           </AnimatePresence>
+        </div>
       </main>
+
+      {/* Global Toast / Overlay can go here */}
     </div>
   );
 }
