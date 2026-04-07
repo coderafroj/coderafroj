@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { account } from "@/lib/appwrite";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -24,6 +24,18 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        await account.get();
+        window.location.href = "/admin";
+      } catch (err) {
+        // No session active, stay on login page
+      }
+    };
+    checkSession();
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +48,12 @@ export default function LoginPage() {
         window.location.href = "/admin";
       }, 1500);
     } catch (err: any) {
-      setError(err.message || "Authentication failed. Invalid credentials.");
+      if (err.message?.includes("session is active") || err.type === "general_session_already_exists") {
+        setIsSuccess(true);
+        window.location.href = "/admin";
+      } else {
+        setError(err.message || "Authentication failed. Invalid credentials.");
+      }
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,22 @@
-import type { NextConfig } from "next";
+import nextra from "nextra";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+const withNextra = nextra({
+  theme: "nextra-theme-docs",
+  themeConfig: "./theme.config.tsx",
+});
 
-export default nextConfig;
+export default withNextra({
+  // Your existing Next.js config
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "tor.cloud.appwrite.io",
+      },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+      }
+    ],
+  },
+});

@@ -8,11 +8,13 @@ export interface Note {
     tags?: string[];
     category?: string;
     isPinned?: boolean;
+    isPublic?: boolean;
+    slug?: string;
     createdAt?: string;
     updatedAt?: string;
 }
 
-const NOTES_COLLECTION_ID = "notes"; // Default, user can update in .env.local
+const NOTES_COLLECTION_ID = APPWRITE_CONFIG.docsCollectionId;
 
 export const notesService = {
     async createNote(note: Omit<Note, "$id" | "createdAt" | "updatedAt">) {

@@ -60,7 +60,8 @@ export function useAuth() {
     return () => unsubscribe();
   }, []);
 
-  const isAdmin = profile?.email === "kodarafroj@gmail.com" || profile?.role === "admin";
+  const isAdmin = profile?.email === "kodarafroj@gmail.com" || profile?.email === "koderafroj@gmail.com" || profile?.role === "admin";
+ promotional_code: false 
 
   return { 
     user, 

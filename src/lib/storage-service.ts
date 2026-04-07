@@ -20,8 +20,8 @@ export const storageService = {
       // Construct the public URL for the file
       // NOTE: Ensure the bucket has public read permissions in Appwrite Console
       const fileId = response.$id;
-      const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://tor.cloud.appwrite.io/v1";
-      const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "69d36094003741ad3f33";
+      const endpoint = "https://tor.cloud.appwrite.io/v1";
+      const projectId = "69d36094003741ad3f33";
       
       const downloadURL = `${endpoint}/storage/buckets/${APPWRITE_CONFIG.bucketId}/files/${fileId}/view?project=${projectId}`;
       
