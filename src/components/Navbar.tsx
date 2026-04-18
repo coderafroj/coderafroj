@@ -15,12 +15,12 @@ import OrderForm from "./OrderForm";
 import { useAuth } from "@/hooks/use-auth";
 
 const navLinks = [
-  { name: "Documentation", href: "/docs", icon: BookOpen },
-  { name: "Tools", href: "/tools", icon: Code2 },
-  { name: "Widgets", href: "/widgets", icon: Blocks },
-  { name: "Resources", href: "/resources", icon: FileCode2 },
-  { name: "Marketplace", href: "/marketplace", icon: ShoppingCart },
-  { name: "SaaS", href: "/saas", icon: Wrench },
+  { name: "Home", href: "/#home", icon: ShoppingCart },
+  { name: "Projects", href: "/#projects", icon: ShoppingCart },
+  { name: "Skills", href: "/#skills", icon: Sparkles },
+  { name: "Experience", href: "/#experience", icon: BookOpen },
+  { name: "Education", href: "/#education", icon: GraduationCap },
+  { name: "Contact", href: "/#contact", icon: FileCode2 },
   { name: "AI Architect", href: "/tools/ai-architect", icon: Cpu, premium: true },
 ];
 
@@ -69,11 +69,11 @@ export function Navbar() {
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tighter leading-none mb-0.5">
-                KODARAFROJ<span className="text-primary">.</span>
+              <span className="text-lg font-black tracking-[0.2em] leading-none mb-0.5">
+                CODERAFROJ<span className="text-primary">.</span>
               </span>
               <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] leading-none">
-                Ecosystem
+                Portfolio
               </span>
             </div>
           </Link>

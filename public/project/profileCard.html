@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dribbble Portfolio | Next-Level Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === Base Styles === */
+        :root {
+            --primary: #ff2d75; /* Dribbble Pink */
+            --secondary: #00c2ff;
+            --dark: #0f0f1a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --neon-glow: 0 0 15px rgba(255, 45, 117, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* === Glassmorphism Card === */
+        .dribbble-card {
+            width: 320px;
+            height: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s, box-shadow 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        /* === 3D Tilt Effect on Hover === */
+        .dribbble-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+            box-shadow: var(--neon-glow), 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* === Neon Border Animation === */
+        .dribbble-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            border-radius: 22px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .dribbble-card:hover::before {
+            opacity: 1;
+            animation: neon-border 2s linear infinite;
+        }
+
+        @keyframes neon-border {
+            0% { filter: blur(5px); opacity: 0.8; }
+            50% { filter: blur(8px); opacity: 1; }
+            100% { filter: blur(5px); opacity: 0.8; }
+        }
+
+        /* === Profile Header === */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .profile-info {
+            margin-left: 15px;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* === Stats Grid === */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 45, 117, 0.1);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* === Latest Work Preview === */
+        .latest-work {
+            margin-top: 20px;
+        }
+
+        .work-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .work-title i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .work-item {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .work-item img{
+          width:100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .work-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
+        }
+
+        /* === Follow Button === */
+        .follow-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(45deg, var(--primary), #ff5e9a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .follow-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 45, 117, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="dribbble-card">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="https://i.ibb.co/JRXvKxK6/afu.png" alt="Profile" class="profile-pic">
+            <div class="profile-info">
+                <h3 class="profile-name">Afroj</h3>
+                <p class="profile-title">UI/UX Designer</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value">1.2K</div>
+                <div class="stat-label">Shots</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">24K</div>
+                <div class="stat-label">Likes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">3.5K</div>
+                <div class="stat-label">Followers</div>
+            </div>
+        </div>
+
+        <!-- Latest Work -->
+        <div class="latest-work">
+            <h4 class="work-title"><i class="fas fa-fire"></i> Latest Work</h4>
+            <div class="work-grid">
+                <div class="work-item">
+                  <img src="https://i.postimg.cc/BvzXp08L/cir.png" alt="">
+                </div>
+                <div class="work-item">
+                  <img src="https://i.postimg.cc/vZqWJCgM/undefined-Imgur.png" alt="">
+                </div>
+                <div class="work-item">
+                  <img src="https://i.postimg.cc/bwQ7LHsQ/Up-To-50-Off-Whats-App-Status-1.jpg" alt="">
+                </div>
+                <div class="work-item">
+                  <img src="https://i.postimg.cc/8kvgjSNK/Yellow-And-Blue-Modern-Online-Course-Instagram-Post.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- Follow Button -->
+        <button class="follow-btn">Follow on Dribbble</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,300 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+header{
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.headleft{
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    padding: 24px 30px;
+    border-right: 1px solid #ccc;
+}
+.headadd{
+    padding: 20px 30px;
+}
+.headadd h3{
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.headadd p{
+    font-size: 14px;
+}
+
+.headsearch{
+    flex-grow: 1;
+    background-color: #f8f8f8;
+    border: 1px solid #f4f4f4;
+    display: flex;
+    border-radius: 15px;
+}
+.headsearch button{
+    padding: 15px;
+    background-color: transparent;
+    border: none;
+}
+.headsearch input{
+    flex-grow: 1;
+    background-color: transparent;
+    border: none;
+}
+
+.headsearch input:focus{
+    outline: none;
+}
+
+.headright{
+    display: flex;
+    gap: 40px;
+    margin-right: 40px;
+}
+.headright button{
+    padding: 15px;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+}
+
+.headright button:last-child{
+    background-color: #54b226;
+    border-radius: 10px;
+    color: white;
+
+}
+
+.banner{
+    max-width: 1280px;
+    margin: auto;
+}
+.banner img{
+    width: 100%;
+}
+
+.orderbanner{
+    display: flex;
+    margin: auto;
+    max-width: 1280px;
+}
+.orderbanner .items{
+    flex-basis: 27%;
+    margin: 1%;
+}
+.orderbanner .items img{
+    width: 100%;
+}
+
+.orderitem{
+    flex-wrap: wrap;
+    display: flex;
+    margin: auto;
+    max-width: 1280px;
+}
+.orderitem .item{
+    flex-basis: 10%;
+}
+.orderitem .item img{
+    width: 100%;
+}
+
+
+.productsec{
+    max-width: 1280px;
+    margin: auto;
+    
+}
+.headingrow h2{
+    font-size: 22px;
+    margin-left: 15px;
+
+}
+.headingrow a{
+    color: #328839;
+    font-size: 18px;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.headingrow{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    
+    
+}
+.productrow{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 30px 0px 0px 0px;
+    gap: 2%;
+}
+
+.productitem{
+    flex-basis: 15%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 2px #f2f2f2;
+    /* border: none; */
+}
+
+.productimg{
+    text-align: center;
+    padding: 15px;
+}
+.productimg p{
+    display: flex;
+    background-color: #f8f8f8;
+    width: 70px;
+    padding: 2px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-align: center;
+    gap:5px;
+}
+
+.productcontent{
+    padding: 15px;
+    padding-top: 0px;
+}
+.productcontent h3{
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.productcontent p{
+    font-size: 14px;
+    color: #848080;
+}
+
+.btn-p{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    align-items: center;
+    
+
+}
+.btn-p button{
+    background-color: #f7fff9;
+    padding: 5px 15px;
+    border: 1px solid #328839;
+    border-radius: 6px;
+}
+
+footer{
+    padding: 40px 0 0 0;
+}
+.foter-mid{
+    max-width: 1280px;
+    margin: auto;
+
+}
+
+.foter-mid1{
+    display: flex;
+    width: 100%;
+    gap: 40px;
+
+}
+
+.foter-mid1-left{
+    flex-basis: 30%;
+    margin-left: 20px;
+}
+.foter-mid1-left h3{
+    margin-bottom: 30px;
+}
+.foter-mid1-right{
+    flex-basis: 70%;
+    margin-left: 20px;
+}
+
+.usefull-link{
+    display: flex;
+}
+.usefull-link ul{
+    flex-basis: 33%;
+    list-style: none;
+}
+
+.usefull-link ul li a{
+  display: block;
+  margin-bottom: 10px;
+}
+
+.categorieshead{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.categorieshead h3,a{
+   margin-bottom: 30px;
+}
+.foter-mid2{
+  background-color: #f2f2f2;
+  width: 100%;
+  padding: 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.foter-mid3{
+  padding: 20px 0px;
+  font-size: 14px;
+  display:flex;
+  color: rgb(102,102,102);
+}
+
+.foter-mid2 p{
+  flex-basis: 30%;
+  text-align: center;
+  font-size: 14px;
+  
+}
+.play{
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-basis: 30%;
+}
+.sicon{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-basis: 40%;
+  transition: all .3s ease;
+}
+.sicon i{
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  transition: all .3s ease;
+  
+}
+.sicon i:hover{
+  width: 50px;
+  height: 50px;
+  font-size: 25px;
+  
+  
+}

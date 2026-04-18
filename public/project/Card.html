@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>profile card</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body{
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4f4;
+    }
+    
+    .card{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 370px;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 0 5px rgba(0,0,0,.5);
+      border-radius:24px;
+      padding: 25px;
+      position: relative;
+    }
+    
+    .card::before{
+      content:'';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 36%;
+      width:100%;
+      border-radius: 24px 24px 0 0;
+      background-color: #1ab;
+    }
+    .image{
+      position: relative;
+      height: 150px;
+      width: 150px;
+      background: #1abc;
+      border-radius: 50%;
+      padding: 3px;
+      margin-bottom: 10px;
+    }
+    
+    .profile-img{
+      height: 100%;
+      width: 100%;
+      border-radius:50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    
+    .text{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+    
+    .name{
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    .job{
+      font-size: .90rem;
+      font-weight: 400;
+    }
+    
+    .media-icon{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    a{
+      display: flex;
+      align-items: center;
+      justify-content:center;
+      width: 34px;
+      height: 34px;
+      background-color: #f3f3f3cd;
+      margin: 0 8px;
+      border-radius: 50%;
+      text-decoration: none;
+      color: white;
+      transition: all .3s ease;
+      opacity: .5;
+    }
+    a:hover{
+      transition: all .3s ease-in;
+      opacity: 1;
+      
+    }
+    
+    .buttons{
+      display: flex;
+      margin-top: 25px;
+      align-items: center;
+    }
+    
+    .button{
+      margin: 0 10px;
+      border-radius: 24px;
+      padding: 8px 24px;
+      background-color: #4070f4;
+      color: #fff;
+      border: none;
+      font-size: 14px;
+      transition: all 0.3s ease-in-out;
+    }
+    .button:hover{
+      background-color: #0e4bf1;
+    }
+    
+    .analytics{
+      display: flex;
+     align-items: center;
+     justify-content:center;
+     margin-top: 25px;
+    }
+    
+    .data{
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-right: 1px solid grey;
+    }
+    
+    .data i{
+      
+      margin-right: 6px;
+      font-size: 1.4rem;
+    }
+    
+    .data:last-child{
+      border-right: none;
+      
+    }
+    
+    
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="image">
+      <img src="image/afroj.png" alt="" class="profile-img">
+    </div>
+    <div class="text">
+      <span class="name">AFROJ</span>
+      <span class="job">web designer</span>
+    </div>
+    <div class="media-icon">
+      <a href="#" style="background-color:black;">
+        <i class="bx bxl-github"></i>
+      </a>
+      <a href="#" style="background-color:dodgerblue">
+        <i class="bx bxl-linkedin-square"></i>
+      </a>
+       <a href="" style="background-color:red;">
+        <i class="bx bxl-youtube"></i>
+      </a>
+    </div>
+    
+    <div class="buttons">
+      <button class="button">Subscribe</button>
+      <button class="button">Message</button>
+    </div>
+    <div class="analytics">
+    <div class="data">
+      <i class="bx bx-heart"></i>
+      <span class="num">60k</span>
+    </div>
+    <div class="data">
+      <i class="bx bx-message-rounded"></i>
+      <span class="num">60k</span>
+    </div>
+    <div class="data">
+      <i class="bx bx-share"></i>
+      <span class="num">60k</span>
+    </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>coderafroj</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		.navbar{
+			display: flex;
+			width: 100%;
+			height: 60px;
+			align-items: center;
+			background-color: #333;
+			justify-content: space-between;
+			position: fixed;
+			z-index: 12;
+
+		}
+		.nav-logo{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			width: 100px;
+			margin-left: 20px;
+			margin-top: 5px;
+			
+
+		}
+		.logo{
+			background: url('logo.png') no-repeat;
+			background-size: cover;
+			background-position: center;
+			
+
+			height: 50px;
+			width: 100%;
+
+
+		}
+		.logo:hover{
+			font-size: 1.3rem;
+		}
+
+		.menu{
+			display: flex;
+			gap: 20px;
+			margin: 0 20px;
+		}
+
+		.menu a{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: whitesmoke;
+			font-size: .85rem;
+			width: 50px;
+			text-align: center;
+			height: 20px;
+			transition: all .3s steps(3);
+			border-radius: 24px;
+			cursor: pointer;
+
+		}
+		.menu a:last-child{
+			width: 65px;
+		}
+
+		.menu a:hover{
+			background-color: #fff;
+			color: black;
+		}
+
+		.hero{
+			width: 100%;
+			height: 100vh;
+		}
+
+		.img{
+			width: 100%;
+			height: 100%;
+			background: url(hackerimg.webp) no-repeat;
+			background-size: cover;
+			background-position: center;
+		}
+
+		.hero .img::before{
+			content: '';
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(0, 0, 0, .8);
+		}
+
+		.center{
+			position: absolute;
+			top: 52%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			
+			padding: 0 20px;
+			text-align: center;
+		}
+		.center .title{
+			color: #fff;
+			font-size: 55px;
+			font-weight: 600;
+		}
+
+		.center .sub_title{
+			color: #fff;
+			font-size: 52px;
+			font-weight: 600;
+		}
+
+		.center .butts{
+			margin-top: 20px;
+
+
+		}
+
+		.center .butts button{
+			height: 55px;
+			width: 170px;
+			border-radius: 5px;
+			border: none;
+			margin: 0 20px;
+			border: 2px solid #fff;
+			font-size: 20px;
+			font-weight: 500;
+			cursor: pointer;
+			outline: none;
+			transition: all .3s ease;
+		}
+		.center .butts button:first-child{
+			color: #fff;
+			background: none;
+		}
+		.center .butts button:first-child:hover{
+			background-color: #fff;
+			color: #000;
+		}
+
+		@media (width:600px){
+			.center .butts button{
+			height: 25px;
+			width: 130px;
+			border-radius: 5px;
+			border: none;
+			margin: 0 20px;
+			border: 2px solid #fff;
+			font-size: 20px;
+			font-weight: 500;
+			cursor: pointer;
+			outline: none;
+			transition: all .3s ease;
+		}
+		.butts{
+			display: flex;
+		}
+		.center .title{
+			color: #fff;
+			font-size: 30px;
+			font-weight: 600;
+		}
+
+		.center .sub_title{
+			color: #fff;
+			font-size: 32px;
+			font-weight: 600;
+		}
+
+		}
+
+
+
+
+
+
+	</style>
+</head>
+<body>
+<header class="navbar">
+	<div class="nav-logo">
+		<div class="logo"></div>
+	</div>
+	<div class="menu">
+		<a>Home</a>
+		<a>About</a>
+		<a>Course</a>
+		<a>Contact-us</a>
+	</div>
+
+</header>
+<div class="hero">
+	<div class="img"></div>
+	<div class="center">
+		<div class="title">Create Amzing Website</div>
+		<div class="sub_title">Pure HTML & CSS only</div>
+	
+	<div class="butts">
+		<button>Learn More</button>
+		<button>Subscribe</button>
+	</div>
+	</div>
+</div>
+</body>
+</html>

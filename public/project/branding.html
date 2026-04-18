@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoderAfroj - Professional Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .profile-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, rgba(124, 58, 237, 0.2), rgba(30, 58, 138, 0.2));
+            transform: rotate(45deg);
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        .profile-card:hover::before {
+            top: -50%;
+            left: -50%;
+        }
+
+        .glow {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(124, 58, 237, 0.8);
+            }
+        }
+
+        .social-icon {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.3) rotate(10deg);
+            background-color: #7c3aed !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const ProfileCard = () => {
+            const skills = [
+                { name: 'React', icon: 'fa-brands fa-react' },
+                { name: 'HTML', icon: 'fa-brands fa-html5' },
+                { name: 'CSS', icon: 'fa-brands fa-css3-alt' },
+                { name: 'JavaScript', icon: 'fa-brands fa-js' },
+                { name: 'Tailwind', icon: 'fa-solid fa-wind' }
+            ];
+
+            const socials = [
+                { platform: 'GitHub', url: 'https://github.com', icon: 'fa-brands fa-github' },
+                { platform: 'LinkedIn', url: 'https://linkedin.com', icon: 'fa-brands fa-linkedin' },
+                { platform: 'Twitter', url: 'https://twitter.com', icon: 'fa-brands fa-twitter' },
+                { platform: 'Behance', url: 'https://behance.net', icon: 'fa-brands fa-behance' },
+                { platform: 'YouTube', url: 'https://youtube.com/@coderafroj', icon: 'fa-brands fa-youtube' }
+            ];
+
+            return (
+                <div className="profile-card bg-white max-w-lg w-full mx-4 rounded-3xl p-8 relative z-10 glow">
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-900/10 rounded-3xl -z-10"></div>
+                    <div className="flex justify-center mb-6">
+                        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-purple-500 transition-all duration-300 hover:border-blue-900">
+                            <img src="https://via.placeholder.com/150" alt="CoderAfroj" className="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-900 text-center">CoderAfroj</h1>
+                    <p className="text-lg font-semibold text-purple-600 text-center mb-4">Full Stack Web Developer | UI/UX Specialist</p>
+                    <p className="text-gray-600 text-center mb-6 leading-relaxed">
+                        Crafting jaw-dropping websites with React, HTML, CSS, JavaScript, and Tailwind CSS. I build responsive, high-performance web solutions that captivate users and drive results. Ready to elevate your project to the next level? Let’s create something extraordinary!
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4 mb-6">
+                        {skills.map((skill, index) => (
+                            <div key={index} className="flex items-center gap-2 bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">
+                                <i className={`${skill.icon} text-lg`}></i>
+                                <span>{skill.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-center gap-4 mb-6">
+                        {socials.map((social, index) => (
+                            <a
+                                key={index}
+                                href={social.url}
+                                target="_blank"
+                                className="social-icon bg-purple-600 text-white w-12 h-12 flex items-center justify-center rounded-full"
+                                title={social.platform}
+                            >
+                                <i className={`${social.icon} text-xl`}></i>
+                            </a>
+                        ))}
+                    </div>
+                    <div className="text-center mb-4">
+                        <a
+                            href="https://coderafroj.github.io"
+                            target="_blank"
+                            className="text-purple-600 font-semibold hover:text-blue-900 transition-colors duration-300"
+                        >
+                            coderafroj.github.io
+                        </a>
+                    </div>
+                    <div className="text-center">
+                        <a
+                            href="mailto:your.email@example.com"
+                            className="inline-block bg-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-900 transition-all duration-300"
+                        >
+                            Get Your Dream Project Built!
+                        </a>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<ProfileCard />, document.getElementById('root'));
+    </script>
+</body>
+</html>

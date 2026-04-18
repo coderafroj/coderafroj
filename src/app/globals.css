@@ -73,6 +73,19 @@ body {
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
   }
+  
+  /* Portfolio Specific Utilities */
+  .portfolio-dim-group:hover .portfolio-dim-item:not(:hover) {
+    @apply opacity-20 grayscale transition-all duration-700;
+  }
+  
+  .orange-gradient {
+    @apply bg-gradient-to-r from-[#ff8c00] to-[#ffca28] shadow-[0_4px_10px_rgba(255,140,0,0.4)];
+  }
+
+  .portfolio-line {
+    @apply border-t border-white/20 my-16;
+  }
 }
 
 /* Animations */
