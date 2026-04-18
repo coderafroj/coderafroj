@@ -8,7 +8,7 @@ import {
   Menu, X, Sparkles, Code2, 
   Blocks, ShoppingCart, Wrench, FileCode2,
   Plus, LogIn, UserPlus, CpuIcon as Cpu, CreditCard, LayoutDashboard, Crown,
-  ArrowRight, BookOpen
+  ArrowRight, BookOpen, GraduationCap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import OrderForm from "./OrderForm";

@@ -14,6 +14,10 @@ export default withNextra({
       {
         protocol: "https",
         hostname: "api.dicebear.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
       }
     ],
   },

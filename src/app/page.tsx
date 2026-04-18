@@ -16,45 +16,45 @@ const ROLES = ["Student", "Cyber Security Aspirant", "Bug Hunter", "CS Teacher"]
 
 const skills = [
   {
-    category: "Cybersecurity",
-    icon: Shield,
-    items: ["Linux", "SIEM TOOLS", "WAPT", "Network Security", "Offensive Security"],
-    color: "from-red-500 to-orange-500"
+    category: "Web Development",
+    icon: Globe,
+    items: ["HTML", "CSS", "JavaScript", "ReactJS", "Next.js", "MERN Stack"],
+    color: "from-blue-500 to-indigo-500"
   },
   {
     category: "Programming",
     icon: Terminal,
-    items: ["Python", "Java", "C", "C++"],
-    color: "from-blue-500 to-indigo-500"
-  },
-  {
-    category: "Networking",
-    icon: Network,
-    items: ["TCP/IP", "Firewall", "Ports & Protocols", "Packet Analysis"],
+    items: ["Python", "C++", "C", "JavaScript"],
     color: "from-emerald-500 to-teal-500"
   },
   {
-    category: "Miscellaneous",
+    category: "Software & Design",
     icon: Database,
-    items: ["MERN STACK", "Web Designing", "Automation", "Database"],
+    items: ["Git", "GitHub", "MS Office", "Advance Excel", "Tally", "Corel Graphics Design"],
+    color: "from-orange-500 to-red-500"
+  },
+  {
+    category: "Cybersecurity",
+    icon: Shield,
+    items: ["Linux", "SIEM TOOLS", "WAPT", "Network Security", "Offensive Security"],
     color: "from-purple-500 to-pink-500"
   }
 ];
 
 const experience = [
   {
-    role: "Front end",
-    company: "Apna College",
-    period: "March, 2025 - Present",
-    description: "HTML is hypertext markup language (Structure Webpage layout). CSS (Web Design).",
-    icon: Briefcase
+    role: "Full Stack Developer",
+    company: "Self-Taught Excellence",
+    period: "2023 - Present",
+    description: "Mastered complex web architectures and modern frameworks through intensive self-study and real-world project builds. Specialized in Next.js, React, and UI/UX design.",
+    icon: Laptop
   },
   {
-    role: "Computer Teacher",
-    company: "Vintech Computer Education",
-    period: "October, 2024 - Present",
-    description: "Taught foundational and advanced CS concepts effectively: Cybersecurity, Networking, Programming, Operating Systems and Databases. Designed interactive lessons and hands-on coding projects. Encouraged Logical Thinking and Problem Solving.",
-    icon: GraduationCap
+    role: "Cyber Security Specialist",
+    company: "Independent Research",
+    period: "2024 - Present",
+    description: "Deep-diving into offensive security and network auditing. Actively engaged in bug hunting and practical application of SIEM tools.",
+    icon: Shield
   }
 ];
 
