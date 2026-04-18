@@ -106,34 +106,14 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Action Hub */}
-          <div className="flex items-center gap-2">
+             {/* Consultation Call */}
              <button 
                 onClick={() => setIsOrderFormOpen(true)}
-                className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-primary text-white text-[13px] font-black hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 group relative overflow-hidden active:scale-95"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-primary text-white text-[13px] font-black hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 group relative overflow-hidden active:scale-95"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <Plus size={16} /> Order Software
+                <Plus size={16} /> Consult Me Now
               </button>
-
-             <div className="hidden lg:flex h-8 w-px bg-white/10 mx-2" />
-
-             {!user ? (
-                <div className="hidden lg:flex items-center gap-2">
-                  <Link 
-                    href="/login" 
-                    className="px-4 py-2.5 rounded-xl text-[13px] font-bold text-white/40 hover:text-white transition-colors"
-                  >
-                    Log in
-                  </Link>
-                  <Link 
-                    href="/signup" 
-                    className="flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-white text-black text-[13px] font-black hover:bg-neutral-200 transition-all active:scale-95 shadow-xl"
-                  >
-                    Get Started <ArrowRight size={14} />
-                  </Link>
-                </div>
-             ) : (
                 <div className="hidden lg:flex items-center gap-3 pl-2 group/user cursor-pointer">
                    <div className="flex flex-col items-end">
                       <span className="text-[10px] font-black text-white leading-none mb-1 uppercase tracking-widest">{profile?.role || 'User'}</span>

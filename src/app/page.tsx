@@ -31,7 +31,7 @@ const skills = [
     category: "Software & Design",
     icon: Database,
     items: ["Git", "GitHub", "MS Office", "Advance Excel", "Tally", "Corel Graphics Design"],
-    color: "from-orange-500 to-red-500"
+    color: "from-blue-600 to-purple-600"
   },
   {
     category: "Cybersecurity",
@@ -546,16 +546,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <footer className="py-12 border-t border-white/5 text-center space-y-6">
-        <div className="text-neutral-500 flex items-center justify-center gap-2 font-bold italic">
-          &copy; 2025 <span className="text-white hover:text-primary transition-colors cursor-pointer font-black">CODERAFROJ</span> • All rights reserved.
-        </div>
-        <div className="flex justify-center gap-8">
-          <Link href="/saas" className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white transition-colors">SaaS Utilities</Link>
-          <Link href="/docs" className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white transition-colors">Documentation</Link>
-          <Link href="/marketplace" className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white transition-colors">Marketplace</Link>
-        </div>
-      </footer>
     </div>
   );
 }

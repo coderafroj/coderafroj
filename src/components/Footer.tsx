@@ -1,38 +1,11 @@
 import Link from "next/link";
-import { Sparkles, Github, Twitter, Linkedin, Mail, ArrowUpRight } from "lucide-react";
-import { siteConfig } from "@/config/site";
-
-const footerLinks = [
-  {
-    title: "Ecosystem",
-    links: [
-      { name: "Developer Tools", href: "/tools" },
-      { name: "Widget Generator", href: "/widgets" },
-      { name: "Code Marketplace", href: "/marketplace" },
-      { name: "SaaS Utilities", href: "/saas" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { name: "About Us", href: "/about" },
-      { name: "Contact Sales", href: "/contact" },
-      { name: "Custom Solutions", href: "/custom" },
-      { name: "Terms of Service", href: "/terms" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { name: "Documentation", href: "/docs" },
-      { name: "Free Snippets", href: "/resources" },
-      { name: "API Reference", href: "/api" },
-      { name: "Support Hub", href: "/support" },
-    ],
-  },
-];
+import { Sparkles, Github, Twitter, Linkedin, Mail, ArrowUp } from "lucide-react";
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="relative bg-black border-t border-white/5 pt-24 pb-12 overflow-hidden">
       {/* Background patterns */}
@@ -40,30 +13,30 @@ export function Footer() {
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
       
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
-          <div className="lg:col-span-2 space-y-8">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-20">
+          <div className="space-y-8 max-w-md">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center neon-glow">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center neon-glow">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-black tracking-tighter">
-                KODARAFROJ<span className="text-primary">.</span>
+              <span className="text-2xl font-black tracking-tighter uppercase">
+                CODERAFROJ<span className="text-primary">.</span>
               </span>
             </Link>
-            <p className="text-neutral-500 text-lg leading-relaxed max-w-sm">
-              Empowering developers with high-performance tools and custom software solutions that scale.
+            <p className="text-neutral-500 text-lg leading-relaxed italic">
+              Building secure, high-performance digital experiences. Specializing in Full Stack Development and Cybersecurity research.
             </p>
             <div className="flex items-center gap-4">
               {[
-                { icon: Github, href: siteConfig.links.github },
-                { icon: Twitter, href: siteConfig.links.twitter },
-                { icon: Linkedin, href: "#" },
+                { icon: Github, href: "https://github.com/Bytecore-website/bytecorecomputercentre" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/afroj-ahmad-6a626729a" },
+                { icon: Twitter, href: "#" },
                 { icon: Mail, href: "mailto:hello@kodarafroj.com" },
               ].map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
-                  className="w-10 h-10 rounded-full glass border border-white/5 flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary/50 transition-all"
+                  className="w-10 h-10 rounded-full glass border border-white/5 flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary/50 hover:bg-primary/10 transition-all active:scale-90"
                 >
                   <social.icon size={18} />
                 </a>
@@ -71,34 +44,42 @@ export function Footer() {
             </div>
           </div>
 
-          {footerLinks.map((group) => (
-            <div key={group.title} className="space-y-6">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest">{group.title}</h4>
+          <div className="grid grid-cols-2 gap-20">
+            <div className="space-y-6">
+              <h4 className="text-white font-bold text-sm uppercase tracking-[0.3em] opacity-40">Navigate</h4>
               <ul className="space-y-4">
-                {group.links.map((link) => (
-                  <li key={link.name}>
+                {["Home", "Projects", "Skills", "Experience"].map((item) => (
+                  <li key={item}>
                     <Link
-                      href={link.href}
-                      className="text-neutral-500 hover:text-primary transition-colors flex items-center gap-1 group"
+                      href={`/#${item.toLowerCase()}`}
+                      className="text-neutral-500 hover:text-primary transition-colors font-bold italic"
                     >
-                      {link.name}
-                      <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      {item}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-          ))}
+            <div className="space-y-6 text-right md:text-left">
+               <button 
+                  onClick={scrollToTop}
+                  className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all group"
+               >
+                  <ArrowUp className="group-hover:-translate-y-1 transition-transform" />
+               </button>
+            </div>
+          </div>
         </div>
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-neutral-600 text-sm">
-            © {new Date().getFullYear()} Kodarafroj Ecosystem. All rights reserved.
+          <p className="text-neutral-600 text-[10px] font-black uppercase tracking-[0.3em]">
+            © {new Date().getFullYear()} CODERAFROJ • All rights reserved.
           </p>
-          <div className="flex items-center gap-8 text-neutral-600 text-sm">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
-            <Link href="/rss" className="hover:text-white transition-colors">RSS Feed</Link>
+          <div className="flex items-center gap-8 text-neutral-600 text-[10px] font-black uppercase tracking-[0.3em]">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+            <span className="text-white/10">|</span>
+            <span className="text-primary italic">Handcrafted with Passion</span>
           </div>
         </div>
       </div>
