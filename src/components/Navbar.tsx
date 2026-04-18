@@ -55,10 +55,10 @@ export function Navbar() {
       )}
     >
       <nav className={cn(
-        "max-w-7xl mx-auto transition-all duration-500 rounded-[2rem] border border-white/5",
+        "max-w-7xl mx-auto transition-all duration-500 rounded-[2rem]",
         isScrolled 
-          ? "bg-black/60 backdrop-blur-2xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] py-2 px-3 pr-2" 
-          : "bg-white/[0.03] backdrop-blur-md py-3 px-5 pr-3"
+          ? "py-2 px-3 pr-2" 
+          : "py-3 px-5 pr-3"
       )}>
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group pl-2">
@@ -79,7 +79,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav - Centered & Unified */}
-          <div className="hidden lg:flex items-center gap-1 bg-white/[0.03] border border-white/5 rounded-2xl p-1 backdrop-blur-sm mx-4">
+          <div className="hidden lg:flex items-center gap-1 mx-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}

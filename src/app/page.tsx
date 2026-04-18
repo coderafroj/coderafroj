@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { 
   Code2, Blocks, ShoppingCart, Wrench, 
   FileCode2, ArrowRight, Rocket, Sparkles,
@@ -167,6 +167,49 @@ function Typewriter({ text }: { text: string[] }) {
     </span>
   );
 }
+function TiltCard({ children, className }: { children: React.ReactNode, className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={cn("perspective-1000", className)}
+    >
+      <div 
+        style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
+        className="w-full h-full"
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Home() {
   return (
@@ -322,32 +365,42 @@ export default function Home() {
           <p className="text-xl text-neutral-500 italic">My weapon of choice and expertise mapping.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
           {skills.map((skillGroup, idx) => (
-            <motion.div 
+            <TiltCard 
               key={idx}
-              initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="glass p-8 md:p-12 rounded-[2rem] border-white/5 flex flex-col items-center text-center group"
+              className={cn(
+                "h-full",
+                idx === 0 ? "md:col-span-2 md:row-span-2" : "md:col-span-2"
+              )}
             >
-              <div className={`w-20 h-20 rounded-3xl mb-8 flex items-center justify-center bg-gradient-to-br ${skillGroup.color} shadow-lg opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500`}>
-                <skillGroup.icon className="w-10 h-10 text-white" />
-              </div>
-              
-              <h3 className="text-3xl font-black mb-6 tracking-tight uppercase italic">{skillGroup.category}</h3>
-              
-              <div className="flex flex-wrap justify-center gap-3">
-                {skillGroup.items.map((item, i) => (
-                  <span 
-                    key={i}
-                    className="px-5 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-bold text-neutral-400 group-hover:text-white transition-colors"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="glass p-8 md:p-12 rounded-[2.5rem] border-white/5 flex flex-col items-center justify-center text-center group h-full relative overflow-hidden"
+              >
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 bg-gradient-to-br ${skillGroup.color}`} />
+                
+                <div className={`w-20 h-20 rounded-3xl mb-8 flex items-center justify-center bg-gradient-to-br ${skillGroup.color} shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                  <skillGroup.icon className="w-10 h-10 text-white" />
+                </div>
+                
+                <h3 className="text-3xl font-black mb-6 tracking-tight uppercase italic">{skillGroup.category}</h3>
+                
+                <div className="flex flex-wrap justify-center gap-2">
+                  {skillGroup.items.map((item, i) => (
+                    <span 
+                      key={i}
+                      className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-neutral-400 group-hover:text-white group-hover:border-primary/30 transition-all"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </TiltCard>
           ))}
         </div>
       </section>
@@ -363,31 +416,32 @@ export default function Home() {
 
         <div className="space-y-12">
           {experience.map((exp, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="glass p-10 rounded-[2.5rem] border-white/5 group hover:bg-white/[0.04] transition-all duration-500"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                <div className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <exp.icon size={32} />
+            <TiltCard key={idx}>
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="glass p-10 rounded-[2.5rem] border-white/5 group hover:bg-white/[0.04] transition-all duration-500"
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                  <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <exp.icon size={32} />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black italic">{exp.role}</h3>
+                      <p className="text-primary font-bold uppercase tracking-wider text-sm">{exp.company}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-black italic">{exp.role}</h3>
-                    <p className="text-primary font-bold uppercase tracking-wider text-sm">{exp.company}</p>
+                  <div className="px-6 py-2 rounded-full glass border border-white/10 text-neutral-400 font-bold text-sm h-fit">
+                    {exp.period}
                   </div>
                 </div>
-                <div className="px-6 py-2 rounded-full glass border border-white/10 text-neutral-400 font-bold text-sm h-fit">
-                  {exp.period}
-                </div>
-              </div>
-              <p className="text-neutral-400 text-lg leading-relaxed md:ml-22 italic">
-                {exp.description}
-              </p>
-            </motion.div>
+                <p className="text-neutral-400 text-lg leading-relaxed md:ml-22 italic">
+                  {exp.description}
+                </p>
+              </motion.div>
+            </TiltCard>
           ))}
         </div>
       </section>
